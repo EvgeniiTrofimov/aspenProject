@@ -1,0 +1,69 @@
+<!-- *************************************************** -->
+<!-- EXPORT INPUT DEFINITIONS FOR THE "BC OTHER EXPORTS" -->
+<!-- *************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true" context="com.x2dev.sis.model.beans.SisSchool" prompt-download="true" download-file-name="SADE" split-by-school="true">
+
+  <!-- ******* -->
+  <!-- SCHOOLS -->
+  <!-- ******* -->
+  
+  <input name="schoolOids" data-type="string" display-type="picklist" display-name="School(s)" default-value="school.oid" default-value-source="session" required="false">
+   <picklist field-id="sklSchoolName" multiple="true" required="false">
+    <field id="sklSchoolName" sort="true" />
+    <field id="sklSchoolID" />
+   <filter field="sklOID" application-context="school" operator="equals" source="session" value="school.oid" />
+   <filter field="sklOrgOID2" application-context="org2" operator="equals" source="session" value="organization.oid" />
+   </picklist>
+  </input>
+  
+  <!-- ************** -->
+  <!-- INCLUDE PERIOD -->
+  <!-- ************** -->
+  
+  <input name="includePeriod" data-type="string" display-type="select" display-name="Include">
+    <option value="current" display-name="Current" />
+    <option value="previous" display-name="Current and Previous" />
+    <disable input-name="currentStart" if-parent-equals="current" />
+    <disable input-name="currentStart" if-parent-equals="previous" />
+    <disable input-name="currentEnd" if-parent-equals="current" />
+    <disable input-name="currentEnd" if-parent-equals="previous" />
+    <disable input-name="previousStart" if-parent-equals="current" />
+    <disable input-name="previousStart" if-parent-equals="previous" />
+    <disable input-name="previousEnd" if-parent-equals="current" />
+    <disable input-name="previousEnd" if-parent-equals="previous" />
+  </input>
+  
+  <!-- *********** -->
+  <!-- DATE RANGES -->
+  <!-- *********** -->
+  
+  <group header="Current Session">
+    <input name="currentStart" data-type="string" display-type="text" display-name="Start date" default-value-source="session" default-value="organization.organization1.fieldA001" />
+    <input name="currentEnd" data-type="string" display-type="text" display-name="End date" default-value-source="session" default-value="organization.organization1.fieldA002" />
+  </group>
+  <group header="Previous Session">
+    <input name="previousStart" data-type="string" display-type="text" display-name="Start date" default-value-source="session" default-value="organization.organization1.fieldA009" />
+    <input name="previousEnd" data-type="string" display-type="text" display-name="End date" default-value-source="session" default-value="organization.organization1.fieldA010" />
+  </group>
+  
+  <!-- ************ -->
+  <!-- LIMIT GRADES -->
+  <!-- ************ -->
+
+  <input name="limitGrades" data-type="boolean" display-type="checkbox" display-name="Grades 8 -12 (Non-DL)" default-value="true" />
+
+  <!-- ********* -->
+  <!-- USER SORT -->
+  <!-- ********* -->
+  <input name="sortOrder" data-type="string" display-type="select" display-name="Sort order">
+    <option value="colSchoolID,periodType,colPen" display-name="PEN" />
+    <option value="colSchoolID,periodType,colActiveDate,colPen" display-name="Active date" />
+    <option value="colSchoolID,periodType,colCourseCode,colPen" display-name="Course code" />
+    <option value="colSchoolID,periodType,colCompletionDate,colPen" display-name="Completion date" />
+    <option value="colSchoolID,periodType,colPupilNo" display-name="Pupil no." />
+    <option value="colSchoolID,periodType,colSchoolCourseCode,colPen" display-name="School course code" />
+    <option value="colSchoolID,periodType,colStudentName,colPen" display-name="Student name" />
+  </input>
+  
+</tool-input>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="SYS-SPED-REEVAL" name="Triennial Review" category="Special Ed." selection-type="1" owner-table="tblIEPData" selection-table="tblStudent" owner-phase-field="iepWFPhase" sped="true" procedure-id="SYS-SPED-RENEW2021">
+  <description>Workflow for the triennial review of an IEP.</description>
+  <workflow-filters>
+    <filter connector="and" field="stdEnrStatus" operator="equalsIgnoreCase" source="preference" value="sys.std.activeCode" />
+    <filter connector="and" field="stdSpedStatus" operator="equals" source="preference" value="sys.sped.activeCode" />
+    <filter connector="and" field="relStdSklOid.sklOID" operator="equalsIgnoreCase" source="session" value="user.person.staff.schoolOid">
+      <filter connector="or" field="relStdSklOid.sklOID" operator="in" source="session" value="user.person.staff.fieldD005" />
+    </filter>
+  </workflow-filters>
+  <phase id="wphCSCTriennialRevei" name="Initiate Triennial Review" portlet-display="true">
+    <outcome id="ReviewContinue" name="Continue" next-phase-id="wphCSCConfirmTeam" standard="true" alignment-id="Create">
+      <form-attachment form-id="SPED-REN" sequenceNumber="0" />
+    </outcome>
+    <participant security-role="SUR000000800nz" />
+    <participant security-role="SUR0000007i19a" />
+  </phase>
+  <phase id="wphCSCConfirmTeam" name="Confirm Team -- 1TR" portlet-display="true">
+    <outcome id="1TRContinue" name="Continue" next-phase-id="wphCSCSchedMtg" standard="true">
+      <form-attachment form-id="TEAM" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedMtg" name="Schedule Triennial Internal Review / PWN -- 2TR" portlet-display="true">
+    <outcome id="2TRContinue" name="Continue" next-phase-id="Convene" standard="true" method="holdMeeting" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="A " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Convene" name="Convene Triennial Internal Review/Service Provider Reports -- 3TR" portlet-display="true">
+    <outcome id="3TRwpoEligDetermine" name="Complete" next-phase-id="wphCSCConveneMtg" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="A " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Triennial Review" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConveneMtg" name="TR Recommended Action -- 4TR" portlet-display="true">
+    <outcome id="4TRNoAssessmentConti" name="No Assessment Needed" next-phase-id="CTE2" standard="true" detail-action="meetingOutcomeDetail.do" />
+    <outcome id="4TRAdd_Assess" name="Additional Assessments Plan - No Change in Eligibility" next-phase-id="Sch_Assess_Meet" standard="false">
+      <form-attachment form-id="Add Assess" sequenceNumber="0" />
+    </outcome>
+    <outcome id="4TRAdditional Assess" name="Assessment Plan - Change in Eligibility/Dismissal" next-phase-id="SchAssessPlan" standard="false" />
+    <outcome id="4TRNotEligEndProcess" name="Parent Refuses Special Education Services - Exit" next-phase-id="Exit from special ed" standard="false" />
+  </phase>
+  <phase id="CTE2" name="Complete Triennial Review -- 5TR" portlet-display="true">
+    <outcome id="5TRComplete" name="Complete" next-phase-id="STEM2" standard="true" method="setPlaafp">
+      <form-attachment form-id="Triennial Reeval" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="STEM2" name="Schedule Triennial Review Meeting / PWN -- 6TR" portlet-display="true">
+    <outcome id="6TRComplete" name="Complete" next-phase-id="CTEM2" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="N " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="CTEM2" name="Convene Triennial Review Meeting -- 7TR" portlet-display="true">
+    <outcome id="7TRComplete" name="Complete" next-phase-id="TE2" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="N " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Triennial Reeval" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" post="true" />
+    </outcome>
+  </phase>
+  <phase id="TE2" name="Triennial Eligibility -- 8TR" portlet-display="true">
+    <outcome id="8TRComplete" name="Does Not Require Continued Services" standard="true" method="discardExit">
+      <form-attachment form-id="Trien Disability" sequenceNumber="0" />
+    </outcome>
+    <outcome id="8TRParRefuseSPEDNoAs" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="8TRRCS2" name="Requires Continued Services" next-phase-id="wphCSCGenDrftIEP" standard="false">
+      <form-attachment form-id="Trien Disability" sequenceNumber="0" />
+    </outcome>
+    <outcome id="8TRNewMeetDecNoAsses" name="Table Meeting - Will Reconvene NoAssess" next-phase-id="Sched Triennial RA" standard="false" />
+  </phase>
+  <phase id="wphCSCGenDrftIEP" name="Generate Draft IEP -- 9TR" portlet-display="true">
+    <outcome id="9TRContinue" name="Continue" next-phase-id="wphCSCSchedDevMtg" standard="true">
+      <form-attachment form-id="IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedDevMtg" name="Schedule IEP Development Meeting / PWN -- 10TR" portlet-display="true">
+    <outcome id="10TRContinue" name="Continue" next-phase-id="wphCSCConvDevMtg" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="B " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConvDevMtg" name="Convene IEP Development Meeting -- 11TR" portlet-display="true">
+    <outcome id="11TRContinue" name="Continue" next-phase-id="Confirm IEP" standard="true" method="conveneDevMeeting" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="B " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="3" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="4" />
+      <form-attachment form-id="EDIS" sequenceNumber="5" />
+    </outcome>
+  </phase>
+  <phase id="Confirm IEP" name="Complete and Confirm IEP -- 12TR" portlet-display="true">
+    <outcome id="12TRComplete" name="Complete" next-phase-id="Validation13TRa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation13TRa" name="Validate IEP Data -- 13TRa" portlet-display="true">
+    <outcome id="13TRaComplete" name="Complete" next-phase-id="wphCSCAccptImplemnt" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAccptImplemnt" name="CSC Decision -- 13TR" portlet-display="true">
+    <outcome id="13TRAcceptIEPImp" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="13TRParRefExit" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="13TRRecSchMeet" name="Table Meeting--Will Reconvene/Schedule new meeting" next-phase-id="RschDevMeetA" standard="false" />
+  </phase>
+  <phase id="RschDevMeetA" name="Reschedule IEP Development Meeting -- 14TR" portlet-display="true">
+    <outcome id="14TRContinueA" name="Continue" next-phase-id="ConIEPDevMeetA" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="F " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConIEPDevMeetA" name="Convene IEP Development Meeting -- 15TR" portlet-display="true">
+    <outcome id="15TRContinueA" name="Continue" next-phase-id="CandCIEPA" standard="true" method="calculateMinutes" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="F " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="3" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="CandCIEPA" name="Complete and Confirm IEP -- 16TR" portlet-display="true">
+    <outcome id="16TRComplete" name="Complete" next-phase-id="Validation17TRa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="Validation17TRa" name="Validate IEP Data -- 17TRa" portlet-display="true">
+    <outcome id="17TRaComplete" name="Complete" next-phase-id="CSCDecA" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="CSCDecA" name="CSC Decision -- 17TR" portlet-display="true">
+    <outcome id="17TRAcceptIEPImpA" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="17TRParRefExitA" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="17TRRecSchMeetA" name="Table Meeting--Will Reconvene/Schedule new meeting" next-phase-id="RschDevMeetB" standard="false" />
+  </phase>
+  <phase id="RschDevMeetB" name="Reschedule IEP Development Meeting -- 18TR" portlet-display="true">
+    <outcome id="18TRContinueB" name="Continue" next-phase-id="ConIEPDevMeetB" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="G " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConIEPDevMeetB" name="Convene IEP Development Meeting -- 19TR" portlet-display="true">
+    <outcome id="19TRContinueB" name="Continue" next-phase-id="CandCIEPB" standard="true" method="calculateMinutes" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="G " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="3" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="CandCIEPB" name="Complete and Confirm IEP -- 20TR" portlet-display="true">
+    <outcome id="20TRComplete" name="Complete" next-phase-id="Validation21TRa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="Validation21TRa" name="Validate IEP Data -- 21TRa" portlet-display="true">
+    <outcome id="21TRaComplete" name="Complete" next-phase-id="CSCDecB" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="CSCDecB" name="CSC Decision -- 21TR" portlet-display="true">
+    <outcome id="21TRAcceptIEPImpB" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="21TRParRefExitB" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="21TRRecSchMeetB" name="Table Meeting--Will Reconvene/Schedule new meeting" next-phase-id="wphCSCRechEligMtg" standard="false" />
+  </phase>
+  <phase id="wphCSCRechEligMtg" name="Reschedule IEP Development Meeting -- 22TR" portlet-display="true">
+    <outcome id="22TRContinue" name="Continue" next-phase-id="Convene IEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="H " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Convene IEP" name="Convene IEP Development Meeting -- 23TR" portlet-display="true">
+    <outcome id="23TRwpoEligDetermina" name="Complete" next-phase-id="CompIEP" standard="true" method="calculateMinutes" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="H " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="3" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="CompIEP" name="Complete and Confirm IEP -- 24TR" portlet-display="true">
+    <outcome id="24TRComplete" name="Complete" next-phase-id="Validation25TRa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation25TRa" name="Validate IEP Data -- 25TRa" portlet-display="true">
+    <outcome id="25TRaComplete" name="Complete" next-phase-id="CSCDec" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="CSCDec" name="CSC Decision -- 25TR" portlet-display="true">
+    <outcome id="25TRAcceptIEPImp" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="25TRParRefExit" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+  </phase>
+  <phase id="Sched Triennial RA" name="Schedule Triennial Review Meeting / PWN -- 26TR" portlet-display="true">
+    <outcome id="26TRComplete" name="Complete" next-phase-id="CTEM2A" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="J " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="CTEM2A" name="Convene Triennial Review Meeting -- 27TR" portlet-display="true">
+    <outcome id="27TRComplete" name="Complete" next-phase-id="TE2A" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="J " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Triennial Reeval" sequenceNumber="2" />
+      <form-attachment form-id="Triennial Elig 2019" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="TE2A" name="Triennial Eligibility -- 28TR" portlet-display="true">
+    <outcome id="28TRNoReqContServA" name="Does Not Require Continued Services" standard="true" method="discardIneligible" />
+    <outcome id="28TRParRefuseSPEDNoA" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="28TRReqConServA" name="Requires Continued Services" next-phase-id="wphCSCGenDrftIEP" standard="false" />
+    <outcome id="28TRNewMeetDecNoAsse" name="Table Meeting - Will Reconvene" next-phase-id="STEM2B" standard="false" />
+  </phase>
+  <phase id="STEM2B" name="Schedule Triennial Review Meeting / PWN -- 29TR" portlet-display="true">
+    <outcome id="29TRComplete" name="Complete" next-phase-id="CTEM2B" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="I " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="CTEM2B" name="Convene Triennial Review Meeting -- 30TR" portlet-display="true">
+    <outcome id="30TRComplete" name="Complete" next-phase-id="TE2B" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="I " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Triennial Reeval" sequenceNumber="2" />
+      <form-attachment form-id="Triennial Elig 2019" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="TE2B" name="Triennial Eligibility -- 31TR" portlet-display="true">
+    <outcome id="31TRNoReqContServB" name="Does Not Require Continued Services" standard="true" method="discardIneligible" />
+    <outcome id="31TRParRefuseSPEDNoA" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="31TRReqConSerB" name="Requires Continued Services" next-phase-id="wphCSCGenDrftIEP" standard="false" />
+  </phase>
+  <phase id="Exit from special ed" name="Exit from Special Education -- 32TR" portlet-display="true">
+    <outcome id="32TRComplete" name="Complete" standard="true" method="discardRefuse" />
+  </phase>
+  <phase id="SchAssessPlan" name="Schedule Assessment Planning Meeting / PWN -- 33TR" portlet-display="true">
+    <outcome id="33TRComplete" name="Complete" next-phase-id="Confirm Dis" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="D " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Confirm Dis" name="Confirm Suspected Disability -- 34TR" portlet-display="true">
+    <outcome id="34TRComplete" name="Complete" next-phase-id="Identify Suspected D" standard="true" method="reqAssess">
+      <form-attachment form-id="Confirm Sus Dis" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="Identify Suspected D" name="Convene Assessment Planning Meeting -- 35TR" portlet-display="true">
+    <outcome id="35TRwpoSendParentEva" name="Complete" next-phase-id="wphCSCParentPermiss" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="D " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Assess Plan 2018" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCParentPermiss" name="Send Parent Permission for Evaluation -- 36TR" portlet-display="true">
+    <outcome id="36TRDateSentContinue" name="Continue" next-phase-id="wphCSCRcvPerm" standard="true" method="sendParentPermission">
+      <form-attachment form-id="Parent Perm" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRcvPerm" name="Receive Parent Permission -- 37TR" portlet-display="true">
+    <outcome id="37TRDateRecvdAcceptC" name="Parents Accept" next-phase-id="wphCSCAdminAssess" standard="true" />
+    <outcome id="37TRDenyLoopToParent" name="Parents Deny- Process Complete" standard="false" method="discardDeny">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="E " />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAdminAssess" name="Request for Assessment Personnel -- 38TR" portlet-display="true">
+    <outcome id="38TRContinue" name="Continue" next-phase-id="wphCSCCmpletAssess" standard="true">
+      <form-attachment form-id="Assess Request" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCmpletAssess" name="Complete Triennial Review -- 39TR" portlet-display="true">
+    <outcome id="39TRDateContinue" name="Continue" next-phase-id="wphCSCSchedEligMtg" standard="true" method="setPlaafp">
+      <form-attachment form-id="Triennial Elig 2019" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedEligMtg" name="Schedule Triennial Review Meeting / PWN -- 40TR" portlet-display="true">
+    <outcome id="40TRContinue" name="Continue" next-phase-id="Convene Eligibility" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="C " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Convene Eligibility" name="Convene Triennial Review Meeting -- 41TR" portlet-display="true">
+    <outcome id="41TRwpoEligDetermina" name="Complete" next-phase-id="TriElig" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="C " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Triennial Elig 2019" sequenceNumber="2" />
+    </outcome>
+  </phase>
+  <phase id="TriElig" name="Triennial Eligibility -- 42TR" portlet-display="true">
+    <outcome id="42TRComplete" name="Does Not Require Continued Services" standard="true" method="discardIneligible">
+      <form-attachment form-id="Trien Disability" sequenceNumber="0" />
+    </outcome>
+    <outcome id="42TRParentRefuseDecA" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="42TRRCS2" name="Requires Continued Services" next-phase-id="wphCSCGenDrftIEP" standard="false">
+      <form-attachment form-id="Trien Disability" sequenceNumber="0" />
+    </outcome>
+    <outcome id="42TRNewMeetDecAddAss" name="Table Meeting - Will Reconvene" next-phase-id="ReschTRMeet43TR" standard="false" />
+  </phase>
+  <phase id="ReschTRMeet43TR" name="Reschedule Triennial Review Meeting - 43TR" portlet-display="true">
+    <outcome id="43TRComplete" name="Complete" next-phase-id="ConTRMeet44TR" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="K " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConTRMeet44TR" name="Convene Triennial Review Meeting - 44TR" portlet-display="true">
+    <outcome id="44TRComplete" name="Complete" next-phase-id="TriElig45TR" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="K " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="TriElig45TR" name="Triennial Eligibility 45TR" portlet-display="true">
+    <outcome id="45TRComplete" name="Does Not Require Continued Services" standard="true" method="discardIneligible">
+      <form-attachment form-id="Trien Disability" sequenceNumber="1" />
+    </outcome>
+    <outcome id="45TRParentRefuseDecA" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="45TRRCS245TR" name="Requires Continued Services" next-phase-id="wphCSCGenDrftIEP" standard="false">
+      <form-attachment form-id="Trien Disability" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Sch_Assess_Meet" name="Schedule Assessment Planning Meeting / PWN -- 46TR" portlet-display="true">
+    <outcome id="46TRComplete" name="Complete" next-phase-id="Con_Assess_Meet" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="E " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Con_Assess_Meet" name="Convene Assessment Planning Meeting -- 47TR" portlet-display="true">
+    <outcome id="47TRComplete" name="Complete" next-phase-id="SPNoCh" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="E " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Add Assess" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="SPNoCh" name="Send Parent Permission for Evaluation -- 48TR" portlet-display="true">
+    <outcome id="48TRComplete" name="Complete" next-phase-id="RecParPerNoCh" standard="true" method="sendParentPermission">
+      <form-attachment form-id="Parent Perm" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="RecParPerNoCh" name="Receive Parent Permission-- 49TR" portlet-display="true">
+    <outcome id="49TRDateRecvdAcceptC" name="Parent Accept" next-phase-id="ReqAssessNoCh" standard="true" />
+    <outcome id="49TRDenyLoopToParent" name="Parent Deny" next-phase-id="wphCSCConveneMtg" standard="false" method="discardDeny" />
+  </phase>
+  <phase id="ReqAssessNoCh" name="Request for Assessment Personnel -- 50TR" portlet-display="true">
+    <outcome id="50TRComplete" name="Complete" next-phase-id="CTE2" standard="true">
+      <form-attachment form-id="Assess Request" sequenceNumber="1" />
+    </outcome>
+  </phase>
+</workflow>
+

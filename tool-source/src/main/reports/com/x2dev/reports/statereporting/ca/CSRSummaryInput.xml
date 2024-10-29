@@ -1,0 +1,62 @@
+<!-- **************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "CA CSR COMPLIANCE REPORT" -->
+<!-- **************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true"  height="560">
+
+  <!-- ************** -->
+  <!-- SCHOOLS -->
+  <!-- ************** -->
+  <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+  <input name="schoolOids" data-type="string" display-type="picklist"
+      display-name="School(s)" default-value-source="session" default-value="school.oid"
+      required="false">
+      <picklist field-id="sklSchoolID" multiple="true" required="false">
+          <filter field="sklInactiveInd" operator="notEqual" source="constant"
+              value="1" />
+          <filter field="sklArchiveInd" operator="notEqual" source="constant"
+              value="1" />
+          <field id="sklSchoolName" sort="true"/>
+          <field id="sklSchoolID"  />
+      </picklist>
+  </input>
+  
+ <!-- ***************** -->
+ <!-- ATTENDANCE PERIOD -->
+ <!-- ***************** -->
+  <input name="cycle" data-type="string" display-type="picklist" display-name="Attendance period(s)"  required="false">
+   <picklist field-id="rcdCode"  multiple="true" required="false">
+    <field id="rcdCode" sort="true" />
+    <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+   </picklist>
+  </input>
+
+  <!-- **************** -->
+  <!-- INPUT PARAMETERS -->
+  <!-- **************** -->
+  <input name="startDate" data-type="date" display-type="date" display-name="Day start" default-value="districtYearStart"/>
+  <input name="endDate" data-type="date" display-type="date" display-name="Day end" default-value="today" />
+
+  <!-- ************* -->
+  <!-- HOMEROOM ONLY -->
+  <!-- ************* -->
+  <input name="homeroomOnly" data-type="boolean" display-type="checkbox" display-name=" Homeroom Only (elementary schools only)" default-value="true" />
+  
+  <!-- ************* -->
+  <!-- ALL GRADES -->
+  <!-- ************* -->
+  <input name="allGrades" data-type="boolean" display-type="checkbox" display-name="All grades" default-value="true" />
+  
+  <!-- ***** -->
+  <!-- GRADES -->
+  <!-- ***** --> 
+  <input name="gradeList" data-type="string" display-type="picklist" display-name="Grades" required="false">
+     <picklist field-id="rcdCode" multiple="true" >
+      <field id="rcdCode" sort="true" />
+      <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+      <filter field="rcdCode" operator="in" source="constant" value="01;02;03;04;05;06;07;08;00;TK" />
+     </picklist>
+  </input>
+  
+</tool-input> 

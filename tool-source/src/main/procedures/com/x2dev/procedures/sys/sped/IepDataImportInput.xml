@@ -1,0 +1,25 @@
+<tool-input height="500">
+
+  <input name="student" data-type="string" display-type="picklist" display-name="Student" required="true">
+    <picklist field-id="stdViewName">
+      <field id="stdViewName" sort="true" />
+      <filter connector="and" field="stdEnrStatus" operator="equalsIgnoreCase" source="preference" value="sys.std.activeCode">
+        <filter connector="or" field="stdEnrStatus" operator="equalsIgnoreCase" source="preference" value="sys.std.preRegCode" />
+      </filter>
+      <filter connector="and" field="stdSpedStatus" operator="empty" source="constant" value="">
+        <filter connector="or" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.activeCode">
+          <filter connector="and" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.referredCode" />
+        </filter>
+      </filter>
+      <filter field="stdSklOID" operator="equals" source="session" value="schoolOid" application-context="iepSchool" />
+    </picklist>
+  </input>
+
+  <input name="staff" data-type="string" display-type="picklist" required="true" display-name="Case Manager">
+    <picklist field-id="stfNameView">
+      <field id="stfNameView" sort="true" />
+      <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+      <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+    </picklist>
+  </input>
+</tool-input>

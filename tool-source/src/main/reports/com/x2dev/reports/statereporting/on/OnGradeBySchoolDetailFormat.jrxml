@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OnGradeBySchoolReportFormat" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6bbff51f-2cda-4f56-b5e8-75922d690d41">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="orgName" class="java.lang.String"/>
+	<parameter name="version" class="java.lang.String"/>
+	<parameter name="errorsLog" class="java.lang.String"/>
+	<parameter name="prefix" class="java.lang.String"/>
+	<parameter name="reportLocale" class="org.apache.struts.util.MessageResources"/>
+	<parameter name="isSklContext" class="java.lang.Boolean"/>
+	<field name="arrivalStatus" class="java.lang.String"/>
+	<field name="BSID" class="java.lang.String"/>
+	<field name="FTE" class="java.math.BigDecimal"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="HCFTE" class="java.math.BigDecimal"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="primary" class="java.lang.String"/>
+	<field name="studentName" class="java.lang.String"/>
+	<field name="schoolName" class="java.lang.String"/>
+	<field name="genderMap" class="java.util.Map"/>
+	<field name="stdOEN" class="java.lang.String"/>
+	<variable name="studentsCount" class="java.lang.Integer" resetType="Group" resetGroup="Grade" calculation="Count">
+		<variableExpression><![CDATA[new Integer($V{studentsCount}.intValue() + 1)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="fteTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="Grade" calculation="Sum">
+		<variableExpression><![CDATA[$F{FTE}]]></variableExpression>
+	</variable>
+	<variable name="hcfteTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="Grade" calculation="Sum">
+		<variableExpression><![CDATA[$F{HCFTE}]]></variableExpression>
+	</variable>
+	<variable name="studentsCountOrg" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[new Integer($V{studentsCountOrg}.intValue() + 1)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<variable name="fteTotalOrg" class="java.math.BigDecimal" resetType="Group" resetGroup="organization" calculation="Sum">
+		<variableExpression><![CDATA[$F{FTE}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="hcfteTotalOrg" class="java.math.BigDecimal" resetType="Group" resetGroup="organization" calculation="Sum">
+		<variableExpression><![CDATA[$F{HCFTE}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="organization">
+		<groupExpression><![CDATA[$P{orgName}]]></groupExpression>
+		<groupHeader>
+			<band height="14">
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="2" y="0" width="570" height="14" isPrintWhenDetailOverflows="true" forecolor="#FC4F4C" uuid="8b746092-42a6-47ea-b4c7-981bf26422ab">
+						<printWhenExpression><![CDATA[$P{errorsLog} != null]]></printWhenExpression>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{errorsLog}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="63">
+				<textField>
+					<reportElement x="0" y="3" width="572" height="15" uuid="f7bebef3-47a7-441d-8881-3bd4c38e0615"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.Students.for") + " " + ($P{isSklContext}.booleanValue() ? $F{schoolName} : $P{reportLocale}.getMessage($P{prefix} + "rpt.Schools.Selected")) + ": " + $V{studentsCountOrg}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="1" width="572" height="1" uuid="bbfa884f-9c76-487a-bb0e-c9a482afe6a6"/>
+				</line>
+				<textField evaluationTime="Report">
+					<reportElement x="0" y="18" width="572" height="15" uuid="e0f71385-7272-4b14-9edf-e425f89dd3f0"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.FTE.for") + " " + ($P{isSklContext}.booleanValue() ? $F{schoolName} : $P{reportLocale}.getMessage($P{prefix} + "rpt.Schools.Selected")) + ": " + (new BigDecimal($V{fteTotalOrg}.toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report" isBlankWhenNull="false">
+					<reportElement x="0" y="33" width="572" height="15" uuid="8bdf1084-6213-493c-9e8d-083bf9a1cdf5"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.HCFTE.for") + " " + ($P{isSklContext}.booleanValue() ? $F{schoolName} : $P{reportLocale}.getMessage($P{prefix} + "rpt.Schools.Selected")) + ": " + (new BigDecimal($V{hcfteTotalOrg}.toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="48" width="572" height="15" uuid="297ab04c-1d0e-4fbc-9945-81982d77fb01"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.Gender.Counts.for") + " " + ($P{isSklContext}.booleanValue() ? $F{schoolName} : $P{reportLocale}.getMessage($P{prefix} + "rpt.Schools.Selected")) + ": M - "
++ ($F{genderMap}.get($P{orgName} + "M") != null ? $F{genderMap}.get($P{orgName} + "M") : "0")
++ ", F - " + ($F{genderMap}.get($P{orgName} + "F") != null ? $F{genderMap}.get($P{orgName} + "F") : "0")
++ ", S - " + ($F{genderMap}.get($P{orgName} + "S") != null ? $F{genderMap}.get($P{orgName} + "S") : "0")
++ ", N - " + ($F{genderMap}.get($P{orgName} + "N") != null ? $F{genderMap}.get($P{orgName} + "N") : "0")
++ "."]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="School" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{schoolName}]]></groupExpression>
+	</group>
+	<group name="Grade" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{grade}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField>
+					<reportElement x="0" y="0" width="45" height="15" uuid="f1aa4902-68b6-4754-96a5-c005d954611f"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.BSID")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="45" y="0" width="55" height="15" uuid="2528cffc-0d99-468d-b4fd-3188070aa5c1"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="0" width="35" height="15" uuid="568f4c52-4709-4e0b-8e50-3935b11ef75c"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Gender")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="135" y="0" width="70" height="15" uuid="9cf8e8a4-473c-4dc5-8635-8500f24a4974"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.OEN")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="205" y="0" width="163" height="15" uuid="77f7b584-3489-4f31-90f5-425975edfc0e"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Student.Name")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="368" y="0" width="44" height="15" uuid="64ed0c1d-511d-41c1-9e6a-7499e95c88be"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Primary")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="412" y="0" width="70" height="15" uuid="cc723e0b-8832-4ca3-aea5-9683aa695204"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Arrival.Status")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="482" y="0" width="45" height="15" uuid="5d74c8a9-8cc7-416a-b3a1-94ce0d4a9ff3"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.FTE")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="527" y="0" width="45" height="15" uuid="1e731a62-8aec-4614-8eca-3ae8261853d0"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.HCFTE")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="63">
+				<textField>
+					<reportElement x="0" y="3" width="572" height="15" uuid="1f94a001-fc8b-4202-9b25-a85faae14f09"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.Students.for.Grade") + " " + $F{grade} + ": " + $V{studentsCount}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="18" width="572" height="15" uuid="c47e4131-a3d1-4bdd-82a1-013e7ce31328"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.FTE.for.Grade") + " " + $F{grade} + ": " + (new BigDecimal($V{fteTotal}.toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="33" width="572" height="15" uuid="1c1d4bed-4b93-4e74-af11-596dc1f4c175"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.HCFTE.for.Grade") + " " + $F{grade} + ": " + (new BigDecimal($V{hcfteTotal}.toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="48" width="572" height="15" uuid="3fcc8dc6-97ee-4f1b-a8f8-125e81fbf16e"/>
+					<textElement>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total.Gender.Counts.for.Grade") + " " + $F{grade} + ": M - "
++ ($F{genderMap}.get($F{BSID} + $F{grade} + "M") != null ? $F{genderMap}.get($F{BSID} + $F{grade} + "M") : "0")
++ ", F - " + ($F{genderMap}.get($F{BSID} + $F{grade} + "F") != null ? $F{genderMap}.get($F{BSID} + $F{grade} + "F") : "0")
++ ", S - " + ($F{genderMap}.get($F{BSID} + $F{grade} + "S") != null ? $F{genderMap}.get($F{BSID} + $F{grade} + "S") : "0")
++ ", N - " + ($F{genderMap}.get($F{BSID} + $F{grade} + "N") != null ? $F{genderMap}.get($F{BSID} + $F{grade} + "N") : "0")
++ "."]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="81" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="31" width="572" height="18" uuid="4c135248-f4b5-43a0-bad1-712891d1b91c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.by.School.Detail")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="2" width="572" height="1" uuid="33b92639-df41-4a47-97ed-a6d28a192afd"/>
+			</line>
+			<line>
+				<reportElement x="0" y="78" width="572" height="1" uuid="e2eb985f-632f-4e74-b7f6-8d516cfbca37"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="63" width="185" height="14" uuid="c4c48c8b-f59a-415d-aa72-1918edf80c08"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Page") + " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="4" width="185" height="14" uuid="279fb3fb-a126-4969-9f61-1fd809bbd6a0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="4" width="387" height="14" uuid="92eadf33-5d92-4671-be05-26cad7ec9448"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="387" y="63" width="185" height="14" uuid="c92023ad-4832-4f2c-bbb8-6e31bad30935"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Effective.Date") + ": " + $P{reportDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="45" height="18" uuid="4d882f37-660e-4afd-9d84-ed508ab47268"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BSID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="45" y="0" width="55" height="18" uuid="48e812b6-b3a1-4647-a4f3-cb121b46a661"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{grade} + " "]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="205" y="0" width="163" height="18" uuid="2d6820ba-cd81-4d50-bca4-15b4b375a67d"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{studentName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="368" y="0" width="44" height="18" uuid="742b703b-9f80-48da-8683-b233b7d38bca"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primary}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="412" y="0" width="70" height="18" uuid="076e040d-8daf-448a-b567-ebf9ee76bf82"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{arrivalStatus}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)" isBlankWhenNull="true">
+				<reportElement x="482" y="0" width="45" height="18" uuid="4ef453f6-c6d8-4774-b5ac-b51b9a901633"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)" isBlankWhenNull="true">
+				<reportElement x="527" y="0" width="45" height="18" uuid="b599eeb2-8322-4157-a492-1c4434f39998"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HCFTE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="35" height="18" uuid="34784163-93c8-4050-aba8-2af1e07f27a2"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="0" width="70" height="18" uuid="7d63a2c7-a601-4755-bd4a-6742fb24a4ce"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stdOEN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="572" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="546fdf1b-c802-49be-a17b-eff1dffb795d">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="0">
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true" isItalic="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Personal.information.is.confidential.and.must.be.protected")]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="364" y="25" width="116" height="23" uuid="2f423612-8d8a-4073-a7d7-53a9fa0ec61d">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="480" y="25" width="88" height="23" uuid="386b152e-1ac5-4e61-951e-e8ed40266050">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $P{reportLocale}.getMessage($P{prefix} + "rpt.of") + " " + $V{PAGE_NUMBER} + " " + $P{reportLocale}.getMessage($P{prefix} + "rpt.Page.s")]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="2" y="25" width="183" height="23" uuid="e9c8192f-dbce-47ef-b507-f950121a8849">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Version") + ": " + ($P{version} != null ? $P{version} : $P{reportLocale}.getMessage($P{prefix} + "rpt.not.set"))]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

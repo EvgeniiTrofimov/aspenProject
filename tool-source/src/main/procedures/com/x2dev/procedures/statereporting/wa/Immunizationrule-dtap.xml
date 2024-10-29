@@ -1,0 +1,77 @@
+<!-- Diphtheria, Tetanus, and Pertussis compliance rule -->
+<!-- Student should have 4 doses in prior to entry into PK; and 1 dose after age 4 -->
+
+<compliance-rule>
+
+	<!-- Special case with TD for students who started immunizations 7 years or older -->
+	<rule-set operator="or" min-age="7" age-unit="years">
+		<dose number="1" start-age="7" age-unit="years" />
+		<dose number="2" start-age="7" age-unit="years" />
+		<dose-dependent number="2" after-dose-number="1"
+			time-after="24" time-unit="days" operator="and" />
+		<dose number="3" start-age="7" age-unit="years" />
+		<dose-dependent number="3" after-dose-number="2"
+			time-after="178" time-unit="days" operator="and" />
+	</rule-set>
+
+	<!-- 5 doses (4 doses required if 4th dose given after 4th birthday PLUS 1 dose TDap required for 6th-12th grade if >= 11 years old-->
+	<!-- This rule handles 4 does case -->
+	<rule-set skip-early="true" operator="or"  min-age="38" age-unit="days">
+		<!-- skip early can potentially cause a dose to be used in the current rule set then be reused in the sub rule set. Validate min counts at the beginning -->
+		<rule-set>
+        <rule-set min-age="1457" age-unit="days">
+			<dose-total count="5" grade-level="6"/>
+        </rule-set>
+        <rule-set min-age="1457" age-unit="days" operator="or">
+			<dose-total count="4" grade-level="6"/>
+			<dose-total count="1" start-grade="6" end-grade="12"/>
+        </rule-set>
+        </rule-set>
+		<dose number = "1" start-age = "38" age-unit = "days" />
+		<dose number = "2" start-age = "66" age-unit = "days" />
+		<dose-dependent number = "2" after-dose-number = "1" time-after = "24" time-unit = "days" operator = "and" />
+		<dose number = "3" start-age = "94" age-unit = "days" />
+		<dose-dependent number = "3" after-dose-number = "2" time-after = "24" time-unit = "days" operator = "and" />
+		<dose number = "4" start-age = "1457" age-unit = "days" />
+		<dose-dependent number = "4" after-dose-number = "3" time-after = "178" time-unit = "days" operator = "and" />
+		<!-- Inner rule set, this should only be used when the student is over 7 years old and in grade 6 or higher -->
+		<!-- This is an inner rule set, because of it being an inner rule set the dose count resets and goes back to 1 -->
+		<!-- min-age, need to be 11 years old  -->
+        <rule-set skip-early="true" min-age="11" age-unit="years">
+        	<!-- need to have a dose starting at age 10 between grades 6 and 12 -->
+            <!-- start-age, need to have a dose starting at age 10 by grade 6 -->
+        	<dose number="1" start-age="10" age-unit="years" grade-level="6"/>
+			<dose-total count = "1" start-age="10" age-unit="years" start-grade="6" end-grade="12" operator="or"/>
+        </rule-set>
+	</rule-set>
+
+	<!-- This rule handles 5 does case -->
+    <rule-set skip-early="true" operator = "or" min-age = "38" age-unit = "days">
+		<!-- skip early can potentially cause a dose to be used in the current rule set then be reused in the sub rule set. Validate min counts at the beginning -->
+		<rule-set>
+        <rule-set min-age="1457" age-unit="days">
+			<dose-total count="6" grade-level="6"/>
+        </rule-set>
+        <rule-set min-age="1457" age-unit="days" operator="or">
+			<dose-total count="5" grade-level="6"/>
+			<dose-total count="1" start-grade="6" end-grade="12"/>
+        </rule-set>
+        </rule-set>		
+        <dose number = "1" start-age = "38" age-unit = "days" />
+		<dose number = "2" start-age = "66" age-unit = "days" />
+		<dose-dependent number = "2" after-dose-number = "1" time-after = "24" time-unit = "days" operator = "and" />
+		<dose number = "3" start-age = "94" age-unit = "days" />
+		<dose-dependent number = "3" after-dose-number = "2" time-after = "24" time-unit = "days" operator = "and" />
+        <dose number = "4" start-age = "361" age-unit = "days" />
+		<dose-dependent number = "4" after-dose-number = "3" time-after = "178" time-unit = "days" operator = "and" />
+        <dose number = "5" start-age = "1457" age-unit="days" grade-level="0"/>
+		<dose number = "5" start-age = "1457" age-unit="days" start-grade="0" end-grade="12" operator="xor"/>
+		<dose-dependent number = "5" after-dose-number = "4" time-after = "178" time-unit = "days" operator = "and" />
+		<!-- Inner rule set, this should only be used when the student is over 7 years old and in grade 6 or higher -->
+		<!-- This is an inner rule set, because of it being an inner rule set the dose count resets and goes back to 1 -->
+        <rule-set skip-early="true" min-age="11" age-unit="years">
+        	<dose number="1" start-age="10" age-unit="years" grade-level="6"/>
+			<dose-total count="1" start-age="10" age-unit="years" start-grade="6" end-grade="12" operator="or"/>
+		</rule-set>
+	</rule-set>
+</compliance-rule>

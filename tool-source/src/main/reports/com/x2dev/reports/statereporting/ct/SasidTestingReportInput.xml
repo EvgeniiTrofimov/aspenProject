@@ -1,0 +1,57 @@
+<!-- ******************************************* -->
+<!-- INPUT DEFINITIONS FOR THE "SASID TEST" EXPORT -->
+<!-- ******************************************* -->
+
+<tool-input allow-school-select="false" district-support="false" height="360">
+
+  <!-- ************** -->
+  <!-- SCHOOLS        -->
+  <!-- ************** -->
+  <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false"/>
+
+  <input name="schoolOids" data-type="string" display-type="picklist" display-name="School(s)" default-value-source="session" default-value="school.oid" required="false">
+    <picklist field-id="sklSchoolID" multiple="true" required="false">
+      <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+      <field id="sklSchoolID" sort="true" />
+      <field id="sklSchoolName" />
+    </picklist>
+  </input> 
+
+  <!-- ************** -->
+  <!-- DATA PROCEDURE -->
+  <!-- ************** -->
+
+  <input name="procedureId" data-type="string" display-type="hidden" default-value="EXPDATA-CT-TEST-ID" />
+
+  <!-- ************** -->
+  <!-- SELECT OPTIONS -->
+  <!-- ************** -->
+
+  <input name="queryBy1" data-type="string" display-type="select" display-name="Students to include">
+    <option value="##all" display-name="All" />
+    <option value="stateId" display-name="State ID" />
+    <option value="localId" display-name="Local ID" />
+    <option value="a:organization1.[DOE SID COUNTY CODE]" display-name="County Code" />
+    <option value="a:organization1.[DOE SID DIST CODE]" display-name="District Code" />
+    <option value="##snapshot" display-name="export.doe.selection.snapshot" />
+    <disable input-name="queryString1" if-parent-equals="##all" />
+  </input>
+  <input name="queryString1" data-type="string" display-type="text" display-name="Search value" />
+
+  <!-- ************ -->
+  <!-- SORT OPTIONS -->
+  <!-- ************ -->
+
+  <input name="sortBy" data-type="string" display-type="select" display-name="Sort results by">
+    <option value="person.lastName" display-name="Last name" />
+    <option value="stateId" display-name="State ID" />
+    <option value="localId" display-name="Local ID" />
+  </input>
+
+  <!-- ********* -->
+  <!-- TEST DATE -->
+  <!-- ********* -->
+
+  <input name="testDate" data-type="date" display-type="date" display-name="Test date" />
+
+</tool-input>

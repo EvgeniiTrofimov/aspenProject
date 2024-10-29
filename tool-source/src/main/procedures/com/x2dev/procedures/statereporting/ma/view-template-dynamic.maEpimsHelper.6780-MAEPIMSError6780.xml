@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="dynamic.maEpimsHelper.6780" name="MA EPIMS Error 6780" locked="false">
+  <template>
+    <tab name="Staff&amp;nbsp;Record&amp;nbsp;(SR01&amp;nbsp;-&amp;nbsp;SR38) ">
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="large">&lt;span style="color:#00a3cc;"&gt;Validation Message:&lt;/span&gt;</text>
+              <text font-size="large">6780 - Tutors (WA07=3323) may not be compensated with Title I funds</text>
+            </cell>
+          </line>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" font-size="medium">If WA07=3323 (tutor), then Federal Salary source must not be a Title I source. Tutors may not be compensated with Title I funds.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <block>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" underline="true" font-size="medium">Check Federal Salary Sources:</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer width="15" />
+              <text font-size="medium">1. Compare the federal salary source with the staff position records.  If the staff has a staff position record where WA07=3323, they cannot be coding as receiving title 1 funds</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Federal Salary Sources" value-from="literal">
+            <property alias="SR12" label="SR12 Source 1" label-short="false" />
+            <property alias="SR13" label="SR13 Source 1%" label-short="false" />
+            <property alias="SR14" label="SR14 Source 2" label-short="false" />
+            <property alias="SR15" label="SR15 Source 2%" label-short="false" />
+            <property alias="SR16" label="SR16 Source 3" label-short="false" />
+            <property alias="SR17" label="SR17 Source 3%" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="medium">WA06-WA12 Staff Positions</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="epimsSIFDetail.positionPopup" id="positions" popup-height="450" popup-width="550" relationship="relStfSfpOid" selection-type="multiple">
+                <field id="relSfpSklOid.sklSchoolName" />
+                <field alias="SIF SFP Primary Assignment" />
+                <field alias="SIF Job Function" />
+                <field alias="WA07-SFP" />
+                <field alias="WA08-SFP" />
+                <field alias="WA12-SFP" />
+                <field id="sfpStartDate" />
+                <field id="sfpEndDate" />
+                <field alias="Adjusted District ID" />
+                <field alias="EPIMS SFP Status" />
+                <filter connector="and" source="sql" value="SFP_END_DATE IS NULL">
+                  <filter connector="or" field="sfpEndDate" operator="greaterOrEqual" source="session" value="district.currentContext.startDate" />
+                </filter>
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

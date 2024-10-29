@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 5.5.0  -->
+<!-- 2017-02-02T15:36:57 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GradesSumHscReportCSVFormat" pageWidth="842" pageHeight="612" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30" isIgnorePagination="true" uuid="5539fcdb-b291-4c03-9e6d-1667b89e39ff">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="com.x2dev.utils.StringUtils"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" fontName="Arial" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" fontName="Arial" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="ColumnHeader" mode="Opaque" backcolor="#E6E6E6" vAlign="Middle" isBold="true">
+		<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="5">
+			<topPen lineWidth="1.0" lineStyle="Solid"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnHeaderLast" style="ColumnHeader">
+		<box>
+			<rightPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnValue" vAlign="Middle">
+		<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="5">
+			<leftPen lineWidth="1.0" lineStyle="Solid"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnValueLast" style="ColumnValue">
+		<box>
+			<rightPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<parameter name="organization" class="com.follett.fsc.core.k12.beans.Organization" isForPrompting="false"/>
+	<parameter name="school" class="com.x2dev.sis.model.beans.SisSchool" isForPrompting="false"/>
+	<parameter name="shortDateFormat" class="java.text.DateFormat" isForPrompting="false"/>
+	<parameter name="startDate" class="java.sql.Date" isForPrompting="false"/>
+	<parameter name="endDate" class="java.sql.Date" isForPrompting="false"/>
+	<parameter name="longDateFormat" class="java.text.DateFormat" isForPrompting="false"/>
+	<parameter name="selectedGrades" class="java.util.Collection" isForPrompting="false"/>
+	<field name="school" class="java.lang.String"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="rowName" class="java.lang.String"/>
+	<field name="student" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="value" class="java.lang.Integer"/>
+	<variable name="studentsCount" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{student} == null ? new Integer(0) : new Integer(1)]]></variableExpression>
+	</variable>
+	<variable name="studentsCountSummary" class="java.lang.Integer" resetType="Group" resetGroup="type" incrementType="Group" incrementGroup="school" calculation="Sum">
+		<variableExpression><![CDATA[$V{studentsCount}]]></variableExpression>
+	</variable>
+	<variable name="date" class="java.lang.String">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="4K" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "4K" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="K" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "K" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="01" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "01" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="02" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "02" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="03" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "03" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="04" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "04" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="05" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "05" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="06" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "06" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="07" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "07" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="08" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "08" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="09" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "09" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="10" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "10" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="11" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "11" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="12" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "12" ) ? $F{value} : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="4Ksummary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "4K") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "4K")]]></variableExpression>
+	</variable>
+	<variable name="Ksummary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "K") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "K")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="01summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "01") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "01")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="02summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "02") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "02")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="03summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "03") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "03")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="04summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "04") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "04")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="05summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "05") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "05")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="06summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "06") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "06")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="07summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "07") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "07")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="08summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "08") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "08")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="09summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "09") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "09")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="10summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "10") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "10")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="11summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "11") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "11")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="12summary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName} + "12") == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName} + "12")]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="currentPageNumber" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[$F{value}]]></variableExpression>
+	</variable>
+	<variable name="other" class="java.lang.Integer" resetType="Group" resetGroup="rowName" incrementType="Group" incrementGroup="student" calculation="Sum">
+		<variableExpression><![CDATA[!$P{selectedGrades}.contains( $F{grade} ) ? $F{value} : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="totalSummary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get($F{type} + $F{rowName}) == null ? new Integer(0) : $V{districtSummariesMap}.get($F{type} + $F{rowName})]]></variableExpression>
+	</variable>
+	<variable name="otherSummary" class="java.lang.Integer" resetType="None">
+		<variableExpression><![CDATA[$V{districtSummariesMap}.get("totalNotSelected" + $F{type} + $F{rowName}) == null ? new Integer(0) : $V{districtSummariesMap}.get("totalNotSelected" + $F{type} + $F{rowName})]]></variableExpression>
+	</variable>
+	<variable name="schoolNumber" class="java.lang.Integer" resetType="Group" resetGroup="type" incrementType="Group" incrementGroup="school" calculation="Sum">
+		<variableExpression><![CDATA[new Integer(1)]]></variableExpression>
+	</variable>
+	<variable name="typeSchoolCount" class="java.lang.Integer" resetType="Group" resetGroup="type" incrementType="Group" incrementGroup="school" calculation="Count">
+		<variableExpression><![CDATA[new Integer(1)]]></variableExpression>
+	</variable>
+	<variable name="districtSummariesMap" class="java.util.HashMap" resetType="None" calculation="System">
+		<variableExpression><![CDATA[$V{districtSummariesMap} == null ? new java.util.HashMap() : $V{districtSummariesMap}]]></variableExpression>
+	</variable>
+	<group name="type">
+		<groupExpression><![CDATA[$F{type}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="school">
+		<groupExpression><![CDATA[$F{school}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="rowName">
+		<groupExpression><![CDATA[$F{rowName}]]></groupExpression>
+		<groupHeader>
+			<band height="18" splitType="Stretch">
+				<printWhenExpression><![CDATA[new Boolean(!$F{school}.equals( "ZZZ_DISTRICTSUMMARY" ))]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+					<reportElement key="textField-15" style="Arial_Normal" mode="Transparent" x="0" y="0" width="77" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="a47a5794-f26f-4182-9682-cbac1c8141a7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+						<font fontName="Arial" size="3" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{school}.equals( "ZZZ_DISTRICTSUMMARY" ) ? "DISTRICT SUMMARY" : $F{school}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement key="textField-16" style="Arial_Normal" x="77" y="0" width="86" height="18" uuid="4d192d60-b61d-4dfa-9d80-ccdc3362a7f3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement key="detailAnchor" style="Arial_Bold" x="163" y="0" width="66" height="18" uuid="674c540f-c2ea-496e-95ba-995af605b6d2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="3" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rowName}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement key="detailShifted" x="229" y="0" width="100" height="18" uuid="5c10b24f-b844-4d55-b567-8c7daf4f3823"/>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="rowName" isBlankWhenNull="false">
+						<reportElement key="textField-11" style="Arial_Bold" x="50" y="0" width="50" height="18" uuid="0b0a234d-94a0-421e-9784-a827405895c5"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="rowName" isBlankWhenNull="false">
+						<reportElement key="textField-12" style="Arial_Bold" x="0" y="0" width="50" height="18" uuid="103c1c46-25dc-440e-be7a-ec0409d90e16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{other}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18" splitType="Stretch">
+				<printWhenExpression><![CDATA[new Boolean($F{school}.equals( "ZZZ_DISTRICTSUMMARY" ))]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement key="textField-8" style="Arial_Normal" x="77" y="0" width="86" height="18" uuid="c7115633-c628-428a-855a-1cde518d82e6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+					<reportElement key="textField-17" style="Arial_Normal" mode="Transparent" x="0" y="0" width="77" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="f3e2e577-a56b-4071-a7cb-b92bf8edb569"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+						<font fontName="Arial" size="3" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{school}.equals( "ZZZ_DISTRICTSUMMARY" ) ? "DISTRICT SUMMARY" : $F{school}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement key="detailSummaryAnchor" style="Arial_Bold" x="163" y="0" width="66" height="18" uuid="856f89d1-26f9-407f-b5b6-c3abf0b1f8a5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="3" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{rowName}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement key="detailSummaryShifted" x="229" y="0" width="100" height="18" uuid="681481d1-6a33-484e-96fb-d06914cee24b"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+						<reportElement key="textField-13" style="Arial_Bold" x="50" y="0" width="50" height="18" uuid="1f5fdeff-c787-4da4-a398-34441646833f"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{totalSummary}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" evaluationTime="Auto" isBlankWhenNull="false">
+						<reportElement key="textField-14" style="Arial_Bold" x="0" y="0" width="50" height="18" uuid="41cfdb18-3f92-4e6d-8ea0-73fb30864aa9"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{otherSummary}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="student">
+		<groupExpression><![CDATA[$F{student}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="18" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="" style="Arial_Bold" x="77" y="0" width="86" height="18" uuid="e2d76d73-655c-4b0d-8b8c-ca3934d77000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Type"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="" style="Arial_Bold" x="0" y="0" width="77" height="18" uuid="0c005d84-8701-4221-9614-948e33370f55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["School"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="headerAnchor" style="Arial_Bold" x="163" y="0" width="66" height="18" uuid="3571781c-20ee-4931-9412-e7ba0c7eb6c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement key="headerShifted" x="229" y="0" width="100" height="18" uuid="6c121bf5-d9e5-4acc-b787-36ea945e87cf"/>
+				<staticText>
+					<reportElement key="staticText-5" style="Arial_Bold" mode="Transparent" x="0" y="0" width="50" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="ff421e54-faa5-4248-aefb-9a3627f13541"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+						<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Other]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-6" style="Arial_Bold" mode="Transparent" x="50" y="0" width="50" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="ab11dc9d-6994-4791-831c-c305e61d67c2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+						<font size="3" isBold="false" pdfFontName="Helvetica"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="summariesEvaluator" style="Arial_Normal" x="0" y="0" width="0" height="0" uuid="42176bc0-e04e-499a-9951-2af9195d9a94"/>
+				<textElement>
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{districtSummariesMap}.put($F{type} + $F{rowName} + $F{grade}, 
+    ($V{districtSummariesMap}.get($F{type} + $F{rowName} + $F{grade}) == null ? 
+                            $F{value} : 
+    new Integer(((Integer)$V{districtSummariesMap}.get($F{type} + $F{rowName} + $F{grade})).intValue() + $F{value}.intValue())
+    )
+)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="summariesEvaluatorTotals" style="Arial_Normal" x="0" y="0" width="0" height="0" uuid="c34dc464-e6c9-41e7-9cfe-f96ce18afc97"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{districtSummariesMap}.put($F{type} + $F{rowName}, 
+    ($V{districtSummariesMap}.get($F{type} + $F{rowName}) == null ? 
+                            $F{value} : 
+    new Integer(((Integer)$V{districtSummariesMap}.get($F{type} + $F{rowName})).intValue() + $F{value}.intValue())
+    )
+)]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="summariesEvaluatorTotalsNotSelected" style="Arial_Normal" x="0" y="0" width="0" height="0" uuid="86d065fc-8e57-48fd-8327-6b0ee0236dd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{districtSummariesMap}.put("totalNotSelected" + $F{type} + $F{rowName}, 
+    ($V{districtSummariesMap}.get("totalNotSelected" + $F{type} + $F{rowName}) == null ? 
+                            (!$P{selectedGrades}.contains( $F{grade} ) ? $F{value} : new Integer(0)) : 
+    new Integer(((Integer)$V{districtSummariesMap}.get("totalNotSelected" + $F{type} + $F{rowName})).intValue() + (!$P{selectedGrades}.contains( $F{grade} ) ? $F{value} : new Integer(0)).intValue())
+    )
+)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Prevent"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

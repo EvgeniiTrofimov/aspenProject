@@ -1,0 +1,73 @@
+<!-- ************************************************ -->
+<!-- INPUT DEFINITIONS FOR "CANDIDATE RESULTS" REPORT -->
+<!-- ************************************************ -->
+
+<tool-input allow-school-select="true" context="com.x2dev.sis.model.beans.SisStudent">
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true"/>
+  <option value="##all" display-name="report.shared.query.all"/>
+  <option value="student.gradeLevel" display-name="Year group" />
+  <option value="student.yog" display-name="report.shared.query.yog"/>
+  <option value="student.homeroom" display-name="report.shared.query.homeroom"/>
+  <disable input-name="queryString" if-parent-equals="##current" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString"/>
+ 
+ <!-- **** -->
+ <!-- YEAR -->
+ <!-- **** -->
+ 
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="Year" default-value="currentContextOid" default-value-source="session">
+  <picklist field-id="ctxSchoolYear">
+   <field id="ctxSchoolYear" sort="true" />
+   <field id="ctxContextName" />
+  </picklist>
+ </input>
+ 
+ <!-- *********** -->
+ <!-- EXAM SEASON -->
+ <!-- *********** -->
+ 
+ <input name="seasonOid" data-type="string" display-type="picklist" display-name="Season (Optional)" required="false" >
+  <picklist field-id="sesName" multiple="false">
+   <field id="relSesCtxOid.ctxContextID" sort="true" sort-direction="desc" />
+   <field id="sesName" sort="true" />
+   <filter field="sesCtxOID" operator="equals" source="input" value="contextOid" />
+  </picklist>
+ </input>
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="##current" display-name="report.shared.sort.currentSort" context-dependent="true"/>
+  <option value="student.nameView" display-name="report.shared.sort.name"/>
+  <option value="student.gradeLevel,student.nameView" display-name="Year group" />
+  <option value="student.yog,student.nameView" display-name="report.shared.sort.yog"/>
+  <option value="student.homeroom,student.nameView" display-name="report.shared.sort.homeroom"/>
+ </input>
+
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true"/>
+ 
+ <!-- ************ -->
+ <!-- RESULTS TYPE -->
+ <!-- ************ -->
+
+ <input name="type" data-type="string" display-type="select" display-name="Type" >
+  <option value="##all" display-name="Both" />
+  <option value="U" display-name="Modular" />
+  <option value="C" display-name="Certified" />
+ </input>
+
+</tool-input>

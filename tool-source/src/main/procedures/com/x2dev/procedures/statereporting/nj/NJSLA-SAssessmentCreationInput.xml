@@ -1,0 +1,69 @@
+<!-- *************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "PARCC IL EXPORT" -->
+<!-- *************************************************************************** -->
+
+
+<tool-input allow-school-select="false" district-support="true" height="560">
+
+    <input name="asmDefinitionId" data-type="string" display-type="hidden" default-value="NJSLA-S"/>
+    
+    <input name="asmDate" data-type="date" display-type="date" display-name="Assessment Date" required="true" />
+
+    <input name="schoolYearContext" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+        <picklist field-id="ctxSchoolYear">
+            <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+            <field id="ctxContextName" />
+        </picklist>
+    </input>
+
+    <!-- ******* -->
+    <!-- SCHOOLS -->
+    <!-- ******* -->
+
+    <input name="schoolOids" data-type="string" display-type="picklist"
+        display-name="School(s)" default-value-source="session" default-value="school.oid"
+        required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+
+  <!-- ****** -->
+  <!-- GRADES -->
+  <!-- ****** -->
+   
+  <input name="gradeList" data-type="string" display-type="picklist" display-name="Grades" required="true">
+        <picklist field-id="rcdCode" multiple="true" >
+            <field id="rcdCode" sort="true" />
+            <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+            <filter field="rcdCodeState" operator="in" source="constant" value="04;05;06;07;08;09;10;11;12" />
+            <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+        </picklist>
+  </input>
+  
+  <!-- **************** -->
+  <!-- SEMESTER SELECT  -->
+  <!-- **************** -->
+  
+  <input name="cycle" data-type="String" display-type="select" display-name="Cycle Selection" required="true" default-value="Spring">
+    <option value="Spring" display-name="Spring"/>
+  </input>
+  
+  <!-- ************ -->
+  <!-- TEST FORMATS -->
+  <!-- ************ -->
+   
+  <input name="testFormat" data-type="string" display-type="picklist" display-name="Test Format" required="true">
+        <picklist field-id="rcdCode" multiple="false" >
+            <field id="rcdCode" sort="true" />
+            <field id="rcdDescription" sort="true" />
+            <filter field="relRcdRtbOid.rtbUserName" operator="equals" value="NJSLA-S Test Format"/>
+        </picklist>
+  </input>
+  
+</tool-input>

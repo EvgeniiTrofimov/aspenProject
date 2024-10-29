@@ -1,0 +1,1681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ch688Form" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="732" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="8807e3fc-3d0e-463e-a9a0-0c25635d2321">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="305"/>
+	<import value="com.follett.fsc.core.k12.beans.*"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="com.x2dev.sis.model.beans.*"/>
+	<import value="java.util.*"/>
+	<import value="com.follett.fsc.core.k12.business.PreferenceManager"/>
+	<import value="com.x2dev.utils.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<import value="com.x2dev.sis.model.business.sped.SpedConstants"/>
+	<parameter name="organization" class="com.x2dev.sis.model.beans.SisOrganization" isForPrompting="false"/>
+	<parameter name="blank" class="java.lang.Boolean" isForPrompting="false"/>
+	<parameter name="levelOfNeed" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="typeOfPlacement" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="transitionGradDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="placement-cost-agency" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="isGuardian" class="java.lang.String" isForPrompting="false"/>
+	<field name="a:owner.needs-age-considerations" class="java.lang.String"/>
+	<field name="owner.student.person.lastName" class="java.lang.String"/>
+	<field name="owner.student.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.person.dob" class="java.lang.String"/>
+	<field name="owner.student.person.genderCode" class="java.lang.String"/>
+	<field name="a:owner.student.DOE 24" class="java.lang.String"/>
+	<field name="owner.student.addressView" class="java.lang.String"/>
+	<field name="owner.student.person.physicalAddress.addressLine03" class="java.lang.String"/>
+	<field name="owner.student.person.phone01" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.person.lastName" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.relationshipCode" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.addressView" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.person.physicalAddress.addressLine03" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.person.phone01" class="java.lang.String"/>
+	<field name="a:owner.student.primaryContact.contact.contact-language" class="java.lang.String"/>
+	<field name="a:owner.student.school.organization1.alternate-name" class="java.lang.String"/>
+	<field name="a:owner.staff.extension" class="java.lang.String"/>
+	<field name="a:owner.firstPlacement.placement-type" class="java.lang.String"/>
+	<field name="a:owner.student.person.ssn" class="java.lang.String"/>
+	<field name="a:owner.student.ssi-ssdi" class="java.lang.String"/>
+	<field name="a:iep-ch688-referral-completed" class="java.lang.String"/>
+	<field name="as:iep-ch688-agency" class="java.lang.String"/>
+	<field name="a:iep-ch688-agency-area-office" class="java.lang.String"/>
+	<field name="owner.primaryDisability.disabilityCode" class="java.lang.String"/>
+	<field name="owner.placementsView" class="java.lang.String"/>
+	<field name="owner.staff.spedRole" class="java.lang.String"/>
+	<field name="owner.student.school.organization1.address.phone01" class="java.lang.String"/>
+	<field name="owner.oid" class="java.lang.String"/>
+	<field name="owner.student.stateId" class="java.lang.String"/>
+	<field name="owner.firstPlacement.iepPlacementProgram.address.addressLine01" class="java.lang.String"/>
+	<field name="owner.firstPlacement.iepPlacementProgram.address.addressLine02" class="java.lang.String"/>
+	<field name="owner.firstPlacement.iepPlacementProgram.address.addressLine03" class="java.lang.String"/>
+	<field name="owner.student.school.name" class="java.lang.String"/>
+	<field name="a:iep-ch688-grad-before-22" class="java.lang.String"/>
+	<field name="a:iep-ch688-grad-date" class="java.lang.String"/>
+	<field name="a:owner.firstPlacement.placement-type-other" class="java.lang.String"/>
+	<field name="owner.secondaryDisabilitiesView" class="java.lang.String"/>
+	<field name="owner.student.primaryContact.contact.nameView" class="java.lang.String"/>
+	<field name="masped:district-name-only:owner" class="java.lang.String"/>
+	<field name="masped:district-address:owner" class="java.lang.String"/>
+	<field name="masped:district-contact-person:owner" class="java.lang.String"/>
+	<field name="masped:district-contact-person-phone:owner" class="java.lang.String"/>
+	<variable name="ownerIsNotNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[new Boolean($F{owner.oid} != null)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean($F{owner.oid} != null)]]></initialValueExpression>
+	</variable>
+	<variable name="address" class="java.lang.String">
+		<variableExpression><![CDATA[(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine01}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine01}+ "   " ) +
+(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine02}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine02}+ "   " ) +
+(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine03}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine03})]]></variableExpression>
+		<initialValueExpression><![CDATA[(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine01}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine01}+ "   " ) +
+(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine02}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine02}+ "   " ) +
+(StringUtils.isEmpty($F{owner.firstPlacement.iepPlacementProgram.address.addressLine03}) ? "" : $F{owner.firstPlacement.iepPlacementProgram.address.addressLine03})]]></initialValueExpression>
+	</variable>
+	<variable name="phoneExpression" class="java.lang.Boolean">
+		<variableExpression><![CDATA[new Boolean(!StringUtils.isEmpty($F{owner.student.primaryContact.contact.person.phone01}))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean(!StringUtils.isEmpty($F{owner.student.primaryContact.contact.person.phone01}))]]></initialValueExpression>
+	</variable>
+	<group name="iep" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{owner.oid}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="572" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-69" x="0" y="0" width="732" height="22" uuid="ec3bfde2-b507-456f-b83b-e64e14fbd633"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="false" isUnderline="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[COMMONWEALTH OF MASSACHUSETTS Chapter 688 REFERRAL FORM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-71" x="2" y="20" width="78" height="13" uuid="656c95d0-b2f1-4451-931c-134eee2e15e0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="true" isItalic="true" isUnderline="false" pdfFontName="Helvetica-BoldOblique"/>
+				</textElement>
+				<text><![CDATA[Directions:]]></text>
+			</staticText>
+			<elementGroup>
+				<staticText>
+					<reportElement key="staticText-74" x="72" y="20" width="520" height="25" uuid="d3a21a66-f64b-47f2-a019-635d0a14398a"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" markup="styled">
+						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Mail the original referral form with a copy of the current IEP, the TPF (Transition Planning Form, 28M/9), and the most recent assessments to <style isBold="false" isItalic="false" isUnderline="true" pdfFontName="Helvetica">one</style> human service agency (see list below).]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-75" x="54" y="20" width="15" height="13" uuid="513598f4-2033-4816-9bd0-0f8f75259445"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[1)  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-76" x="72" y="47" width="660" height="13" isPrintWhenDetailOverflows="true" uuid="de132586-370d-4959-ad85-49763e9c9321"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left">
+						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[If you don't know which agency to select or more than one agency seems appropriate send items in #1 (above) to the BTP. ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-78" x="54" y="47" width="15" height="13" uuid="4368026a-501d-410f-9563-02f648c1715c"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[2)  ]]></text>
+				</staticText>
+			</elementGroup>
+			<line>
+				<reportElement key="line-1" x="0" y="65" width="732" height="1" uuid="d7163810-590c-4923-a9df-1df7d0ef491c"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-10" x="0" y="69" width="125" height="16" uuid="02ac4018-7ab7-45ad-89a3-7995345d719b"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[STUDENT INFORMATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-12" x="0" y="91" width="33" height="13" uuid="ddf2076d-be2b-4a46-b25c-1804a56001c4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Name: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-13" x="461" y="72" width="30" height="13" uuid="16b1f96c-bb3f-4611-bd8b-a374195cdea9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[DOB: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-14" x="644" y="71" width="22" height="13" uuid="a3aa965c-cbf0-4151-a3aa-c3808d02dfde"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Sex:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-16" x="0" y="117" width="28" height="13" uuid="4f2e6401-6f73-4e84-82d8-8908752c3afa"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[SSN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-17" x="220" y="117" width="152" height="13" uuid="de6fcf42-1656-4990-9951-f46d0bd08b28"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Receives SSI/SSDI:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-18" x="0" y="138" width="194" height="13" uuid="01e1fe85-6f09-4c53-9b20-1b4831487b07"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Disability Category - Primary:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-19" x="0" y="190" width="103" height="13" uuid="2368e740-d418-4bef-a7de-93e9a1e70ea6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Present Address:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-20" x="533" y="190" width="42" height="13" uuid="d369168b-dd47-496d-b1b2-fdbd543c3223"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Phone: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-21" x="0" y="165" width="152" height="13" uuid="f11d6271-0887-4200-8543-3cf0956dbcf9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Parent/Guardian Name: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-22" x="349" y="165" width="85" height="13" uuid="eafb0b0f-8efa-4421-a717-c1ea327ba0fe"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Legal Guardian:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-25" x="486" y="165" width="133" height="13" uuid="4233bc2c-90e7-4f07-9459-6b1b7d721f8f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Language Spoken:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-26" x="1" y="209" width="247" height="16" uuid="13c48944-8f61-44d8-a3d1-5e786f4b2eac"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[SCHOOL DISTRICT/PROGRAM INFORMATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-27" x="0" y="244" width="120" height="13" uuid="63804711-9804-4cc5-a823-5fe68532daed"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[School District (LEA):  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-29" x="287" y="244" width="100" height="13" uuid="4e63f204-d004-4326-a2a8-4bbbefe54510"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[LEA Address:   ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-30" x="0" y="265" width="120" height="13" uuid="ed438273-4654-4dd0-ac4c-ff2a17ab9c23"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[LEA Contact Person:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-35" x="279" y="104" width="26" height="11" uuid="a3947e25-7750-4c16-9d0b-281b8cb4d39f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="false" isItalic="true" isUnderline="false" pdfFontName="Times-Italic"/>
+				</textElement>
+				<text><![CDATA[(last)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-36" x="75" y="104" width="25" height="11" uuid="094e2ba3-ec4c-4844-9043-6760303d1701"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="false" isItalic="true" isUnderline="false" pdfFontName="Times-Italic"/>
+				</textElement>
+				<text><![CDATA[(first)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-39" x="680" y="73" width="18" height="13" uuid="c4068afb-9a8e-42d9-992e-200305f77f7e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-40" x="708" y="73" width="15" height="13" uuid="4b621663-9ceb-4552-88dc-59408b2cb09d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[F]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-41" x="326" y="117" width="18" height="13" uuid="65aa9bc7-b301-4dd4-afc7-780bd907c060"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Yes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-42" x="355" y="117" width="18" height="13" uuid="1636b1f0-5f1c-4271-b547-b68b9269ab2e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-43" x="384" y="117" width="60" height="13" uuid="64588522-d689-4008-b095-02386b767200"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Unknown]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-44" x="465" y="166" width="18" height="13" uuid="1800d5cb-5efc-4218-ae3a-b0498615e5dd"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-45" x="436" y="166" width="18" height="13" uuid="16be969b-a54a-4d40-bd87-55d4226d965b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Yes]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-1" x="209" y="91" width="173" height="13" isPrintWhenDetailOverflows="true" uuid="9cee6519-9c85-4f3c-a21d-6650c88b4ef9"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.person.lastName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-2" x="34" y="91" width="175" height="13" isPrintWhenDetailOverflows="true" uuid="c025ad59-0858-4878-97d4-a4b149b3d02e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.person.firstName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-3" x="497" y="71" width="141" height="13" isPrintWhenDetailOverflows="true" uuid="58783742-ec18-4f3b-82ef-1cff8a433a6b"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.person.dob}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-4" x="666" y="72" width="12" height="12" uuid="8678ee09-d12c-4040-b3bb-03af11230745"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["M".equalsIgnoreCase($F{owner.student.person.genderCode}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-5" x="693" y="72" width="12" height="12" uuid="335e8e99-a58c-4c26-9a53-809ba2909646"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["F".equalsIgnoreCase($F{owner.student.person.genderCode}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-6" x="353" y="71" width="101" height="14" isPrintWhenDetailOverflows="true" uuid="91c4a4bd-b262-4e9e-8ca4-47f5d9c8656e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{a:iep-ch688-referral-completed}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-7" x="468" y="91" width="264" height="13" uuid="902891be-3716-4ce4-ba5c-4cbad98c9c0e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{a:owner.student.DOE 24}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-8" x="30" y="117" width="179" height="13" uuid="1b80a985-338b-407c-b6b8-88e67da2c6d6"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{a:owner.student.person.ssn}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-9" x="312" y="116" width="12" height="12" uuid="ad6e4f7d-82e8-4bd1-9198-09f01be02ede"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Yes".equalsIgnoreCase($F{a:owner.student.ssi-ssdi}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-10" x="342" y="116" width="12" height="12" uuid="ed3cc965-4053-4a87-9da6-993660bb85b0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No".equalsIgnoreCase($F{a:owner.student.ssi-ssdi}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-11" x="371" y="116" width="12" height="12" uuid="c289af70-25b6-47a1-a067-f55c56c9523d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Unknown".equalsIgnoreCase($F{a:owner.student.ssi-ssdi}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-12" x="134" y="138" width="160" height="13" isPrintWhenDetailOverflows="true" uuid="7c78fdfa-2011-4472-be85-9605a2e518dd"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.primaryDisability.disabilityCode}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-13" x="80" y="190" width="447" height="13" isPrintWhenDetailOverflows="true" uuid="eb00e3b9-26ee-463c-983e-5a851f965345"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ownerIsNotNull}.booleanValue() ?
+(
+$F{owner.student.primaryContact.contact.addressView} + "   " + $F{owner.student.primaryContact.contact.person.physicalAddress.addressLine03}
+)
+:
+""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-15" x="111" y="165" width="236" height="13" isPrintWhenDetailOverflows="true" uuid="28b5f542-beb1-47ca-b1a8-4f1fc7d7034e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.primaryContact.contact.nameView}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-17" x="421" y="165" width="12" height="12" uuid="4fb68be0-3dbb-42ab-83fc-e7978193be0a">
+					<printWhenExpression><![CDATA[$V{ownerIsNotNull}]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isStrikeThrough="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[("true".equalsIgnoreCase($P{isGuardian})) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-18" x="451" y="165" width="12" height="12" uuid="e8b1f3e4-0798-483e-ae42-e011eaffe003"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(("true".equalsIgnoreCase($P{isGuardian}))) ? "" : "X"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-20" x="583" y="189" width="149" height="14" isPrintWhenDetailOverflows="true" uuid="e2494af2-c61b-4efd-bf1b-3637dc131d9d"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{phoneExpression}.booleanValue() ?
+(
+$F{owner.student.primaryContact.contact.person.phone01}
+)
+:
+""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-22" x="97" y="244" width="190" height="14" isPrintWhenDetailOverflows="true" uuid="5a8a97e6-517b-4ba5-bb2b-c596e23e6e81"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{masped:district-name-only:owner}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-23" x="347" y="226" width="112" height="14" isPrintWhenDetailOverflows="true" uuid="592985c8-c375-4b14-b65c-0aefcbf07a0a"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="9" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA["true".equals($F{a:iep-ch688-grad-before-22}) ? $F{a:iep-ch688-grad-date} : ""]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-25" mode="Transparent" x="357" y="244" width="375" height="14" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="8722f652-6470-4ee8-950f-3c780308ec0f"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+					<font fontName="Courier New" size="11" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Courier" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{ownerIsNotNull}.booleanValue() ? ($F{masped:district-address:owner}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-26" x="95" y="265" width="156" height="14" isPrintWhenDetailOverflows="true" uuid="f01cf0cb-75bb-440b-8ddc-9d1377079367"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{masped:district-contact-person:owner}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-27" x="293" y="266" width="160" height="14" isPrintWhenDetailOverflows="true" uuid="2e5be41d-92f0-4a13-abf3-e71a47129c29"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{masped:district-contact-person-phone:owner}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-79" x="137" y="72" width="44" height="13" uuid="f8849ee2-4ada-477b-8b40-95843882d72c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[SASID#: ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-42" x="185" y="71" width="90" height="14" isPrintWhenDetailOverflows="true" uuid="2084322c-8436-40ce-850b-fa3cee2b5ba8"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.stateId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-80" x="298" y="138" width="60" height="13" uuid="d510d583-7d17-49d7-851d-548fd02b0584"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Secondary:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-81" x="356" y="151" width="38" height="11" uuid="f73fd984-ad8d-466e-8589-e7dc1c7d152a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="false" isItalic="true" isUnderline="false" pdfFontName="Times-Italic"/>
+				</textElement>
+				<text><![CDATA[(optional)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-15" x="382" y="91" width="144" height="13" uuid="7cb34389-de0f-4411-af8d-0f2591d4c8ca"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Language Spoken: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-31" x="254" y="266" width="60" height="13" uuid="429180a4-df65-48e4-9a18-0bd4e3fe708e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Phone:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-86" x="248" y="212" width="311" height="13" isPrintWhenDetailOverflows="true" uuid="85ceabba-dd18-448f-aa29-172e15e4404b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Is this student expected to graduate before age 22?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-87" x="272" y="228" width="99" height="11" uuid="284ffceb-d8cd-47b5-80b4-37819ed7b051"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Yes, expected date:   ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-88" x="473" y="227" width="203" height="11" uuid="0aa32040-12b4-4efa-842d-cf2fbd3f1dc9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[No, expected date of SpEd termination:   ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-43" x="619" y="226" width="112" height="14" isPrintWhenDetailOverflows="true" uuid="968d724d-6feb-4aec-8ff0-d38b59ac0d11"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="9" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA["false".equals($F{a:iep-ch688-grad-before-22}) ? $P{transitionGradDate} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-89" x="508" y="138" width="89" height="13" uuid="4cefacbc-a8dd-4242-9b20-99c7818e8785"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Level of Need:  ]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line-37" x="0" y="355" width="732" height="1" uuid="c78f89a7-156a-49e5-bc25-f07c0f2a5c1d"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-94" x="0" y="359" width="194" height="16" uuid="102b5275-4213-4398-b14f-6d3cecdc1587"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[REFERRAL SUBMISSION:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-95" x="137" y="361" width="218" height="16" uuid="7206089d-1cad-410a-b69c-3f3198e26425"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Send to <i><style pdfFontName="Helvetica-Bold">ONLY ONE</style></i> of the following:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-96" x="26" y="379" width="280" height="13" uuid="ef7d4974-8452-44b1-ad4f-94484f8269d1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Children & Families (DCF)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-97" x="26" y="409" width="280" height="13" uuid="65c19655-bf54-4a68-b9a2-2f787e9ac8fb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Youth Services (DYS)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-98" x="330" y="394" width="260" height="13" uuid="19e8f16e-9806-448d-9d44-86779f3b1f62"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Mental Health (DMH)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-99" x="330" y="409" width="260" height="13" uuid="a7900c43-f917-4cc7-b497-66ae7b37941c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Public Health (DPH)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-100" x="26" y="394" width="280" height="13" uuid="b5d198ec-1c77-4cd2-a9b3-1784adc18d24"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Children & Families Voluntary (DCFV)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-101" x="331" y="379" width="260" height="13" uuid="185abce3-b770-4136-804c-fd48c9c353d0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Developmental Services (DDS)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-103" x="110" y="455" width="503" height="13" uuid="dc5690bb-8215-4d4d-ba8b-d86ec02fd2a9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[If you don't know which agency, or more than one agency seems appropriate, please send to:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-104" x="117" y="469" width="496" height="13" isPrintWhenDetailOverflows="true" uuid="267d23a9-3aca-4396-9bd7-d3aea445eb7c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[The Bureau of Transitional Planning at One Ashburton Place, Room 1109, Boston, MA 02108]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-105" x="1" y="487" width="730" height="48" uuid="5443aeeb-fa47-41da-9887-8e61e333fd66"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[I hereby authorize the release of all personal information contained in this student's records, including medical and educational evaluations, to the Bureau of Transitional Planning at EOHHS and to any member agencies for the purpose of eligibility determination and transitional planning. I also authorize the release of any other personal information concerning this student that is required during the transitional planning process by any state agency to any other state agency.]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line-38" x="572" y="547" width="160" height="1" uuid="f139f2de-b216-4418-967a-f88a0afcdab7"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement key="line-39" x="278" y="547" width="264" height="1" uuid="a6bd7ba4-24f9-404a-892c-5c3a143fb898"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-106" x="1" y="535" width="280" height="13" isPrintWhenDetailOverflows="true" uuid="44ddefa4-a3f0-4e33-9c60-ca7ec9d90a4e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Signature of Student (18 or over) or Parent/Guardian:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-107" x="546" y="535" width="42" height="13" uuid="d4694dac-1b21-4e6e-b7cf-c07bc63b295d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-108" x="2" y="555" width="368" height="17" uuid="de13279f-02bb-468a-beb1-2c5a697d5887"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="7" isBold="false" isItalic="true" isUnderline="false" pdfFontName="Times-Italic"/>
+				</textElement>
+				<text><![CDATA[Massachusetts Department of Elementary and Secondary Education / Chapter 688 Referral
+Revised 10/2009]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-45" x="12" y="379" width="12" height="12" uuid="aed610aa-50fa-415b-801a-0cb96d5d1712"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DCF".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-46" x="12" y="409" width="12" height="12" uuid="24f3b3c1-a2ea-403c-bb7a-cb31b86fcba4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DYS".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-47" x="316" y="394" width="12" height="12" uuid="5ce64ea9-9771-4309-9941-72f8f1101c98"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DMH".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-48" x="316" y="379" width="12" height="12" uuid="9a0d1ff2-e5f8-4973-97dc-b2281ec7cceb"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DMR".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-49" x="12" y="394" width="12" height="12" uuid="7822213b-24be-4694-a33a-06ad8e3186e7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DCFV".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-50" x="316" y="409" width="12" height="12" uuid="07f67196-43fd-4611-b435-f1cb52360ab1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DPH".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-51" x="102" y="469" width="12" height="12" uuid="2b624f89-ad97-40cb-9f81-35087830bbe3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BTP".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-41" x="0" y="486" width="732" height="1" uuid="633142ab-c0e4-49b5-9e2b-02ef91b4acfd"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-111" x="0" y="308" width="193" height="13" isPrintWhenDetailOverflows="true" uuid="e0a8e1d9-1243-41d2-a642-e174633899fe"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[School / Education Placement:    ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-112" x="0" y="287" width="110" height="13" uuid="b99dbf6c-87b1-44de-8f28-10acc598be39"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Type of Placement:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-113" x="378" y="287" width="145" height="13" uuid="c7b52327-58f1-4f88-bb11-a446aa8f72ed"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[List All Funding Agencies:  ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-54" x="90" y="287" width="283" height="14" isPrintWhenDetailOverflows="true" uuid="d7d8da51-22dc-4404-a4d8-668e33a1f44e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{typeOfPlacement}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-55" x="494" y="287" width="238" height="14" isPrintWhenDetailOverflows="true" uuid="762f0837-1fd9-4458-9677-67033f28f8de"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{placement-cost-agency}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-57" x="413" y="308" width="318" height="32" isPrintWhenDetailOverflows="true" uuid="5663f8c2-cc0c-4b10-af4d-9b03a027211c">
+					<printWhenExpression><![CDATA[new Boolean(!StringUtils.isEmpty($V{address}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{address}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-58" x="572" y="165" width="158" height="13" isPrintWhenDetailOverflows="true" uuid="aa470ccb-fd69-490f-95ee-2f52e1af45ad"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(StringUtils.isEmpty($F{a:owner.student.primaryContact.contact.contact-language}) ? " " : $F{a:owner.student.primaryContact.contact.contact-language})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-59" x="355" y="138" width="148" height="13" isPrintWhenDetailOverflows="true" uuid="a3be32ec-1d22-461f-aff3-32f0dbb5e90d"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.secondaryDisabilitiesView}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-45" x="495" y="351" width="119" height="1" uuid="336f38f7-e24c-46e6-bbda-c4e758ad8212"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement key="line-46" x="146" y="351" width="319" height="1" uuid="093f4cdf-8080-4f03-8a3f-01c3a85c3bd3"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement key="staticText-118" x="0" y="325" width="144" height="28" isPrintWhenDetailOverflows="true" uuid="078c2005-cd6d-4860-94c6-b01a37e23cdf"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial" size="10" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-BoldOblique"/>
+				</textElement>
+				<text><![CDATA[Signature of Special Education Director/Designee:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-119" x="467" y="340" width="42" height="13" uuid="0370e0b2-de91-4c76-b89f-d3ca9a1c016e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-120" x="459" y="267" width="120" height="13" uuid="006a1933-4062-4584-bd3d-a0de5dc14179"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Name of High School:  ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-60" x="560" y="267" width="172" height="14" isPrintWhenDetailOverflows="true" uuid="886c6803-ad8e-4f01-bec8-8dd5631ccca2"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Courier New" size="11" isBold="true" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.student.school.name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-61" x="459" y="225" width="12" height="12" uuid="19eb5df6-b260-4768-944e-a52640ab0540"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["false".equals($F{a:iep-ch688-grad-before-22}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-62" x="258" y="227" width="12" height="12" uuid="541fc3de-2731-4d90-bbe5-0512b1cf01c6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["true".equals($F{a:iep-ch688-grad-before-22}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-121" x="275" y="72" width="137" height="13" uuid="745a7309-46ab-438b-8c05-29ba35459921"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Date Completed:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-122" x="506" y="555" width="226" height="17" uuid="57fd0e7c-bf1d-4b11-895d-3a7c6977043b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="7" isBold="false" isItalic="true" isUnderline="false" pdfFontName="Times-Italic"/>
+				</textElement>
+				<text><![CDATA[Mandated Form 28M/11
+Page 1 of 1]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line-47" x="647" y="351" width="85" height="1" uuid="301ed44f-d5c3-48dc-88d2-999e4d0eed28"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText-123" x="616" y="340" width="86" height="13" uuid="d005ada3-082f-497b-a6a6-f213233687cf"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Phone:(     )         -      ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-63" x="582" y="138" width="12" height="12" uuid="6ade1ad9-8fb5-4ed1-8058-3dbad985fabf"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["04".equals($P{levelOfNeed}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-124" x="597" y="138" width="23" height="13" uuid="5965a3e4-f6cd-4753-b853-c7f80ad21f78"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[high]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-64" x="625" y="138" width="12" height="12" uuid="901bd445-af9e-45b8-9034-aa3e622c005d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["03".equals($P{levelOfNeed}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-125" x="640" y="138" width="68" height="13" uuid="b6ea186d-026d-4a2e-a7cb-221f10fd9ea2"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[moderate]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-65" x="691" y="138" width="12" height="12" uuid="1b6b478e-e06d-48fb-bb33-b24eb372d0be"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["01".equals($P{levelOfNeed}) ? "X" : ("02".equals($P{levelOfNeed}) ? "X" : "")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-126" x="706" y="138" width="26" height="13" uuid="b79af812-5db3-4b91-8042-ff62890ae4b9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[low]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-66" x="140" y="308" width="233" height="32" isPrintWhenDetailOverflows="true" uuid="4b2165a5-155c-4023-a9a5-96a9bd5d489c">
+					<printWhenExpression><![CDATA[new Boolean(!StringUtils.isEmpty($F{owner.placementsView}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owner.placementsView}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-127" x="372" y="308" width="80" height="13" isPrintWhenDetailOverflows="true" uuid="2e90380d-a401-4121-8fdc-e8a5b5e323b1"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Address:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-67" x="137" y="308" width="235" height="13" isPrintWhenDetailOverflows="true" uuid="fb387bb4-db2a-4b6c-b914-8034644b35db">
+					<printWhenExpression><![CDATA[new Boolean(StringUtils.isEmpty($F{owner.placementsView}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField-68" x="413" y="308" width="318" height="13" isPrintWhenDetailOverflows="true" uuid="0314e08d-0828-469f-adc0-9c016756208b">
+					<printWhenExpression><![CDATA[new Boolean(StringUtils.isEmpty($V{address}))]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Courier New" size="11" isBold="true" isUnderline="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-50" x="316" y="424" width="12" height="12" uuid="e11e0898-f6b3-4a64-b656-b941f9ae77b9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MCB".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-46" x="12" y="424" width="12" height="12" uuid="1c59d3df-f2b3-47b3-9c47-3c55f8458408"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DYSV".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-97" x="26" y="424" width="280" height="13" uuid="7ea837f3-7b3b-4292-beeb-1b5f4fc2c9fe"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department of Youth Services Voluntary (DYSV)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-99" x="330" y="424" width="260" height="13" uuid="0c85e5af-74db-4360-a200-708a9a5cd320"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[MA Commission for the Blind (MCB)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-50" x="316" y="439" width="12" height="12" uuid="35ef1efb-fdf1-441c-9565-4f87116a752d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MCDHH".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-99" x="330" y="439" width="282" height="13" uuid="f39edbff-bbcc-4d5f-a156-0dd405a3d7c6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[MA Commission for the Deaf and Hard of Hearing (MCDHH)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-46" x="12" y="439" width="12" height="12" uuid="e02ae1ef-662f-4cf9-a772-d2620cf31c88"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MRC".equalsIgnoreCase($F{as:iep-ch688-agency}) ? "X" : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-97" x="26" y="439" width="280" height="13" uuid="60c72539-5558-45f3-8e7b-3e99e827932a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[MA Rehabilitation Commission (MRC)]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

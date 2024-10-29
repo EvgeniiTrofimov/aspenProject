@@ -1,0 +1,314 @@
+<tool-input>
+    <input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+    <input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+    <input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+    <!--
+     The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+     SQL Statements supported include
+     
+     NOTES:
+     The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be
+     uploaded or imported.
+     The SQL statements supported are {INSERT, UPDATE, DELETE}.
+     Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+     All statements are executed as a single transaction. If one statement fails, no updates occur.
+     The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+     that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return
+     a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+     SQLTest.  If there are multiple SQLTests, all must pass.
+     
+     -->
+    <SQLDocument>
+        <SQLTest>
+            <TestStatement>
+                <![CDATA[
+                    SELECT 'true' FROM DBVersion where history not like '%942.66%';
+                ]]>
+            </TestStatement>
+            <TestValue>true</TestValue>
+        </SQLTest>
+
+        <SQLStatement>
+            <![CDATA[
+                update DBVersion set history = history + ',942.66' where history not like '%942.66%';
+            ]]>
+        </SQLStatement>
+
+        <!-- ALL Updates -->
+        <SQLStatement>
+            <![CDATA[
+                UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+                
+                <template>
+                <tab>
+                <row show-border="false">
+                <block>
+                <line>
+                <cell>
+                <text><![CDATA[<script language="Javascript">
+                
+                /*
+                * Onload.
+                */
+                $(function()
+                {
+                updateDynamicForm("service-dates");
+                });
+                </script>CDATA-END</text>
+    </cell>
+</line>
+</block>
+</row>
+<row>
+    <column>
+        <property id="isvServiceType" label="Supplementary Aid" label-short="false" />
+        <property id="isvProvider" label-short="true" />
+        <property id="relIsvStfOid.stfNameView" label-short="false">
+            <picklist relationship="relIsvStfOid" required="true" extended-dictionary="SPED-RI-IEP">
+                <field id="stfNameView" sort="true" />
+                <field id="relStfSklOid.sklSchoolName" />
+                <field id="stfStaffID" />
+                <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+                <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+            </picklist>
+        </property>
+        <property alias="service-description" />
+        <separator height="2" />
+        <property id="isvGoalView" />
+    </column>
+    <column>
+        <property id="isvStartDate" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" />
+        <property id="isvEsy" />
+        <property alias="frequency" />
+        <group header="Location">
+            <property alias="service-location-regular" />
+            <property alias="service-location-other" />
+            <property alias="service-loc-description" />
+        </group>
+    </column>
+</row>
+<row>
+    <column>
+        <property id="isvMedReimbInd" />
+        <property id="isvSerDelvCode" />
+    </column>
+</row>
+</tab>
+</template>' WHERE VWT_OID = 'vwtX2IsvRIoth' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+        </SQLStatement>
+
+<SQLStatement>
+    <![CDATA[
+        UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+        
+        <template>
+        <tab name="Details">
+        <row show-border="false">
+        <block>
+        <line>
+        <cell>
+        <text><![CDATA[<script language="Javascript">
+        
+        /*
+        * Onload.
+        */
+        $(function()
+        {
+        updateDynamicForm("service-dates");
+        });
+        </script>CDATA-END</text>
+</cell>
+</line>
+</block>
+</row>
+<row>
+    <column>
+        <property id="isvServiceType" label="Related Service" label-short="false" />
+        <property id="isvProvider" label-short="true" />
+        <property id="relIsvStfOid.stfNameView" label-short="false">
+            <picklist relationship="relIsvStfOid" required="true" extended-dictionary="SPED-RI-IEP">
+                <field id="stfNameView" sort="true" />
+                <field id="relStfSklOid.sklSchoolName" />
+                <field id="stfStaffID" />
+                <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+                <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+            </picklist>
+        </property>
+        <property alias="service-description" />
+        <separator height="2" />
+        <property id="isvGoalView" />
+    </column>
+    <column>
+        <property id="isvStartDate" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" />
+        <property id="isvEsy" />
+        <group header="Frequency">
+            <property alias="frequency-hours" />
+            <property alias="frequency-days" />
+            <property alias="frequency-weeks" />
+            <property alias="frequency" label="Description" label-short="false" />
+        </group>
+        <group header="Location">
+            <property alias="service-location-regular" />
+            <property alias="service-location-other" />
+            <property alias="service-loc-description" />
+            <property alias="service-school-code" />
+        </group>
+    </column>
+</row>
+<row>
+    <column>
+        <property id="isvMedReimbInd" />
+        <property id="isvSerDelvCode" />
+    </column>
+</row>
+</tab>
+<tab name="Sped&amp;nbsp;Census">
+    <row>
+        <block>
+            <line>
+                <text font-size="medium">The fields below may be left blank. If blank, the values under ''Rhode Island Special Education Census'' on the IEP''s Attributes tab will be used in the Services Census extract.</text>
+            </line>
+        </block>
+    </row>
+    <row>
+        <column>
+            <property alias="service-program-continuum" />
+            <property alias="service-cost-center" />
+            <property alias="service-tuition" />
+            <property alias="service-account-number" />
+            <property alias="service-end-reason" />
+        </column>
+    </row>
+    <row>
+        <block>
+            <line>
+                <text font-size="medium">The fields below are set automatically by the Services Census.</text>
+            </line>
+        </block>
+    </row>
+    <row>
+        <column>
+            <property alias="service-adjusted-start-date" />
+            <property alias="service-adjusted-end-date" />
+            <property alias="service-in-last-state-report" />
+            <property alias="service-adjustment-reason" />
+        </column>
+    </row>
+</tab>
+</template>' WHERE VWT_OID = 'vwtX2IsvRIrel' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+    ]]>
+</SQLStatement>
+
+<SQLStatement>
+    <![CDATA[
+        UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+        <template>
+        <tab name="Details">
+        <row show-border="false">
+        <block>
+        <line>
+        <cell>
+        <text><![CDATA[<script language="Javascript">
+        
+        /*
+        * Onload.
+        */
+        $(function()
+        {
+        updateDynamicForm("service-dates");
+        });
+        </script>CDATA-END</text>
+</cell>
+</line>
+</block>
+</row>
+<row>
+    <column>
+        <property id="isvServiceType" label="Service" label-short="false" />
+        <property id="isvProvider" label-short="true" />
+        <property id="relIsvStfOid.stfNameView" label-short="false">
+            <picklist relationship="relIsvStfOid" required="true" extended-dictionary="SPED-RI-IEP">
+                <field id="stfNameView" sort="true" />
+                <field id="relStfSklOid.sklSchoolName" />
+                <field id="stfStaffID" />
+                <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+                <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+            </picklist>
+        </property>
+        <property alias="service-description" label-short="false" />
+        <separator height="2" />
+        <property id="isvGoalView" label-short="false" />
+    </column>
+    <column>
+        <property id="isvStartDate" label-short="false" />
+        <property alias="service-date-pause" label-short="false" />
+        <property alias="service-date-cont" label-short="false" />
+        <property id="isvEndDate" label-short="false" />
+        <property id="isvEsy" label-short="false" />
+        <group header="Frequency" value-from="literal">
+            <property alias="frequency-hours" label-short="false" />
+            <property alias="frequency-days" label-short="false" />
+            <property alias="frequency-weeks" label-short="false" />
+            <property alias="frequency" label="Description" label-short="false" />
+        </group>
+        <group header="Location" value-from="literal">
+            <property alias="service-location-regular" label-display="left" label="Regular" />
+            <property alias="service-location-other" label-display="left" label="Other" />
+            <property alias="service-loc-description" label-short="false" rows="1" />
+            <property alias="service-school-code" label-short="false" rows="1" />
+        </group>
+    </column>
+</row>
+<row>
+    <column>
+        <property id="isvMedReimbInd" label-short="false" />
+        <property id="isvSerDelvCode" label-short="false" />
+    </column>
+</row>
+</tab>
+<tab name="Sped&amp;nbsp;Census">
+    <row>
+        <block>
+            <line border="none">
+                <text font-size="medium">The fields below may be left blank. If blank, the values under ''Rhode Island Special Education Census'' on the IEP''s Attributes tab will be used in the Services Census extract.</text>
+            </line>
+        </block>
+    </row>
+    <row>
+        <column>
+            <property alias="service-program-continuum" label-short="false" />
+            <property alias="service-cost-center" label-short="false" />
+            <property alias="service-tuition" label-short="false" />
+            <property alias="service-account-number" label-short="false" />
+            <property alias="service-end-reason" label-short="false" />
+        </column>
+    </row>
+    <row>
+        <block>
+            <line border="none">
+                <text font-size="medium">The fields below are set automatically by the Services Census.</text>
+            </line>
+        </block>
+    </row>
+    <row>
+        <column>
+            <property alias="service-adjusted-start-date" label-short="false" />
+            <property alias="service-adjusted-end-date" label-short="false" />
+            <property alias="service-in-last-state-report" label-short="false" />
+            <property alias="service-adjustment-reason" label-short="false" />
+        </column>
+    </row>
+</tab>
+</template>' WHERE VWT_OID = 'vwtX2IsvRIsped' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+    ]]>
+</SQLStatement>
+
+    </SQLDocument>
+</tool-input>

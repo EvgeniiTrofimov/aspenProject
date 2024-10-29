@@ -1,0 +1,180 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.71%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.71' where history not like '%770.71%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_TABLE (RTB_OID, RTB_TBL_OID, RTB_DDX_OID, RTB_OWNER_OID, RTB_OWNER_TYPE, RTB_USER_NAME, RTB_CATEGORY, RTB_CODE_LENGTH, RTB_SYSTEM_ONLY_IND, RTB_SEQUENCE_ORDER_IND, RTB_CODE_RECORD_DEFINITION, RTB_VIEW_FIELDS, RTB_CODE_MANAGEMENT_IND, RTB_LAST_MODIFIED) VALUES ('rtbILYesNoCod2', 'tblRefCode', NULL, '*dst', 1, 'IL SPED - Yes/No Codes', 'Special Ed.', 3, '0', '0', NULL, NULL, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_CODE (RCD_OID, RCD_RTB_OID, RCD_DDX_OID, RCD_OWNER_OID, RCD_OWNER_TYPE, RCD_SEQUENCE_NUMBER, RCD_CODE, RCD_DESCRIPTION, RCD_TEMPLATE_CONTEXT, RCD_CODE_LOCAL, RCD_CODE_STATE, RCD_CODE_FEDERAL, RCD_CODE_SYSTEM, RCD_CODE_DEPENDENT, RCD_NO_HIDE_IND, RCD_DISABLED_IND, RCD_CATEGORY, RCD_CATEGORY_IND, RCD_DESCRIPTION_LOCALE_1, RCD_DESCRIPTION_LOCALE_2, RCD_DESCRIPTION_LOCALE_3, RCD_DESCRIPTION_LOCALE_4, RCD_DESCRIPTION_LOCALE_5, RCD_ROLE_VISIBILITY_TYPE, RCD_FIELDA_001, RCD_FIELDA_002, RCD_FIELDA_003, RCD_FIELDA_004, RCD_FIELDA_005, RCD_FIELDA_006, RCD_FIELDA_007, RCD_FIELDA_008, RCD_FIELDA_009, RCD_FIELDA_010, RCD_FIELDB_001, RCD_FIELDB_002, RCD_FIELDB_003, RCD_FIELDB_004, RCD_FIELDB_005, RCD_FIELDB_006, RCD_FIELDB_007, RCD_FIELDB_008, RCD_FIELDB_009, RCD_FIELDB_010, RCD_FIELDC_001, RCD_FIELDC_002, RCD_FIELDC_003, RCD_FIELDC_004, RCD_FIELDC_005, RCD_FIELDD_001, RCD_FIELDD_002, RCD_FIELDD_003, RCD_LAST_MODIFIED) VALUES ('rcdX2o04003139', 'rtbILYesNoCod2', NULL, '*dst', 1, 20, 'No', 'No', NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454] -->
+<template>
+  <tab name="Individualized Education Program (34-54)">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">INDIVIDUALIZED EDUCATION PROGRAM (CONFERENCE SUMMARY REPORT)</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">STUDENT IDENTIFICATION INFORMATION</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="iep-plcmnt-in-sch" label-short="false" />
+          <property alias="iep-communic-mode" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="relIepStdOid.DOE SCHOOL LANG" label-short="false" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PARENT INFORMATION</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="parent" popup-height="600" popup-width="800" relationship="relIepItmOid" selection-type="multiple" embedded-edit="true" show-add-button="false" show-delete-button="false" independent-save="true">
+              <field id="relItmPsnOid.psnNameFirst" />
+              <field id="relItmPsnOid.psnNameMiddle" />
+              <field id="itmMemberRole" />
+              <field alias="itm-interpreter" />
+              <field alias="itm-surrogate-parent" />
+              <field alias="itm-surrogate-parent" />
+              <field alias="itm-primary-language" />
+              <field alias="itm-communic-mode" />
+              <filter field="itmMemberRole" connector="and" operator="equals" source="constant" value="Parent">
+                <filter field="itmMemberRole" connector="or" operator="equals" source="constant" value="Guardian" />
+              </filter>
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PURPOSE OF CONFERENCE AND PROCEDURAL SAFEGUARDS</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="meeting" popup-height="600" popup-width="800" relationship="relIepImgOid" selection-type="multiple" detail-context="iep.meeting.procedural.safeguards" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="imgStdOID" source="ancestor" value="iepStdOID" />
+              <field id="imgDate" default-value="today" />
+              <field alias="mtg-sch-location" />
+              <field alias="mtg-type" />
+              <field alias="mtg-date-notification" label="Date notification" />
+              <field alias="mtg-type-notification" label="Type notification" />
+              <field alias="mtg-channel" label="Channel" />
+              <field alias="iep-sum-safeguard-was-provide" label="Procedural Safeguards were provided on" />
+              <field alias="iep-sum-std-was-inf" label="Seventeen-year old student informed" />
+              <field alias="img-evaluation-report" label="Evaluation report and eligibility determination" />
+              <field alias="img-beh-interv-policies" label="District''s behavioral intervention policies" />
+              <field alias="img-iep" label="IEP" />
+              <field alias="img-beh-interv-policies-iep" label="District''s behavioral intervention procedures (initial IEP only)" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3454' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);  
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2a88000829';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2a88000830';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2a88000831';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000410';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000411';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000415';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000416';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000417';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2IL0000418';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILYesNoCod2' WHERE FDX_OID = 'fdxX2m88000832';
+]]>
+</SQLStatement>
+
+
+</SQLDocument>
+</tool-input>

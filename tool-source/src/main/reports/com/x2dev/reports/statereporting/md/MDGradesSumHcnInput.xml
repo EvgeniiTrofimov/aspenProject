@@ -1,0 +1,54 @@
+<!-- *************************************************** -->
+<!-- INPUT DEFINITION FOR THE "Health Condition" REPORTS -->
+<!-- *************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true" context="com.x2dev.sis.model.beans.SisStudent">
+
+    <!-- ********************** -->
+    <!-- IDS FOR REPORT FORMATS -->
+    <!-- ********************** -->
+    <input name="CSV_FORMAT_ID" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HCN-CSV"/>
+    <input name="PDF_FORMAT_ID" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HCN"/>
+
+    <!-- ******** -->
+    <!-- END DATE -->
+    <!-- ******** -->
+   
+    <input name="endDate" data-type="date" display-type="date" display-name="Report Date" default-value="today" />
+    
+    <!-- ******* -->
+    <!-- SCHOOLS -->
+    <!-- ******* -->
+
+    <input name="schoolOids" data-type="string" display-type="picklist" display-name="School" required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+    
+    <input name="condOids" data-type="string" display-type="picklist" display-name="Medical Condition" required="false">
+        <picklist field-id="rcdCode" multiple="true" required="false">
+            <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="Y" />  
+            <field id="rcdCode" sort="true" />
+            <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbConditions" />
+        </picklist>
+    </input>
+    
+    <input name="stateCondInd" data-type="boolean" display-type="checkbox" display-name="Only Conditions with a State Value" />
+    
+    <input name="gradesOids" data-type="string" display-type="picklist" display-name="Grades"  required="false">
+        <picklist field-id="rcdCode"  multiple="true" required="false">
+         <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="Y" />
+         <field id="rcdCode" sort="true" />
+         <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbGradeLevel" />
+         <filter field="rcdCode" operator="in" source="constant" value="01;02;03;04;05;06;07;08;09;10;11;12;K;K4" />
+        </picklist>
+    </input>
+    
+    <input name="SUBREPORT_DETAIL" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HCN-DET"/>
+    <input name="SUBREPORT_SUMMARY" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HCN-SUM"/>
+    
+</tool-input>

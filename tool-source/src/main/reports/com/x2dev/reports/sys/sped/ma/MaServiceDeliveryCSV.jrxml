@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="CSVDirMemDetailReport"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="1224"
+		 pageHeight="792"
+		 columnWidth="1164"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+
+	<parameter name="organization" isForPrompting="true" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="dictionary" isForPrompting="false" class="com.follett.fsc.core.k12.business.dictionary.DataDictionary" />
+	<parameter name="school" isForPrompting="true" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<parameter name="start_date" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="end_date" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="total_weekdays" isForPrompting="false" class="java.lang.Integer"/>
+	<parameter name="sortByProvider" isForPrompting="true" class="java.lang.Boolean">
+		<defaultValueExpression ><![CDATA[new Boolean(false)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="providerSpecified" isForPrompting="false" class="java.lang.Boolean">
+		<defaultValueExpression ><![CDATA[new Boolean(false)]]></defaultValueExpression>
+	</parameter>
+	
+	<field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+	<field name="person" class="com.x2dev.sis.model.beans.SisPerson"/>
+	<field name="service" class="com.x2dev.sis.model.beans.IepService"/>
+	<field name="IPP" class="com.x2dev.sis.model.beans.IepPlacementProgram"/>
+	<field name="edEnv" class="java.lang.String"/>
+
+		<background>
+			<band height="1"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="20"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="5"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-0"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[State ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="44"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Student]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="278"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-3"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Service Type]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="83"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-4"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Grade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="200"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-5"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Start Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="473"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-9"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Service Mode]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="512"
+						y="9"
+						width="56"
+						height="8"
+						key="staticText-14"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Placement Program]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="161"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-19"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[DOB]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="434"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-20"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Cycle]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="239"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-21"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[End Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-22"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Educational Environment]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="317"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-23"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Personnel Type]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="356"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-24"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Dur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="395"
+						y="9"
+						width="39"
+						height="8"
+						key="staticText-25"/>
+					<box></box>
+					<textElement>
+						<font size="5"/>
+					</textElement>
+				<text><![CDATA[Freq]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="false" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="5"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-0"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getStateId()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="44"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getNameView()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="83"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-2"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getGradeLevel()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="161"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-3"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{shortDateFormat}.format($F{person}.getDob())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="278"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-4"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{service}.getServiceType()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-7"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{service}.getServiceMode()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="512"
+						y="1"
+						width="56"
+						height="14"
+						key="textField-8"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{IPP}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-16"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{shortDateFormat}.format($F{service}.getStartDate())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="434"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-17"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[new Integer($F{service}.getDaysPerCycle())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="239"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-18"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{shortDateFormat}.format($F{service}.getEndDate())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-19"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{edEnv}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="317"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-20"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{service}.getFieldValueByAlias("personnel-type", $P{dictionary})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="356"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-21"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[new Integer($F{service}.getDuration())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="395"
+						y="1"
+						width="39"
+						height="14"
+						key="textField-22"/>
+					<box></box>
+					<textElement>
+						<font size="1"/>
+					</textElement>
+					<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{service}.getFrequency() == null ? new BigDecimal("0.00") : $F{service}.getFrequency()]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

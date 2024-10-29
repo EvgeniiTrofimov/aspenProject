@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="SYS-SPED-RENEW" name="Annual IPRC Review" category="Special Ed." selection-type="1" owner-table="tblIEPData" selection-table="tblStudent" owner-phase-field="iepWFPhase" sped="true" procedure-id="SYS-SPED-ON-REVIEW">
+  <description>Workflow for renewing a student's IPRC.</description>
+  <workflow-filters>
+    <filter connector="and" field="stdSpedStatus" operator="equalsIgnoreCase" source="preference" value="sys.sped.activeCode" application-context="" />
+    <filter connector="and" field="stdSklOID" operator="equals" source="session" value="schoolOid" application-context="">
+      <condition action="hide" expression="getSessionNavConfig().isDistrictScoped()" />
+    </filter>
+  </workflow-filters>
+  <phase id="ONRenCreate" name="Create New Draft IPRC" description="Create New Draft IPRC">
+    <outcome id="OnRenReview" name="Complete" next-phase-id="ONRenReview" standard="true">
+      <form-attachment form-id="SPED-REN" sequenceNumber="0" template-id-override="sped.renewal.iprc" template-name-override="Special Education IPRC Renewal Form" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef01.wpoIdentifier" locale="en_CA" value="OnRenReview" objectOid="wpoOnSpedRef01" />
+        <message-resource key="wpo.wpoOnSpedRef01.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef01" />
+        <message-resource key="wpo.wpoOnSpedRef01.wpoIdentifier" locale="en_US" value="OnRenReview" objectOid="wpoOnSpedRef01" />
+        <message-resource key="wpo.wpoOnSpedRef01.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef01" />
+        <message-resource key="wpo.wpoOnSpedRef01.wpoIdentifier" locale="fr_FR" value="RévisionOnRen" objectOid="wpoOnSpedRef01" />
+        <message-resource key="wpo.wpoOnSpedRef01.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef01" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef01.wphDescription" locale="en_CA" value="Create New Draft IPRC" objectOid="wphOnSpedRef01" />
+      <message-resource key="wph.wphOnSpedRef01.wphName" locale="en_CA" value="Create New Draft IPRC" objectOid="wphOnSpedRef01" />
+      <message-resource key="wph.wphOnSpedRef01.wphDescription" locale="en_US" value="Create New Draft IPRC" objectOid="wphOnSpedRef01" />
+      <message-resource key="wph.wphOnSpedRef01.wphName" locale="en_US" value="Create New Draft IPRC" objectOid="wphOnSpedRef01" />
+      <message-resource key="wph.wphOnSpedRef01.wphDescription" locale="fr_FR" value="Créer un nouveau projet CIPR" objectOid="wphOnSpedRef01" />
+      <message-resource key="wph.wphOnSpedRef01.wphName" locale="fr_FR" value="Créer un nouveau projet CIPR" objectOid="wphOnSpedRef01" />
+    </resources>
+  </phase>
+  <phase id="ONRenReview" name="Review IPRC Placement and Identification Decision" description="Review IPRC Placement and Identification Decision`">
+    <instruction>At least 1X every year students on an Active IEP must have their IPRC Placement and Identification Decision reviewed and determine if there is a need for revisions or if the student will continue with the same supports.</instruction>
+    <outcome id="ONRenTeam" name="Revise the existing IPRC" next-phase-id="ONRenIPRCTeam" standard="true">
+      <form-attachment form-id="ON-SPED-IPRC" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef02.wpoIdentifier" locale="en_CA" value="ONRenTeam" objectOid="wpoOnSpedRef02" />
+        <message-resource key="wpo.wpoOnSpedRef02.wpoName" locale="en_CA" value="Revise the existing IPRC" objectOid="wpoOnSpedRef02" />
+        <message-resource key="wpo.wpoOnSpedRef02.wpoIdentifier" locale="en_US" value="ONRenTeam" objectOid="wpoOnSpedRef02" />
+        <message-resource key="wpo.wpoOnSpedRef02.wpoName" locale="en_US" value="Revise the existing IPRC" objectOid="wpoOnSpedRef02" />
+        <message-resource key="wpo.wpoOnSpedRef02.wpoIdentifier" locale="fr_FR" value="ÉquipeONRen" objectOid="wpoOnSpedRef02" />
+        <message-resource key="wpo.wpoOnSpedRef02.wpoName" locale="fr_FR" value="Réviser CIPR existant" objectOid="wpoOnSpedRef02" />
+      </resources>
+    </outcome>
+    <outcome id="ONRenContinue" name="Continue" next-phase-id="ONRenSubmit" standard="false">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef03.wpoIdentifier" locale="en_CA" value="ONRenContinue" objectOid="wpoOnSpedRef03" />
+        <message-resource key="wpo.wpoOnSpedRef03.wpoName" locale="en_CA" value="Continue" objectOid="wpoOnSpedRef03" />
+        <message-resource key="wpo.wpoOnSpedRef03.wpoIdentifier" locale="en_US" value="ONRenContinue" objectOid="wpoOnSpedRef03" />
+        <message-resource key="wpo.wpoOnSpedRef03.wpoName" locale="en_US" value="Continue" objectOid="wpoOnSpedRef03" />
+        <message-resource key="wpo.wpoOnSpedRef03.wpoIdentifier" locale="fr_FR" value="ContinuerONRen" objectOid="wpoOnSpedRef03" />
+        <message-resource key="wpo.wpoOnSpedRef03.wpoName" locale="fr_FR" value="Continuer" objectOid="wpoOnSpedRef03" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef02.wphDescription" locale="en_CA" value="Review IPRC Placement and Identification Decision" objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphInstruction" locale="en_CA" value="At least 1X every year students on an Active IEP must have their IPRC Placement and Identification Decision reviewed and determine if there is a need for revisions or if the student will continue with the same supports." objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphName" locale="en_CA" value="Review IPRC Placement and Identification Decision" objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphDescription" locale="en_US" value="Review IPRC Placement and Identification Decision" objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphInstruction" locale="en_US" value="At least 1X every year students on an Active IEP must have their IPRC Placement and Identification Decision reviewed and determine if there is a need for revisions or if the student will continue with the same supports." objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphName" locale="en_US" value="Review IPRC Placement and Identification Decision" objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphDescription" locale="fr_FR" value="Examiner la décision de placement et d'identification du CIPR" objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphInstruction" locale="fr_FR" value="Au moins une fois par an, les élèves ayant un PEI actif doivent faire l'objet d'une révision de leur décision de placement et d'identification par le CIPR afin de déterminer si des révisions sont nécessaires ou si l'élève continuera à bénéficier des mêmes soutiens." objectOid="wphOnSpedRef02" />
+      <message-resource key="wph.wphOnSpedRef02.wphName" locale="fr_FR" value="Réviser le placement CIPR et la décision d'identification" objectOid="wphOnSpedRef02" />
+    </resources>
+  </phase>
+  <phase id="ONRenIPRCTeam" name="Define IPRC Team" description="Define IPRC Team">
+    <outcome id="OnRenSched" name="Complete" next-phase-id="ONRenSchedMeeting" standard="true">
+      <form-attachment form-id="ON-SPED-TEAM" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef04.wpoIdentifier" locale="en_CA" value="OnRenSched" objectOid="wpoOnSpedRef04" />
+        <message-resource key="wpo.wpoOnSpedRef04.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef04" />
+        <message-resource key="wpo.wpoOnSpedRef04.wpoIdentifier" locale="en_US" value="OnRenSched" objectOid="wpoOnSpedRef04" />
+        <message-resource key="wpo.wpoOnSpedRef04.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef04" />
+        <message-resource key="wpo.wpoOnSpedRef04.wpoIdentifier" locale="fr_FR" value="HorOnRen" objectOid="wpoOnSpedRef04" />
+        <message-resource key="wpo.wpoOnSpedRef04.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef04" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef03.wphDescription" locale="en_CA" value="Define IPRC Team" objectOid="wphOnSpedRef03" />
+      <message-resource key="wph.wphOnSpedRef03.wphName" locale="en_CA" value="Define IPRC Team" objectOid="wphOnSpedRef03" />
+      <message-resource key="wph.wphOnSpedRef03.wphDescription" locale="en_US" value="Define IPRC Team" objectOid="wphOnSpedRef03" />
+      <message-resource key="wph.wphOnSpedRef03.wphName" locale="en_US" value="Define IPRC Team" objectOid="wphOnSpedRef03" />
+      <message-resource key="wph.wphOnSpedRef03.wphDescription" locale="fr_FR" value="Définir l'équipe CIPR" objectOid="wphOnSpedRef03" />
+      <message-resource key="wph.wphOnSpedRef03.wphName" locale="fr_FR" value="Définir l'équipe CIPR" objectOid="wphOnSpedRef03" />
+    </resources>
+  </phase>
+  <phase id="ONRenSchedMeeting" name="Schedule IPRC Meeting" description="Schedule IPRC Meeting">
+    <outcome id="ONRenMeeting" name="Complete" next-phase-id="ONRenHoldMeeting" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="ON-SPED-MTG" sequenceNumber="0" instance-id="A" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef05.wpoIdentifier" locale="en_CA" value="ONRenMeeting" objectOid="wpoOnSpedRef05" />
+        <message-resource key="wpo.wpoOnSpedRef05.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef05" />
+        <message-resource key="wpo.wpoOnSpedRef05.wpoIdentifier" locale="en_US" value="ONRenMeeting" objectOid="wpoOnSpedRef05" />
+        <message-resource key="wpo.wpoOnSpedRef05.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef05" />
+        <message-resource key="wpo.wpoOnSpedRef05.wpoIdentifier" locale="fr_FR" value="RéunionONRen" objectOid="wpoOnSpedRef05" />
+        <message-resource key="wpo.wpoOnSpedRef05.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef05" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef04.wphDescription" locale="en_CA" value="Schedule IPRC Meeting" objectOid="wphOnSpedRef04" />
+      <message-resource key="wph.wphOnSpedRef04.wphName" locale="en_CA" value="Schedule IPRC Meeting" objectOid="wphOnSpedRef04" />
+      <message-resource key="wph.wphOnSpedRef04.wphDescription" locale="en_US" value="Schedule IPRC Meeting" objectOid="wphOnSpedRef04" />
+      <message-resource key="wph.wphOnSpedRef04.wphName" locale="en_US" value="Schedule IPRC Meeting" objectOid="wphOnSpedRef04" />
+      <message-resource key="wph.wphOnSpedRef04.wphDescription" locale="fr_FR" value="Planifier réunion CIPR" objectOid="wphOnSpedRef04" />
+      <message-resource key="wph.wphOnSpedRef04.wphName" locale="fr_FR" value="Planifier réunion CIPR" objectOid="wphOnSpedRef04" />
+    </resources>
+  </phase>
+  <phase id="ONRenHoldMeeting" name="Hold IPRC Meeting" description="Hold IPRC Meeting">
+    <outcome id="Complete" name="Complete" next-phase-id="ONRenSubmit" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="ON-SPED-MTG" sequenceNumber="0" instance-id="A" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef06.wpoIdentifier" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef06" />
+        <message-resource key="wpo.wpoOnSpedRef06.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef06" />
+        <message-resource key="wpo.wpoOnSpedRef06.wpoIdentifier" locale="en_US" value="Complete" objectOid="wpoOnSpedRef06" />
+        <message-resource key="wpo.wpoOnSpedRef06.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef06" />
+        <message-resource key="wpo.wpoOnSpedRef06.wpoIdentifier" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef06" />
+        <message-resource key="wpo.wpoOnSpedRef06.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef06" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef05.wphDescription" locale="en_CA" value="Hold IPRC Meeting" objectOid="wphOnSpedRef05" />
+      <message-resource key="wph.wphOnSpedRef05.wphName" locale="en_CA" value="Hold IPRC Meeting" objectOid="wphOnSpedRef05" />
+      <message-resource key="wph.wphOnSpedRef05.wphDescription" locale="en_US" value="Hold IPRC Meeting" objectOid="wphOnSpedRef05" />
+      <message-resource key="wph.wphOnSpedRef05.wphName" locale="en_US" value="Hold IPRC Meeting" objectOid="wphOnSpedRef05" />
+      <message-resource key="wph.wphOnSpedRef05.wphDescription" locale="fr_FR" value="Tenir une réunion CIPR" objectOid="wphOnSpedRef05" />
+      <message-resource key="wph.wphOnSpedRef05.wphName" locale="fr_FR" value="Tenir une réunion CIPR" objectOid="wphOnSpedRef05" />
+    </resources>
+  </phase>
+  <phase id="ONRenSubmit" name="Submit IPRC for Approval" description="Submit IPRC for Approval">
+    <outcome id="Complete" name="Complete" next-phase-id="ONRenImplement" standard="true" method="submitForApproval">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef07.wpoIdentifier" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef07" />
+        <message-resource key="wpo.wpoOnSpedRef07.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef07" />
+        <message-resource key="wpo.wpoOnSpedRef07.wpoIdentifier" locale="en_US" value="Complete" objectOid="wpoOnSpedRef07" />
+        <message-resource key="wpo.wpoOnSpedRef07.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef07" />
+        <message-resource key="wpo.wpoOnSpedRef07.wpoIdentifier" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef07" />
+        <message-resource key="wpo.wpoOnSpedRef07.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef07" />
+      </resources>
+    </outcome>
+    <outcome id="iepAppeal" name="Appealed" next-phase-id="iepSeab" standard="false">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef08.wpoIdentifier" locale="en_CA" value="iepAppeal" objectOid="wpoOnSpedRef08" />
+        <message-resource key="wpo.wpoOnSpedRef08.wpoName" locale="en_CA" value="Appealed" objectOid="wpoOnSpedRef08" />
+        <message-resource key="wpo.wpoOnSpedRef08.wpoIdentifier" locale="en_US" value="iepAppeal" objectOid="wpoOnSpedRef08" />
+        <message-resource key="wpo.wpoOnSpedRef08.wpoName" locale="en_US" value="Appealed" objectOid="wpoOnSpedRef08" />
+        <message-resource key="wpo.wpoOnSpedRef08.wpoIdentifier" locale="fr_FR" value="AppelPEI" objectOid="wpoOnSpedRef08" />
+        <message-resource key="wpo.wpoOnSpedRef08.wpoName" locale="fr_FR" value="En appel" objectOid="wpoOnSpedRef08" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef06.wphDescription" locale="en_CA" value="Submit IPRC for Approval" objectOid="wphOnSpedRef06" />
+      <message-resource key="wph.wphOnSpedRef06.wphName" locale="en_CA" value="Submit IPRC for Approval" objectOid="wphOnSpedRef06" />
+      <message-resource key="wph.wphOnSpedRef06.wphDescription" locale="en_US" value="Submit IPRC for Approval" objectOid="wphOnSpedRef06" />
+      <message-resource key="wph.wphOnSpedRef06.wphName" locale="en_US" value="Submit IPRC for Approval" objectOid="wphOnSpedRef06" />
+      <message-resource key="wph.wphOnSpedRef06.wphDescription" locale="fr_FR" value="Soumettre CIPR pour approbation" objectOid="wphOnSpedRef06" />
+      <message-resource key="wph.wphOnSpedRef06.wphName" locale="fr_FR" value="Soumettre CIPR pour approbation" objectOid="wphOnSpedRef06" />
+    </resources>
+  </phase>
+  <phase id="ONRenImplement" name="Implement IPRC" description="Implement IPRC">
+    <outcome id="Complete" name="Implement" standard="true" method="implementIep">
+      <form-attachment form-id="ON-SPED-IPRC" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef09.wpoIdentifier" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef09" />
+        <message-resource key="wpo.wpoOnSpedRef09.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRef09" />
+        <message-resource key="wpo.wpoOnSpedRef09.wpoIdentifier" locale="en_US" value="Complete" objectOid="wpoOnSpedRef09" />
+        <message-resource key="wpo.wpoOnSpedRef09.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRef09" />
+        <message-resource key="wpo.wpoOnSpedRef09.wpoIdentifier" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef09" />
+        <message-resource key="wpo.wpoOnSpedRef09.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRef09" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef07.wphDescription" locale="en_CA" value="Implement IPRC" objectOid="wphOnSpedRef07" />
+      <message-resource key="wph.wphOnSpedRef07.wphName" locale="en_CA" value="Implement IPRC" objectOid="wphOnSpedRef07" />
+      <message-resource key="wph.wphOnSpedRef07.wphDescription" locale="en_US" value="Implement IPRC" objectOid="wphOnSpedRef07" />
+      <message-resource key="wph.wphOnSpedRef07.wphName" locale="en_US" value="Implement IPRC" objectOid="wphOnSpedRef07" />
+      <message-resource key="wph.wphOnSpedRef07.wphDescription" locale="fr_FR" value="Mettre en œuvre CIPR" objectOid="wphOnSpedRef07" />
+      <message-resource key="wph.wphOnSpedRef07.wphName" locale="fr_FR" value="Mettre en œuvre CIPR" objectOid="wphOnSpedRef07" />
+    </resources>
+  </phase>
+  <phase id="iepSeab" name="Send to SEAB" description="Send to SEAB">
+    <outcome id="Rejected" name="Rejected" standard="true" method="iepRejected">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRef10.wpoIdentifier" locale="en_CA" value="Rejected" objectOid="wpoOnSpedRef10" />
+        <message-resource key="wpo.wpoOnSpedRef10.wpoName" locale="en_CA" value="Rejected" objectOid="wpoOnSpedRef10" />
+        <message-resource key="wpo.wpoOnSpedRef10.wpoIdentifier" locale="en_US" value="Rejected" objectOid="wpoOnSpedRef10" />
+        <message-resource key="wpo.wpoOnSpedRef10.wpoName" locale="en_US" value="Rejected" objectOid="wpoOnSpedRef10" />
+        <message-resource key="wpo.wpoOnSpedRef10.wpoIdentifier" locale="fr_FR" value="Refusé" objectOid="wpoOnSpedRef10" />
+        <message-resource key="wpo.wpoOnSpedRef10.wpoName" locale="fr_FR" value="Refusé" objectOid="wpoOnSpedRef10" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRef08.wphDescription" locale="en_CA" value="Send to SEAB" objectOid="wphOnSpedRef08" />
+      <message-resource key="wph.wphOnSpedRef08.wphName" locale="en_CA" value="Send to SEAB" objectOid="wphOnSpedRef08" />
+      <message-resource key="wph.wphOnSpedRef08.wphDescription" locale="en_US" value="Send to SEAB" objectOid="wphOnSpedRef08" />
+      <message-resource key="wph.wphOnSpedRef08.wphName" locale="en_US" value="Send to SEAB" objectOid="wphOnSpedRef08" />
+      <message-resource key="wph.wphOnSpedRef08.wphDescription" locale="fr_FR" value="Envoyer à SEAB" objectOid="wphOnSpedRef08" />
+      <message-resource key="wph.wphOnSpedRef08.wphName" locale="fr_FR" value="Envoyer à SEAB" objectOid="wphOnSpedRef08" />
+    </resources>
+  </phase>
+  <resources>
+    <message-resource key="wfd.wfdOnSpedRefer.wfdDescription" locale="en_CA" value="Workflow for renewing a student's IPRC." objectOid="wfdOnSpedRefer" />
+    <message-resource key="wfd.wfdOnSpedRefer.wfdName" locale="en_CA" value="Annual IPRC Review" objectOid="wfdOnSpedRefer" />
+    <message-resource key="wfd.wfdOnSpedRefer.wfdDescription" locale="en_US" value="Workflow for renewing a student's IPRC." objectOid="wfdOnSpedRefer" />
+    <message-resource key="wfd.wfdOnSpedRefer.wfdName" locale="en_US" value="Annual IPRC Review" objectOid="wfdOnSpedRefer" />
+    <message-resource key="wfd.wfdOnSpedRefer.wfdDescription" locale="fr_FR" value="Flux de travail pour renouveler le CIPR d'un élève." objectOid="wfdOnSpedRefer" />
+    <message-resource key="wfd.wfdOnSpedRefer.wfdName" locale="fr_FR" value="Révision annuelle du CIPR" objectOid="wfdOnSpedRefer" />
+  </resources>
+</workflow>
+

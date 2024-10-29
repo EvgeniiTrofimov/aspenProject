@@ -1,0 +1,266 @@
+<tool-input>
+    <input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-SPED-CFIG-SETUP" />
+    <PortableDocument>
+        <extended-data-dictionary id="ORA-MA-SPED-CFIG" category="Special Ed." description="MA IEP Configuration"
+            name="MA IEP Configuration" pd="false" sped="false">
+            <table id="tblOrgAttrib" name="Attributes">
+                <field long-name="Multiple forms must be completed" short-name="Multiple forms" length="1"
+                    sequence-number="10" enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="ora-ma-sped-mult-forms" type="Logical" />
+                <field long-name="Form Required Fields" short-name="FormRequiredFields" length="9999"
+                    sequence-number="20" enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="ora-ma-sped-form-req-fields" type="Text" />
+                <field long-name="Skip Forms" short-name="SkipForms" length="1000" sequence-number="30" enabled="true"
+                    list-edit="false" read-only="false" required="false" update="false" alias="ora-ma-sped-skip-forms"
+                    type="Text" />
+                <field long-name="Report Field Scripts" short-name="ReportScripts" length="0" sequence-number="40"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="ora-ma-rpt-field-scripts" type="Text" />
+            </table>
+        </extended-data-dictionary>
+        <calculated-field name="MA Service Log Provider" description="Populates the all-isl-ServiceProvider field" procedure-id="MA-FLD-CALC-ISL-PROV" field-alias="all-isl-ServiceProvider" />
+        <data-field-config>
+            <table id="tblIEPPlacePrg">
+                <field long-name="Inactive placement programs" short-name="Inactive placement programs" length="1"
+                    sequence-number="260" enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-ipp-Disabled" type="Logical" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblIEPSvcLog">
+                <field long-name="ICD 10" short-name="ICD 10" length="25"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="isvICD10" type="Character" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblIEPSvcLog">
+                <field long-name="Service provider" short-name="Service provider" length="50"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-isl-ServiceProvider" type="Character" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblIEPSvcLog">
+                <field long-name="Service log creator" short-name="Creator" length="50"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-isl-svsLogCreator" type="Character" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblStudent">
+                <field long-name="Medicaid eligible?" short-name="MedEligible?" length="1"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-std-MedicaidEligibleIndicator" type="Logical" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblStudent">
+                <field long-name="Medicaid consent?" short-name="MedConsent?" length="1"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-std-MedicaidConsentIndicator" type="Logical" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblStudent">
+                <field long-name="Medicaid consent received date" short-name="MedConsentDate" length="10"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-std-MedicaidConsentDate" type="Date" />
+            </table>
+        </data-field-config>
+        <data-field-config>
+            <table id="tblStudent">
+                <field long-name="PAMR received date" short-name="PAMR Date" length="10"
+                    enabled="true" list-edit="false" read-only="false" required="false" update="false"
+                    alias="all-std-PAMRReceivedDate" type="Date" />
+            </table>
+        </data-field-config>
+        <workflow-phase>
+        	<update-phase action="true" />
+        </workflow-phase>
+        <field-audit type="1" field-oid="isvStfOID" />
+        <view-template context="district.dst.list.detail" name="MA IEP Configuration" procedureId="MA-VWT-IEP-CFIG">
+            <template>
+                <tab name="tab.organization.details">
+                    <row>
+                        <column>
+                            <property id="orgFscCustID" />
+                            <property id="orgID" />
+                            <property id="orgName" />
+                        </column>
+                    </row>
+                </tab>
+                <tab name="MA IEP Configuration">
+                    <row show-border="false">
+                        <block>
+                            <line>
+                                <cell>
+                                    <text>EMBEDDED_LIST</text>
+                                </cell>
+                            </line>
+                        </block>
+                    </row>
+                </tab>
+            </template>
+        </view-template>
+        <view-template context="district.dst.list.detail.ma.iep" name="MA IEP Configuration Popup">
+            <template>
+                <tab name="tab.tools.prc.list.detail.default">
+                    <row>
+                        <column>
+                            <property alias="ora-ma-sped-mult-forms" />
+                            <property alias="ora-ma-sped-form-req-fields" />
+                            <property alias="ora-ma-sped-skip-forms" />
+                            <property alias="ora-ma-rpt-field-scripts" />
+                        </column>
+                    </row>
+                </tab>
+            </template>
+        </view-template>
+    </PortableDocument>
+    <report-fields>
+        <report-field name="district-address" description="Single line containing address lines 1-3 concatenated together"><![CDATA[
+student = bean.getStudent();
+if (!student) return "Student is null";
+school = student.getSchool();
+if (!school) return "Student School is null";
+organization = school.getOrganization1();
+addressSource = com.follett.fsc.core.k12.business.PreferenceManager.getPreferenceValue(organization, com.x2dev.sis.model.beans.SisPreferenceConstants.SPED_FORM_ADDRESS_SOURCE)
+if (com.x2dev.sis.model.business.sped.SpedConstants.ADDRESS_SOURCE_SCHOOL.equals(addressSource)) {
+    address = school.getAddress();
+} else {
+    if (!organization) return "Student School Organization is null";
+    address = organization.getAddress();
+}
+value = "";
+if (address) {
+    if (address.getAddressLine01()) value +=  address.getAddressLine01() + " ";
+    if (address.getAddressLine02()) value +=  address.getAddressLine02() + " ";
+    if (address.getAddressLine03()) value +=  address.getAddressLine03() + " ";
+}
+return value;
+]]>
+        </report-field>
+        <report-field name="district-contact" description="Single line containing contact name, phone and extension"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+school = staff.getSchool();
+if (!school) return "Staff School is null";
+address = school.getAddress();
+if (!address) return "Staff School Address is null";
+value = "";
+if (staff) value += staff.getNameView() + "   ";
+if (address) value += address.getPhone01() + "   ";
+if (staff && staff.getFieldValueByAlias("extension")) value += "ext. " + staff.getFieldValueByAlias("extension");
+return value;
+]]>
+        </report-field>
+        <report-field name="district-contact-paragraph"
+            description="Contact paragraph including lines 1) School, 2) Concatenated address lines, 3) Phone with extension and 4) Email address"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+student = bean.getStudent();
+if (!student) return "Student is null";
+school = student.getSchool();
+if (!school) return "Student School is null";
+address = school.getAddress();
+if (!address) return "Student School Address is null";
+value = "";
+if (school) value += school.getName();
+value += "<br>";
+if (address) {
+    if (address.getAddressLine01()) value +=  address.getAddressLine01() + " ";
+    if (address.getAddressLine02()) value +=  address.getAddressLine02() + " ";
+    if (address.getAddressLine03()) value +=  address.getAddressLine03() + " ";
+}
+value += "<br>";
+if (address) value += address.getPhone01() + "   ";
+if (staff && staff.getFieldValueByAlias("extension")) value += "ext. " + staff.getFieldValueByAlias("extension");
+value += "<br>";
+if (staff && staff.getPerson() && staff.getPerson().getEmail01()) value += staff.getPerson().getEmail01();
+return value;
+]]>
+        </report-field>
+        <report-field name="district-contact-person" description="Contact person name only"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+value = "";
+if (staff) value += staff.getNameView();
+return value;
+]]>
+        </report-field>
+        <report-field name="district-contact-role" description="Contact person role"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+value = "";
+if (staff) value += staff.getSpedRole();
+return value;
+]]>
+        </report-field>
+        <report-field name="district-contact-person-phone" description="Contact person phone only"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+school = staff.getSchool();
+if (!school) return "Staff School is null";
+address = school.getAddress();
+if (!address) return "Staff School Address is null";
+value = "";
+if (address) value += address.getPhone01() + "   ";
+if (staff && staff.getFieldValueByAlias("extension")) value += "ext. " + staff.getFieldValueByAlias("extension");
+return value;
+]]>
+        </report-field>
+        <report-field name="district-name" description="District Name and optional alternate name"><![CDATA[
+student = bean.getStudent();
+if (!student) return "Student is null";
+school = student.getSchool();
+if (!school) return "Student School is null";
+organization = school.getOrganization1();
+value = organization.getName();
+alternateName = organization.getFieldValueByAlias("alternate-name");
+if (alternateName) {
+    value += ", " + alternateName;
+}
+return value;
+]]>
+        </report-field>
+        <report-field name="district-name-only" description="District Name without optional alternate name"><![CDATA[
+student = bean.getStudent();
+if (!student) return "Student is null";
+school = student.getSchool();
+if (!school) return "Student School is null";
+organization = school.getOrganization1();
+value = organization.getName();
+return value;
+]]>
+        </report-field>
+
+        <report-field name="school-contact-person" description="School contact person name"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+value = staff.getNameView();
+return value;
+]]>
+        </report-field>
+        <report-field name="school-contact-person-phone" description="School contact person phone"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+school = staff.getSchool();
+if (!school) return "Staff School is null";
+address = school.getAddress();
+if (!address) return "Staff School Address is null";
+value = "";
+if (address) value += address.getPhone01() + "   ";
+if (staff && staff.getFieldValueByAlias("extension")) value += "ext. " + staff.getFieldValueByAlias("extension");
+return value;
+]]>
+        </report-field>
+        <report-field name="school-contact-role" description="School contact person role"><![CDATA[
+staff = bean.getStaff();
+if (!staff) return "Staff is null";
+value = staff.getSpedRole();
+return value;
+]]>
+        </report-field>
+    </report-fields>
+</tool-input>

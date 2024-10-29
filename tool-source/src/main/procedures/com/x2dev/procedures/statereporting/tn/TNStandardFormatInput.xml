@@ -1,0 +1,59 @@
+ <!-- ******************************************************************************************************************************** -->
+<!-- REPORT INPUT DEFINITIONS FOR THE "TN STANDARD FORMAT (TSF - WHICH UTILIZES PESC DATA FIELDS)" EXPORT Customized FOR TN Jefferson -->
+<!-- ******************************************************************************************************************************** -->
+
+<tool-input allow-school-select="true" context="com.x2dev.sis.model.beans.SisStudent" district-support="false">
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="integer" display-type="select" display-name="report.shared.query">
+  <option value="0" display-name="report.shared.query.currentSelection" context-dependent="true"/>
+  <option value="1" display-name="report.shared.query.yog"/>
+  <disable input-name="queryString" if-parent-equals="0" />
+  <disable input-name="statuses" if-parent-equals="0" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString"/>
+ 
+ <!-- ******** -->
+ <!-- STATUSES -->
+ <!-- ******** -->
+
+ <input name="statuses" data-type="string" display-type="picklist" display-name="Enrollment Statuses" required="false">
+   <picklist field-id="rcdCode" multiple="true" required="false">
+     <field id="rcdCode" sort="true" />
+     <filter field="rcdRtbOID" operator="equals" value="rtbEnrStatus">
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     </filter>
+   </picklist>
+ </input>
+
+ <!-- ************** -->
+ <!-- GPA DEFINITION -->
+ <!-- ************** -->
+
+ <input name="gpaUnweightedOid" data-type="string" display-type="picklist" display-name="Unweighted GPA">
+   <picklist field-id="gpdName">
+     <field id="gpdName" sort="true" />
+   </picklist>
+ </input>
+ 
+ <input name="gpaWeightedOid" data-type="string" display-type="picklist" display-name="Weighted GPA" required="false" >
+   <picklist field-id="gpdName" required="false">
+     <field id="gpdName" sort="true" />
+   </picklist>
+ </input>
+
+ <!-- ************************************************************ -->
+ <!-- TEST NAMES                                                   -->
+ <!-- ************************************************************ -->
+
+ <input name="testScores" data-type="string" display-type="picklist" display-name="Test Scores to include" required="false">
+   <picklist field-id="asdName" multiple="true" required="false">
+     <field id="asdName" sort="true" />
+     <filter alias="all-asd-StandardFormatConfiguration" operator="notEmpty" />
+   </picklist>
+ </input>
+ 
+</tool-input>

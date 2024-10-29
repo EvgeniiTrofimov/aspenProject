@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport name="PlacementFormPL2_3to5N" columnCount="1" printOrder="Vertical" orientation="Portrait"
+    pageWidth="612" pageHeight="792" columnWidth="612" columnSpacing="0" leftMargin="0" rightMargin="0" topMargin="0"
+    bottomMargin="0" whenNoDataType="NoPages" isTitleNewPage="false" isSummaryNewPage="false">
+    <property name="ireport.zoom" value="1.4641000000000144" />
+    <property name="ireport.x" value="0" />
+    <property name="ireport.y" value="332" />
+    <property name="ireport.scriptlethandling" value="0" />
+    <property name="ireport.encoding" value="UTF-8" />
+    <import value="java.util.*" />
+    <import value="net.sf.jasperreports.engine.*" />
+    <import value="net.sf.jasperreports.engine.data.*" />
+    <import value="com.x2dev.utils.*" />
+
+    <style name="no1">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(!StringUtils.isBlank($F{a:pl2-ec-inclusive}) && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"NO"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+    <style name="yes1">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(!StringUtils.isBlank($F{a:pl2-ec-inclusive}) && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"YES"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+
+    <style name="less10">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"YES") && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive-10},"NO"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+    <style name="more10">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"YES") && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive-10},"YES"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+
+    <style name="disabNo">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"NO") && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ex-disab},"NO"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+    <style name="disabYes">
+        <conditionalStyle>
+            <conditionExpression><![CDATA[new Boolean(StringUtils.isEqualsIgnoreCase($F{a:pl2-ec-inclusive},"NO") && !StringUtils.isEqualsIgnoreCase($F{a:pl2-ex-disab},"YES"))]]></conditionExpression>
+            <style forecolor="#CCCCCC" />
+        </conditionalStyle>
+    </style>
+
+    <parameter name="school" isForPrompting="true" class="com.follett.fsc.core.k12.beans.School" />
+    <parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat" />
+    <parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat" />
+    <parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization" />
+    <parameter name="schoolContext" isForPrompting="true" class="java.lang.Boolean" />
+    <parameter name="dictionary" isForPrompting="false" class="com.follett.fsc.core.k12.business.dictionary.DataDictionary" />
+    <parameter name="locale" isForPrompting="false" class="java.util.Locale" />
+    <parameter name="blank" isForPrompting="false" class="java.lang.Boolean" />
+
+    <field name="owner.student.school.address.addressLine01" class="java.lang.String" />
+    <field name="owner.student.school.address.addressLine02" class="java.lang.String" />
+    <field name="owner.student.school.address.addressLine03" class="java.lang.String" />
+    <field name="owner.student.school.organization1.address.addressLine01" class="java.lang.String" />
+    <field name="owner.student.school.organization1.address.addressLine02" class="java.lang.String" />
+    <field name="owner.student.school.organization1.address.addressLine03" class="java.lang.String" />
+    <field name="owner.student.nameView" class="java.lang.String" />
+    <field name="owner.student.person.dob" class="java.lang.String" />
+    <field name="owner.student.localId" class="java.lang.String" />
+    <field name="owner.student.stateId" class="java.lang.String" />
+    <field name="owner.staff.nameView" class="java.lang.String" />
+    <field name="owner.staff.school.address.phone01" class="java.lang.String" />
+    <field name="a:owner.staff.extension" class="java.lang.String" />
+    <field name="owner.startDate" class="java.lang.String" />
+    <field name="owner.endDate" class="java.lang.String" />
+    <field name="a:placement-primary-setting" class="java.lang.String" />
+    <field name="a:placement-service-provider" class="java.lang.String" />
+    <field name="a:placement-service-percentage" class="java.lang.String" />
+    <field name="a:level-of-need" class="java.lang.String" />
+    <field name="owner.student.school.name" class="java.lang.String" />
+    <field name="primaryDisability.disabilityCode" class="java.lang.String" />
+    <field name="a:placement-ec-attends" class="java.lang.String" />
+    <field name="a:placement-ec-percent" class="java.lang.String" />
+    <field name="a:placement-ec-exclusive-pgm" class="java.lang.String" />
+    <field name="a:placement-ec-exclusive-pgm-loc" class="java.lang.String" />
+    <field name="a:placement-ec-home-services" class="java.lang.String" />
+    <field name="at:educational-environment-ec" class="java.lang.String" />
+    <field name="a:pl2-ec-inclusive" class="java.lang.String" />
+    <field name="a:pl2-ec-inclusive-10" class="java.lang.String" />
+    <field name="a:pl2-ex-disab" class="java.lang.String" />
+    <field name="masped:district-name:owner" class="java.lang.String" />
+
+    <background>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </background>
+    <title>
+        <band height="792" isSplitAllowed="true">
+            <rectangle>
+                <reportElement mode="Transparent" x="375" y="407" width="105" height="296" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="19" y="96" width="568" height="33" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="22" y="138" width="557" height="24" backcolor="#000000" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="22" y="162" width="557" height="23" forecolor="#999999" backcolor="#999999"
+                    key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="33" y="577" width="298" height="117" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="116" y="207" width="390" height="29" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="166" y="245" width="31" height="18" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="436" y="245" width="31" height="18" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="78" y="273" width="226" height="43" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="347" y="272" width="242" height="45" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="45" y="326" width="105" height="20" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="204" y="326" width="105" height="20" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="45" y="362" width="103" height="26" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="204" y="362" width="108" height="26" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="23" y="406" width="71" height="145" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="99" y="406" width="71" height="145" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="188" y="407" width="71" height="145" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="264" y="407" width="77" height="145" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="379" y="326" width="95" height="62" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="495" y="326" width="94" height="62" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement mode="Transparent" x="490" y="407" width="99" height="143" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <staticText>
+                <reportElement x="485" y="771" width="100" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" />
+                </textElement>
+                <text><![CDATA[PL2 (3-5) Revised 10/11]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="47" width="612" height="17" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" pdfFontName="Helvetica-Bold" size="14" isBold="true" />
+                </textElement>
+                <text><![CDATA[Educational Environment / Placement - PL2: 3-5 year olds]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="225" y="75" width="185" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Arial" pdfFontName="Helvetica" size="9" isBold="false" isItalic="true" />
+                </textElement>
+                <text><![CDATA[(For school district record keeping only)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="21" y="98" width="41" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[District:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="279" y="98" width="37" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[School:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="21" y="113" width="41" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[Student:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="279" y="113" width="37" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[SASID:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="382" y="113" width="52" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[IEP Dates:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="113" width="19" height="15" key="staticText" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[To:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="40" y="148" width="514" height="13" forecolor="#FFFFFF" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[FOR DATA COLLECTION PURPOSES ONLY - STUDENT INFORMATION MANAGEMENT SYSTEM (SIMS)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="80" y="170" width="441" height="13" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true" />
+                </textElement>
+                <text><![CDATA[Clearly indicate the final DOE code that corresponds with the student's placement]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="more10" x="45" y="326" width="106" height="20" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" />
+                </textElement>
+                <text><![CDATA[10 or more hours/week]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="no1" x="435" y="245" width="32" height="17" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[NO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="less10" x="204" y="326" width="105" height="20" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" />
+                </textElement>
+                <text><![CDATA[Less than 10 hours/week]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="380" y="409" width="100" height="24" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Substantially Separate Classroom]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="382" y="472" width="100" height="29" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Public Separate Day Program]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="381" y="599" width="81" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Residential School]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="495" y="410" width="82" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Home]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="496" y="472" width="90" height="48" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Service Provider Location or some other location not in any other category]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="28" y="409" width="62" height="67" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[IEP services provided in inclusive setting majority of the time (> 50%)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="28" y="513" width="55" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=31)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="105" y="409" width="62" height="97" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[IEP services provided in inclusive setting 0 to 50% of time (e.g. special education service provided in another location)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="108" y="513" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032= 30)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="409" width="63" height="89" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[IEP services provided in inclusive setting majority of the time (> 50%)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="193" y="513" width="57" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=34)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="409" width="68" height="94" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[IEP services provided in inclusive setting 0 to 50% of the time (e.g. special education service provided in another location)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="513" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=32)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="72" y="580" width="232" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="11" isBold="false" />
+                </textElement>
+                <text><![CDATA[*Definition of Inclusive Early Childhood Program]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="40" y="593" width="286" height="95" key="staticText" />
+                <box></box>
+                <textElement isStyledText="true" markup="styled">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="11" isBold="false" />
+                </textElement>
+                <text><![CDATA[An <style isBold="true" isUnderline="false"  pdfFontName="Times-Bold">inclusive early childhood program</style> is defined as a program that includes a majority (at least 50%) of children not on IEPs. This may include, but is not limited to a public preschool class, a public kindergarten class, a private preschool or kindergarten, Head Start, or other child care programs, such as a family child care program, nursery school or center-based child care program.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="348" y="277" width="241" height="31" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle" isStyledText="true">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" />
+                </textElement>
+                <text><![CDATA[If <style isBold="true" isUnderline="false"  pdfFontName="Times-Bold">NO</style>: Does the child attend a program exclusively serving children with disabilities, in order to receive IEP services?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="disabNo" x="502" y="328" width="81" height="56" key="staticText" />
+                <box></box>
+                <textElement isStyledText="true">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[If <style isBold="true" isUnderline="false"  pdfFontName="Times-Bold">NO,</style>
+What is the location where IEP services are provided?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="disabYes" x="387" y="328" width="86" height="60" key="staticText" />
+                <box></box>
+                <textElement isStyledText="true">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[If <style isBold="true" isUnderline="false"  pdfFontName="Times-Bold">YES,</style>
+What is the location where IEP services are provided? Please only check one box.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="yes1" x="167" y="244" width="30" height="19" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[YES]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="85" y="278" width="208" height="31" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle" isStyledText="true">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="10" isBold="false" />
+                </textElement>
+                <text><![CDATA[If <style isBold="true" isUnderline="false"  pdfFontName="Times-Bold">YES</style>: How many hours does the child attend an inclusive early childhood program?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="45" y="362" width="103" height="27" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Where are the IEP services delivered?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="204" y="362" width="108" height="27" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Where are the IEP services delivered?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="381" y="535" width="100" height="28" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Private Separate Day Program]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="382" y="652" width="84" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="9" isBold="false" />
+                </textElement>
+                <text><![CDATA[Institutional Facility]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="117" y="207" width="389" height="29" key="staticText" />
+                <box></box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Times New Roman" pdfFontName="Times-Roman" size="12" isBold="false" />
+                </textElement>
+                <text><![CDATA[Is the child with an IEP attending an inclusive early childhood program*?]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="399" y="442" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=36)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="399" y="505" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=38)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="396" y="567" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=42)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="397" y="621" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=44)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="396" y="675" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=45)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="512" y="432" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=46)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="512" y="525" width="62" height="13" key="staticText" />
+                <box></box>
+                <textElement>
+                    <font fontName="Times New Roman" pdfFontName="Times-Bold" size="9" isBold="true" />
+                </textElement>
+                <text><![CDATA[(DOE032=48)]]></text>
+            </staticText>
+            <line direction="TopDown">
+                <reportElement x="375" y="469" width="105" height="1" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="375" y="532" width="105" height="1" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="375" y="595" width="105" height="1" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="375" y="649" width="105" height="1" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="490" y="469" width="99" height="1" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="181" y="236" width="1" height="9" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="181" y="263" width="1" height="10" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="105" y="316" width="1" height="10" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="253" y="316" width="1" height="10" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="61" y="346" width="1" height="16" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="127" y="346" width="1" height="16" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="61" y="388" width="1" height="18" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="127" y="388" width="1" height="18" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="231" y="346" width="1" height="16" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="292" y="346" width="1" height="16" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="231" y="388" width="1" height="19" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="292" y="388" width="1" height="19" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="451" y="236" width="1" height="9" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="451" y="263" width="1" height="9" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="424" y="317" width="1" height="9" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="539" y="317" width="1" height="9" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="424" y="388" width="1" height="19" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="539" y="388" width="1" height="19" key="line" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" />
+                </graphicElement>
+            </line>
+            <rectangle>
+                <reportElement x="54" y="531" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="132" y="533" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="219" y="531" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="299" y="531" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="384" y="442" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="384" y="507" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="384" y="569" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="384" y="623" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="384" y="677" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="499" y="434" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <rectangle>
+                <reportElement x="499" y="527" width="8" height="8" key="rectangle" />
+                <graphicElement stretchType="NoStretch" />
+            </rectangle>
+            <line direction="TopDown">
+                <reportElement x="179" y="242" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="181" y="242" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="181" y="269" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="179" y="269" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="451" y="242" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="449" y="242" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="451" y="268" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="449" y="268" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="105" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="103" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="253" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="251" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="61" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="59" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="127" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="125" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="229" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="231" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="292" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="290" y="359" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="61" y="403" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="59" y="403" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="127" y="403" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="125" y="403" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="231" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="229" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="290" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="292" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="422" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="424" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="537" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="539" y="323" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="424" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="422" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="TopDown">
+                <reportElement x="537" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <line direction="BottomUp">
+                <reportElement x="539" y="404" width="3" height="3" key="line" />
+                <graphicElement stretchType="NoStretch" />
+            </line>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="62" y="99" width="216" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{masped:district-name:owner}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="316" y="99" width="269" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{owner.student.school.name}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="62" y="114" width="216" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{owner.student.nameView}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="316" y="114" width="66" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{owner.student.stateId}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="434" y="114" width="66" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{owner.startDate}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="519" y="114" width="66" height="15" key="textField" />
+                <box></box>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Courier New" pdfFontName="Courier-Bold" size="10" isBold="true" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{owner.endDate}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="54" y="527" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["31".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="132" y="529" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["30".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="219" y="527" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["34".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="299" y="527" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["32".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="383" y="438" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["36".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="383" y="565" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["42".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="383" y="503" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["38".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="383" y="619" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["44".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="383" y="673" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["45".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="498" y="430" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["46".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="498" y="523" width="15" height="15" key="textField" />
+                <box></box>
+                <textElement>
+                    <font pdfFontName="ZapfDingbats" size="11" />
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["48".equalsIgnoreCase($F{at:educational-environment-ec}) ? "4" : ""]]></textFieldExpression>
+            </textField>
+            <line direction="TopDown">
+                <reportElement x="28" y="511" width="60" height="0" key="line-1" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="0.5" lineStyle="Dashed" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="104" y="511" width="60" height="0" key="line-2" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="0.5" lineStyle="Dashed" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="194" y="511" width="60" height="0" key="line-3" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="0.5" lineStyle="Dashed" />
+                </graphicElement>
+            </line>
+            <line direction="TopDown">
+                <reportElement x="271" y="511" width="60" height="0" key="line-4" />
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="0.5" lineStyle="Dashed" />
+                </graphicElement>
+            </line>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </summary>
+</jasperReport>

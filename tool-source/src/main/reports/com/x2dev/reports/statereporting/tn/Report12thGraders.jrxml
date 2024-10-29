@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport name="Report12thGraders" columnCount="1" printOrder="Vertical" orientation="Landscape"
+    pageWidth="792" pageHeight="612" columnWidth="720" columnSpacing="0" leftMargin="36" rightMargin="36" topMargin="36"
+    bottomMargin="36" whenNoDataType="NoPages" isFloatColumnFooter="true" isTitleNewPage="false" isSummaryNewPage="false"
+    whenResourceMissingType="Key">
+    <property name="ireport.scriptlethandling" value="0"/>
+    <property name="ireport.encoding" value="UTF-8"/>
+    <import value="java.util.*"/>
+    <import value="net.sf.jasperreports.engine.*"/>
+    <import value="net.sf.jasperreports.engine.data.*"/>
+    <import value="com.x2dev.utils.*"/>
+
+    <parameter name="schoolYear" isForPrompting="true" class="com.follett.fsc.core.k12.beans.DistrictSchoolYearContext"/>
+    <parameter name="isSped" isForPrompting="false" class="java.lang.Boolean"/>
+
+    <field name="M_hispanic" class="java.lang.Integer"/>
+    <field name="M_W" class="java.lang.Integer"/>
+    <field name="M_B" class="java.lang.Integer"/>
+    <field name="M_A" class="java.lang.Integer"/>
+    <field name="M_I" class="java.lang.Integer"/>
+    <field name="M_P" class="java.lang.Integer"/>
+    <field name="F_hispanic" class="java.lang.Integer"/>
+    <field name="F_W" class="java.lang.Integer"/>
+    <field name="F_B" class="java.lang.Integer"/>
+    <field name="F_A" class="java.lang.Integer"/>
+    <field name="F_I" class="java.lang.Integer"/>
+    <field name="F_P" class="java.lang.Integer"/>
+    <field name="tableRowNumber" class="java.lang.String"/>
+    <field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+    <field name="graduationPeriod" class="java.lang.String"/>
+    <field name="tableRowDescription" class="java.lang.String"/>
+
+    <variable name="M_hispanic" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod"
+        calculation="Sum">
+        <variableExpression><![CDATA[$F{M_hispanic}]]></variableExpression>
+    </variable>
+    <variable name="M_W" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{M_W}]]></variableExpression>
+    </variable>
+    <variable name="M_B" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{M_B}]]></variableExpression>
+    </variable>
+    <variable name="M_A" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{M_A}]]></variableExpression>
+    </variable>
+    <variable name="M_I" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{M_I}]]></variableExpression>
+    </variable>
+    <variable name="M_P" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{M_P}]]></variableExpression>
+    </variable>
+    <variable name="M_ALL" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod"
+        calculation="Sum">
+        <variableExpression><![CDATA[Integer.valueOf(
+	$F{M_W}.intValue() +
+	$F{M_B}.intValue() +
+	$F{M_hispanic}.intValue() +
+	$F{M_A}.intValue() +
+	$F{M_I}.intValue() +
+	$F{M_P}.intValue()
+)]]></variableExpression>
+    </variable>
+    <variable name="F_hispanic" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod"
+        calculation="Sum">
+        <variableExpression><![CDATA[$F{F_hispanic}]]></variableExpression>
+    </variable>
+    <variable name="F_W" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{F_W}]]></variableExpression>
+    </variable>
+    <variable name="F_B" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{F_B}]]></variableExpression>
+    </variable>
+    <variable name="F_A" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{F_A}]]></variableExpression>
+    </variable>
+    <variable name="F_I" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{F_I}]]></variableExpression>
+    </variable>
+    <variable name="F_P" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod" calculation="Sum">
+        <variableExpression><![CDATA[$F{F_P}]]></variableExpression>
+    </variable>
+    <variable name="F_ALL" class="java.lang.Integer" resetType="Group" resetGroup="graduationPeriod"
+        calculation="Sum">
+        <variableExpression><![CDATA[Integer.valueOf(
+	$F{F_W}.intValue() +
+	$F{F_B}.intValue() +
+	$F{F_hispanic}.intValue() +
+	$F{F_A}.intValue() +
+	$F{F_I}.intValue() +
+	$F{F_P}.intValue()
+)]]></variableExpression>
+    </variable>
+    <variable name="gradPer" class="java.lang.String" resetType="Group" resetGroup="graduationPeriod"
+        calculation="Nothing">
+        <variableExpression><![CDATA["SP".equals($F{graduationPeriod}) ? "Spring" :
+"SU".equals($F{graduationPeriod}) ? "Summer" : "Early"]]></variableExpression>
+    </variable>
+
+    <group name="school" isStartNewPage="true">
+        <groupExpression><![CDATA[$F{school}]]></groupExpression>
+        <groupHeader>
+            <band height="0" isSplitAllowed="true">
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="0" isSplitAllowed="true">
+            </band>
+        </groupFooter>
+    </group>
+    <group name="graduationPeriod" isStartNewPage="true">
+        <groupExpression><![CDATA[$F{graduationPeriod}]]></groupExpression>
+        <groupHeader>
+            <band height="0" isSplitAllowed="true">
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="0" isSplitAllowed="true">
+            </band>
+        </groupFooter>
+    </group>
+    <background>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </background>
+    <title>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </title>
+    <pageHeader>
+        <band height="242" isSplitAllowed="false">
+            <rectangle>
+                <reportElement mode="Transparent" x="0" y="30" width="720" height="52" key="rectangle-1"/>
+                <graphicElement stretchType="NoStretch">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="120" y="183" width="40" height="43" key="staticText-19"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[White 
+(not of Hispanic origin)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="160" y="183" width="40" height="43" key="staticText-20"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Black 
+(not of Hispanic origin)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="200" y="183" width="40" height="43" key="staticText-21"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Hispanic]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="240" y="183" width="40" height="43" key="staticText-22"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Asian]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="183" width="40" height="43" key="staticText-23"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Pacific Islander]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="320" y="183" width="40" height="43" key="staticText-24"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[American Indian or Alaskan Native]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="183" width="40" height="43" key="staticText-25"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Total Males]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="411" y="31" width="101" height="16" key="staticText-35"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[District Number]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="560" y="31" width="99" height="16" key="staticText-36"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[School Number]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="213" y="31" width="46" height="16" key="staticText-37"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[District]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="2" y="31" width="44" height="16" key="staticText-38"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[School]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="512" y="31" width="48" height="16" key="textField-17"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getOrganization1().getId()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="659" y="31" width="60" height="16" key="textField-18"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getFieldA001()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="259" y="31" width="152" height="16" key="textField-19"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getOrganization1().getName()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="47" y="31" width="166" height="16" key="textField-20"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getName()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="384" y="47" width="88" height="16" key="staticText-41"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[City & Zip Code]]></text>
+            </staticText>
+            <staticText>
+                <reportElement mode="Transparent" x="2" y="47" width="50" height="16" key="staticText-42"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Address]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="473" y="47" width="246" height="16" key="textField-38"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getAddress().getAddressLine03()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="52" y="47" width="332" height="16" key="textField-39"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getAddress().getAddressLine01()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="2" y="63" width="95" height="16" key="staticText-43"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Phone Number]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="97" y="63" width="124" height="16" key="textField-40"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{school}.getAddress().getPhone01()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="222" y="63" width="122" height="16" key="staticText-44"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Graduation Period]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="344" y="63" width="146" height="16" key="textField-41"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["SP".equals($F{graduationPeriod}) ? "Spring" :
+"SU".equals($F{graduationPeriod}) ? "Summer" : "Early"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement mode="Transparent" x="489" y="63" width="83" height="16" key="staticText-45"/>
+                <box leftPadding="2" bottomPadding="1"></box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[School Year]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement mode="Transparent" x="572" y="63" width="147" height="16" key="textField-42"/>
+                <box leftPadding="2" bottomPadding="1">
+                    <pen lineWidth="0.0" lineStyle="Solid"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="0.25" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$P{schoolYear}.getContextId()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="82" width="720" height="71" key="textField-43"/>
+                <box leftPadding="5" topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement verticalAlignment="Middle" isStyledText="true">
+                    <font pdfFontName="Helvetica" size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["• Please complete the following table for 12<font size=\"8\"><sup>th</sup></font> graders. If you have questions, contact Bonnie Bailey or Glen Smith at (615) 532-4705.\n" +
+"• You should account for all 12<font size=\"8\"><sup>th</sup></font> graders who are on your rolls on graduation day. Do " + "<style isBold='true' pdfFontName='Helvetica-Bold'>" + "not" + "</style>" + " include adult high school students.\n"+
+"• 12th graders who do not graduate this " + $V{gradPer} +  " period should be counted in Section V.\n"+
+"<style isBold='true' pdfFontName='Helvetica-Bold'>" + "• Roster of Graduate forms must be submitted to support this report." + "</style>"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="400" y="183" width="40" height="43" key="staticText-46"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[White 
+(not of Hispanic origin)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="440" y="183" width="40" height="43" key="staticText-47"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Black 
+(not of Hispanic origin)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="480" y="183" width="40" height="43" key="staticText-48"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Hispanic]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="520" y="183" width="40" height="43" key="staticText-49"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Asian]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="560" y="183" width="40" height="43" key="staticText-50"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Pacific Islander]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="600" y="183" width="40" height="43" key="staticText-51"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[American Indian or Alaskan Native]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="640" y="183" width="40" height="43" key="staticText-52"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Total Females]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="680" y="183" width="40" height="43" key="staticText-53"/>
+                <box leftPadding="4" bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Total
+(Sum of
+Columns
+G and N)]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="120" y="163" width="280" height="20" key="staticText-54"/>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Males]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="163" width="280" height="20" key="staticText-55"/>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Females]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="680" y="163" width="40" height="20" key="staticText-56"/>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Totals]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="120" y="226" width="40" height="16" key="staticText-57"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[A]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="160" y="226" width="40" height="16" key="staticText-58"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[B]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="200" y="226" width="40" height="16" key="staticText-59"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[C]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="240" y="226" width="40" height="16" key="staticText-60"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[D]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="280" y="226" width="40" height="16" key="staticText-61"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[E]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="320" y="226" width="40" height="16" key="staticText-62"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[F]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="226" width="40" height="16" key="staticText-63"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[G]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="226" width="40" height="16" key="staticText-64"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[H]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="440" y="226" width="40" height="16" key="staticText-65"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[I]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="480" y="226" width="40" height="16" key="staticText-66"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[J]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="520" y="226" width="40" height="16" key="staticText-67"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[K]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="560" y="226" width="40" height="16" key="staticText-68"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[L]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="600" y="226" width="40" height="16" key="staticText-69"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[M]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="640" y="226" width="40" height="16" key="staticText-70"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[N]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="680" y="226" width="40" height="16" key="staticText-71"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[O]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="226" width="120" height="16" key="staticText-72"/>
+                <box bottomPadding="1">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[
+                ]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="0" width="720" height="30" key="textField-46"/>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle" isStyledText="true">
+                    <font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["REPORT OF 12<font size=\"8\"><sup>TH</sup></font> GRADERS"]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="18" isSplitAllowed="true">
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="200" y="0" width="40" height="18" key="textField-2" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_hispanic}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="120" y="0" width="40" height="18" key="textField-3" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_W}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="160" y="0" width="40" height="18" key="textField-4" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_B}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="240" y="0" width="40" height="18" key="textField-5" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_A}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="280" y="0" width="40" height="18" key="textField-6" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_P}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="320" y="0" width="40" height="18" key="textField-7" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{M_I}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="360" y="0" width="40" height="18" key="textField-8" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(
+	$F{M_W}.intValue() +
+	$F{M_B}.intValue() +
+	$F{M_hispanic}.intValue() +
+	$F{M_A}.intValue() +
+	$F{M_I}.intValue() +
+	$F{M_P}.intValue()
+)]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="480" y="0" width="40" height="18" key="textField-9" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_hispanic}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="400" y="0" width="40" height="18" key="textField-10" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_W}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="440" y="0" width="40" height="18" key="textField-11" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_B}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="520" y="0" width="40" height="18" key="textField-12" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_A}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="560" y="0" width="40" height="18" key="textField-13" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_P}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="600" y="0" width="40" height="18" key="textField-14" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$F{F_I}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="640" y="0" width="40" height="18" key="textField-15" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(
+	$F{F_W}.intValue() +
+	$F{F_B}.intValue() +
+	$F{F_hispanic}.intValue() +
+	$F{F_A}.intValue() +
+	$F{F_I}.intValue() +
+	$F{F_P}.intValue()
+)]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="680" y="0" width="40" height="18" key="textField-16" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(
+	$F{M_W}.intValue() +
+	$F{M_B}.intValue() +
+	$F{M_hispanic}.intValue() +
+	$F{M_A}.intValue() +
+	$F{M_I}.intValue() +
+	$F{M_P}.intValue() +
+
+	$F{F_W}.intValue() +
+	$F{F_B}.intValue() +
+	$F{F_hispanic}.intValue() +
+	$F{F_A}.intValue() +
+	$F{F_I}.intValue() +
+	$F{F_P}.intValue()
+)]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="20" y="0" width="100" height="18" key="textField-44" stretchType="RelativeToBandHeight"/>
+                <box topPadding="5" bottomPadding="2">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Top" isStyledText="true">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{tableRowDescription}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="0" width="20" height="18" key="textField-45" stretchType="RelativeToBandHeight"/>
+                <box leftPadding="4" topPadding="5">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Left" verticalAlignment="Top" isStyledText="true">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["1".equals($F{tableRowNumber}) ? "I." :
+"2".equals($F{tableRowNumber}) ? "II." :
+"3".equals($F{tableRowNumber}) ? "III." :
+"4".equals($F{tableRowNumber}) ? "IV." :
+"5".equals($F{tableRowNumber}) ? "V." :
+"6".equals($F{tableRowNumber}) ? "VI." :
+"7".equals($F{tableRowNumber}) ? "VII." :
+"8".equals($F{tableRowNumber}) ? "VIII." :
+"9".equals($F{tableRowNumber}) ? "IX." :
+"10".equals($F{tableRowNumber}) ? "X." :
+"11".equals($F{tableRowNumber}) ? "XI." :
+"12".equals($F{tableRowNumber}) ? "XII." :
+"13".equals($F{tableRowNumber}) ? "XIII." :
+"14".equals($F{tableRowNumber}) ? "XIV." :
+"15".equals($F{tableRowNumber}) ? "XV." : ""]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="79" isSplitAllowed="true">
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="200" y="12" width="40" height="25" key="textField-23" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_hispanic}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="120" y="12" width="40" height="25" key="textField-24" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_W}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="160" y="12" width="40" height="25" key="textField-25" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_B}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="240" y="12" width="40" height="25" key="textField-26" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_A}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="320" y="12" width="40" height="25" key="textField-27" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_I}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="280" y="12" width="40" height="25" key="textField-28" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_P}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="360" y="12" width="40" height="25" key="textField-29" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{M_ALL}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="480" y="12" width="40" height="25" key="textField-30" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_hispanic}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="400" y="12" width="40" height="25" key="textField-31" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_W}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="440" y="12" width="40" height="25" key="textField-32" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_B}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="520" y="12" width="40" height="25" key="textField-33" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_A}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="600" y="12" width="40" height="25" key="textField-34" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_I}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="560" y="12" width="40" height="25" key="textField-35" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_P}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="640" y="12" width="40" height="25" key="textField-36" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[$V{F_ALL}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Group"
+                evaluationGroup="graduationPeriod" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="680" y="12" width="40" height="25" key="textField-37" stretchType="RelativeToBandHeight"/>
+                <box bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica" size="8" isBold="false"/>
+                </textElement>
+                <textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf( $V{M_ALL}.intValue() + $V{F_ALL}.intValue())]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="12" width="120" height="25" key="staticText-40"/>
+                <box leftPadding="4" topPadding="5" bottomPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement verticalAlignment="Bottom">
+                    <font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[GRAND TOTAL]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="51" width="720" height="28" key="staticText-73"/>
+                <box leftPadding="4">
+                    <pen lineWidth="1.0" lineStyle="Solid"/>
+                    <topPen lineWidth="1.0" lineStyle="Solid"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid"/>
+                </box>
+                <textElement>
+                    <font/>
+                </textElement>
+                <text><![CDATA[I certify that data on this form have been verified and are accurate.
+Principal’s Signature___________________________________________________Superintendent’s Signature____________________________________]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </summary>
+</jasperReport>

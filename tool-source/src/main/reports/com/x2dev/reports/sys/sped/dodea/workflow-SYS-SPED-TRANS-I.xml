@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="SYS-SPED-TRANS" name="Transfer from DoDEA" category="Special Ed." selection-type="1" owner-table="tblIEPData" selection-table="tblStudent" owner-phase-field="iepWFPhase" sped="true" procedure-id="SYS-SPED-DOD-TRAN21">
+  <description>New workflow for transfer of IEP from DoDEA school</description>
+  <workflow-filters>
+    <filter connector="and" field="relStdSklOid.sklOID" operator="equalsIgnoreCase" source="session" value="user.person.staff.schoolOid" />
+    <filter connector="or" field="relStdSklOid.sklOID" operator="in" source="session" value="user.person.staff.fieldD005" />
+  </workflow-filters>
+  <phase id="wphCSCInitTransDoDEA" name="Initiate transfer from DoDEA" portlet-display="true">
+    <outcome id="DoDEAwpoCSCInitTrans" name="Continue" next-phase-id="recTranIEP" standard="true" alignment-id="Create">
+      <form-attachment form-id="SPED-REN" sequenceNumber="0" />
+    </outcome>
+    <participant security-role="SUR000000800nz" />
+  </phase>
+  <phase id="recTranIEP" name="Received Transfer IEP Date -- 1TD" portlet-display="true">
+    <outcome id="1TDIEPRec" name="All actions should be completed within 30 days of receipt of incoming IEP" next-phase-id="wphCSCTeam" standard="true" />
+  </phase>
+  <phase id="wphCSCTeam" name="Confirm Team -- 2TD" portlet-display="true">
+    <outcome id="2TDwpoCSCTeam" name="Continue" next-phase-id="wphCSCSchedMtg" standard="true">
+      <form-attachment form-id="TEAM" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedMtg" name="Schedule Internal Review/Comparable Services Meeting - Provide PWN -- 3TD" portlet-display="true">
+    <outcome id="3TDwpoCSCSchedMtg" name="Continue" next-phase-id="wphCSCConveneMtg" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="A " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConveneMtg" name="Convene Internal Review/Comparable Services Meeting - Provide PWN -- 4TD" portlet-display="true">
+    <outcome id="4TDwpoCSCConveneMtg" name="Continue" next-phase-id="wphCSCRevTransIEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="A " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRevTransIEP" name="Review Transfer IEP -- 5TD" portlet-display="true">
+    <outcome id="5TDSufficient Eligib" name="Accept Eligibility/IEP as written-no meeting required" next-phase-id="EditSerProv" standard="true" />
+    <outcome id="5TDacceptiepnmod" name="Accept Eligibility/IEP with Modification" next-phase-id="PLAAFP9TDa" standard="false" method="TransIepModified" />
+  </phase>
+  <phase id="EditSerProv" name="Edit Service Providers -- 6TD" portlet-display="true">
+    <outcome id="6TDComplete" name="Complete" next-phase-id="CSCAccept" standard="true">
+      <form-attachment form-id="IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="CSCAccept" name="CSC Decision -- 7TD" portlet-display="true">
+    <outcome id="7TDAccept" name="Accept" next-phase-id="IEPAcceptNotif" standard="true" method="implementIep" alignment-id="Impl" />
+  </phase>
+  <phase id="IEPAcceptNotif" name="DoDEA IEP Acceptance Parent Notification -- 8TD" portlet-display="true">
+    <outcome id="8TDComplete" name="Complete" standard="true">
+      <form-attachment form-id="Parent Notify" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="PLAAFP9TDa" name="Update PLAAFP 9TDa" portlet-display="true">
+    <outcome id="9TDaComplete" name="Complete" next-phase-id="wphCSCGenDraftIEP" standard="true" method="setPlaafp">
+      <form-attachment form-id="PLAAFP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCGenDraftIEP" name="Update IEP -- 9TD" portlet-display="true">
+    <outcome id="9TDwpoCSCGenDraftIEP" name="Continue" next-phase-id="wphSchedule CSC IE" standard="true">
+      <form-attachment form-id="IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphSchedule CSC IE" name="Schedule IEP Development Meeting / PWN -- 10TD" portlet-display="true">
+    <outcome id="10TDwpoConveneIepDev" name="Complete" next-phase-id="wphConvene CSC IEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="B " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphConvene CSC IEP" name="Convene IEP Development Meeting -- 11TD" portlet-display="true">
+    <outcome id="11TDwpoCompleteIep" name="Complete" next-phase-id="Complete IEP" standard="true" method="conveneDevMeeting" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="B " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="5" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="5" />
+    </outcome>
+  </phase>
+  <phase id="Complete IEP" name="Complete and Confirm IEP -- 12TD" portlet-display="true">
+    <outcome id="12TDwpoAcceptIep" name="Complete" next-phase-id="Validation13TDa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation13TDa" name="Validate IEP Data -- 13TDa" portlet-display="true">
+    <outcome id="13TDaComplete" name="Complete" next-phase-id="wphCSCAccept" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAccept" name="CSC Decision -- 13TD" portlet-display="true">
+    <outcome id="13TDwpoCSCAcceptIEP" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="13TDParRefSPED" name="Parent Refuses Special Education Serivces - Exit" standard="false" method="exit" />
+    <outcome id="13TDwpoCSCAcceptIEP" name="Table Meeting--Will Reconvene/Schedule new meeting" next-phase-id="SchFollowMeet" standard="false" />
+  </phase>
+  <phase id="SchFollowMeet" name="Schedule Follow-up Meeting / PWN -- 14TD" portlet-display="true">
+    <outcome id="14TDComplete" name="Complete" next-phase-id="ConFollowMeet" standard="true">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="C " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConFollowMeet" name="Convene Follow-up Meeting -- 15TD" portlet-display="true">
+    <outcome id="15TDComplete" name="Complete" next-phase-id="wphCSCComp" standard="true">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="C " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCComp" name="Complete and Confirm IEP -- 16TD" portlet-display="true">
+    <outcome id="16TDComplete" name="Complete" next-phase-id="Validation17TDa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation17TDa" name="Validate IEP Data -- 17TDa" portlet-display="true">
+    <outcome id="17TDaComplete" name="Complete" next-phase-id="CSCDescF" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="CSCDescF" name="CSC Decision -- 17TD" portlet-display="true">
+    <outcome id="17TDAccept" name="Accept" standard="true" method="implementIep" alignment-id="Impl" />
+    <outcome id="17TDParRefExit" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+  </phase>
+</workflow>
+

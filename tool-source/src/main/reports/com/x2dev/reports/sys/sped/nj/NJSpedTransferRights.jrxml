@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="NJSpedTransferRights"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="432"
+		 columnSpacing="0"
+		 leftMargin="90"
+		 rightMargin="90"
+		 topMargin="72"
+		 bottomMargin="72"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.zoom" value="1.6105100000000223" />
+	<property name="ireport.x" value="0" />
+	<property name="ireport.y" value="320" />
+	<property name="ireport.layers" value="##Wed Jul 27 09:50:38 EDT 2011\nlayer.1.name=Layer 1\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0" />
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.StringUtils" />
+	<import value="com.x2dev.utils.types.PlainDate" />
+
+	<parameter name="StringUtils" isForPrompting="false" class="com.x2dev.utils.StringUtils"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="organization" isForPrompting="true" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="iepData" isForPrompting="false" class="com.x2dev.sis.model.beans.IepData"/>
+	<parameter name="meeting" isForPrompting="false" class="com.follett.fsc.core.k12.beans.GenericFormData"/>
+	<parameter name="meetingDictionary" isForPrompting="false" class="com.follett.fsc.core.k12.business.dictionary.DataDictionary"/>
+	<parameter name="districtPersonnelName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtPersonnelNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtRepresentativeName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtRepresentativeNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countyName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countySupervisorName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countySupervisonNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="isRedetermineEligibility" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="dateAsStringConverter" isForPrompting="false" class="com.x2dev.utils.converters.DateAsStringConverter"/>
+
+	<field name="recipientName" class="java.lang.String"/>
+	<field name="recipientAddress01" class="java.lang.String"/>
+	<field name="recipientCity" class="java.lang.String"/>
+	<field name="recipientState" class="java.lang.String"/>
+	<field name="recipientZip" class="java.lang.String"/>
+	<field name="studentName" class="java.lang.String"/>
+	<field name="studentEighteenth" class="com.x2dev.utils.types.PlainDate"/>
+	<field name="teamMember" class="com.x2dev.sis.model.beans.IepTeamMember"/>
+	<field name="procSafeData" class="net.sf.jasperreports3.engine.data.JRBeanCollectionDataSource"/>
+	<field name="blankType" class="java.lang.Boolean"/>
+
+	<variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="isStudent" class="java.lang.Boolean" resetType="Page" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean($P{meeting} == null ? 
+$F{blankType}.booleanValue() : 
+((String) $P{meeting}.getFieldValueByAlias("meeting-is-student", $P{meetingDictionary})).equals("1"))	]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean($P{meeting} == null ? $F{blankType}.booleanValue() : 
+((String) $P{meeting}.getFieldValueByAlias("meeting-is-student", $P{meetingDictionary})).equals("1"))	]]></initialValueExpression>
+	</variable>
+
+		<group  name="SalutationSignature" isStartNewPage="true" >
+			<groupExpression><![CDATA[($P{meeting} == null ? $F{blankType}.toString() : $F{recipientName})]]></groupExpression>
+			<groupHeader>
+			<band height="116"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="199"
+						height="16"
+						key="textField-26"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "Date" : $V{date})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="28"
+						width="354"
+						height="16"
+						key="textField-27"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "Name" : ($V{isStudent}.booleanValue() ? $F{studentName} : $F{recipientName}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="44"
+						width="354"
+						height="16"
+						key="textField-28"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "Address" : $F{recipientAddress01})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="60"
+						width="354"
+						height="16"
+						key="textField-29"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "City, NJ ZIP CODE" : 
+ ($F{recipientCity} == null ? "" : $F{recipientCity} + ", ") + 
+ ($F{recipientState} == null ? "" : $F{recipientState} + " ") + 
+ ($F{recipientZip} == null ? "" : $F{recipientZip}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="88"
+						width="432"
+						height="16"
+						key="textField-30"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Dear " + ($P{meeting} == null ? "____________________________" : ($V{isStudent}.booleanValue() ? $F{studentName} : $F{recipientName}) + ":")]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="112"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="staticText-13"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[If you have any questions regarding this notice, please contact me.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="32"
+						width="276"
+						height="16"
+						key="staticText-14"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Sincerely,]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="64"
+						width="276"
+						height="16"
+						key="textField-34"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(NAME OF DISTRICT PERSONNEL)" : $P{meeting}.getFieldValueByAlias("meeting-contact-name", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="80"
+						width="276"
+						height="16"
+						key="textField-35"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(POSITION)" : $P{meeting}.getFieldValueByAlias("meeting-contact-position", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="96"
+						width="276"
+						height="16"
+						key="textField-36"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(PHONE NUMBER)" : $P{meeting}.getFieldValueByAlias("meeting-contact-number", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Parent Paragraph 1" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean(($V{isStudent}.booleanValue() == false))]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-31"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["The purpose of this letter is to notify you that your son/daughter, "
++ ($P{meeting} == null ? "(STUDENT NAME)" : $F{studentName})
++ " will reach age eighteen on "
++ ($P{meeting} == null ? "(DATE)___" : $P{longDateFormat}.format($P{dateAsStringConverter}.parseSystemString($F{studentEighteenth}.toString()))) 
++ " . As required by New Jersey Administrative Code N.J.A.C. 6A:14-2.3(m), all rights accorded to parents of students with disabilities by the federal Individuals with Disabilities Education Act will transfer to your child on that date unless you, as the parent(s), have been granted legal guardianship of your adult son/daughter."
++ "\n\n" 
++ " With the transfer of these rights, only your child can provide consent to any proposed action where informed consent is required. Upon reaching age eighteen, only your child will have the authority to initiate mediation or a due process hearing to resolve any disputes over identification, evaluation, eligibility, the individualized education program (IEP) or placement, or the provision of a free, appropriate public education (FAPE). The district will continue to provide you with notice of meetings and of any proposed changes to your child's program. You may act on behalf of your adult child in these matters with his or her written authorization. Additionally, you may not have access to your child's education records without his or her consent, unless he or she continues to be financially dependent on you."
++ "\n\n" 
++ " If you wish to obtain assistance in understanding this transfer of rights, you may contact any of the following:"
++ "\n\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Student Paragraph 1" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean(($V{isStudent}.booleanValue() == true))]]></printWhenExpression>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-33"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["The purpose of this letter is to inform you that, as of your eighteenth birthday on "
++ ($P{meeting} == null ? "(DATE)___" : $P{longDateFormat}.format($P{dateAsStringConverter}.parseSystemString($F{studentEighteenth}.toString()))) 
++ ", you are considered an adult student. This means all rights given to your parents under the law have transferred to you unless your parents have been granted legal guardianship. Authority: N.J.A.C. 6A:14-2.3(m)."
++ "\n\n" 
++ " For students who are not yet eighteen, there are times when the law requires written approval from parents. Now that you are eighteen, your parents will no longer have the authority to make decisions about your special education program. The school district now must receive written permission from you before it conducts any assessments as part of an evaluation or reevaluation and before implementing an IEP for the first time. The school must also send a written notice to you whenever it wishes to change or refuses to change your evaluation, eligibility, individualized education program (IEP) or placement, or the provision of a free, appropriate public education (FAPE). Additionally, your parents may not have access to your educational records without your consent, unless you continue to be financially dependent on them. Enclosed is a copy of the State regulations governing the provision of special education and related services, N.J.A.C. Title 6A:14. as well as the rules governing due process hearings in the Office of Administrative Law, N.J.A.C. title 1:6A."
++ "\n\n" 
++ " Any time you disagree with your special education program, you are the only one who can request mediation or a due process hearing to resolve any disputes arising in those areas. The district will continue to provide your parents with notice of meetings and of any proposed changes to your program. If you wish, you write a letter to the school giving your parents the right to continue to act on your behalf in these matters."
++ "\n\n" 
++ " To obtain assistance in understanding this transfer of rights, you may contact any of the following:"
++ "\n\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Options" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-32"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(DISTRICT REPRESENTATIVE NAME)" : $P{districtRepresentativeName})
++ " " 
++ ($P{meeting} == null ? "(DISTRICT REPRESENTATIVE NUMBER)" : $P{districtRepresentativeNumber})
++ "\n\n" 
++ " Statewide Parent Advocacy Network (SPAN) at 1 (800) 654-7726"
++ "\n\n" 
++ " Disability Rights New Jersey at 1 (800) 922-7233 "
++ "\n\n" 
++ " The New Jersey Department of Education through the "
++ ($P{meeting} == null ? "(COUNTY NAME)" : $P{countyName})
++ " County Office, "
++ ($P{meeting} == null ? "(COUNTY SUPERVISOR NAME)" : $P{countySupervisorName})
++ " " 
++ ($P{meeting} == null ? "(COUNTY SUPERVISOR NUMBER)" : $P{countySupervisonNumber})
++ "\n\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

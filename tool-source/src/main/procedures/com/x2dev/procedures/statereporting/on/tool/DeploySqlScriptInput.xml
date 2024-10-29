@@ -1,0 +1,65 @@
+<tool-input>
+    <input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="false"/>
+    <input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+    <input name="reloadNavigation" data-type="boolean" display-type="hidden" default-value="true"/>
+    <!--
+     The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+     SQL Statements supported include
+     
+     NOTES:
+     The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be
+     uploaded or imported.
+     The SQL statements supported are {INSERT, UPDATE, DELETE}.
+     Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+     All statements are executed as a single transaction. If one statement fails, no updates occur.
+     The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+     that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return
+     a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+     SQLTest.  If there are multiple SQLTests, all must pass.
+     
+     -->
+<SQLDocument>
+<SQLTest>
+<TestStatement><![CDATA[
+select 'true' from DBVersion
+where 'fsnOnsisSklExp' not in (SELECT FSN_OID FROM FIELD_SET)]]></TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO FIELD_SET (FSN_OID,FSN_CONTEXT,FSN_OWNER_OID,FSN_OWNER_TYPE,FSN_DDX_OID,FSN_NAME) 
+VALUES ('fsnOnsisSklExp', 'school.skl.list.onsis.exceptions', '*dst', 1, 'ddxOnSisExc   ', 'Default Fields');
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO FIELD_SET_MEMBER (FSF_OID,FSF_FSN_OID,FSF_OBJ_OID,FSF_FIELD_TYPE,FSF_RELATION,FSF_SEQUENCE_NUMBER,FSF_WIDTH) 
+VALUES ('fsfOnsisSklEx0', 'fsnOnsisSklExp', 'udbFieldC001', 0, NULL, 0, 0);
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO FIELD_SET_MEMBER (FSF_OID,FSF_FSN_OID,FSF_OBJ_OID,FSF_FIELD_TYPE,FSF_RELATION,FSF_SEQUENCE_NUMBER,FSF_WIDTH) 
+VALUES ('fsfOnsisSklEx1', 'fsnOnsisSklExp', 'udbFieldD002', 0, NULL, 1, 0);
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO FIELD_SET_MEMBER (FSF_OID,FSF_FSN_OID,FSF_OBJ_OID,FSF_FIELD_TYPE,FSF_RELATION,FSF_SEQUENCE_NUMBER,FSF_WIDTH) 
+VALUES ('fsfOnsisSklEx2', 'fsnOnsisSklExp', 'sklSchoolName', 0, 'relUdbSklOid', 2, 0);
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO SYS_PREFERENCE_DEFINITION (PRD_OID,PRD_KEY,PRD_NAME,PRD_DESCRIPTION,PRD_CATEGORY,PRD_SEQUENCE_NUMBER,PRD_DEFAULT_VALUE,PRD_VISIBILITY_LEVEL) 
+VALUES ('prdOnsisSklExp', 'school.skl.list.onsis.exceptions', 'School Onsis Exceptions', NULL, 'fieldSetDefault', 0, 'fsnOnsisSklExp', 7);
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

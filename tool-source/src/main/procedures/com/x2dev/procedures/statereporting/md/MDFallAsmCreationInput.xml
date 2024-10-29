@@ -1,0 +1,73 @@
+<!-- *************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "MD FALLL ASM CREATION" -->
+<!-- *************************************************************************** -->
+
+
+<tool-input allow-school-select="false" district-support="true" height="560">
+
+    <input name="asdOid" data-type="string" display-type="picklist" display-name="Assessment Definition" >
+        <picklist field-id="asdName">
+            <field id="asdName" sort="true"/>
+            <field id="asdID" />
+        </picklist>
+    </input>
+
+    <input name="asdHistoricalOid" data-type="string" display-type="picklist" display-name="Historical Assessment Definitions" >
+        <picklist field-id="asdName" multiple="true" required="false">
+            <field id="asdName" sort="true"/>
+            <field id="asdID" />
+        </picklist>
+    </input>
+
+    <input name="asmDate" data-type="date" display-type="date" display-name="Assessment Date" required="true" />
+
+    <input name="schoolYearContext" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+        <picklist field-id="ctxSchoolYear">
+            <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+            <field id="ctxContextName" />
+        </picklist>
+    </input>
+
+    <!-- ******* -->
+    <!-- SCHOOLS -->
+    <!-- ******* -->
+
+    <input name="schoolOids" data-type="string" display-type="picklist"
+        display-name="School(s)" default-value-source="session" default-value="school.oid"
+        required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+            <filter field="sklSchoolLevel" operator="equals" source="constant" value="High" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+
+  <!-- ****** -->
+  <!-- GRADES -->
+  <!-- ****** -->
+   
+  <input name="gradeList" data-type="string" display-type="picklist" display-name="Grades" required="false">
+        <picklist field-id="rcdCode" multiple="true" >
+            <field id="rcdCode" sort="true" />
+            <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+            <filter field="rcdCode" operator="in" source="constant" value="09;10;11;12" />
+        </picklist>
+  </input>
+  
+  <!-- ************ -->
+  <!-- TEST FORMATS -->
+  <!-- ************ -->
+   
+  <input name="testFormat" data-type="string" display-type="picklist" display-name="Test Format" required="true">
+        <picklist field-id="rcdCode" multiple="false" >
+            <field id="rcdCode" sort="true" />
+            <field id="rcdDescription" sort="true" />
+            <filter field="relRcdRtbOid.rtbUserName" operator="equals" value="PARCC Test Format"/>
+        </picklist>
+  </input>
+  
+  <input name="ctxBeanPath" data-type="string" display-type="hidden" default-value="contextId"/>
+  
+</tool-input>

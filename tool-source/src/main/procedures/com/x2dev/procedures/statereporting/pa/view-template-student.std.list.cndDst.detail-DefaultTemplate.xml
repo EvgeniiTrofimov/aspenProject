@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="student.std.list.cndDst.detail" name="Default Template" locked="false">
+  <template>
+    <tab name="tab.conduct.cnd.list.detail.incident">
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <text bold="true" font-size="large">Incident Information</text>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <property id="cndStdOID" display="false" label-short="false" />
+          <property id="relCndSklOid.sklSchoolName" label-short="false">
+            <picklist relationship="relCndSklOid" required="true">
+              <field id="sklSchoolName" sort="true" />
+              <filter connector="and" field="sklInactiveInd" operator="equals" source="constant" value="false" />
+            </picklist>
+          </property>
+          <property id="cndIncident" label-short="false" width="600" />
+          <property id="cndFieldB010  " label-short="false" />
+          <property id="cndIncDate" label-short="false" />
+          <property id="cndIncTime" label-short="false" />
+          <property id="cndIncLocation" label-short="false" />
+          <property id="relCndStfOwner.stfNameView" label-short="false">
+            <picklist relationship="relCndStfOwner" required="true">
+              <field id="stfNameView" sort="true" />
+              <field id="relStfSklOid.sklSchoolName" />
+              <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+              <filter connector="and" field="stfStaffType" operator="equals" source="preference" value="sys.stf.administratorCode" />
+              <filter connector="and" field="stfSklOID" operator="equals" source="session" value="schoolOid">
+                <filter connector="or" field="relStfSfsOid.sfsCtxOID" operator="equals" source="session" value="district.currentContextOid">
+                  <filter connector="and" field="relStfSfsOid.sfsSklOID" operator="equals" source="session" value="schoolOid" />
+                </filter>
+              </filter>
+            </picklist>
+          </property>
+          <property id="relCndStfRefer.stfNameView" label-short="false">
+            <picklist relationship="relCndStfRefer" required="true">
+              <field id="stfNameView" sort="true" />
+              <field id="relStfSklOid.sklSchoolName" />
+              <filter connector="and" field="stfSklOID" operator="equals" source="session" value="schoolOid">
+                <filter connector="or" field="relStfSfsOid.sfsCtxOID" operator="equals" source="session" value="district.currentContextOid">
+                  <filter connector="and" field="relStfSfsOid.sfsSklOID" operator="equals" source="session" value="schoolOid" />
+                </filter>
+              </filter>
+            </picklist>
+          </property>
+          <property id="relCndStdOidvc.stdViewName" label-short="false">
+            <picklist relationship="relCndStdOidvc" required="true">
+              <field id="stdViewName" sort="true" />
+              <field id="stdIDLocal" sort="true" />
+              <field id="relStdSklOid.sklSchoolName" />
+              <filter connector="and" field="stdOrgOID1" operator="equals" source="session" value="organizationOid" />
+              <filter connector="and" field="stdEnrStatus" operator="equals" source="preference" value="sys.std.activeCode" />
+            </picklist>
+          </property>
+          <property alias="DOE PROPERTY" label-short="false" />
+        </column>
+        <column>
+          <property id="cndIncDesc" label-short="false" rows="15" />
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <text bold="true" font-size="large">Actions</text>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="conduct.incident.action.detail" id="actions" popup-width="600" relationship="relCndActOid" action="conductChildDetail.do" selection-type="multiple">
+                <system-value field="actStdOID" source="detail" value="cndStdOID" />
+                <system-value field="actFieldA005" source="constant" value="ACTION" />
+                <field id="actActionCode" sort="true" />
+                <field id="actActionStart" sort="true" />
+                <field id="actActionEnd" />
+                <field id="actPenaltyTime" />
+                <field id="actClosedInd" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <switched-include context="conduct.cnd.list.detail.pims" read-only="false" id="pims" property="cndIncident" show-border="false" show-selector="false" />
+    </tab>
+  </template>
+</view-template>
+

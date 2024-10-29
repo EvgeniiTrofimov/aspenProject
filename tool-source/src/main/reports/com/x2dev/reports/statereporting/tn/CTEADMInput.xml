@@ -1,0 +1,71 @@
+<!-- *************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "MONTHLY VOC FTEADM" CONFIGURED FOR "MONTHLY VOC FTEADM" REPORT -->
+<!-- *************************************************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- ******* -->
+ <!-- SCHOOLS -->
+ <!-- ******* -->
+
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         <filter field="sklInactiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+
+ <!-- ************ -->
+ <!-- SELECT REPORT MODE-->
+ <!-- ************ -->
+ <input name="reportMode" data-type="integer" display-type="select" display-name="Annual or Period" >
+     <option value="0" display-name="Annual" />
+     <option value="1" display-name="Report Period" />
+  <disable input-name="reportPeriod" if-parent-equals="0" />
+ </input>
+    
+ <!-- ************ -->
+ <!-- REPORT PERIOD -->
+ <!-- ************ -->
+ <input name="reportPeriod" data-type="string" display-type="picklist" display-name="Report Period"  >
+     <picklist field-id="rcdCode" required="true">
+     <field id="rcdCode"/>
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+     </picklist>
+ </input>
+
+ <!-- *************************************** -->
+ <!-- MEMBERSHIP/ATTENDANCE HIDDEN PARAMETERS -->
+ <!-- *************************************** -->
+ <input name="reportType" data-type="string" display-type="hidden" default-value="membership" />
+  
+ <!-- **************** -->
+ <!-- DISTRICT SUMMARY -->
+ <!-- **************** -->
+ <input name="includeDistrictSummary" data-type="boolean" display-type="checkbox" display-name="Include Summary"  default-value="true"/>
+ <input name="summaryOnly" data-type="boolean" display-type="checkbox" display-name="Summary Only"  default-value="false"/>
+ 
+</tool-input>

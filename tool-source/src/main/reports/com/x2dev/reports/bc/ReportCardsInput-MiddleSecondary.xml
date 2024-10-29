@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************** -->
+<!-- INPUT DEFINITIONS FOR BC'S SECONDARY "REPORT CARDS" REPORT -->
+<!-- ********************************************************** -->
+<tool-input district-support="false" context="com.x2dev.sis.model.beans.SisStudent" height="715">
+  
+  <tab name="General">
+    <input name="reportCardType" data-type="string" display-type="select" display-name="Report Card Type">
+      <option value="-M" display-name="Middle" />
+      <option value="-S" display-name="Secondary" />
+    </input>
+    <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="currentContextOid" default-value-source="session">
+      <picklist field-id="ctxSchoolYear">
+        <field id="ctxSchoolYear" sort="true" />
+        <field id="ctxContextName" />
+      </picklist>
+    </input>
+    <input name="gradeTermOid" data-type="string" display-type="picklist" display-name="report.shared.term" default-value="currentGradeTerm">
+      <picklist field-id="gtmGrdTermID">
+        <field id="gtmGrdTermID" sort="true" />
+        <field id="gtmGrdTermNum" />
+        <filter field="relGtmGtaOid.gtaSklOID" operator="equals" source="session" value="school.oid" />
+        <filter field="relGtmGtaOid.gtaCtxOID" operator="equals" source="input" value="contextOid" />
+      </picklist>
+    </input>
+    <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+      <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true" />
+      <option value="##all" display-name="report.shared.query.all">
+        <condition action="hide" expression="getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName())" />
+      </option>
+      <option value="student.yog" display-name="report.shared.query.yog">
+        <condition action="hide" expression="getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName())" />
+      </option>
+      <option value="##snapshot" display-name="report.shared.query.recordSet" />
+      <disable input-name="queryString" if-parent-equals="##current" />
+      <disable input-name="queryString" if-parent-equals="##all" />
+    </input>
+    <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+    <input name="studentSort" data-type="string" display-type="select" display-name="report.schedule.studentSort">
+      <option value="nameView" display-name="report.shared.sort.name" />
+      <option value="yog, nameView" display-name="report.shared.sort.yog" />
+      <option value="homeroom, nameView" display-name="report.shared.sort.homeroom">
+        <condition action="display" expression="@sklCurrentCtxOid.equals(@rootOrgCurrentCtxOid)" />
+      </option>
+      <option value="currentContextAttributes.homeroom, nameView" display-name="report.shared.sort.homeroom">
+        <condition action="hide" expression="@sklCurrentCtxOid.equals(@rootOrgCurrentCtxOid)" />
+      </option>
+    </input>
+    <input name="multipleMailings" data-type="boolean" display-type="checkbox" display-name="report.shared.alternateMailings" />
+    <input name="excludeEmpty" data-type="boolean" display-type="checkbox" display-name="report.shared.excludeEmpty" />
+    <input name="firstNameType" data-type="string" display-type="select" display-name="First Name Format">
+      <option value="preferred" display-name="Preferred" />
+      <option value="legal" display-name="Legal" />
+    </input>
+    <input name="lastNameType" data-type="string" display-type="select" display-name="Last Name Format">
+      <option value="usual" display-name="Usual" />
+      <option value="legal" display-name="Legal" />
+    </input>
+    <input name="suppressTeacherName" data-type="boolean" display-type="checkbox" display-name="Suppress Course Teacher Name" default-value="false" />
+    <input name="isFrench" data-type="boolean" display-type="checkbox" display-name="French Language" default-value="false" />
+    <input name="includeFinalExam" data-type="boolean" display-type="checkbox" display-name="Display School Final Exam" default-value="false" />
+    <input name="displayBlended" data-type="boolean" display-type="checkbox" display-name="Include Blended Mark if Available" default-value="false" />
+    <input name="printBothSides" data-type="boolean" display-type="checkbox" display-name="Print on Both Sides" default-value="false" />
+    <input name="includeInfoPage" data-type="boolean" display-type="checkbox" display-name="Print Info Page" default-value="false" />
+    <input name="includeAttendance" data-type="boolean" display-type="checkbox" display-name="Display Attendance Summary" default-value="true" />
+    <input name="includeSchoolMessage" data-type="boolean" display-type="checkbox" display-name="Display School Message" default-value="false" />
+    <input name="teacherSignature" data-type="boolean" display-type="checkbox" display-name="Teacher Signature Required" default-value="false" />
+    <input name="includeSignature" data-type="boolean" display-type="checkbox" display-name="Parent Signature Required" default-value="false" />
+    <input name="includeTermComments" data-type="boolean" display-type="checkbox" display-name="Include Term Comments" default-value="false" />
+    <input name="includeGPA" data-type="boolean" display-type="checkbox" display-name="Display GPA" default-value="false" />
+    <input name="includeBehaviour" data-type="boolean" display-type="checkbox" display-name="Include Behaviour, Attitudes and Social Responsibility" default-value="false" />
+    <input name="printLegalSize" data-type="boolean" display-type="checkbox" display-name="Print on Legal Size Paper" default-value="false" />
+    <input name="iterateGrid" data-type="boolean" display-type="hidden" default-value="true" />
+    <input name="activeOnly" data-type="boolean" display-type="hidden" default-value="true" />
+    <input name="secondaryStudent" data-type="boolean" display-type="hidden" display-name="report.student.secondaryAssociation" default-value="true" />
+    <input name="convertNumeric" data-type="boolean" display-type="hidden" display-name="report.shared.convertNumeric" default-value="false" />
+    <input name="convertReference" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="localizeReference" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="rubricReport" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="reportType" data-type="integer" display-type="hidden" default-value="1" />
+    <input name="loadAttendanceSummaries" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="loadCreditSummary" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="addHonorRollMap" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="honorRollColumn" data-type="string" display-type="hidden" display-name="report.reportCards.honorRollColumn" required="false">
+      <picklist action="transcriptColumnPickList.do" field-id="gtcName" required="false">
+        <field id="relGtcGtdOid.gtdName" sort="true" />
+        <field id="gtcName" sort="true" />
+        <filter field="gtcGrsOID" operator="notEmpty" source="constant" />
+      </picklist>
+    </input>
+    <input name="useReportCardHideInd" data-type="boolean" display-type="hidden" default-value="true" />
+    <input name="loadReportSchool" data-type="boolean" display-type="hidden" default-value="false" />
+    <input name="padRows" data-type="integer" display-type="hidden" default-value="0" />
+    <input name="reportId" data-type="string" display-type="hidden" default-value="BC-GRD-002" />
+    <input name="behaviorCourse" data-type="string" display-type="hidden" display-name="" default-value="XSR--07,XSR--08" />
+    <input name="commentCourses" data-type="string" display-type="hidden" display-name="" default-value="XTC--01,XTC--02,XTC--03,XTC--04,XTC--05,XTC--06,XTC--07,XTC--08,XTC--K,XTC---01,XTC---02,XTC---03,XTC---04,XTC---05,XTC---06,XTC---07,XTC---08,XTC---K" />
+  </tab>
+  <tab name="Publish" privilege-id="rdj.bean.create">
+    <input name="publishedIndicator" data-type="string" display-type="select" display-name="Delivery type" default-value="NONE" required="false">
+      <option display-name="" value="NONE" />
+      <option display-name="Publish" value="PUBLISH" />
+      <option display-name="Preview" value="PREVIEW" />
+    </input>
+    <input name="publishedSubject" data-type="string" display-type="text" display-name="Email subject" length="100" default-value="" required="false" />
+    <input name="publishedMessage" data-type="string" display-type="richtext" display-name="Email message" default-value="" required="false" />
+    <input name="viewStartDate" data-type="date" display-type="date" display-name="Viewing start date" default-value="" required="false" />
+    <input name="viewEndDate" data-type="date" display-type="date" display-name="Viewing end date" default-value="" required="false" />
+    <input name="cleanupDate" data-type="date" display-type="date" display-name="Cleanup date" default-value="" required="false" />
+  </tab>
+</tool-input>

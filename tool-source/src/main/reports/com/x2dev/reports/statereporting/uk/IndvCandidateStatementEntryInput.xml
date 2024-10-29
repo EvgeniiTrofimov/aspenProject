@@ -1,0 +1,90 @@
+<!-- ************************************************************************* -->
+<!-- INPUT DEFINITION FOR THE "INDIVIDUAL CANDIDATE STATEMENT OF ENTRY" REPORT -->
+<!-- ************************************************************************* -->
+
+<tool-input allow-school-select="true">
+
+ <!-- ********** -->
+ <!-- DATE RANGE -->
+ <!-- ********** -->
+
+ <input name="startDate" data-type="date" display-type="date" display-name="report.shared.startDate" default-value="districtYearStart" required="true" />
+ <input name="endDate" data-type="date" display-type="date" display-name="report.shared.endDate" default-value="today" required="true" />
+
+ <!-- ******* -->
+ <!-- SEASON  -->
+ <!-- ******* -->
+ 
+ <input name="seasonOid" data-type="string" display-type="reference" display-name="Season">
+  <picklist field-id="sesName" multiple="false" required="false">
+   <field id="sesName" />
+   <field id="relSesCtxOid.ctxContextName" sort="true"  sort-direction="desc" />
+  </picklist>
+ </input>
+
+ <!-- ******* -->
+ <!-- SECTION -->
+ <!-- ******* -->
+ 
+ <input name="sectionOids" data-type="string" display-type="reference" display-name="Section" required="false">
+  <picklist field-id="mstCourseView" multiple="true" required="false">
+   <field id="mstCourseView" sort="true" />
+   <field id="relMstCskOid.cskCourseDesc" />
+   <field id="mstStaffView" />
+   <field id="relMstCskOid.cskDeptCode" />
+   <filter field="mstSchOID" operator="equals" source="session" value="school.activeScheduleOid" />
+  </picklist>
+ </input>
+
+ <!-- ******* -->
+ <!-- STUDENT -->
+ <!-- ******* -->
+ 
+ <input name="studentOids" data-type="string" display-type="reference" display-name="Student" required="false">
+  <picklist field-id="stdViewName" multiple="true" required="false">
+   <field id="stdViewName" sort="true" />
+   <field id="stdViewAdrs" />
+   <field id="stdYog" />
+   <field id="stdEnrStatus" />
+   <filter field="stdSklOID" operator="equals" source="session" value="schoolOid" />
+   <filter field="stdEnrStatus" operator="equals" source="preference" value="sys.std.activeCode" />
+  </picklist>
+ </input>
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="Students to include">
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="a:DFE CANDIDATE NUMBER" display-name="report.shared.query.candidateNumber" />
+  <option value="gradeLevel" display-name="report.shared.query.gradeLevel" />
+  <option value="homeroom" display-name="report.shared.query.homeroom" />
+  <option value="##snapshot" display-name="report.shared.query.recordSet" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString"/>
+ 
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true" />
+ 
+ <!-- ******************** -->
+ <!-- STUDENT SORT OPTIONS -->
+ <!-- ******************** -->
+
+ <input name="studentSort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="nameView" display-name="report.shared.sort.name"/>
+  <option value="gradeLevel" display-name="report.shared.sort.gradeLevel"/>
+  <option value="homeroom" display-name="report.shared.sort.homeroom"/>
+ </input>
+ 
+ <!-- ******************** -->
+ <!-- INCLUDE ALL STUDENTS -->
+ <!-- ******************** -->
+
+ <input name="includeAll" data-type="boolean" display-type="checkbox" display-name="Include students without entries" default-value="false" />
+
+</tool-input>

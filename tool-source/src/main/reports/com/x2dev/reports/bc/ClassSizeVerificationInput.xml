@@ -1,0 +1,70 @@
+<tool-input allow-school-select="true" district-support="false" context="com.x2dev.sis.model.beans.SisSchool">
+  
+  <!-- ************** -->
+  <!-- CURRENT / NEXT -->
+  <!-- ************** -->
+  <input name="schoolYear" data-type="string" display-type="select" display-name="School Year">
+   <option value="current" display-name="Current" />
+   <option value="next" display-name="Next" />
+   <disable input-name="scheduleOid" if-parent-equals="current" />
+ </input>
+ 
+ <!-- ************************ -->
+ <!-- SCHEDULE SELECTION  -->
+ <!-- ************************ -->
+ 
+ <input name="scheduleOid" data-type="string" display-type="picklist" display-name="Schedule" required="true" default-value-source="session" default-value="school.activeScheduleOid">
+  <picklist field-id="schScheduleNam">
+   <field id="schScheduleNam" sort="true" />
+   <field id="relSchCtxOid.ctxSchoolYear" />
+   <filter field="schSklOID" operator="equals" source="session" value="school.oid" />
+   <filter field="schCtxOID" operator="equals" source="session" value="school.buildContext.oid">
+     <filter field="schOID" connector="or" operator="equals" source="session" value="school.activeScheduleOid" />
+   </filter>
+  </picklist>
+ </input>
+ 
+ <!-- ************************ -->
+ <!-- SCHEDULE TERM SELECTION  -->
+ <!-- ************************ -->
+ 
+ <input name="scheduleTermOid" data-type="string" display-type="picklist" display-name="Schedule term" required="true">
+  <picklist field-id="trmTermCode">
+   <field id="trmTermCode" sort="true" />
+   <field id="trmTermName" />
+   <filter field="trmSchOID" operator="equals" source="input" value="scheduleOid" />
+  </picklist>
+ </input>
+
+ <!-- ************ -->
+ <!-- REPORT TITLE -->
+ <!-- ************ -->
+ <input name="excludeCourses" data-type="boolean" display-type="checkbox" display-name="Exclude flagged courses" default-value="true" /> 
+  
+ <!-- ************ -->
+ <!-- REPORT TITLE -->
+ <!-- ************ -->
+ <input name="reportTitle" data-type="string" display-type="text" display-name="Report Title" default-value="Class Size Verification"/>
+
+ <!-- ************** -->
+ <!-- STUDENT STATUS -->
+ <!-- ************** -->
+ <input name="studentStatus" data-type="integer" display-type="select" display-name="Student Status">
+  <option value="1" display-name="Active students" />
+  <option value="0" display-name="PreReg students" />
+ </input>
+ 
+ <!-- ****************** -->
+ <!-- COURSE DESCRIPTION -->
+ <!-- ****************** -->
+ <input name="courseDescription" data-type="integer" display-type="select" display-name="Course Description type">
+  <option value="0" display-name="Ministry course description" />
+  <option value="1" display-name="School course description" />
+ </input>
+ 
+ <!-- ****************** -->
+ <!-- REPORT/EXPORT TYPE -->
+ <!-- ****************** -->
+ <input name="exportType" data-type="integer" display-type="hidden" default-value="0" />
+ 
+</tool-input>

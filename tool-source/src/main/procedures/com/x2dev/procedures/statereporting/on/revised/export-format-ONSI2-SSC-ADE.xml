@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export-format system-owned="false" procedure-id="ONSI2-SSC-ADE" name="ONSIS SscAde" source-table="tblSchool" delimiter-char="," wrapper-char="&quot;">
+  <siftopic>SscAde</siftopic>
+  <documentation>&lt;p&gt;The data source for this export is the current grouping of schedule spans by section from the parent ONSIS-ENR-SSC&lt;/p&gt;</documentation>
+  <field position="10" name="Action">
+    <defaultValue>ADD</defaultValue>
+    <documentation>&lt;p&gt;Populated with the default value add.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>49</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ACTION</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="20" name="CourseOfferingType">
+    <calc-param>getCourseOfferingType;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Using the span.section find the state reference value for the field all-mst-ContinuingEducationOfferingType.  If this value is empty find the state reference value for all-csk-CourseOfferingType and return the value.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_OFFERING_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="30" name="AdeSeptemberJune">
+    <calc-param>getAdeSeptemberJune;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <defaultValue>0.0000</defaultValue>
+    <documentation>&lt;p&gt;If the student ihas a full time monthly FTE record for October or March return 0.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the value in parent entity COURSE_START_DATE is on or after June 25 for the current year return 0.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Examine the COURSE_OFFERING_TYPE.  If the value is in the set "02", "10", "11", "12" and the student was full time FTE in either October or March return 0.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the course delivery type by evaluating the state reference code value of the span.section.schoolCourse field all-csk-CourseDeliveryType.  If no value is found evaluate the state reference code value of the span.section.schoolCourse.course field all-crs-CourseDeliveryType. If the course delivery type is in the set [DC_COLLEGE_CRS(12), COLLEGE_APPRENTICE_CRS(13), DC_ON_LINE(21)} return 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Find the CONED program type by evaluating span.section.schoolCourse field all-csk-ConEdProgramType.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Use computation below based on program type&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;SELF_STUDY(3)&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the number of assignments for the section where the system only indicator is false. If the alias all-gcd-IncludeonConEdRegister is defined only assignments where it has a value of 1 are considered.   If the field span.section.schoolCourse all-csk-Lessons is greater than 0 use this field instead of the count of assignments for the number of assignments.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Find the gradebook scores associated with this student and the assignments for the section.  Count the number of scores where the completed date is not null AND the number of scores that are not blank or null.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the number of assignments is greater than 0, the ade is 0.1158 * credit * number of scores) / number of assignments&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise the value is 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;CREDIT_DAY(2), CREDIT_NIGHT(1), INDIGENOUS_LANGUAGE(6), LITERACY(5), SUMMER_CREDIT(8)&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the override minutes for the section by subtracting the value in the all-mst-ContinuingEducationStartTime from the all-mst-ContinuingEducationEndTime for the span.section. &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;For each date that the class meets between COURSE_START_DATE and COURSE_END_DATE from the parent entity complete the following steps:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Find the student period attendance record for this section and date.  Parse the periodView to determine the periods the student is absent.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the student is absent for all periods for the day then the student is considered absent.&lt;/li&gt;&#xD;
+	&lt;li&gt;Accumulate total minutes using period duration for each period if override minutes is 0.  Otherwise increment total minutes for each day by override minutes.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;If a student is absent 3 or more consecutive days then no minutes are accumulated for the absent period.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The value for ade is totalMinutes / 60 / 950&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ADE_SEPTEMBER_JUNE</sifPath>
+    <script>all-mst-ContinuingEducationStartTime</script>
+    <depth>0</depth>
+  </field>
+  <field position="40" name="AdeSummer">
+    <calc-param>getAdeSummer;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <defaultValue>0.0000</defaultValue>
+    <documentation>&lt;p&gt;If the value in parent entity COURSE_START_DATE is before June 25 for the current year return 0.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the course delivery type by evaluating the state reference code value of the span.section.schoolCourse field all-csk-CourseDeliveryType.  If no value is found evaluate the state reference code value of the span.section.schoolCourse.course field all-crs-CourseDeliveryType. If the course delivery type is in the set [DC_COLLEGE_CRS(12), COLLEGE_APPRENTICE_CRS(13), DC_ON_LINE(21)} return 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Find the CONED program type by evaluating span.section.schoolCourse field all-csk-ConEdProgramType.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Use computation below based on program type&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;SELF_STUDY(3)&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the number of assignments for the section where the system only indicator is false. If the alias all-gcd-IncludeonConEdRegister is defined only assignments where it has a value of 1 are considered.  If the field span.section.schoolCourse all-csk-Lessons is greater than 0 use this field instead of the count of assignments for the number of assignments.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Find the gradebook scores associated with this student and the assignments for the section.  Count the number of scores where the completed date is not null AND the number of scores that are not blank or null.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the number of assignments is greater than 0, the ade is 0.1158 * credit * number of scores) / number of assignments&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise the value is 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;CREDIT_DAY(2), CREDIT_NIGHT(1), INDIGENOUS_LANGUAGE(6), LITERACY(5), SUMMER_CREDIT(8)&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the override minutes for the section by subtracting the value in the all-mst-ContinuingEducationStartTime from the all-mst-ContinuingEducationEndTime for the span.section. &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;For each date that the class meets between COURSE_START_DATE and COURSE_END_DATE from the parent entity complete the following steps:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Find the student period attendance record for this section and date.  Parse the periodView to determine the periods the student is absent.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the student is absent for all periods for the day then the student is considered absent.&lt;/li&gt;&#xD;
+	&lt;li&gt;Accumulate total minutes using period duration for each period if override minutes is 0.  Otherwise increment total minutes for each day by override minutes.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;If a student is absent 3 or more consecutive days then no minutes are accumulated for the absent period.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The value for ade is totalMinutes / 60 / 950&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ADE_SUMMER</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="50" name="ClassCode">
+    <documentation>&lt;p&gt;This field is always null&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>CLASS_CODE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+</export-format>
+

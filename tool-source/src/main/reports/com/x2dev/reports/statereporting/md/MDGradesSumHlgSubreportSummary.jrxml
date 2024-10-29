@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 5.5.0  -->
+<!-- 2017-03-09T10:46:31 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GradesSumHlgSubreportSummary" pageWidth="782" pageHeight="572" orientation="Landscape" columnWidth="782" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="cf040c97-60d9-4e7b-962c-9defe67f90f6">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="com.x2dev.utils.StringUtils"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Arial_Normal" isDefault="true" fontName="Arial" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Bold" fontName="Arial" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="Arial_Italic" fontName="Arial" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<style name="ColumnHeader" mode="Opaque" backcolor="#E6E6E6" vAlign="Middle" isBold="true">
+		<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="5">
+			<topPen lineWidth="1.0" lineStyle="Solid"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnHeaderLast" style="ColumnHeader">
+		<box>
+			<rightPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnValue" vAlign="Middle">
+		<box topPadding="2" leftPadding="5" bottomPadding="2" rightPadding="5">
+			<leftPen lineWidth="1.0" lineStyle="Solid"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="ColumnValueLast" style="ColumnValue">
+		<box>
+			<rightPen lineWidth="1.0" lineStyle="Solid"/>
+		</box>
+	</style>
+	<parameter name="organization" class="com.follett.fsc.core.k12.beans.Organization" isForPrompting="false"/>
+	<parameter name="school" class="com.x2dev.sis.model.beans.SisSchool" isForPrompting="false"/>
+	<parameter name="shortDateFormat" class="java.text.DateFormat" isForPrompting="false"/>
+	<parameter name="startDate" class="java.sql.Date" isForPrompting="false"/>
+	<parameter name="endDate" class="java.sql.Date" isForPrompting="false"/>
+	<parameter name="longDateFormat" class="java.text.DateFormat" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("MMMM d, yyyy")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="selectedGrades" class="java.util.Collection" isForPrompting="false"/>
+	<parameter name="title" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="parentRepotPageNum" class="java.lang.Integer" isForPrompting="false"/>
+	<parameter name="withSeriousInjury" class="java.lang.Boolean"/>
+	<parameter name="districtSummary" class="java.lang.Boolean"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="elementCode" class="java.lang.String"/>
+	<field name="groupName" class="java.lang.String"/>
+	<field name="studentOid" class="java.lang.String"/>
+	<field name="complaintOid" class="java.lang.String"/>
+	<field name="visitType" class="java.lang.String"/>
+	<variable name="date" class="java.lang.String">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="4K" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "4K" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="K" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "K" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="01" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "01" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="02" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "02" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="03" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "03" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="04" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "04" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="05" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "05" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="06" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "06" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="07" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "07" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="08" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "08" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="09" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "09" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="10" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "10" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="11" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "11" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="12" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "12" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer("0")]]></initialValueExpression>
+	</variable>
+	<variable name="4Ktotal" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "4K" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="Ktotal" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "K" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="01total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "01" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="02total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "02" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="03total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "03" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="04total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "04" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="05total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "05" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="06total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "06" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="07total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "07" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="08total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "08" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="09total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "09" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="10total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "10" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="11total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "11" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="12total" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[$F{grade}.equals( "12" ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="otherAllTotal" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[!$P{selectedGrades}.contains( $F{grade} ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="allTotal" class="java.lang.Integer" resetType="Group" resetGroup="groupName" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[new Integer(1)]]></variableExpression>
+	</variable>
+	<variable name="elementCodeTotal" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[new Integer(1)]]></variableExpression>
+	</variable>
+	<variable name="elementCodeOtherTotal" class="java.lang.Integer" resetType="Group" resetGroup="elementCode" incrementType="Group" incrementGroup="complaintOid" calculation="Sum">
+		<variableExpression><![CDATA[!$P{selectedGrades}.contains( $F{grade} ) ? new Integer(1) : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="studentSet" class="java.util.HashSet" calculation="System">
+		<initialValueExpression><![CDATA[new HashSet()]]></initialValueExpression>
+	</variable>
+	<variable name="stcCounter" class="java.lang.String">
+		<variableExpression><![CDATA[new Boolean($V{studentSet}.add($F{studentOid}))]]></variableExpression>
+	</variable>
+	<variable name="currentPageNumber" class="java.lang.Integer" resetType="Page">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<group name="groupName" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{groupName}]]></groupExpression>
+		<groupHeader>
+			<band height="18" splitType="Stretch">
+				<staticText>
+					<reportElement key="staticText-13" style="Arial_Bold" mode="Opaque" x="11" y="0" width="125" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="6e3b9037-6069-4550-8922-3408ab495f4a"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Visit Type]]></text>
+				</staticText>
+				<textField isBlankWhenNull="false">
+					<reportElement key="groupNameAnchor" style="Arial_Bold" mode="Opaque" x="136" y="0" width="150" height="18" isRemoveLineWhenBlank="true" backcolor="#CCCCCC" uuid="9cbc0ddf-5f44-41a7-8f8b-901cbfa6b7ae"/>
+					<box leftPadding="0">
+						<topPen lineWidth="1.0" lineStyle="Solid"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{groupName}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement key="groupNameShifted" stretchType="RelativeToTallestObject" x="286" y="0" width="100" height="18" uuid="3d86c27b-e357-4c36-91f2-f1f91b233e77"/>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<staticText>
+						<reportElement key="staticText-13" style="Arial_Bold" mode="Opaque" x="0" y="0" width="50" height="18" backcolor="#CCCCCC" uuid="ef69364d-720f-4312-8ee7-66969834e2ea">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="8" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<text><![CDATA[Other]]></text>
+					</staticText>
+					<staticText>
+						<reportElement key="staticText-14" style="Arial_Bold" mode="Opaque" x="50" y="0" width="50" height="18" backcolor="#CCCCCC" uuid="06fca74c-9b7d-4951-9e66-35296d6e1276">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="1.0" lineStyle="Solid"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="8" isBold="false" pdfFontName="Helvetica"/>
+						</textElement>
+						<text><![CDATA[Total]]></text>
+					</staticText>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="34" splitType="Stretch">
+				<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
+					<reportElement key="footerAnchor" style="Arial_Bold" mode="Transparent" x="136" y="0" width="150" height="18" isPrintWhenDetailOverflows="true" backcolor="#CCCCCC" uuid="71513b2c-367f-44a7-90ce-688cfaa52bb9"/>
+					<box leftPadding="5" rightPadding="5">
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total"]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement key="footerShifted" x="286" y="0" width="100" height="18" uuid="d92dce83-71d0-4a0e-b031-603f013462b5"/>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="groupName" isBlankWhenNull="false">
+						<reportElement key="textField-21" style="Arial_Bold" x="50" y="0" width="50" height="18" isPrintWhenDetailOverflows="true" uuid="9e9935a1-04f9-4fa2-9ca6-2fc5bccc779c">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="5" rightPadding="5">
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{allTotal}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="groupName" isBlankWhenNull="false">
+						<reportElement key="textField-22" style="Arial_Bold" x="0" y="0" width="50" height="18" isPrintWhenDetailOverflows="true" uuid="b949bde1-57c3-4ebf-a4fb-eaf39ac9626d">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="5" rightPadding="5">
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{otherAllTotal}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="visitType">
+		<groupExpression><![CDATA[$F{visitType}]]></groupExpression>
+		<groupHeader>
+			<band height="14">
+				<textField>
+					<reportElement mode="Opaque" x="11" y="1" width="125" height="13" backcolor="#EBEBEB" uuid="ac7462aa-86f7-458f-aa92-4b6451e59779">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{visitType}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="visitTypeAnchor" style="Arial_Bold" mode="Opaque" x="136" y="1" width="150" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="7f6ce6f8-4343-4321-ac8f-73d54eed2fdb">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<frame>
+					<reportElement key="visitTypeShifted" mode="Opaque" x="286" y="1" width="100" height="13" backcolor="#EBEBEB" uuid="c840bbc0-c26e-4a30-8fa2-33b4e8d32284">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="elementCode">
+		<groupExpression><![CDATA[$F{elementCode}]]></groupExpression>
+		<groupHeader>
+			<band height="20" splitType="Stretch">
+				<staticText>
+					<reportElement key="filler" style="Arial_Bold" mode="Opaque" x="11" y="0" width="124" height="20" forecolor="#000000" backcolor="#EBEBEB" uuid="9532a7d4-cf02-4920-960a-df76fae75345">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="elementCode" isBlankWhenNull="false">
+					<reportElement key="elementCodeAnchor" style="Arial_Normal" stretchType="RelativeToTallestObject" x="136" y="0" width="150" height="20" isPrintWhenDetailOverflows="true" uuid="53ec14cc-0f19-48b7-80b3-60a184cffa9b"/>
+					<box leftPadding="5" rightPadding="5">
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{elementCode}]]></textFieldExpression>
+				</textField>
+				<frame>
+					<reportElement key="elementCodeShifted" stretchType="RelativeToTallestObject" x="286" y="0" width="100" height="20" uuid="ff58cf2b-f699-43a8-b96a-77288487ada2"/>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="elementCode" isBlankWhenNull="false">
+						<reportElement key="textField-11" style="Arial_Normal" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="bff2fb03-37b7-45a5-9d03-c740fdc4b43d">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="5" rightPadding="5">
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{elementCodeOtherTotal}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="elementCode" isBlankWhenNull="false">
+						<reportElement key="textField-12" style="Arial_Normal" stretchType="RelativeToTallestObject" x="50" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="c21b5de4-7077-4545-993c-8e1cee48bd82">
+							<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						</reportElement>
+						<box leftPadding="5" rightPadding="5">
+							<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Right" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$V{elementCodeTotal}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="student">
+		<groupExpression><![CDATA[$F{studentOid}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<group name="complaintOid">
+		<groupExpression><![CDATA[$F{complaintOid}]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="99" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-15" style="Arial_Normal" mode="Transparent" x="2" y="5" width="594" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="50374c8f-d01d-4005-a27c-15d714ac4aa9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="2" y="3" width="779" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="0ddfb33b-08d1-4d43-b8d5-849b9216c163"/>
+				<graphicElement fill="Solid"/>
+			</line>
+			<line>
+				<reportElement key="line-2" mode="Opaque" x="3" y="80" width="778" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="c716b300-e949-44f7-9f50-66c39da8a212"/>
+				<graphicElement fill="Solid"/>
+			</line>
+			<textField isStretchWithOverflow="true" evaluationTime="Auto" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-16" style="Arial_Normal" mode="Transparent" x="2" y="65" width="185" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="f7ae2810-5558-4c52-a1db-af92b48cbd2a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + (new Integer($P{parentRepotPageNum}.intValue() + $V{currentPageNumber}.intValue() -1)) + " of " + (new Integer($P{parentRepotPageNum}.intValue() + $V{PAGE_NUMBER}.intValue() - 1))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-17" style="Arial_Normal" mode="Transparent" x="647" y="65" width="134" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="b7aa5aa5-bde6-4880-b31c-b5c3e27888f4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-18" style="Arial_Normal" mode="Transparent" x="267" y="59" width="249" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="91408f7d-4217-4924-84c7-5ea1d446462c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shortDateFormat}.format($P{startDate}) + " - " + $P{shortDateFormat}.format($P{endDate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-19" style="Arial_Normal" mode="Transparent" x="596" y="5" width="185" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="e0d32492-c05b-4c71-a14a-2ec98efa604a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{districtSummary}.booleanValue() ? "DISTRICT SUMMARY" : "SUMMARY"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-12" style="Arial_Bold" x="267" y="14" width="249" height="18" uuid="d04876a0-20aa-42cc-8620-3093239ef5ba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Health Log Statistics]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-20" style="Arial_Normal" mode="Transparent" x="267" y="43" width="249" height="13" forecolor="#000000" backcolor="#FFFFFF" uuid="5f9b672f-d843-4f02-88bb-db0d7166d3d0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="Arial" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Count of Students: " + $V{studentSet}.size()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="267" y="32" width="249" height="10" uuid="c2d04e53-d1e0-4478-8c00-5c7c697166c8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{withSeriousInjury}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Serious Only]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

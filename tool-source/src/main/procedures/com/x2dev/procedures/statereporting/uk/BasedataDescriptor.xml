@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<file-format>
+    <converter 
+        name="char" 
+        class="com.blackbear.flatworm.converters.CoreConverters" 
+        method="convertChar" 
+        return-type="java.lang.String" />
+    <converter 
+        name="decimal" 
+        class="com.blackbear.flatworm.converters.CoreConverters" 
+        method="convertDecimal" 
+        return-type="java.lang.Double" />
+    <converter 
+        name="bigDecimal" 
+        class="com.blackbear.flatworm.converters.CoreConverters" 
+        method="convertBigDecimal" 
+        return-type="java.Math.BigDecimal" />
+    <converter 
+        name="int" 
+        class="com.blackbear.flatworm.converters.CoreConverters" 
+        method="convertInteger" 
+        return-type="java.lang.Integer" />
+    <converter 
+        name="date" 
+        class="com.blackbear.flatworm.converters.CoreConverters" 
+        method="convertDate" 
+        return-type="java.util.Date" />
+    <converter 
+        name="sqlDate" 
+        class="com.follett.exams.CustomConverters" 
+        method="convertSqlDate" 
+        return-type="java.sql.Date" />
+    <converter 
+        name="seriesDate" 
+        class="com.follett.exams.CustomConverters" 
+        method="convertSeriesDate" 
+        return-type="java.sql.Date" />
+    <converter 
+        name="intMaybeBlank" 
+        class="com.follett.exams.CustomConverters" 
+        method="convertIntegerMaybeBlank" 
+        return-type="java.lang.Integer" />
+    <record name="fileHeader">
+        <record-ident>
+            <field-ident field-start="1" field-length="1">
+                <match-string>1</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="fileHeader" class="com.follett.exams.FileHeader" />
+            <line>
+                <record-element length="1" beanref="fileHeader.dataType" type="char" />
+                <record-element length="1" beanref="fileHeader.recordType" type="int" />
+                <record-element length="2" beanref="fileHeader.examSeriesCode" type="char" />
+                <record-element length="2" beanref="fileHeader.year" type="char" />
+                <record-element start="2" end="6" beanref="fileHeader.date" type="seriesDate" />
+                <record-element length="1" beanref="fileHeader.language" type="char" />
+                <record-element length="2" beanref="fileHeader.awardingBodyId" type="char" />
+                <record-element length="2" beanref="fileHeader.examSeriesCode" type="char" />
+                <record-element length="2" beanref="fileHeader.year" type="char" />
+                <record-element length="1" beanref="fileHeader.distributionType" type="char" />
+                <record-element length="7" beanref="fileHeader.softwarePackage" type="char">
+                    <conversion-option name="justify" value="left" />
+                </record-element>
+                <record-element length="3" beanref="fileHeader.softwarePackageVersion" type="char">
+                    <conversion-option name="justify" value="left" />
+                </record-element>
+                <record-element length="2" beanref="fileHeader.formatsVersion" type="char" />
+            </line>
+        </record-definition>
+    </record>
+    <record name="fileTrailer">
+        <record-ident>
+            <field-ident field-start="1" field-length="1">
+                <match-string>9</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="fileTrailer" class="com.follett.exams.FileTrailer" />
+            <line>
+                <record-element length="1" beanref="fileTrailer.dataType" type="char" />
+                <record-element length="1" beanref="fileTrailer.recordType" type="int" />
+                <record-element length="2" beanref="fileTrailer.examSeriesCode" type="char" />
+                <record-element length="2" beanref="fileTrailer.year" type="char" />
+                <record-element length="1" beanref="fileTrailer.language" type="char" />
+                <record-element length="7" beanref="fileTrailer.numberOfRecords" type="int" />
+                <record-element length="7" beanref="fileTrailer.numberOfCentres" type="int" />
+            </line>
+        </record-definition>
+    </record>
+    <record name="centreHeader">
+        <record-ident>
+            <field-ident field-start="1" field-length="1">
+                <match-string>3</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="centreHeader" class="com.follett.exams.CentreHeader" />
+            <bean name="transferFile" class="com.x2dev.sis.model.beans.TransferFile" />
+            <bean name="series" class="com.x2dev.sis.model.beans.ExamSeries" />
+            <line>
+                <record-element length="1" beanref="centreHeader.dataType" type="char" />
+                <record-element start="0" end="1" beanref="transferFile.dataType" type="char" />
+                <record-element length="1" beanref="centreHeader.recordType" type="int" />
+                <record-element length="2" beanref="centreHeader.examSeriesCode" type="char" />
+                <record-element start="2" end="4" beanref="transferFile.examSeries" type="char" />
+                <record-element start="2" end="4" beanref="series.code" type="char" />
+                <record-element length="2" beanref="centreHeader.year" type="char" />
+                <record-element start="4" end="6" beanref="transferFile.year" type="char" />
+                <record-element start="4" end="6" beanref="series.year" type="char" />
+                <record-element start="2" end="6" beanref="series.seriesSqlDate" type="seriesDate" />
+                <record-element length="1" beanref="centreHeader.language" type="char" />
+                <record-element start="6" end="7" beanref="transferFile.language" type="char" />
+                <record-element start="6" end="7" beanref="series.languageCode" type="char" />
+                <record-element length="2" beanref="centreHeader.awardingBodyId" type="char" />
+                <record-element start="7" end="9" beanref="transferFile.abIdentifier" type="char" />
+                <record-element start="7" end="9" beanref="series.abIdentifier" type="char" />
+                <record-element start="2" end="9" beanref="series.seriesId" type="char" />
+                <record-element length="2" beanref="centreHeader.examSeriesCode" type="char" />
+                <record-element length="2" beanref="centreHeader.year" type="char" />
+                <record-element length="3" beanref="centreHeader.sequenceNumber" type="int" />
+                <record-element start="13" end="16" beanref="transferFile.sequenceNum" type="char" />
+                <record-element length="8" beanref="centreHeader.centrePostcode" type="char" />
+            </line>
+        </record-definition>
+    </record>
+    <record name="centreTrailer">
+        <record-ident>
+            <field-ident field-start="1" field-length="1">
+                <match-string>7</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="centreTrailer" class="com.follett.exams.CentreTrailer" />
+            <line>
+                <record-element length="1" beanref="centreTrailer.dataType" type="char" />
+                <record-element length="1" beanref="centreTrailer.recordType" type="int" />
+                <record-element length="2" beanref="centreTrailer.examSeriesCode" type="char" />
+                <record-element length="2" beanref="centreTrailer.year" type="char" />
+                <record-element length="1" beanref="centreTrailer.language" type="char" />
+                <record-element length="7" beanref="centreTrailer.numberOfRecords" type="int" />
+                <record-element length="6" beanref="centreTrailer.dateFileProduced" type="sqlDate">
+                    <conversion-option name="format" value="ddMMyy" />
+                </record-element>
+            </line>
+        </record-definition>
+    </record>
+    <record name="syllabus">
+        <record-ident>
+            <field-ident field-start="0" field-length="2">
+                <match-string>S5</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="syllabus" class="com.x2dev.sis.model.beans.ExamSyllabus" />
+            <line>
+                <record-element start="2" length="6" beanref="syllabus.syllabusCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="36" beanref="syllabus.title" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+            </line>
+        </record-definition>
+    </record>
+    <record name="option">
+        <record-ident>
+            <field-ident field-start="0" field-length="2">
+                <match-string>O5</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="option" class="com.x2dev.sis.model.beans.ExamOption" />
+            <line>
+                <record-element start="2" length="6" beanref="option.optionEntryCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="6" beanref="option.syllabusCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.examTypeQualificationCert" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="3" beanref="option.examTypeLevelCert" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="1" beanref="option.examTypeItemCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.examTypeQualificationUnit" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="3" beanref="option.examTypeLevelUnit" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="1" beanref="option.examTypeProcessCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.qcaClassificationCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="8" beanref="option.qcaAccreditationNumber" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="36" beanref="option.title" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="1" beanref="option.feeDefined" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="5" beanref="option.examinationFee" type="bigDecimal" />
+                <record-element length="4" beanref="option.firstForecastGradeGradeset" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.secondForecastGradeGradeset" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="1" beanref="option.resultType" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.firstGrade" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.secondGrade" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.firstGradeEndorsement" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.secondGradeEndorsement" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="4" beanref="option.maxMark" type="intMaybeBlank" />
+                <record-element length="2" beanref="option.componentCount" type="int" />
+            </line>
+        </record-definition>
+    </record>
+    <record name="component">
+        <record-ident>
+            <field-ident field-start="0" field-length="2">
+                <match-string>C5</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="component" class="com.x2dev.sis.model.beans.ExamComponent" />
+            <line>
+                <record-element start="2" length="12" beanref="component.componentCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="36" beanref="component.title" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="1" beanref="component.teacherMarksCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="3" beanref="component.maxMark" type="intMaybeBlank" />
+                <record-element length="4" beanref="component.componentGradeset" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="6" beanref="component.dueSqlDate" type="sqlDate">
+                    <conversion-option name="format" value="ddMMyy" />
+                </record-element>
+                <record-element length="1" beanref="component.timetabledCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="6" beanref="component.timetableSqlDate" type="sqlDate">
+                    <conversion-option name="format" value="ddMMyy" />
+                </record-element>
+                <record-element length="1" beanref="component.timetableSessionCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="3" beanref="component.timeAllowed" type="int" />
+            </line>
+        </record-definition>
+    </record>
+    <record name="link">
+        <record-ident>
+            <field-ident field-start="0" field-length="2">
+                <match-string>L5</match-string>
+            </field-ident>
+        </record-ident>
+        <record-definition>
+            <bean name="link" class="com.x2dev.sis.model.beans.OptionComponent" />
+            <line>
+                <record-element start="2" length="6" beanref="link.optionEntryCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+                <record-element length="12" beanref="link.componentCode" type="char">
+                    <conversion-option name="justify" />
+				</record-element>
+            </line>
+        </record-definition>
+    </record>
+</file-format>

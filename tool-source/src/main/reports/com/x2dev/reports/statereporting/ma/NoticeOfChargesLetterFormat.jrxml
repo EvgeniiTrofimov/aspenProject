@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="NoticeOfChargesLetterFormat"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+
+	<parameter name="school" isForPrompting="true" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization"/>
+	<parameter name="schoolContext" isForPrompting="true" class="java.lang.Boolean"/>
+	<parameter name="letterSignatureBy" isForPrompting="false" class="java.lang.String"/>
+
+	<field name="action" class="com.x2dev.sis.model.beans.ConductAction"/>
+	<field name="copy" class="java.lang.Integer"/>
+	<field name="address" class="com.x2dev.sis.model.beans.SisAddress"/>
+	<field name="relationshipCode" class="java.lang.String"/>
+	<field name="actionCode" class="java.lang.String"/>
+	<field name="startDate" class="java.lang.String"/>
+	<field name="endDate" class="java.lang.String"/>
+	<field name="principal" class="com.x2dev.sis.model.beans.SisPerson"/>
+	<field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+	<field name="noticeDate" class="java.lang.String"/>
+	<field name="methodOfDelivery" class="java.lang.String"/>
+
+	<variable name="signature" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA["Very truly yours,\n\n\n\n" +
+$F{principal}.getFirstName() + " " + 
+($F{principal}.getMiddleName() == null ? "" : ($F{principal}.getMiddleName() + " ")) +
+$F{principal}.getLastName() + "\n" +
+$P{letterSignatureBy}  + " " + $P{school}.getName() + "\n\n" +
+"Cc:<font color=\"red\">&lt;superintendent name&gt;</font>" + "\n" + 
+"Superintendent of " + $P{organization}.getName()]]></variableExpression>
+	</variable>
+	<variable name="cityStateZip" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[($F{address} != null)?
+($F{address}.getCity() + " " +
+ $F{address}.getState() + " " + 
+ $F{address}.getPostalCode()) : ""]]></variableExpression>
+	</variable>
+	<variable name="parentGuardian" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[($F{student}.getPerson().getAge() >= 18)? "Student" : "Parent/Guardian"]]></variableExpression>
+	</variable>
+	<variable name="greeting" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(($F{student}.getPerson().getAge() < 18) ? "Dear Parent/Guardian Of:\n" : "") + 
+ $F{student}.getPerson().getFirstName() + " " + $F{student}.getPerson().getLastName() + "\n" +
+ $F{student}.getAddressView() + "\n" +
+ $V{cityStateZip} + "\n\n" +
+"Dear " + (($F{student}.getPerson().getAge() < 18) ? "Parent/Guardian of "  : "") + $F{student}.getPerson().getFirstName() + " " + $F{student}.getPerson().getLastName() + ","]]></variableExpression>
+	</variable>
+	<variable name="haveHas" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[($F{student}.getPerson().getAge() >= 18)? "have" : "has"]]></variableExpression>
+	</variable>
+	<variable name="youYourChild" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[($F{student}.getPerson().getAge() >= 18)? "you" : "your child"]]></variableExpression>
+	</variable>
+	<variable name="hisHer" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA["F".equalsIgnoreCase($F{action}.getStudent().getPerson().getGenderCode()) ? "her" : "his"]]></variableExpression>
+	</variable>
+	<variable name="YouYourChild" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[($F{student}.getPerson().getAge() >= 18)? "You" : "Your child"]]></variableExpression>
+	</variable>
+
+		<group  name="notice" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{action}.getOid() + $F{copy}.intValue()]]></groupExpression>
+			<groupHeader>
+			<band height="86"  isSplitAllowed="false" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="14"
+						y="70"
+						width="165"
+						height="16"
+						key="textField-1"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[Boolean.valueOf($F{action}.getIncident().getDescription() != null && !$F{action}.getIncident().getDescription().isEmpty())]]></printWhenExpression>
+						</reportElement>
+					<box rightPadding="5" topPadding="1" bottomPadding="1"></box>
+					<textElement textAlignment="Left">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Notice Date: " + ($F{noticeDate} != null ? $F{noticeDate} : "")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="257"
+						y="70"
+						width="260"
+						height="16"
+						key="textField-2"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[Boolean.valueOf($F{action}.getIncident().getDescription() != null && !$F{action}.getIncident().getDescription().isEmpty())]]></printWhenExpression>
+						</reportElement>
+					<box rightPadding="5" topPadding="1" bottomPadding="1"></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Method of Delivery: " + ($F{methodOfDelivery} != null ? $F{methodOfDelivery} : "")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="25"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+				<text><![CDATA[Notice of Charges Letter]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="600"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="14"
+						y="15"
+						width="503"
+						height="553"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" isStyledText="true" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{greeting} + "\n\n" + 
+"I am writing to advise you that it is alleged that " + $V{youYourChild} + " " + $V{haveHas} +" violated a school rule prohibiting " + $F{actionCode} + ".  This rule is set out in section <font color=\"red\">XX, XXX</font> of the school discipline code/High School/Middle School Student Handbook adopted by the School Committee on <font color=\"red\">xx/xx/xxxx</font>.  A copy of the handbook or code is available at the school district website at <font color=\"red\">(School Website URL)</font>.  Our district requires that I exercise my professional judgment in discipline matters; there are no automatic penalties or “zero tolerance” policy in effect in the " + $P{organization}.getName() +" Public Schools." +
+"\nI am also writing to advise you of the process for investigating these allegations, to provide " + $V{youYourChild}+ " a statement of the potential consequences of the disciplinary offense if I determine the allegations are established." +
+"\nDEFINITIONS" +
+"\nAs there procedures are newly adopted pursuant to M.G.L. c. 71  27H3/4 and 603 CMR 53.00, and effective July 1, 2014, I will define the terms used in this correspondence as they arise." +
+"\nA violation of the school rules may result in the suspension of " +$V{youYourChild}+ " from school.  A suspension may be served in three ways; an in-school suspension, a short-term suspension, or a long-term suspension.  Depending on circumstances, your child may also be removed for not more than two (2) school days on emergency grounds." + 
+"\nYou/Your" +
+"\nThese words mean the student if more than 18 years of age and where contextually inappropriate the student’s parents, guardian or person authorized to make educational decisions if the student is less than 18 years old." +
+"\nIn-School Suspension" +
+"\nAn in-school suspension is defined as removal of a student from regular classroom activities, but not from the school premises, for no more than (10) consecutive school days, or no more than (10) school days cumulatively for multiple infractions during the school year.  Removal solely from participation in extracurricular activities or school-sponsored events, or both, shall not count as removal in calculating school days.  In-school suspension for ten (10) days, consecutively or cumulatively during a school year, such suspension shall be deemed a long-term suspension for due process and appeal purposes." +
+"\nShort-Term Suspension" +
+"\nA short-term suspension is defined as the removal of a student from the school premises and regular classroom activities for ten (10) or fewer consecutive school days.  A principal may, in his or her discretion, allow a student to serve a short-term suspension in school.  Removal solely from participation in extracurricular activities or school-sponsored events, or both, shall not count as removal in calculating school days." +
+"\nLong-Term Suspension" +
+"\nA long-term suspension is defined as the removal of a student from the school premises and regular classroom activities for more than (10) cumulatively for multiple disciplinary offenses in any school year.  A principal may, in his or her discretion, allow a student to serve a long-term suspension in school.  Removal solely from participation in extracurricular activities or school-sponsored events, or both, shall not count as removal in calculating school days." +
+"\nExcept for students who are charged with offenses under M.G.L c. 71 37H or 73H1/2 i.e., with procession of drugs or weapons on school grounds, assault  on a staff member, or charged with or convicted of a felony or felony delinquency, no student may be placed on long-term suspension for one or more disciplinary offenses for more than (90) school days in a school year beginning with the first day that the student is removed from school.  Offenses under §§37H or 37H1/2 are not subject to §37H3/4 as to the duration of your child’s removal from school, and may result in an expulsion for longer than 90 days.  No long-term suspension shall extend beyond the end of the school  year in which such suspension is imposed." +
+"\nExpulsion" +
+"\nExpulsion is defined as the removal of a student from the school premises, regular classroom activities and school activities for more than ninety (90) school days, indefinitely, or permanently, as permitted under G.L. c. 71, §§37H or 37H1/2 for: a) possession of a dangerous weapon; b) possession of a controlled substance; c) assault on a member of the educational staff,  or d) a felony charge of felony delinquency complaint of conviction, or adjudication or admission of guilt with respect to such felony, if I determine that the student’s continued presence in school would have a substantial detrimental effect on the general welfare of the school, as provided in G.L. c. 71, §§37H or 37H1/2." +
+"\nSchool Wide Education Plan" +
+"\nIf you or your child is to be suspended for more than ten (10) consecutive days, you/your child may be eligible to continue to receive educational services under a school-wide education plan, a document developed by the building principal, in accordance with G.L. c. 76, §21.  The plan includes a list of education and services available to students who are expelled or suspended from school for any reason, or under any law including M.G.I. c 71§§37H § 37H1/2, for more than 10 consecutive days.  These plans are intended to allow eligible students to continue to access academic opportunities while suspended or excluded for any reason." +
+"\nNOTICE OF HEARING RIGHTS &amp; PROCEDURES" +
+"\nA. Notice of Charge" +
+"\nExcept in cases of in-school suspensions or emergency removals, you or your child are entitled to oral and written notice of the charges prior to a decision to impose on a student or a long-term suspension or expulsion. Specific hearing and notice rights are based on the potential consequences attending to the alleged rules violations." + 
+"\nIf I have relied on any documents in proffering these charges they are attached." +
+"\nB. Hearing Date" +
+"\nYou and your child may meet with me at a hearing on <font color=\"red\">xx/xx/xxxx</font>, at <font color=\"red\">(my office/other)</font> which will be your or your child’s opportunity to provide your or " + $V{hisHer} + " side of the story and to dispute the allegations.  I will document my efforts to contact you or your parents concerning their parental rights to participate in the hearing, and my convene the hearing without them as permitted by law and regulation." +
+"\nIf you need an interpreter or counsel please let us know at least 48 hours before the hearing so that we can arrange for interpretative assistance and or the presence of district counsel." +
+"\nC. Basis of Charge" +
+"\nThe factual basis for the alleged violation of the above cited rule is: <font color=\"red\">(be specific and detailed)</font>" +
+"\nD. Potential Consequences" +
+"\nThe range of consequences under our student handbook or policy for this offense includes:" +
+"\nWritten warning" +
+"\nIn-house suspension" +
+"\nShort term suspension" +
+"\nLong term suspension" +
+"\nTermination of extra-curricular or other activities, including sports" +
+"\nOther (specify)" +
+"\nI am required to establish hearing procedures based on anticipated possible consequences of the disciplinary offense.  By checking a box below, I have indicated the potential consequences for the offense on which we are proceeding to hearing." +
+"\n[ ] A.  In-School Suspension:   In-school suspension is available as an alternative to short-term suspension for disciplinary offenses.  As it is alleged you or your child have violated <font color=\"red\">[specific rule]</font> rule, you and your child may meet with me to dispute the allegations or explain the circumstances." +
+"\nIf I conclude you or your child committed the disciplinary offense, on the day I decide the matter I will inform you of the length of the in-school suspension, which shall not exceed 10 days, cumulatively or consecutively, in a school year." +
+"\nI will make reasonable efforts to notify <font color=\"red\">you/ your parents</font> orally of the disciplinary offense, the reasons for concluding that the student committed the infraction, and the length of the in-school suspension." +
+"\n" + $V{YouYourChild} + " child are entitled to maintain your academic standing by continuing to complete your assignments and make academic progress." +
+"\nThere is no appeal to the Superintendent for an in-house suspension." +
+"\n[ ] B. Short Term Suspension:  I will hear and consider pertinent information about the incident and the factual basis for the charges at the hearing during which you may dispute the charges and explain the circumstances.  The rule at issue is <font color=\"red\">(insert specific rule)</font>. You or our parents may present mitigating facts and you or your parents may discuss with me the mitigating circumstances." +  
+"\nI will make a determination as to whether the disciplinary violation occurred and the consequences to be imposed." +
+"\nThereafter, I will notify you and your parents in writing of the determination, my reasons for it, and the type and nature of the suspension, if any." +
+"\nIf suspended, you or your child may make-up schoolwork assignments as needed to make academic progress during the removal." +
+"\nThere is no appeal to the Superintendent for a short-term suspension." +
+"\n[ ] C. Long-Term Suspension:  I will hear and consider pertinent information about the incident and the factual basis for the charges at the hearing during which you may dispute the charges and explain the circumstances.  You or  your parents may present mitigating facts and you or your parents may discuss with me the mitigating circumstances." +
+"\nIn addition to the above rights, as this offense may result in you or your child’s suspension for more than ten (10) consecutive days or cumulatively in a year, you may:" +
+"\n_review you/your child’s record and the documents upon which I may rely in making a determination to suspend the student or not;" +
+"\n_be represented by counsel or a lay person of the your choice, at your expense;" +
+"\n_produce witnesses on your behalf and present your explanation of the alleged incident, but you may not be compelled to do so;" +
+"\n_cross-examine witnesses presented by the school district;" +
+"\n_request that the hearing be recorded by the principal, and to receive a copy of the audio recording upon request." +
+"\n_If the student or parent requests an audio recording, the principal shall inform all participants before the hearing that an audio record will be made and a copy will be provided to the student and parent upon request." +
+"\nAs a parent you may have an opportunity to discuss the student’s conduct and offer information, including mitigating circumstances that I should consider in determining consequences for the student." +
+"\nAfter hearing the evidence I will determine whether the student committed the disciplinary offense and, if so, after considering mitigating circumstances and alternatives to suspensions set forth in 603 CMR 53.05, what remedy or consequence will be imposed in place of or in addition to a long-term suspension." +
+"\nFurther, if I determine that the student committed the disciplinary offense, I will notify you or your parents in writing as to the next steps including the consequences and your appeal rights, in the case of a long-term  suspension, to the superintend or his or her designee.  You will also be advised of your opportunity to make-up school work assignment s as needed to make academic progress during the removal." +
+"\nMy determination will state my reasons therefore and the type and nature of the suspension." +
+"\nPlease contact me if you are unable to attend the hearing now scheduled for <font color=\"red\">xx/xx/xxxx.</font>" +
+"\n\n" +  $V{signature}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

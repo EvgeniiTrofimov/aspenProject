@@ -1,0 +1,2238 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%797.66%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',797.66' where history not like '%797.66%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454pq] #PROCEDURE-ID [SYS-SPED-3454PQ] -->
+<template>
+  <tab name="Educational Services And Placement">
+    <row>
+      <block>
+        <line border="none">
+          <cell align="center" border="none" cell-span="2"  shaded="true">
+            <text bold="true" font-size="large">EDUCATIONAL SERVICES AND PLACEMENT</text>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">SERVICES</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">General Education with No Supplementary Aids and Services</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" >
+            <embedded-list detail-context="iepform.service.other" extended-dictionary-oid="ddxIlIep" id="services-d" popup-height="450" popup-width="850" relationship="relIepIsvOid" show-add-button="true" independent-save="true">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="No Supplementary Aids" />
+              <system-value field="isvFieldA006" source="constant" value="1" />
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week" />
+              <field alias="service-description" />
+              <field alias="frequency" />
+              <field id="isvStartDate" sort="true" />
+              <field id="isvEndDate" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="No Supplementary Aids" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">General Education with Supplementary Aids and Services</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" >
+            <embedded-list detail-context="iepform.service.other" extended-dictionary-oid="ddxIlIep" id="services-e" popup-height="450" popup-width="850" relationship="relIepIsvOid" show-add-button="true" independent-save="true">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Supplementary Aids" />
+              <system-value field="isvFieldA006" source="constant" value="1" />
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week" />
+              <field alias="service-description" />
+              <field alias="frequency" />
+              <field id="isvStartDate" sort="true" />
+              <field id="isvEndDate" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Supplementary Aids" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">Special Education</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" >
+            <embedded-list detail-context="iepform.service.sped" extended-dictionary-oid="ddxIlIep" id="services-a" popup-height="450" popup-width="850" relationship="relIepIsvOid" show-add-button="true" independent-save="true">
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week" />
+              <field alias="service-description" />
+              <field alias="service-provider-other" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" sort="true" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" label="SPED Within Gen Ed" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Special Education" />
+              <filter connector="and" field="isvEsy" operator="equals" source="constant" value="false" />
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Special Education" />
+              <system-value field="isvEsy" source="constant" value="0" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">Related Service(s)</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" >
+            <embedded-list detail-context="iepform.service.rel" extended-dictionary-oid="ddxIlIep" id="services-b" popup-height="450" popup-width="850" relationship="relIepIsvOid" show-add-button="true" independent-save="true">
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week" />
+              <field alias="srv-not-calculate-mpw" label="Ignored Minutes/Week" />
+              <field alias="service-description" />
+              <field alias="service-provider" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" sort="true" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" label="Related Svcs Within Gen Ed" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Related Services" />
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Related Services" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+	<row>
+      <block>
+	  <line align="center" border="bottom" shaded="true">
+	   <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+		  </cell>
+	   </line>
+	   <line align="center" border="bottom" shaded="true">
+		  <cell  align="center" border="bottom" cell-span="50" >
+          <text bold="true" font-size="large">EDUCATIONAL ENVIRONMENT (EE) CALCULATION</text>
+		  </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+		<line border="none">
+          <cell align="center" border="none" cell-span="50"  shaded="true">
+            <text underline="true" bold="true">Ages 3-5</text>
+          </cell>
+        </line>
+		
+		
+		<line border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="20" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="5" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>1. Minutes spent in regular early childhood program</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="21" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="4" >
+            <property  alias="ee-calc-min-spent-child-prog" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="4" >
+            <property alias="ny-calc-min-spent-child-prog" label-display="none" />
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>2. Minutes spent receiving special education and related services outside regular early childhood (A+B)</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="21" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="4" >
+            <property alias="ee-calc-min-spent-outs-child" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="4" >
+            <property alias="ny-calc-min-spent-outs-child" label-display="none" />
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		  <cell border="none" cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text underline="true" bold="true">Ages 6-21</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="20" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="5" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>Auto calculate</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="23" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="2" >
+            <property alias="ee-autocalc" label-display="none" label-short="false">
+              <disable alias="ee-calc-total-min-outs-gen-ed" operator="equals" value="true" />
+              <disable alias="ee-calc-total-min-gen-ed" operator="equals" value="true" />
+              <disable alias="ee-calc-percent-gen-ed" operator="equals" value="true" />
+            </property>
+          </cell>
+          <cell border="none" cell-span="2" >
+            <property alias="ny-autocalc" label-display="none" label-short="false">
+              <disable alias="ny-calc-total-min-outs-gen-ed" operator="equals" value="true" />
+              <disable alias="ny-calc-total-min-gen-ed" operator="equals" value="true" />
+              <disable alias="ny-calc-percent-gen-ed" operator="equals" value="true" />
+            </property>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>1. Total Bell to Bell Minutes</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="16" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="9" >
+            <property alias="iep-school-mpw" label-display="false" label-short="false">
+              <disable alias="ee-calc-total-min-bell-to-bell" operator="notEqual" value="Other" />
+            </property>
+          </cell>
+          <cell border="none" cell-span="9" >
+            <property alias="ny-iep-school-mpw" label-display="false" label-short="false">
+              <disable alias="ny-calc-total-min-bell-to-bell" operator="notEqual" value="Other" />
+            </property>
+          </cell>
+        </line>
+		
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="20" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <property alias="ee-calc-total-min-bell-to-bell" label-display="false" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="5" >
+            <property alias="ny-calc-total-min-bell-to-bell" label-display="false" label-short="false" />
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>2. Total Number of Minutes Outside of the General Education Setting (A+B)</text>
+          </cell>
+        </line>
+		
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="20" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <property alias="ee-calc-total-min-outs-gen-ed" label-display="false" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="5" >
+            <property alias="ny-calc-total-min-outs-gen-ed" label-display="false" label-short="false" />
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>3. Total Number of Minutes Inside the General Education Setting (line #1 minus line #2)</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="20" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <property alias="ee-calc-total-min-gen-ed" label-display="false" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="5" >
+            <property alias="ny-calc-total-min-gen-ed" label-display="false" label-short="false" />
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+          <cell border="none" align="center" cell-span="50" >
+            <text>4. Percentage of Time Inside the General Education Environment (line #3 divided by line #1)</text>
+          </cell>
+        </line>
+		<line border="none" shaded="true">
+		<cell border="none" align="right" cell-span="22" >
+            <spacer width="10" />
+          </cell>
+          <cell border="right" align="right" cell-span="3" >
+            <property alias="ee-calc-percent-gen-ed" label-display="false" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="3" >
+            <property alias="ny-calc-percent-gen-ed" label-display="false" label-short="false" />
+          </cell>
+        </line>
+	  </block>
+    </row>
+	
+    <row>
+      <block>
+        
+        
+               
+        
+        
+        
+        
+      </block>
+    </row>
+    <row>
+      <block>
+	  <line align="center" border="bottom" shaded="true">
+	   <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+		  </cell>
+	   </line>
+        <line align="center" border="bottom" shaded="true">
+		  <cell align="center" border="bottom"  cell-span="50" >
+          <text bold="true" font-size="large">EDUCATIONAL ENVIRONMENT CONSIDERATIONS</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell   cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell   cell-span="50" >
+          <text>To the maximum extent appropriate, all students shall be educated and participate with students who are non-disabled.  Provide an explanation of the extent, if any, to which the student will not participate in general education classes and activities.</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		 <cell border="none" align="right" cell-span="20" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="5" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Special education classes, separate schooling, or removal from the regular education environment is required because the nature or severity of the student''s disability is such that education in general classes with the use of supplementary aids and services cannot be achieved  satisfactorily</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		<cell border="none" align="right" cell-span="23" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="2" >
+            <property alias="ed-env-need-sped-classes" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="2" >
+            <property alias="ny-env-need-sped-classes" label-display="none" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Explain</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="8" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="17" >
+            <property alias="ed-env-need-sped-classes-expl" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="17" >
+            <property alias="ny-env-need-sped-classes-expl" label-display="none" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Will participate in nonacademic activities with nondisabled peers and have the same opportunity to participate in extracurricular activities as nondisabled peers?</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		<cell border="none" align="right" cell-span="23" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="2" align="right" >
+            <property alias="ed-env-nonacadem-activ" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="2" >
+            <property alias="ny-env-nonacadem-activ" label-display="none" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>If no, explain</text>
+          </cell>
+        </line>
+        <line border="full" shaded="true">
+		  <cell border="none" align="right" cell-span="8" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="17" align="right" >
+            <property alias="ed-env-nonacadem-activ-expl" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="17" >
+            <property alias="ny-env-nonacadem-activ-expl" label-display="none" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Will attend the school he or she would attend if nondisabled?</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="23" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="2" >
+            <property alias="ed-env-attend-if-nondis" align="right" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="2" >
+            <property alias="ny-env-attend-if-nondis" label-display="none" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>If no, explain</text>
+          </cell>
+        </line>
+        <line border="full" shaded="true">
+		  <cell border="none" align="right" cell-span="8" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="17" align="right" >
+            <property alias="ed-env-attend-if-nondis-expl" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="17" >
+            <property alias="ny-env-attend-if-nondis-expl" label-display="none" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+	    <line align="center" border="bottom" shaded="true">
+	   <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+		  </cell>
+	   </line>
+        <line align="center" border="bottom" shaded="true">
+		  <cell cell-span="50" border="bottom" align="center">
+            <text bold="true" font-size="large">PLACEMENT CONSIDERATIONS</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" >
+            <text>When determining the placement, consider any</text>
+            <text underline="true" font-size="small">potentially harmful effect</text>
+            <text>either on the student or the quality of services that he/she needs. After determining the student''s placement, complete the</text>
+            <text underline="true" font-size="small">"Placement"</text>
+            <text>section on this cover sheet.</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+		   <cell border="none" align="right" cell-span="20" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="5" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>For a child who is deaf, hard or hearing, blind or visually impaired, parents have been informed of existence of the Illinois School for the Deaf or the Illinois. School for the Visually Impaired, and other local schools that provide similar services.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="23" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="2" >
+            <property alias="ed-env-inform-similar-serv" label-display="none" />
+          </cell>
+          <cell border="none" cell-span="2" >
+            <property alias="ny-env-inform-similar-serv" label-display="none" />
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="50" shaded="true">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="placement" popup-height="400" popup-width="700" relationship="relIepIpaOid" selection-type="multiple" detail-context="iep.placement.considerations.detail" warn-on-delete="true" independent-save="true">
+              <field id="ipaStartDate" sort="true" />
+              <field alias="ed-env-place-option-consider" label-short="false" />
+              <field alias="ed-env-harmful-effect" label-short="false" />
+              <field alias="ed-env-team-accept-place" label-short="false" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+	    <line align="center" border="bottom" shaded="true">
+	   <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+		  </cell>
+	   </line>
+        <line align="center" border="bottom" shaded="true">
+		  <cell align="center" border="bottom" cell-span="50" >
+          <text bold="true"  font-size="large">TRANSPORTATION</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell align="center" cell-span="50" >
+          <text bold="true" italic="true">Check all that apply</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="19" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="6" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="6" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Special transportation is required to and from schools and/or between schools.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="19" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="6" >
+            <text>Yes</text>
+            <radio alias="ed-env-spec-transp-between-sch" value="true" />
+            <text>No</text>
+            <radio alias="ed-env-spec-transp-between-sch" value="false" />
+          </cell>
+          <cell border="none" cell-span="6" >
+            <text>Yes</text>
+            <radio alias="ny-env-spec-transp-between-sch" value="true" />
+            <text>No</text>
+            <radio alias="ny-env-spec-transp-between-sch" value="false" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Special transportation is required in and around school buildings.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="19" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="6" >
+            <text>Yes</text>
+            <radio alias="ed-env-spec-transp-around-sch" value="true" />
+            <text>No</text>
+            <radio alias="ed-env-spec-transp-around-sch" value="false" />
+          </cell>
+          <cell border="none" cell-span="6" >
+            <text>Yes</text>
+            <radio alias="ny-env-spec-transp-around-sch" value="true" />
+            <text>No</text>
+            <radio alias="ny-env-spec-transp-around-sch" value="false" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Specialized equipment (such as special or adapted buses, lifts, and ramps) is required.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="19" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="6" >
+            <text>Yes</text>
+            <radio alias="ed-env-spec-equip" value="true" />
+            <text>No</text>
+            <radio alias="ed-env-spec-equip" value="false" />
+          </cell>
+          <cell border="none" cell-span="6">
+            <text>Yes</text>
+            <radio alias="ny-env-spec-equip" value="true" />
+            <text>No</text>
+            <radio alias="ny-env-spec-equip" value="false" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center">
+            <text>Please explain and/or detail transportation plan:</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="right" cell-span="25" >
+            <property alias="ed-env-transp-plan" label-display="false" label-short="false" rows="3" />
+          </cell>
+          <cell border="right" cell-span="25" >
+            <property alias="ny-env-transp-plan" label-display="false" label-short="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+	    <line align="center" border="bottom" shaded="true">
+	   <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+          </cell>
+		  <cell border="none" align="right" cell-span="1" >
+            <spacer width="1" />
+		  </cell>
+	   </line>
+        <line align="center" border="bottom" shaded="true">
+		  <cell align="center" border="bottom" cell-span="50" >
+          <text bold="true"  font-size="large">SPECIAL EDUCATION (WITH EXTENDED SCHOOL YEAR)</text>
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		 <cell align="center" cell-span="50" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell border="none" align="right" cell-span="20" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" align="right" cell-span="5" >
+            <text bold="true">Current Year</text>
+          </cell>
+          <cell border="none" cell-span="5" >
+            <text bold="true">Next Year</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="50" align="center" >
+            <text>Extended school year services are needed. The IEP team must document the consideration of the need for extended school year services and the basis for the determination.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+		<cell border="none" align="right" cell-span="16" >
+            <spacer width="1" />
+          </cell>
+          <cell border="right" cell-span="9" >
+            <property alias="ed-env-ext-sch-year-need" label-display="left" />
+          </cell>
+          <cell border="none" cell-span="9" >
+            <property alias="ny-env-ext-sch-year-need" label-display="right" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+		  <cell border="none" cell-span="50" align="center" >
+          <text bold="true" italic="true">If yes, the IEP must indicate the type, amount and duration of services to be provided.</text>
+		  </cell>
+        </line>
+		<line border="none" shaded="false">
+		 <cell border="none" cell-span="50" align="center" >
+          <spacer height="10" />
+		  </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="50"  shaded="true">
+            <embedded-list extended-dictionary-oid="ddxIlIep" detail-context="iepform.service.sped.extended" id="services-a-extended" popup-height="450" popup-width="850" selection-type="multiple" read-only="false" embedded-edit="false" relationship="relIepIsvOid" show-add-button="true" show-delete-button="true" independent-save="true">
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week" />
+              <field alias="service-description" />
+              <field alias="service-provider-other" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" sort="true" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" label="SPED Within Gen Ed" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Special Education" />
+              <filter connector="and" field="isvEsy" operator="equals" source="constant" value="true" />
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Special Education" />
+              <system-value field="isvEsy" source="constant" value="true" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3454pq' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3457f] -->
+
+<template>
+  <tab name="Parent Consent (34-57F)">
+    <row>
+    <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">PARENT/GUARDIAN CONSENT FOR INITIAL PROVISION OF</text>
+          </line>
+          <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">SPECIAL EDUCATION AND RELATED SERVICES</text>
+        </line>
+        <line shaded="true">
+        <spacer/>
+        </line>
+        <line align="left" shaded="true">
+           <property alias="is-date" label="Date" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+             <text>Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+            <text>At a recent conference your child was recommended for initial provision of special education and related services and an Individualized  education  Program  (IEP)  was  developed.    Before  a  school  district  can  provide  the  special education  services  described  in  your  child''s  IeP,  your  informed  written  consent  is  required.    Your  consent is  voluntary  and  you  may  revoke  your  consent  at  anytime.  If  you  revoke  consent,  it  does  not negate  an  action that  occurred  after  the  consent  was  given  and  before  it  was  revoked.</text>
+        </line>
+        <line shaded="true">
+        <spacer/>
+        </line>
+        <line align="left" border="none" shaded="true">
+            <text bold="true" font-size="middle">CHECK ONE:</text>
+        </line>
+         <line align="left" border="none" shaded="true">
+         <cell border="none" cell-span="3" line-span="1">
+          <property alias="is-consent" label-display="right"/>
+       <spacer width="100" />
+           </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>For  the  initial  special  education  and  related  services  of  my  child  as indicated  on  the  Individualized  education  Program  (IEP).  The  proposed  special education  and related  service(s)  have  been  fully  explained  to  me  and  are  consistent with the IEP developed for my child.</text>
+           </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+         <cell border="none" cell-span="3" line-span="1">
+         <text> </text>
+          </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>I understand that my consent is voluntary. I understand that my consent is not required for  continued  services  or  change  in  services/placement. At  least  annually,  I  will  be  given  reasonable  opportunity  for  comment  on  and  input  into  my  child''s  IEP.</text>
+            </cell>
+        </line>
+         <line align="left" border="none" shaded="true">
+         <cell border="none" cell-span="3" line-span="1">
+         <text> </text>
+         </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>I received a copy of the </text>><text bold="true">Explanation of Procedural Safeguards</text><text> which have been fully explained to me by school personnel, including the procedures for requesting an impartial  due process hearing.</text>
+            </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+         <cell border="none" cell-span="3" line-span="1">
+         <text> </text>
+          </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>I  understand  that  as  soon  as  possible  following  development  of  the  IEP,  but  not  more than ten (10) calendar days, special education and related services will be provided to my child in accordance with the IEP.</text>
+           </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+        <cell border="none" cell-span="3" line-span="1">
+           <property alias="is-not-consent" label-display="right"/>
+           </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>For the special education and related services of my child as indicated in the Individualized education Program (IEP).</text>
+            </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+         <cell border="none" cell-span="3" line-span="1">
+         <text> </text>
+          </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <text>I understand that the school district will not be in violation of the requirement to make  available a free appropriate public education for my child if I refuse to give consent.</text>
+            </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+        <cell border="none" cell-span="3" line-span="1" vertical-align="top">
+          <property alias="is-received" label-display="right"/>
+          </cell>
+            <cell border="none" cell-span="30" line-span="1">
+           <property alias="is-copy-eligibility" label-display="right"/>
+          <property alias="is-copy-iep" label-display="right"/>
+          <property alias="is-safeguards" label-display="right"/>
+            <property alias="is-policy" label-display="right"/>
+            <property alias="is-other" label-display="right"/>
+         <property alias="other" label-display="false"/>
+            </cell>
+        </line>
+        <line shaded="true">
+        <spacer/>
+        </line>
+        <line align="left" border="none" shaded="true">
+        <property alias="date" label="Signed date" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>If you have any questions concerning this process or require additional information regarding your and your child''s rights, please contact:</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+        <property alias="pa-co-pmd"  label="Department Chair/Director/Asst. Director" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+        <property alias="pws" foreign-id="stfNameView" label="Person who will sign" label-short="false">
+          <picklist required="true" extended-dictionary="SPED-IL-3457F">
+            <field id="stfNameView" sort="true" />
+            <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+          </picklist>
+        </property>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3457f' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3457h] -->
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text font-size="large" bold="true">PARENT/GUARDIAN EXCUSAL OF AN INDIVIDUALIZED EDUCATION PROGRAM TEAM MEMBER</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property font-size="medium" alias="date" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="medium">Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">An IEP Team meeting is scheduled for your child on</text>
+          <property alias="iep-meeting-date" label-display="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">We</text>
+          <property alias="met-in-person" label-display="false" />
+          <text font-size="medium" bold="false">met in person</text>
+          <property alias="spoke-phone" label-display="false" />
+          <text font-size="medium" bold="false">spoke on the phone</text>
+          <property alias="exch-e-mails" label-display="false" />
+          <text font-size="medium" bold="false">exchanged e-mails</text>
+          <property alias="ex-faxes" label-display="false" />
+          <text font-size="medium" bold="false">exchanged faxes</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">and agreed to the following:</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">Allowing team members to be excused from attending and IEP meeting is intended to provide additional flexibility to parents in scheduling meetings.  The presence and participation of the Individualized Education Program (IEP) team member(s) identified below is/are not necessary and has/have been excused from being present and participating in the meeting. The "team member" is described in the regulations as, the general education teacher, special education teacher, LEA representative, and/or an individual who can interpret the instructional implications of evaluation results, who may be a member of the team already identified.</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="true">Content area of excused member not discussed at the meeting</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="not-discussed" label="Applies to Meeting" label-display="false" />
+          <text font-size="medium" bold="false">The school district and parent/guardian agree the following member(s) is/are not required to attend the IEP meeting in whole or in part because the individual''s area of curriculum, content or related service will not be discussed or modified.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">Name/Area 1</text>
+          <property alias="name-area1" label-display="false" />
+          <text font-size="medium" bold="false">Name/Area 2</text>
+          <property alias="name-area2" label-display="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">Name/Area 3</text>
+          <property alias="name-area3" label-display="false" />
+          <text font-size="medium" bold="false">Name/Area 4</text>
+          <property alias="name-area4" label-display="false" />
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="true">Content area of excused member discussed at the meeting</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="discussed" label-display="false" />
+          <text font-size="medium" bold="false">The school district and parent/guardian agree the following member(s) may be excused from attending the IEP meeting in whole or in part, when the meeting involves a modification to or discussion of the member''s area of the curriculum or related services, if the member submits input into the IEP in writing to the parent and to the teacher prior to the meeting.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">Name/Area 1</text>
+          <property alias="name-area-disc-1" label-display="false" />
+          <text font-size="medium" bold="false">Name/Area 2</text>
+          <property alias="name-area-disc-2" label-display="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="false">Name/Area 3</text>
+          <property alias="name-area-disc-3" label-display="false" />
+          <text font-size="medium" bold="false">Name/Area 4</text>
+          <property alias="name-area-disc-4" label-display="false" />
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="pws" font-size="medium" foreign-id="stfNameView" label="Case Coordinator" label-short="false">
+            <picklist required="true" extended-dictionary="SPED-IL-3457A">
+              <field id="stfNameView" sort="true" />
+              <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+              <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+            </picklist>
+          </property>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <text font-size="medium" bold="false">If you have any questions or would like a copy of</text>
+            <text font-size="medium" bold="true">Explanation of Procedural Safeguards</text>
+            <text font-size="medium" bold="false">, please contact Department Chair/Director/Assistant Director:</text>
+            <property alias="pge-iep-pmd" font-size="medium" label-display="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3457h' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3457i] -->
+
+<template>
+  <tab>
+  <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">PARENT/GUARDIAN AND STUDENT NOTIFICATION OF TRANSFER OR RIGHTS DUE TO AGE OF MAJORITY</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="small">Date </text>
+          <property alias="date-request" label-display="hide" />
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+             <text  bold="true">Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="small">When a student with a disability reaches 18 years of age (the age of majority under State law) all educational rights transfer from the parent(s)/guardian(s) to the student.  The Individuals with Disabilities education Act (IDEA) requires that both parent(s)/guardian(s) and the student receive notice of the transfer of educational rights one year prior to the student''s eighteenth birthday. However, the parent(s)/guardian(s) will continue to receive the ten day notice prior to the date of any special education meeting after the student turns eighteen.</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="small">On the date of age of majority, all rights pertaining to the special education program/services   shall transfer from the parent(s)/guardian(s) to the student unless the school district is otherwise notified ( e.g. Delegation of Rights to Make Educational Decisions form).</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">Date of age of majority:</text>
+          </line>
+          <line align="left" border="none" shaded="true">
+          <property alias="age_majority"  label-display="hide" />
+        </line>
+         </block>
+    </row>
+      <row>        
+         <block>
+       <line align="left" border="bottom" shaded="true">
+      <text bold="true" font-size="small" >CHECK ONE:</text>
+         </line>
+      <line align="left" border="bottom" shaded="true">
+         <cell border="none" cell-span="1" line-span="1">
+          <radio alias="is-prior-notice" value="-1" bold="true" font-size="small" >Not chosen.</radio>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+         <cell border="none" cell-span="1" line-span="1">
+          <radio alias="is-prior-notice" value="1" bold="true" font-size="small" >This serves as your one (1) year prior notice of the anticipated transfer of educational rights to the above named student under IDEA.</radio>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+        <cell border="none" cell-span="1" line-span="1">
+          <radio alias="is-prior-notice" value="0" bold="true" font-size="small" >This serves as your notice that all educational rights under IDEA have been transferred to the above named student.</radio>
+          </cell>
+        </line>
+         </block>
+    </row>
+           
+       <row>        
+         <block>  
+                <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">If your have any question concerning this procedure or require an additional copy of your rights, The Explanation of Procedural Safeguards, Please contact:</text>
+          </line>
+          <line align="left" shaded="true">
+          <property alias="pgstr-pmd"  label-display="hide" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">person who will sign: </text>
+          </line>
+          <line align="left" border="none" shaded="true">
+          <property alias="pws" foreign-id="stfNameView" label-display="hide" >
+          <picklist required="true" extended-dictionary="SPED-IL-3457A">
+            <field id="stfNameView" sort="true" />
+            <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+          </picklist>
+        </property>    
+        </line>
+        
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3457i' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- #TEMPLATE-ID [iepform.service.other] -->
+
+<template>
+ <tab>
+  <row>
+   <column>
+    <property alias="service-description" />
+    <separator height="2" />
+    <property id="isvGoalView" />
+    <property id="isvDuration" label="Minutes/Week" />
+   </column>
+   <column>
+    <property id="isvStartDate" required="true" />
+    <property alias="service-date-pause" />
+    <property alias="service-date-cont" />
+    <property id="isvEndDate" required="true" />
+   </column>
+  </row>
+ </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILIeSeOth' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.rel] -->
+<template>
+  <tab name="Details">
+    <row>
+      <column>
+        <property id="isvServiceType" />
+        <property alias="service-provider" label-short="true" />
+        <property alias="service-description" />
+        <separator height="2" />
+        <property id="isvGoalView" />
+        <property id="isvDuration" label="Minutes/Week" />
+      </column>
+      <column>
+        <property id="isvStartDate" required="true" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" required="true" />
+        <group header="Frequency">
+          <property alias="frequency-hours" />
+          <property alias="frequency-days" />
+          <property alias="frequency-weeks" />
+        </group>
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text  bold="true" underline="true">Related Service Location:</text>
+        </line>
+        <line shaded="true">
+          <spacer height="10" />
+        </line>
+        <line>
+         <cell>
+          <radio bold="true" alias="service-location-regular" value="true">Within General Education</radio>
+         </cell>
+        </line>
+        <line>
+       <cell>
+          <radio bold="true" alias="service-location-regular" value="false">OutSide General Education</radio>
+         </cell>
+        <cell>
+             <property alias="srv-not-calculate-mpw" label="Use these minutes for current service that shouldn''t change the percentage" label-display="right" />
+        </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILIeSeRel' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.sped] -->
+<template>
+  <tab name="Details">
+    <row>
+      <column>
+        <property alias="service-description" required="true"/>
+        <separator height="2" />
+        <property id="isvGoalView" />
+        <property id="isvDuration" label="Minutes/Week" />
+      </column>
+      <column>
+        <property id="isvStartDate" required="true" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" required="true" />
+        <group header="Frequency">
+          <property alias="frequency-hours" />
+          <property alias="frequency-days" />
+          <property alias="frequency-weeks" />
+        </group>
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text  bold="true" underline="true">SPED Location:</text>
+        </line>
+        <line shaded="true">
+          <spacer height="10" />
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="true">Within General Education</radio>
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="false">OutSide General Education</radio>
+        </line>
+      </block>
+    </row>    
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILIeSeSpe' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.trans] -->
+<template>
+  <tab>
+    <row>
+      <column>
+        <property alias="transition-area" label-short="true" read-only="true" />
+        <property alias="service-description" rows="4" />
+        <separator height="2" />
+      <property alias="service-provider-other" label="Agency/Provider" />
+        <property id="isvGoalView" />
+      </column>
+      <column>
+        <property id="isvStartDate" required="true" />
+        <property id="isvEndDate" required="true" />
+        <separator height="2" />
+      </column>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILIeSeTr' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.sped.extended] -->
+<template>
+  <tab name="Details">
+    <row>
+      <column>
+        <property alias="service-description" required="true"/>
+        <separator height="2" />
+        <property id="isvGoalView" />
+        <property id="isvDuration" label="Minutes/Week" />
+      </column>
+      <column>
+        <property id="isvStartDate" required="true" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" required="true" />
+        <property id="isvEsy" />
+        <group header="Frequency">
+          <property alias="frequency-hours" />
+          <property alias="frequency-days" />
+          <property alias="frequency-weeks" />
+        </group>
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text  bold="true" underline="true">SPED Location:</text>
+        </line>
+        <line shaded="true">
+          <spacer height="10" />
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="true">Within General Education</radio>
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="false">OutSide General Education</radio>
+        </line>
+      </block>
+    </row>    
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILSrvSExt' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2P88000673';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2p88000767';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2p88000768';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2t88000608';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2t88000610';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1700 WHERE FDX_OID = 'fdxX2a88000839';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1710 WHERE FDX_OID = 'fdxX2a88000840';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 130 WHERE FDX_OID = 'fdxX2a88000842';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1570 WHERE FDX_OID = 'fdxX2H88000790';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1580 WHERE FDX_OID = 'fdxX2H88000791';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1590 WHERE FDX_OID = 'fdxX2H88000792';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1610 WHERE FDX_OID = 'fdxX2H88000793';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1620 WHERE FDX_OID = 'fdxX2H88000794';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1630 WHERE FDX_OID = 'fdxX2H88000795';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1640 WHERE FDX_OID = 'fdxX2H88000796';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1650 WHERE FDX_OID = 'fdxX2H88000797';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_FDD_OID = 'fddX2GFDC00001', FDX_RTB_OID = 'rtbILDiretors', FDX_USER_LENGTH = 50, FDX_DETAIL_CONTROL = 'Picklist', FDX_ALIAS = 'pge-iep-pmd' WHERE FDX_OID = 'fdxX2IL0000257';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_FDD_OID = 'fddX2000003952', FDX_RTB_OID = 'rtbILDiretors', FDX_USER_LENGTH = 50, FDX_DETAIL_CONTROL = 'Picklist', FDX_ALIAS = 'pa-co-pmd' WHERE FDX_OID = 'fdxX2IL0000266';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_FDD_OID = 'fddX2000003952', FDX_RTB_OID = 'rtbILDiretors', FDX_USER_NAME_LONG = 'Person Make Decision', FDX_USER_LENGTH = 50, FDX_DETAIL_CONTROL = 'Picklist', FDX_ALIAS = 'pgstr-pmd' WHERE FDX_OID = 'fdxX2IL0000473';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1660 WHERE FDX_OID = 'fdxX2K88000829';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1670 WHERE FDX_OID = 'fdxX2n88000833';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1680 WHERE FDX_OID = 'fdxX2n88000834';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1690 WHERE FDX_OID = 'fdxX2y88000835';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1600 WHERE FDX_OID = 'fdxX2Z88000798';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000880', 'fddX2000003500', 'tbxIlIepData', NULL, NULL, 1720, 'Auto calculate', 'Auto calculate', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-autocalc', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000881', 'fddX2000003501', 'tbxIlIepData', NULL, NULL, 1730, 'Nr of Minutes Outside of the General Ed.', 'Nr of Min Outside Gen Ed', 'Integer', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-total-min-outs-gen-ed', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000882', 'fddX2000003502', 'tbxIlIepData', NULL, NULL, 1740, 'Nr of Minutes Intside of the General Ed.', 'Nr of Min Intside Gen Ed', 'Integer', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-total-min-gen-ed', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000883', 'fddX2000003503', 'tbxIlIepData', NULL, NULL, 1750, 'Percent Intside of the General Ed.', 'Nr of Min Outside Gen Ed', 'Integer', 3, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-percent-gen-ed', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000884', 'fddX2000003504', 'tbxIlIepData', NULL, NULL, 1760, 'Minutes Spent in Regular Child Programm', 'Min Spent in Reg Child Prgramm', 'Integer', 5, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-min-spent-child-prog', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000885', 'fddX2000003505', 'tbxIlIepData', NULL, NULL, 1770, 'Minutes Spent Receiving SPED and Srvc', 'Min Spent Recei SPED and Srvc', 'Integer', 5, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-min-spent-outs-child', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000886', 'fddX2000003613', 'tbxIlIepData', 'rtbILSchMpw', NULL, 1780, 'School MPW', 'School MPW', 'Character', 50, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-iep-school-mpw', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000887', 'fddX2000003507', 'tbxIlIepData', NULL, NULL, 1790, 'Total Bell to Bell Minutes', 'Total Bell to Bell Minutes', 'Integer', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-calc-total-min-bell-to-bell', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000888', 'fddX2000003525', 'tbxIlIepData', NULL, NULL, 1800, 'Need Special education classes', 'Need Special education classes', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-need-sped-classes', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000889', 'fddX2IEPD00039', 'tbxIlIepData', NULL, NULL, 1810, 'Explain', 'Explain', 'Character', 200, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-need-sped-classes-expl', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000890', 'fddX2000003526', 'tbxIlIepData', NULL, NULL, 1820, 'Nonacademic activities', 'Nonacademic activities', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-nonacadem-activ', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000891', 'fddX2IEPD00040', 'tbxIlIepData', NULL, NULL, 1830, 'If no, explain', 'If no, explain', 'Character', 200, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-nonacadem-activ-expl', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000892', 'fddX2000003527', 'tbxIlIepData', NULL, NULL, 1840, 'Would attend if nondisabled', 'Would attend if nondisabled', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-attend-if-nondis', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000893', 'fddX2IEPD00041', 'tbxIlIepData', NULL, NULL, 1850, 'If no, explain', 'If no, explain', 'Character', 200, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-attend-if-nondis-expl', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000894', 'fddX2000003528', 'tbxIlIepData', NULL, NULL, 1860, 'Informed parents of spec school for Deaf', 'Would attend if nondisabled', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-inform-similar-serv', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000895', 'fddX2000003529', 'tbxIlIepData', NULL, NULL, 1870, 'Transportation to and/or between schools', 'Transp and/or between schools', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-spec-transp-between-sch', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000896', 'fddX2000003530', 'tbxIlIepData', NULL, NULL, 1880, 'Transportation in school building', 'Transp in school building', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-spec-transp-around-sch', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000897', 'fddX2000003531', 'tbxIlIepData', NULL, NULL, 1890, 'Specialized equipment', 'Specialized equipment', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-spec-equip', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000898', 'fddX2IEPD00042', 'tbxIlIepData', NULL, NULL, 1900, 'Explain detail transportation plan', 'Detail transportation plan', 'Text', 0, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-transp-plan', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2z88000899', 'fddX2000003532', 'tbxIlIepData', NULL, NULL, 1910, 'Extended school year', 'Extended school year', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ny-env-ext-sch-year-need', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME_FORM SET WPF_INSTANCE_ID = 'B' WHERE WPF_OID = 'wpf02AmAdForms';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME_FORM SET WPF_INSTANCE_ID = 'A' WHERE WPF_OID = 'wpf02ArAdForms';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE FORM_DEFINITION SET FMD_SCALE_TYPE = 1 WHERE FMD_OID = 'fmdIl3457I';
+]]> 
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

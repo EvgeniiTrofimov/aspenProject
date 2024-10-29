@@ -1,0 +1,195 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<!-- Only install for MA clients -->
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT PRD_DEFAULT_VALUE FROM SYS_PREFERENCE_DEFINITION WHERE PRD_KEY = 'sys.state';
+]]>
+</TestStatement>
+<TestValue>MA</TestValue>
+</SQLTest>
+
+<!-- Make sure this update has not already been installed -->
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%942.33%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+
+<!-- Only apply this update if 942.30 has already been applied -->
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history like '%942.3%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',942.33') where history not like '%942.33%';
+]]>
+</SQLStatement>
+
+<!-- ALL Updates -->
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2504001956';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2504001957';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2504001958';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2504001962';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2504001964';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006608';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006609';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006610';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006611';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006612';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006613';
+]]>
+</SQLStatement>
+
+<!-- MA Specific Updates -->
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006600';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006601';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006602';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006603';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006604';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = NULL WHERE RCD_OID = 'rcdX2b04006605';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2M00001956';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2M00001957';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2M00001958';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2M00001962';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE REF_CODE SET RCD_CODE_DEPENDENT = 'Presentation' WHERE RCD_OID = 'rcdX2M00001964';
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

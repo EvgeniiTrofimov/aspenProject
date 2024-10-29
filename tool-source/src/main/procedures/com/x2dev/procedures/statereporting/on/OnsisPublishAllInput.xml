@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- INPUT DEFINITIONS FOR Sif Publish All for Topic as Change -->
+
+<tool-input prompt-download="false" download-file-name="onsis_batch.zip" allow-school-select="false" allow-org-select="false" height="500">
+<!--  
+  <input name="reportDate" data-type="date" display-type="hidden" required="false" />
+ -->
+ <input name="deploymentNotes" data-type="string" display-type="hidden" required="false" default-value="" />
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="report.shared.School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="true">
+         <filter field="sklOID" application-context="school" operator="equals" source="session" value="schoolOid" />
+         <filter field="sklInactiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+         <field id="sklSchoolType" />
+         <field id="sklSchoolLevel" />
+     </picklist>
+ </input>
+
+ <input name="submissionType" data-type="string" display-type="select" display-name="report.shared.Submission" default-value="code">
+     <picklist field-id="udaFieldC001" multiple="false" required="true" extended-dictionary="ON-SIS-SUB-FLD">
+         <filter alias="ddx-oid" operator="equals" source="constant" value="ddxOnSisSubFld" />
+         <filter alias="period-end-date" operator="greaterOrEqual" source="session" value="organization.currentContext.startDate"/>
+         <filter alias="period-start-date" operator="lessOrEqual" source="session" value="organization.currentContext.endDate" />
+         <field alias="submission-type" />
+         <field alias="period-start-date" sort="true" sort-direction="desc" />
+         <field alias="period-end-date" sort="true" />
+         <field alias="submission-period-code" display="false" sort="true" sort-direction="asc" />
+         <field id="udaOID" display="false" sort="true" sort-direction="asc" />
+     </picklist>
+ </input>
+ 
+ <input name="runOption" data-type="string" display-type="select" display-name="report.shared.runOptions" default-value="false">
+   <option value="xml" display-name="report.shared.generateXml" />
+   <!-- uncomment this element to restore previous choice <option value="validate" display-name="Validate" /> -->
+ </input>
+
+ <!-- change display-type to "select" for selection of processor -->
+ <input name="processSelector" data-type="string" display-type="hidden" display-name="report.Process.selector" default-value="auto">
+   <option value="auto" display-name="Use revised when approved" />
+   <option value="traditional" display-name="Traditional" />
+   <option value="revised" display-name="report.Revised" />
+ </input>
+
+<!-- 
+ <input name="includeGDays" data-type="boolean" display-type="checkbox" display-name="report.Include.school.closures.in.DAYS_ABSENT_YTD" default-value="true" required="false" />  
+ -->
+
+ <input name="debugStudentOid" data-type="string" display-type="picklist" display-name="report.shared.student" default-value="" required="false">
+   <picklist field-id="stdViewName" multiple="false" required="false">
+    <field id="stdViewName" sort="true" />
+    <field id="stdIDLocal" />
+    <field id="stdIDState" />
+   </picklist>
+ </input>
+ <input name="debugStaffOid" data-type="string" display-type="picklist" display-name="report.shared.staff" default-value="" required="false">
+   <picklist field-id="stfNameView" multiple="false" required="false">
+    <field id="stfNameView" sort="true" />
+    <field id="stfStaffID" />
+    <field id="stfIDState" />
+   </picklist>
+ </input>
+ <input name="customName" data-type="string" display-type="text" display-name="report.shared.resultName" default-value="" required="false" />  
+ <input name="debugDetail" data-type="boolean" display-type="hidden" display-name="report.shared.includeDebugDetail" default-value="false" required="false" />  
+ <input name="logPerfData" data-type="boolean" display-type="hidden" display-name="report.shared.logPerfData" default-value="false" />
+</tool-input>

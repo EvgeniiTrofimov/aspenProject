@@ -1,0 +1,88 @@
+<!-- **************************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "DIRECTORS MEMBERSHIP/ATTENDANCE REPORT" CONFIGURED FOR "DIRECTORS MONTHLY MEMBERSHIP/ATTENDANCE REPORT" REPORT -->
+<!-- **************************************************************************************************** -->
+
+<tool-input allow-school-select="false" district-support="false" height="450">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- *********************** -->
+ <!--    Run Thru Current Date    -->
+ <!-- *********************** -->
+ <input name="thruCurrentDate" display-name="Run Thru Current Date" data-type="boolean" display-type="checkbox" required="false" default-value="false"/>
+
+ <!-- ************ -->
+ <!-- SELECT REPORT MODE-->
+ <!-- ************ -->
+ <input name="reportMode" data-type="integer" display-type="select" display-name="Annual, Period or Report Date" >
+     <option value="0" display-name="Annual" />
+     <option value="1" display-name="Report Period" />
+     <option value="2" display-name="Date Range" />
+  <disable input-name="reportPeriod" if-parent-equals="0" />
+  <disable input-name="reportPeriod" if-parent-equals="2" />
+  <disable input-name="dateRangeStart" if-parent-equals="0" />
+  <disable input-name="dateRangeStart" if-parent-equals="1" />
+  <disable input-name="dateRangeEnd" if-parent-equals="0" />
+  <disable input-name="dateRangeEnd" if-parent-equals="1" />
+  
+ </input>
+
+ <!-- ********** -->
+ <!-- MONTH CHOICE -->
+ <!-- ********** -->
+ <input name="reportPeriod" data-type="string" display-type="picklist" display-name="Report Period" >
+     <picklist field-id="rcdCode">
+     <field id="rcdCode"/>
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+     </picklist>
+ </input>
+
+ <!-- **************** -->
+ <!-- REPORT DATE -->
+ <!-- **************** -->
+ <input name="dateRangeStart" data-type="date" display-type="date" display-name="Start Date" default-value="districtYearStart" required="true"/>
+ <input name="dateRangeEnd" data-type="date" display-type="date" display-name="End Date" default-value="today" required="true"/>
+
+ <!-- *********************** -->
+ <!-- ABSENT THRESHOLD OPTION -->
+ <!-- *********************** -->
+
+ <input name="thresholdOption" data-type="integer" display-type="select" display-name="Absent Threshold Option">
+   <option value="0" display-name="Percent Greater Than" />
+   <option value="1" display-name="Absences Greater Than" />
+ </input>
+
+ <!-- *********************** -->
+ <!--    Absence Threshold    -->
+ <!-- *********************** -->
+ <input name="absenceThreshold" display-name="Count/Percent Greater than" data-type="integer" display-type="text" required="false"/>
+ 
+ <!-- ********* -->
+ <!-- USER SORT -->
+ <!-- ********* -->
+
+ <input name="sortReport" data-type="string" display-type="select" display-name="report.shared.sort">
+   <option value="nameView" display-name="Name" />
+   <option value="grade" display-name="Grade Level" />
+ </input>
+
+   <!-- ********** -->
+  <!-- SUBREPORTS -->
+  <!-- ********** -->
+ 
+  <input name="subreportIdPDFVersion" data-type="string" display-type="hidden" default-value ="TN_ATT_REP"/>
+  <input name="subreportIdCSVVersion" data-type="string" display-type="hidden" default-value ="TN_ATT_REP_CSV"/>
+ 
+</tool-input>

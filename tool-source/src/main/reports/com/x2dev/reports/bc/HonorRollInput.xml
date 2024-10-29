@@ -1,0 +1,90 @@
+<!-- ********************************************* -->
+<!-- INPUT DEFINITIONS FOR THE "HONOR ROLL" REPORT -->
+<!-- ********************************************* -->
+
+<tool-input allow-school-select="true" district-support="false" context="com.x2dev.sis.model.beans.SisStudent" height="460">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="currentContextOid" default-value-source="session">
+  <picklist field-id="ctxSchoolYear">
+   <field id="ctxSchoolYear" sort="true" />
+   <field id="ctxContextName" />
+  </picklist>
+ </input>
+
+ <!-- ************ -->
+ <!-- GRADE COLUMN -->
+ <!-- ************ -->
+
+ <input name="trnColumnDefOids" data-type="string" display-type="picklist" display-name="Transcript grade columns" required="false">
+  <picklist field-id="gtcName" multiple="true" required="false">
+   <field id="relGtcGtdOid.gtdName" sort="true" />
+   <field id="gtcName" sort="true" />
+   <filter field="gtcGrsOID" operator="notEmpty" source="constant" />
+   <filter field="gtcGtdOID" operator="equals" source="session" value="school.defaultTranscriptDefinitionOid" />
+  </picklist>
+ </input>
+
+ <!-- ************* -->
+ <!-- MINIMUM GRADE -->
+ <!-- ************* -->
+
+ <input name="minGrade" data-type="string" display-type="text" display-name="Minimum grade" required="false" />
+
+ <!-- *************** -->
+ <!-- MINIMUM COURSES -->
+ <!-- *************** -->
+
+ <input name="minCourses" data-type="integer" display-type="text" display-name="Minimum number of courses" required="false" />
+
+ <!-- ********* -->
+ <!-- GPA RANGE -->
+ <!-- ********* -->
+
+ <input name="minGpa" data-type="string" display-type="text" display-name="Minimum GPA" required="false" />
+ <input name="maxGpa" data-type="string" display-type="text" display-name="Maximum GPA" required="false" />
+
+ <!-- ********************** -->
+ <!-- STUDENT SELECT OPTIONS -->
+ <!-- ********************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true" />
+  <option value="##all" display-name="report.shared.query.all"/>
+  <option value="yog" display-name="report.shared.query.yog"/>
+  <disable input-name="queryString" if-parent-equals="##current" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- *********** -->
+ <!-- ACTIVE ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true" />
+ 
+ <!-- ********************* -->
+ <!-- SECONDARY ASSOCIATION -->
+ <!-- ********************* -->
+ 
+ <input name="secondaryStudent" data-type="boolean" display-type="checkbox" display-name="Include cross-enrolled students" />
+
+ <!-- ******************** -->
+ <!-- STUDENT SORT OPTIONS -->
+ <!-- ******************** -->
+
+ <input name="studentSort" data-type="string" display-type="select" display-name="report.schedule.studentSort">
+  <option value="nameView" display-name="report.shared.sort.name"/>
+  <option value="yog,nameView" display-name="report.shared.sort.yog"/>
+ </input>
+
+ <!-- ************** -->
+ <!-- DISPLAY GRADES -->
+ <!-- ************** -->
+
+ <input name="displayGrades" data-type="boolean" display-type="checkbox" display-name="Display grades" />
+
+</tool-input>

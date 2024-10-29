@@ -1,0 +1,1202 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="StudentAchievementDataException"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization"/>
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="includePeriod" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="schoolCountMap" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="schoolDatesMap" isForPrompting="false" class="java.util.Map"/>
+
+	<field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<field name="subreportData" class="com.follett.fsc.core.k12.tools.reports.ReportDataGrid"/>
+	<field name="subreportFormat" class="java.io.InputStream"/>
+	<field name="subreportType" class="java.lang.String"/>
+
+	<variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{shortDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="dateFormat" class="java.text.DateFormat" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd-MMM-yyyy")]]></variableExpression>
+	</variable>
+	<variable name="schoolCounts" class="java.util.Map" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{schoolCountMap}.get($F{school}.getOid())]]></variableExpression>
+	</variable>
+	<variable name="schoolDates" class="java.util.Map" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{schoolDatesMap}.get($F{school}.getOid())]]></variableExpression>
+	</variable>
+	<variable name="currentStartDate" class="java.util.Date" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{schoolDates}.get("currentStartDate")]]></variableExpression>
+	</variable>
+	<variable name="currentEndDate" class="java.util.Date" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{schoolDates}.get("currentEndDate")]]></variableExpression>
+	</variable>
+	<variable name="previousStartDate" class="java.util.Date" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{schoolDates}.get("previousStartDate")]]></variableExpression>
+	</variable>
+	<variable name="previousEndDate" class="java.util.Date" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{schoolDates}.get("previousEndDate")]]></variableExpression>
+	</variable>
+
+		<group  name="school" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{school}]]></groupExpression>
+			<groupHeader>
+			<band height="21"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="41"
+						height="14"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[District]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="73"
+						height="14"
+						key="staticText-8"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="597"
+						y="0"
+						width="77"
+						height="14"
+						key="staticText-9"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School Number]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="41"
+						y="0"
+						width="231"
+						height="14"
+						key="textField-6"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getParentOrganization().getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="352"
+						y="0"
+						width="231"
+						height="14"
+						key="textField-7"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="674"
+						y="0"
+						width="87"
+						height="14"
+						key="textField-8"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getSchoolId()]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="95"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="402"
+						height="15"
+						key="staticText-10"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Summary]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="25"
+						width="140"
+						height="14"
+						key="staticText-11"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Number of Students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="262"
+						y="25"
+						width="140"
+						height="14"
+						key="staticText-12"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Total Number of Records]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="39"
+						width="122"
+						height="14"
+						key="staticText-13"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[Error-based Exceptions]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="53"
+						width="122"
+						height="14"
+						key="staticText-14"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[Warning-based Exceptions]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="67"
+						width="122"
+						height="14"
+						key="staticText-15"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[Duplicates]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="81"
+						width="122"
+						height="14"
+						key="staticText-16"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[Invalid Dates]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="39"
+						width="140"
+						height="14"
+						key="textField-9"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colErrorBasedExceptionsStudent")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="39"
+						width="140"
+						height="14"
+						key="textField-10"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colErrorBasedExceptionsTotal")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="53"
+						width="140"
+						height="14"
+						key="textField-11"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colWarningBasedExceptionsStudent")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="53"
+						width="140"
+						height="14"
+						key="textField-12"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colWarningBasedExceptionsTotal")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="67"
+						width="140"
+						height="14"
+						key="textField-13"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colDuplicatesStudent")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="67"
+						width="140"
+						height="14"
+						key="textField-14"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colDuplicatesTotal")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="81"
+						width="140"
+						height="14"
+						key="textField-15"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colInvalidDatesStudent")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="81"
+						width="140"
+						height="14"
+						key="textField-16"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{schoolCounts}.get("colInvalidDatesTotal")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="25"
+						width="122"
+						height="14"
+						key="staticText-17"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="invalidDates" isReprintHeaderOnEachPage="true" >
+			<groupExpression><![CDATA[$F{subreportType}]]></groupExpression>
+			<groupHeader>
+			<band height="55"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean("dates".equals($F{subreportType}))]]></printWhenExpression>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="119"
+						height="18"
+						key="staticText-44"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Invalid Dates]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="23"
+						width="60"
+						height="32"
+						key="staticText-45"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PEN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="23"
+						width="46"
+						height="32"
+						key="staticText-46"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Pupil 
+No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="106"
+						y="23"
+						width="128"
+						height="32"
+						key="staticText-47"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="234"
+						y="23"
+						width="70"
+						height="32"
+						key="staticText-48"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Course Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="304"
+						y="23"
+						width="70"
+						height="32"
+						key="staticText-49"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School
+Course Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="374"
+						y="23"
+						width="120"
+						height="32"
+						key="staticText-50"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Description]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="494"
+						y="23"
+						width="68"
+						height="32"
+						key="staticText-51"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Active 
+Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="562"
+						y="23"
+						width="220"
+						height="32"
+						key="staticText-52"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Message]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="duplicates" isReprintHeaderOnEachPage="true" >
+			<groupExpression><![CDATA[$F{subreportType}]]></groupExpression>
+			<groupHeader>
+			<band height="79"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean("duplicates".equals($F{subreportType}))]]></printWhenExpression>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="435"
+						height="18"
+						key="staticText-18"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Duplicate Records]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="18"
+						width="535"
+						height="20"
+						key="staticText-19"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+				<text><![CDATA[School Number, PEN, BCeSIS Course Code, Active Date and Class identifier combination must be unique.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="40"
+						width="60"
+						height="39"
+						key="staticText-20"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PEN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="40"
+						width="46"
+						height="39"
+						key="staticText-21"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Pupil 
+No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="106"
+						y="40"
+						width="108"
+						height="39"
+						key="staticText-22"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="214"
+						y="40"
+						width="62"
+						height="39"
+						key="staticText-23"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Course
+Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="276"
+						y="40"
+						width="64"
+						height="39"
+						key="staticText-24"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School
+Course
+Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="340"
+						y="40"
+						width="106"
+						height="39"
+						key="staticText-25"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Description]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="446"
+						y="40"
+						width="66"
+						height="39"
+						key="staticText-26"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Active 
+Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="512"
+						y="40"
+						width="60"
+						height="39"
+						key="staticText-27"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Class Identifier]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="572"
+						y="40"
+						width="46"
+						height="39"
+						key="staticText-28"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Potential Credits]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="618"
+						y="40"
+						width="40"
+						height="39"
+						key="staticText-29"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Mark Value]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="658"
+						y="40"
+						width="64"
+						height="39"
+						key="staticText-30"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Equivalency
+/ Challenge]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="722"
+						y="40"
+						width="60"
+						height="39"
+						key="staticText-31"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Completion Date]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="exceptions" isReprintHeaderOnEachPage="true" >
+			<groupExpression><![CDATA[$F{subreportType}]]></groupExpression>
+			<groupHeader>
+			<band height="62"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean("exceptions".equals($F{subreportType}))]]></printWhenExpression>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="274"
+						height="18"
+						key="staticText-32"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Exceptions]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="208"
+						y="23"
+						width="58"
+						height="39"
+						key="staticText-33"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Course
+Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="266"
+						y="23"
+						width="58"
+						height="39"
+						key="staticText-34"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School
+Course
+Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="404"
+						y="23"
+						width="56"
+						height="39"
+						key="staticText-35"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Active 
+Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="460"
+						y="23"
+						width="60"
+						height="39"
+						key="staticText-36"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Class 
+Identifier]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="520"
+						y="23"
+						width="60"
+						height="39"
+						key="staticText-37"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Completion
+Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="102"
+						y="23"
+						width="106"
+						height="39"
+						key="staticText-38"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="324"
+						y="23"
+						width="80"
+						height="39"
+						key="staticText-39"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Description]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="580"
+						y="23"
+						width="48"
+						height="39"
+						key="staticText-40"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Message Type]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="628"
+						y="23"
+						width="154"
+						height="39"
+						key="staticText-41"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Message]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="23"
+						width="58"
+						height="39"
+						key="staticText-42"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PEN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="58"
+						y="23"
+						width="44"
+						height="39"
+						key="staticText-43"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Pupil 
+No]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="73"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="695"
+						y="0"
+						width="32"
+						height="16"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="727"
+						y="0"
+						width="19"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="746"
+						y="0"
+						width="17"
+						height="16"
+						key="staticText-3"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="763"
+						y="0"
+						width="19"
+						height="16"
+						key="textField-2"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="16"
+						width="782"
+						height="19"
+						key="staticText-4"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student Achievement Data Extract Exceptions Report]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="262"
+						height="15"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new SimpleDateFormat("dd MMM yyyy h:mm a").format(new java.util.Date())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="51"
+						width="782"
+						height="16"
+						key="textField-17">
+							<printWhenExpression><![CDATA[new Boolean("previous".equals($P{includePeriod}))]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Previous Period: " + $V{dateFormat}.format($V{previousStartDate}) + " to " + $V{dateFormat}.format($V{previousEndDate})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="35"
+						width="782"
+						height="16"
+						key="textField-18"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Current Period: " + $V{dateFormat}.format($V{currentStartDate}) + " to " + $V{dateFormat}.format($V{currentEndDate})]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="34"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="26"
+						key="SADEER-E"
+						positionType="Float"/>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$F{subreportData}]]></dataSourceExpression>
+					<subreportExpression  class="java.io.InputStream"><![CDATA[$F{subreportFormat}]]></subreportExpression>
+				</subreport>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

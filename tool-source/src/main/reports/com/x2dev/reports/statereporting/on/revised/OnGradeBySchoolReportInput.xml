@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool-input prompt-download="true" allow-school-select="false" allow-org-select="false" height="500" context="com.x2dev.sis.model.beans.SisOrganization">
+ <input name="reportDate" data-type="date" display-type="date" display-name="report.shared.effectiveDate" required="true" default-value="today"/>
+   
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="report.shared.All.schools" default-value="true"  context-dependent="true"/>
+ 
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="report.shared.School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         <filter field="sklOID" application-context="school" operator="equals" source="session" value="schoolOid" />
+         <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+         <filter alias="all-skl-BSID" operator="notEmpty" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+         <field id="sklSchoolLevel" />
+         <field alias="all-skl-SpecialCondition" />
+     </picklist>
+ </input>
+ 
+ <input name="isDetailReport" data-type="boolean" display-type="checkbox" display-name="report.Detail.report" default-value="false" required="false" />
+ 
+ <input name="countSecondary" data-type="boolean" display-type="checkbox" display-name="report.Count.shared.students" default-value="false" required="false" />
+   
+ <input name="roundUpFte" data-type="boolean" display-type="checkbox" display-name="report.FTE.round.0.7.or.higher.to.1.0" default-value="false" required="false" />
+   
+ <input name="gradeCodes" data-type="string" display-type="picklist" display-name="report.shared.gradeLevels" required="false">
+    <picklist field-id="rcdCode" multiple="true" required="false">
+      <field id="rcdCode" sort="true" />
+      <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+      <filter field="rcdCodeState" operator="in" value="JK;K;1;2;3;4;5;6;7;8;9;10;11;12" />
+    </picklist>
+ </input>
+
+ <input name="sortOption" data-type="string" display-type="select" display-name="report.shared.Sort" default-value="legalName">
+   <option value="legalName" display-name="label.shared.legal.name" />
+   <option value="oen" display-name="report.shared.OEN" />
+ </input>
+
+ <input name="formatDetailCsv" data-type="string" display-type="hidden" default-value="ON-GRBYSKL-DET-CSV" />
+ <input name="formatDetailPdf" data-type="string" display-type="hidden" default-value="ON-GRBYSKL-DET-PDF" />
+ <input name="formatSummaryCsv" data-type="string" display-type="hidden" default-value="ON-GRBYSKL-SUM-CSV" />
+ <input name="formatSummaryPdf" data-type="string" display-type="hidden" default-value="ON-GRBYSKL-RPT" />
+</tool-input>

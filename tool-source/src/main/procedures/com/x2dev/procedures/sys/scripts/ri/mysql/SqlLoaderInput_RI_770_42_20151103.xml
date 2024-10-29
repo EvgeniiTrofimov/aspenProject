@@ -1,0 +1,1325 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT PRD_DEFAULT_VALUE FROM SYS_PREFERENCE_DEFINITION WHERE PRD_KEY = 'sys.state';
+]]>
+</TestStatement>
+<TestValue>RI</TestValue>
+</SQLTest>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.42%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',770.42') where history not like '%770.42%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_NAME = 'RI IEP Form(deprecated)' WHERE VWT_OID = 'vwtX2IepRI' AND VWT_CUSTOM_IND <> '1';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO VIEW_TEMPLATE (VWT_OID, VWT_OWNER_OID, VWT_OWNER_TYPE, VWT_DDX_OID, VWT_NAME, VWT_CONTEXT, VWT_VIEW_DEFINITION, VWT_CUSTOM_IND, VWT_HIDE_IND, VWT_DESCRIPTION, VWT_HELP_ENABLED, VWT_PROCEDURE_ID, VWT_SCHOOL_VISIBILITY_TYPE, VWT_ROLE_VISIBILITY_TYPE, VWT_LAST_MODIFIED) VALUES ('vwtX2IepRI2', '*dst', 1, 'ddxRiIep', 'RI Standard IEP', 'iep', '<?xml version="1.0" encoding="UTF-8"?>
+<template>
+  <tab name="Attributes">
+    <row>
+      <column>
+        <property id="relIepStdOid.stdViewName" label-short="false" />
+        <property id="iepStatus" label-short="false" />
+        <property id="iepStartDate" label-short="false" />
+        <property id="iepEndDate" label-short="false" />
+        <property id="iepSignedDate" label-short="false" />
+        <property alias="ritr-consent-obtained-date" label="Parent consent date" label-short="false" />
+        <property id="iepMeetingType" label-short="false" />
+        <property id="iepMeetingDate" label-short="false" />
+        <property id="relIepStfOid.stfNameView" label-short="false">
+          <picklist relationship="relIepStfOid" required="true" extended-dictionary="SPED-RI-IEP">
+            <field id="stfNameView" sort="true" />
+            <field id="relStfSklOid.sklSchoolName" />
+            <field id="stfStaffID" />
+            <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+          </picklist>
+        </property>
+        <property id="relIepStfOid2.stfNameView" label="Additional Staff 1" label-short="false">
+          <picklist relationship="relIepStfOid2" required="true" extended-dictionary="SPED-RI-IEP">
+            <field id="stfNameView" sort="true" />
+          </picklist>
+        </property>
+        <property id="relIepStfOid3.stfNameView" label="Additional Staff 2" label-short="false">
+          <picklist relationship="relIepStfOid3" required="true" extended-dictionary="SPED-RI-IEP">
+            <field id="stfNameView" sort="true" />
+          </picklist>
+        </property>
+        <property id="relIepIamPrim.iamDate" label-short="false">
+          <picklist relationship="relIepIamPrim" required="true" extended-dictionary="SPED-RI-IEP">
+            <field id="iamDate" sort="true" />
+            <filter connector="and" field="iamIepOID" operator="equals" source="current" value="iepOID" />
+          </picklist>
+        </property>
+      </column>
+      <column>
+        <property id="iepLastRvw" label-short="false" />
+        <property id="iepNextRvw" label-short="false" />
+        <property id="iepLastEv" label-short="false" />
+        <property id="iepNextEv" label-short="false" />
+        <property id="iepRefer" label-short="false" />
+        <property id="iepIniElig" label-short="false" />
+        <property id="iepLstElig" label-short="false" />
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="none">
+          <text bold="true" font-size="medium">Rhode Island Special Education Census</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <column>
+        <property alias="private-school-enrollee" label-short="false" />
+        <property alias="servicing-district" label-short="false" />
+        <property alias="beneficiary" label-short="false" />
+        <property alias="medicaid-eligible" label-short="false" />
+        <property alias="medicaid-case-worker" label-short="false" />
+        <property alias="english-ability" label-short="false" />
+      </column>
+      <column>
+        <property alias="iep-service-program-continuum" label-short="false" />
+        <property alias="iep-service-cost-center" label-short="false" />
+        <property alias="iep-service-tuition" label-short="false" />
+        <property alias="iep-service-account-number" label-short="false" />
+        <property id="iepExitReason" label-short="false" />
+        <property alias="sped-in-last-state-report" label-short="false" />
+      </column>
+    </row>
+     <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">If student has a primary disability of "Intellectual Disabilities"</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="ri-disq-car-dev-plan" value="Y" />
+            <text>Yes</text>
+            <radio alias="ri-disq-car-dev-plan" value="N" />
+            <text>No</text>
+            <radio alias="ri-disq-car-dev-plan" value="" />
+            <text>Blank</text>
+            <spacer width="20" />
+            <text font-size="medium">If the student is 14 or older, does this student have a Career Development Plan?</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="ri-disq-voc-ass" value="Y" />
+            <text>Yes</text>
+            <radio alias="ri-disq-voc-ass" value="N" />
+            <text>No</text>
+            <radio alias="ri-disq-voc-ass" value="" />
+            <text>Blank</text>
+            <spacer width="20" />
+            <text font-size="medium">If the student is 14 or older, on the Career Development Plan does the ''My Transition Assessments'' box include both vocational assessments and person centered planning tools?</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="ri-disq-skl-bas-exp" value="Y" />
+            <text>Yes</text>
+            <radio alias="ri-disq-skl-bas-exp" value="N" />
+            <text>No</text>
+            <radio alias="ri-disq-skl-bas-exp" value="" />
+            <text>Blank</text>
+            <spacer width="20" />
+            <text font-size="medium">If the student is 14 or older, on the Career Development Plan are any of the ''My School Based Preparatory Experiences'' (checked off)?</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="ri-disq-int-wrk-exp" value="Y" />
+            <text>Yes</text>
+            <radio alias="ri-disq-int-wrk-exp" value="N" />
+            <text>No</text>
+            <radio alias="ri-disq-int-wrk-exp" value="" />
+            <text>Blank</text>
+            <spacer width="20" />
+            <text font-size="medium">If the student is 14 or older, on the Career Development Plan are there any activities listed under the ''Integrated Trial Work Experiences?''</text>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="PLOP">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Present Levels of Functional Performance</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="bottom" cell-span="1" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Post-School Areas</text>
+          </cell>
+          <cell align="center" border="left,bottom" cell-span="4" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Strengths</text>
+          </cell>
+          <cell align="center" border="left,bottom" cell-span="4" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Needs</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-func-ed" label-display="right" label-short="false" />
+          </cell>
+          <cell align="center" border="left" cell-span="4" line-span="10" vertical-align="top">
+            <property alias="plop-func-strengths" label-display="false" label-short="false" rows="10" />
+          </cell>
+          <cell align="center" border="left" cell-span="4" line-span="10" vertical-align="top">
+            <property alias="plop-func-needs" label-display="false" label-short="false" rows="10" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-func-emp" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-func-ind" label-display="right" label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Present Levels of Academic Achievement</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="bottom" cell-span="1" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Post-School Areas</text>
+          </cell>
+          <cell align="center" border="left,bottom" cell-span="4" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Strengths</text>
+          </cell>
+          <cell align="center" border="left,bottom" cell-span="4" line-span="1" vertical-align="top" shaded="true">
+            <text bold="true" font-size="medium">Needs</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-acad-ed" label-display="right" label-short="false" />
+          </cell>
+          <cell align="center" border="left" cell-span="4" line-span="10" vertical-align="top">
+            <property alias="plop-acad-strengths" label-display="false" label-short="false" rows="10" />
+          </cell>
+          <cell align="center" border="left" cell-span="4" line-span="10" vertical-align="top">
+            <property alias="plop-acad-needs" label-display="false" label-short="false" rows="10" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-acad-emp" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1" vertical-align="top">
+            <property alias="plop-acad-ind" label-display="right" label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Focus/Goals">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">Areas to be Addressed During the Timeframe of This IEP</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text>The areas checked below impact post-school success in education and training, employment, and independent living skills.</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="bottom" cell-span="10" line-span="1" shaded="true">
+            <text bold="true" font-size="medium">Academic</text>
+          </cell>
+          <cell align="center" border="left,bottom" cell-span="10" line-span="1" shaded="true">
+            <text bold="true" font-size="medium">Functional</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-acad-reading" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-acad-writing" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="left" cell-span="5" line-span="1">
+            <property alias="focus-func-socSkills" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-func-behavior" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-acad-math" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-acad-language" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="left" cell-span="5" line-span="1">
+            <property alias="focus-func-indLiving" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-func-studySkills" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <checkbox-view checkbox-id="focusacadother" label="Other (you MUST use this field for ages 3-13)" when="notEmpty" />
+          </cell>
+          <cell align="left" border="left" cell-span="5" line-span="1">
+            <property alias="focus-func-envAccess" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-func-attention" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="10" line-span="3">
+            <property alias="focus-acad-other" checkbox-id="focusacadother" label-display="hide" label-short="false" rows="3" />
+          </cell>
+          <cell align="left" border="left" cell-span="5" line-span="1">
+            <property alias="focus-func-selfDet" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-func-organization" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="left" cell-span="5" line-span="1">
+            <property alias="focus-func-communication" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="focus-func-problemSolving" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="left" cell-span="10" line-span="1" vertical-align="top">
+            <checkbox-view checkbox-id="focusfuncother" label="Other (you MUST use this field for ages 3-13)" when="notEmpty" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <spacer />
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <spacer />
+          </cell>
+          <cell align="left" border="left" cell-span="10" line-span="1">
+            <property alias="focus-func-other" checkbox-id="focusfuncother" label-display="hide" label-short="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Academic Standards Student''s Program Will Address</text>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-els" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-grdLvlExp" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-grdSpanExp" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-wida" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-riaa" label-display="right" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1">
+            <property alias="focus-standards-pbgr" label-display="right" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <checkbox-view checkbox-id="focusstandardsother" label="Other" when="notEmpty" />
+          </cell>
+          <cell align="left" border="none" cell-span="19" line-span="1">
+            <property alias="focus-standards-other" checkbox-id="focusstandardsother" label-display="hide" label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Measurable Annual Academic or Functional Goals</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iep.igl.detail" extended-dictionary-oid="ddxRiIep" id="goals" popup-height="600" popup-width="800" relationship="relIepIglOid" selection-type="multiple">
+              <system-value field="iglStdOID" source="ancestor" value="iepStdOID" />
+              <field id="iglIdentifier" sort="true" />
+              <field alias="goal-area" sort="true" />
+              <field id="iglBaseline" />
+              <field id="iglGoal" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Considerations">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Considerations</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="bottom" cell-span="14" line-span="1" shaded="true">
+            <text />
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1" shaded="true">
+            <text bold="true">Yes</text>
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="true">
+            <text bold="true">No</text>
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top" shaded="true">
+            <text />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>In developing the IEP, did the IEP team consider:</text>
+          </cell>
+          <cell border="left" cell-span="2" line-span="1" vertical-align="top">
+            <text />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="5" vertical-align="top">
+            <text>If the IEP team cannot answer yes to each of these questions a-d, the team must review that factor and consider the impact of the general factor when developing this IEP</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>(a) The strengths of the student?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <radio alias="considerations-stdStrengths" value="YES" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="considerations-stdStrengths" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>(b) The concerns of the parents for enhancing the education of their student?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <radio alias="considerations-prntConcerns" value="YES" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="considerations-prntConcerns" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>(c) The results of the initial or most recent evaluation of the student?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <radio alias="considerations-evalResults" value="YES" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="considerations-evalResults" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>(d) The academic, developmental and functional needs of the student?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-stdNeeds" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-stdNeeds" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>Does the student''s behavior impede his/her learning or that of others?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-behavior" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-behavior" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the IEP team must consider the use of positive behavioral interventions and supports and other strategies to address the behavior.</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>Is the student blind or visually impaired?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <radio alias="considerations-blind" value="YES" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="considerations-blind" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="2" vertical-align="top">
+            <text />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>If yes, does the student need instruction in Braille or the use of Braille?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-braille" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-braille" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>Does the student have communication needs that could impede his/her learning?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-comm" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-comm" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the IEP team must address communication needs.</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>Is the student deaf or hard of hearing?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-deaf" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-deaf" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the IEP team must consider the student''s language and communication needs, opportunities for direct communications with peers and professional personnel in the student''s language and communication mode, academic level, and full range of needs, including opportunities for direct instruction in the student''s language and communication mode.</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>Did the IEP team consider whether the student needs assistive technology device(s) and service(s)?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-tech" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-tech" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>If no, the IEP team must consider whether the student needs assistive technology device(s) and service(s).</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="14" line-span="1">
+            <text>Does this student have a Personal Literacy Plan (PLP)?</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-plp" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1">
+            <radio alias="considerations-plp" value="NO" />
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the the student''s short term objectives must be aligned with the student''s PLP.</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>Does this student have an Individual Learning Plan (ILP)?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <radio alias="considerations-ilp" value="YES" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="considerations-ilp" value="NO" />
+          </cell>
+          <cell border="left" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the the student''s short term objectives must be aligned with the student''s ILP.</text>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line border="none">
+          <cell border="none" cell-span="14" line-span="1">
+            <text>Is the student an English Language Learner?</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1">
+            <text />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="relIepStdOid.ESL Flag" label-display="hide" label-short="false" />
+          </cell>
+          <cell border="left" cell-span="10" line-span="1" vertical-align="top">
+            <text>If yes, the IEP team must consider the language needs that relate to this IEP.</text>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Extended School Year Services</text>
+        </line>
+        <line border="none">
+          <text>Does the Student require Extended School Year (ESY) services?</text>
+        </line>
+        <line border="none">
+          <radio alias="considerations-esy" value="true" />
+          <text>Yes. ESY services will be provided for this student and are described in the special education programs and services, related services, supplementary aids and services, program modification and supports for school personnel sections of this IEP.</text>
+        </line>
+        <line border="none">
+          <radio alias="considerations-esy" value="false" />
+          <text>No.</text>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Services/Placement">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Services</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">Special Education</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.sped" extended-dictionary-oid="ddxRiIep" id="services-a" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Special Education" />
+              <field id="isvGoalView" sort="true" />
+              <field alias="service-description" />
+              <field id="isvProvider" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" />
+              <field alias="service-location-other" />
+              <field alias="service-loc-description" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Special Education" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">Related Service(s)</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.rel" extended-dictionary-oid="ddxRiIep" id="services-b" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Related Services" />
+              <field id="isvGoalView" sort="true" />
+              <field alias="service-related" sort="true" />
+              <field alias="service-description" />
+              <field id="isvProvider" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" />
+              <field alias="service-location-other" />
+              <field alias="service-loc-description" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Related Services" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none">
+          <text bold="true" font-size="medium">Supplementary Aids and Services/Program Modifications/Supports for School Personnel</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.other" extended-dictionary-oid="ddxRiIep" id="services-c" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Supplementary Aids" />
+              <field id="isvGoalView" sort="true" />
+              <field alias="service-description" />
+              <field alias="frequency" />
+              <field id="isvEsy" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <field alias="service-location-regular" />
+              <field alias="service-location-other" />
+              <field alias="service-loc-description" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Supplementary Aids" />
+              <filter connector="or" field="isvServiceMode" operator="equals" source="constant" value="Program Modifications" />
+              <filter connector="or" field="isvServiceMode" operator="equals" source="constant" value="Personnel Supports" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Educational Environment</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true">If the student will turn 6 years of age during the timeframe of this IEP, please complete both this section and the Early Childhood Environments section.</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="educational-environment" label-display="hide" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true">Explanation of Nonparticipation in Regular Class, Extracurricular and Nonacademic Areas</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="nonparticipation-expl" label-display="hide" label-short="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Placement</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true">Placement (3-5)</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true">Placement (6+)</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="placement-ec" label-display="hide" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="placement" label-display="hide" label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Testing&amp;#160;Accommodations">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">State/District-wide Assessment Accommodations</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iep.iac.detail" extended-dictionary-oid="ddxRiIep" id="accommodations" popup-height="400" popup-width="700" relationship="relIepIacOid" selection-type="multiple">
+              <field id="iacCategory" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacDescription" />
+              <field alias="accomm-cat-reading" />
+              <field alias="accomm-cat-writing" />
+              <field alias="accomm-cat-math" />
+              <field alias="accomm-cat-science" />
+              <field alias="accomm-cat-other" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">RI Alternate Assessment</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="12" line-span="1">
+            <text>Student will participate in RI Alternate Assessment</text>
+          </cell>
+          <cell border="none" cell-span="3" line-span="1">
+            <radio alias="riaa-participate" value="true" />
+            <text>Yes</text>
+          </cell>
+          <cell border="none" cell-span="3" line-span="1">
+            <radio alias="riaa-participate" value="false" />
+            <text>No</text>
+          </cell>
+          <cell border="none" cell-span="22" line-span="1">
+            <text>If yes, attach the completed Participation Criteria for the RIAA to the IEP.</text>
+          </cell>
+          <cell border="none" cell-span="40" line-span="1">
+            <spacer />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="40" line-span="1">
+            <property alias="riaa-aagse" label-short="false" />
+          </cell>
+          <cell border="none" cell-span="40" line-span="1">
+            <spacer />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Early&amp;#160;Childhood">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">REQUIRED EARLY CHILDHOOD DATA COLLECTION. PLEASE COMPLETE OR UPDATE AT EVERY IEP MEETING FOR CHILDREN AGED 3-5</text>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text>Please report child in only 1 category, either 38a, 38b, or 38c</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">38a) Does This Child Attend a Regular Early Childhood Setting?</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped" value="true" />
+          <text>Yes</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped" value="false" />
+          <text>No</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped" value="NA" />
+          <text>Blank</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="3" line-span="1">
+            <property alias="riec-38a-early-sped-hours" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">Please indicate where the child receives the majority of special education and related services:</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped-location" value="regular" />
+          <text>Regular Early Childhood Program</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped-location" value="other" />
+          <text>Other Location</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38a-early-sped-location" value="NA" />
+          <text>Blank</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">Please indicate the type of Regular Early Childhood Program:</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="headstart" />
+            <text>Head Start</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="kindergarten" />
+            <text>Kindergarten</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="privatepreschool" />
+            <text>Private Pre-school</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="earlycare" />
+            <text>Early Care and Education Center</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="statepreschool" />
+            <text>State Funded Pre-school</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="integratedpreschool" />
+            <text>Integrated Pre-school in District</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="3" line-span="1">
+            <radio alias="riec-38a-early-sped-type" value="NA" />
+            <text>Blank</text>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">38b) Does This Child Attend An Early Childhood Special Education Program?</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped" value="true" />
+          <text>Yes</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped" value="false" />
+          <text>No</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped" value="NA" />
+          <text>Blank</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">Please indicate the type of Regular Early Childhood Program:</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped-type" value="class" />
+          <text>Separate Class</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped-type" value="school" />
+          <text>Separate School</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped-type" value="res" />
+          <text>Residential Facility</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38b-early-sped-type" value="NA" />
+          <text>Blank</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">38c) This Child Does Not Attend Either a Regular Early Childhood Setting or an Early Childhood Special Education Program.</text>
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">Please indicate where the child receives the majority of special education and related services:</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38c-early-sped-location" value="home" />
+          <text>Home</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38c-early-sped-location" value="serviceprovider" />
+          <text>Service Provider Location</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38c-early-sped-location" value="other" />
+          <text>Other Location</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38c-early-sped-location" value="NA" />
+          <text>Blank</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">EARLY CHILDHOOD TRANSITION (Complete at initial IEP only)</text>
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">Did this child ever receive Early Intervention Services?</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-early-intervention" value="no" />
+          <text>No</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-early-intervention" value="yeswithtransition" />
+          <text>Yes, and is being transitioned from EI</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-early-intervention" value="yesbutexited" />
+          <text>Yes, but exited prior to referral to Part B</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-early-intervention" value="NA" />
+          <text>Blank</text>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="riec-38d-original-mtg-date" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="riec-38d-original-start-date" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="false">
+          <text bold="true" font-size="medium">If the effective date of the child''s original IEP (date first service began) was not on or before
+the child''s 3rd birthday, why?</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-iep-after-3rd" value="late" />
+          <text>Late referral/moved into district late (less than 90 days before 3rd birthday)</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-iep-after-3rd" value="parentchoice" />
+          <text>Parent Choice</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-iep-after-3rd" value="threeoutofsession" />
+          <text>Child turns 3 during a period of school closing such as summer or vacation (and child is not eligible for ESY during that period)</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-iep-after-3rd" value="other" />
+          <text>Other (Must specify reason)</text>
+        </line>
+        <line border="none">
+          <radio alias="riec-38d-iep-after-3rd" value="NA" />
+          <text>Blank</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="riec-38d-iep-after-3rd-other" label-display="false" label-short="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Secondary&amp;#160;Transition">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">Transition Assessments</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text>My measurable post-school goals are based upon the following assessments</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.trans.assess" extended-dictionary-oid="ddxRiIep" id="trans-assess" popup-height="300" popup-width="400" relationship="relIepIplOid" selection-type="multiple">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="iplType" source="constant" value="Transition Planning" />
+              <field alias="transAssess-date" sort="true" />
+              <field alias="transAssess-tool" />
+              <field alias="transAssess-area-edu" />
+              <field alias="transAssess-area-emp" />
+              <field alias="transAssess-area-ind" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">Measurable Post-School Goals</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text>Describe the student''s goals for one year after completing high school.</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="bottom" cell-span="1" line-span="1" shaded="true">
+            <text bold="true" font-size="medium">Education and Training</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="center" border="none" cell-span="1" line-span="1">
+            <property alias="trans-psg-edu" label-display="hide" label-short="false" rows="4" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="top,bottom" cell-span="1" line-span="1" shaded="true">
+            <text bold="true" font-size="medium">Employment</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="center" border="none" cell-span="1" line-span="1">
+            <property alias="trans-psg-emp" label-display="hide" label-short="false" rows="4" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="top,bottom" cell-span="1" line-span="1" shaded="true">
+            <text bold="true" font-size="medium">Independent Living</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell align="center" border="none" cell-span="1" line-span="1">
+            <property alias="trans-psg-ind" label-display="hide" label-short="false" rows="4" />
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Transition Services</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line align="left" border="top,bottom" shaded="true">
+          <text bold="true" font-size="medium">Education and Training Services</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.trans" extended-dictionary-oid="ddxRiIep" id="services-trans-educ" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Transition Services" />
+              <system-value alias="transition-area" source="constant" value="Education and Training" />
+              <field alias="transition-area" sort="true" />
+              <field alias="service-description" />
+              <field alias="transition-pvd-reged" />
+              <field alias="transition-pvd-sped" />
+              <field alias="transition-pvd-agency" />
+              <field alias="transition-pvd-stdFmb" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Transition Services" />
+              <filter connector="and" field="isvFieldB001" operator="equals" source="constant" value="Education and Training" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line align="left" border="top,bottom" shaded="true">
+          <text bold="true" font-size="medium">Employment Services</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.trans" extended-dictionary-oid="ddxRiIep" id="services-trans-employ" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Transition Services" />
+              <system-value alias="transition-area" source="constant" value="Employment" />
+              <field alias="transition-area" sort="true" />
+              <field alias="service-description" />
+              <field alias="transition-pvd-reged" />
+              <field alias="transition-pvd-sped" />
+              <field alias="transition-pvd-agency" />
+              <field alias="transition-pvd-stdFmb" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Transition Services" />
+              <filter connector="and" field="isvFieldB001" operator="equals" source="constant" value="Employment" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line align="left" border="top,bottom" shaded="true">
+          <text bold="true" font-size="medium">Independent Living</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.trans" extended-dictionary-oid="ddxRiIep" id="services-trans-indep" popup-height="450" popup-width="850" relationship="relIepIsvOid" selection-type="multiple">
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Transition Services" />
+              <system-value alias="transition-area" source="constant" value="Independent Living" />
+              <field alias="transition-area" sort="true" />
+              <field alias="service-description" />
+              <field alias="transition-pvd-reged" />
+              <field alias="transition-pvd-sped" />
+              <field alias="transition-pvd-agency" />
+              <field alias="transition-pvd-stdFmb" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Transition Services" />
+              <filter connector="and" field="isvFieldB001" operator="equals" source="constant" value="Independent Living" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">Program of Study</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text>Program of study the student will take to reach post-school goals</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="trans-programOfStudy" label-display="hide" label-short="false" rows="4" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Assurance of Transition Services</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="trans-assurance1" label-display="right" label="Student has been provided information about transition planning in the areas of education, training, employment and independent living." label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="trans-assurance2" label-display="right" label="Student agrees that his/her measurable post-school goals are based upon age appropriate transition assessments and will reasonably enabe him/her to reach these goals." label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Transfer of Rights and Consent</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="ritr-turn-17" label-display="right" label="Student is or will turn 17 during the timeframe of this IEP" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="ritr-procedural-safeguards" label-display="right" label="Copy of procedural safeguards given" label-short="false" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="ritr-consent-obtained-date" label-display="right" label="Informed parental consent received" label-short="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', '0', '0', NULL, '0', 'SYS-SPED-RI-IEP-VAL', 0, 0, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2y88000766', 'fddX2IEPA00050', 'tbxRIIEPData', NULL, NULL, 870, 'Career Development Plan', 'Career Development Plan', 'Character', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ri-disq-car-dev-plan', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2y88000767', 'fddX2IEPA00049', 'tbxRIIEPData', NULL, NULL, 880, 'Integrated Trial Work Experiences', 'Integr Trial Work Exper', 'Character', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ri-disq-int-wrk-exp', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2y88000768', 'fddX2IEPA00048', 'tbxRIIEPData', NULL, NULL, 890, 'My School Based Preparatory Experiences', 'Sch Based Prep Exp', 'Character', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ri-disq-skl-bas-exp', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2y88000769', 'fddX2IEPA00047', 'tbxRIIEPData', NULL, NULL, 900, 'Assessments And Person Centered Plannin', 'Voc Asses And Pers Cent Plan', 'Character', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ri-disq-voc-ass', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

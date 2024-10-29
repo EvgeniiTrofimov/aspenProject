@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="NJSpedIEPReview"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="432"
+		 columnSpacing="0"
+		 leftMargin="90"
+		 rightMargin="90"
+		 topMargin="72"
+		 bottomMargin="72"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.zoom" value="1.6105100000000223" />
+	<property name="ireport.x" value="0" />
+	<property name="ireport.y" value="320" />
+	<property name="ireport.layers" value="##Wed Jul 27 09:50:38 EDT 2011\nlayer.1.name=Layer 1\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0" />
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="StringUtils" isForPrompting="false" class="com.x2dev.utils.StringUtils"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="organization" isForPrompting="true" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="iepData" isForPrompting="false" class="com.x2dev.sis.model.beans.IepData"/>
+	<parameter name="meeting" isForPrompting="false" class="com.follett.fsc.core.k12.beans.GenericFormData"/>
+	<parameter name="meetingDictionary" isForPrompting="false" class="com.follett.fsc.core.k12.business.dictionary.DataDictionary"/>
+	<parameter name="districtPersonnelName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtPersonnelNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtRepresentativeName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="districtRepresentativeNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countyName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countySupervisorName" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="countySupervisonNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="schoolPhoneNumber" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="procSafeReport" isForPrompting="false" class="java.io.InputStream"/>
+	<parameter name="isRedetermineEligibility" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="dateAsStringConverter" isForPrompting="false" class="com.x2dev.utils.converters.DateAsStringConverter"/>
+	<parameter name="blankString15" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["<style pdfFontName=\"Helvetica\">_______________</style>"]]></defaultValueExpression>
+	</parameter>
+
+	<field name="recipientName" class="java.lang.String"/>
+	<field name="recipientAddress01" class="java.lang.String"/>
+	<field name="recipientCity" class="java.lang.String"/>
+	<field name="recipientState" class="java.lang.String"/>
+	<field name="recipientZip" class="java.lang.String"/>
+	<field name="studentName" class="java.lang.String"/>
+	<field name="teamMember" class="com.x2dev.sis.model.beans.IepTeamMember"/>
+	<field name="procSafeData" class="net.sf.jasperreports3.engine.data.JRBeanCollectionDataSource"/>
+	<field name="blankType" class="java.lang.Boolean"/>
+
+	<variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="isEligible" class="java.lang.Boolean" resetType="Group" resetGroup="Salutation/Signature" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean($P{meeting} == null ? 
+$F{blankType}.booleanValue() : 
+((String) $P{meeting}.getFieldValueByAlias("elig-eligible", $P{meetingDictionary})).equals("1"))	]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean($P{meeting} == null ? 
+$F{blankType}.booleanValue() : 
+((String) $P{meeting}.getFieldValueByAlias("elig-eligible", $P{meetingDictionary})).equals("1"))	]]></initialValueExpression>
+	</variable>
+	<variable name="isFemale" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean($P{iepData} == null ? false : $P{iepData}.getStudent().getPerson().getGenderCode().contains("F"))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean($P{iepData} == null ? false : $P{iepData}.getStudent().getPerson().getGenderCode().contains("F"))]]></initialValueExpression>
+	</variable>
+
+		<group  name="Parental Consent" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="243"  isSplitAllowed="true" >
+				<break>
+					<reportElement
+						x="0"
+						y="1"
+						width="432"
+						height="0"
+						key="element-2"/>
+				</break>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="8"
+						width="432"
+						height="28"
+						key="textField-38"
+						positionType="Float"/>
+					<box topPadding="5" bottomPadding="5">					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["REQUEST FOR CONSENT TO IMPLEMENT THE IEP\n\n(PRIOR TO THE 15TH DAY)"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="36"
+						width="432"
+						height="202"
+						key="staticText-15"
+						positionType="Float"/>
+					<box leftPadding="5" rightPadding="5" topPadding="5" bottomPadding="5">					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+</box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
+					</textElement>
+				<text><![CDATA[You have the right to consider the proposed IEP for up to 15 calendar days.  To have the IEP services start before the 15 days expire, you must sign below.  If you take no action, the IEP will be effective after the 15th day from the date notice is provided.
+
+If you disagree with the IEP and you do not request mediation or a due process hearing from the New Jersey Department of Education, Office of Special Education Programs, the IEP will be implemented without your signature after the 15 days have expired.
+
+I/we agree to have the IEP services start before the 15 calendar days have expired. 
+
+__________________________________________________________________]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="215"
+						width="120"
+						height="23"
+						key="staticText-16"
+						positionType="Float"/>
+					<box topPadding="5" bottomPadding="5"></box>
+					<textElement verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Signature(s)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="327"
+						y="215"
+						width="50"
+						height="23"
+						key="staticText-17"
+						positionType="Float"/>
+					<box topPadding="5" bottomPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Procedural Safeguards" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="132"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="2"
+						width="432"
+						height="33"
+						key="subreport-1"
+						stretchType="RelativeToBandHeight"/>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$F{procSafeData}]]></dataSourceExpression>
+					<subreportExpression  class="java.io.InputStream"><![CDATA[$P{procSafeReport}]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement
+						x="0"
+						y="1"
+						width="432"
+						height="0"
+						key="element-1"/>
+				</break>
+				<staticText>
+					<reportElement
+						x="7"
+						y="46"
+						width="410"
+						height="12"
+						key="staticText-18"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[If you have any questions regarding this notice, please contact me.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="7"
+						y="58"
+						width="280"
+						height="13"
+						key="staticText-19"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sincerely,]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="73"
+						width="380"
+						height="16"
+						key="textField-45"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(NAME OF CASE MANAGER)" : $P{meeting}.getFieldValueByAlias("review-contact-name", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="90"
+						width="380"
+						height="16"
+						key="textField-46"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(POSITION)" : $P{meeting}.getFieldValueByAlias("review-contact-position", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="108"
+						width="380"
+						height="16"
+						key="textField-47"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? "(PHONE NUMBER)" : $P{meeting}.getFieldValueByAlias("review-contact-number", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="8"
+						y="40"
+						width="430"
+						height="1"
+						key="line-1"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Salutation/Signature" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="142"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="29"
+						width="199"
+						height="16"
+						key="textField-26"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $V{date})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="57"
+						width="354"
+						height="16"
+						key="textField-27"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $F{recipientName})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="73"
+						width="354"
+						height="16"
+						key="textField-28"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $F{recipientAddress01})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="89"
+						width="354"
+						height="16"
+						key="textField-29"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : 
+ ($F{recipientCity} == null ? "" : $F{recipientCity} + ", ") + 
+ ($F{recipientState} == null ? "" : $F{recipientState} + " ") + 
+ ($F{recipientZip} == null ? "" : $F{recipientZip}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="117"
+						width="432"
+						height="16"
+						key="textField-30"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Dear " + ($P{meeting} == null ? $P{blankString15} : $F{recipientName} + ":")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="20"
+						y="5"
+						width="400"
+						height="15"
+						key="staticText-20"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[SPED IEP REVIEW FORM]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="112"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="staticText-13"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[If you have any questions regarding this notice, please contact me.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="32"
+						width="276"
+						height="16"
+						key="staticText-14"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Sincerely,]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="64"
+						width="276"
+						height="16"
+						key="textField-34"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $P{meeting}.getFieldValueByAlias("review-contact-name", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="80"
+						width="276"
+						height="16"
+						key="textField-35"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $P{meeting}.getFieldValueByAlias("review-contact-position", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="96"
+						width="276"
+						height="16"
+						key="textField-36"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{meeting} == null ? $P{blankString15} : $P{meeting}.getFieldValueByAlias("review-contact-number", $P{meetingDictionary}))]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Paragraph 1" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-31"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["The purpose of this letter is to provide written notice " + 
+"of the proposed <u>changes</u> to the current IEP for your child, " + 
+($P{iepData} == null ? $P{blankString15} : $F{studentName}) + 
+". These changes were proposed at the IEP team meeting that was conducted on " + 
+( $P{meeting} == null  ?
+$P{blankString15} :
+$P{meeting}.getFieldValueByAlias("review-date", $P{meetingDictionary})) + 
+" and are based on a review of your child's progress towards meeting " +
+($P{iepData} == null ? "his/her" : ($V{isFemale}.booleanValue() ? "her" : "his" )) +
+" annual goals and the determinations of the IEP team, of which you are a member.\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Changes to Accommodations" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-37"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"The following IEP changes, including supports, modifications, and accommodations have been made to " + 
+($P{iepData} == null ? $P{blankString15} : $F{studentName}) +  "'s program:" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-iep-changes-accom", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Changes to Services" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-39"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"The following IEP changes have been made to the related services provided to " + 
+($P{iepData} == null ? $P{blankString15} : $F{studentName}) +  ":" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-iep-changes-related", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Change to Placement" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-40"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"The following IEP change has been made to the placement for " + 
+($P{iepData} == null ? $P{blankString15} : $F{studentName}) +  ":" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-iep-change-placement", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Paragraph 2" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-44"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["The following is a description of any other options discussed " + 
+"(when other options were considered) and the reasons why they were rejected:\n\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Program" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-41"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"Program:" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-program", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Related Services" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-42"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"Related Services:" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-related-service", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Placement" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-43"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["<style isBold=\"true\" isUnderline=\"false\" pdfFontName=\"Helvetica-Bold\">" +
+"Placement:" +
+"</style>\n\n" +
+(($P{meeting} == null ) ?
+"\n\n" :
+$P{meeting}.getFieldValueByAlias("review-placement", $P{meetingDictionary})) + "\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Paragraph 3" >
+			<groupExpression><![CDATA[$F{recipientName}]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="432"
+						height="16"
+						key="textField-33"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["The IEP proposed in this notice will become effective 15 days after " +
+"you receive the notice unless you initiate mediation or a due " +
+"process hearing to dispute the program.  You have the right " +
+"to consider this proposal for 15 days. Your written consent " +
+"is not required in order for the district to proceed. " +
+"However, you may agree to an earlier implementation of services " +
+"by signing in the box on the next page and returning the form to " +
+( $P{meeting} == null ?
+$P{blankString15} + " at " + $P{blankString15} :
+$P{districtPersonnelName}) +
+".\n\n"]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

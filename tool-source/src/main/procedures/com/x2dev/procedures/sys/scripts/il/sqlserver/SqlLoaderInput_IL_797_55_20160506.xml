@@ -1,0 +1,851 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%797.55%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',797.55' where history not like '%797.55%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_TABLE (RTB_OID, RTB_TBL_OID, RTB_DDX_OID, RTB_OWNER_OID, RTB_OWNER_TYPE, RTB_USER_NAME, RTB_CATEGORY, RTB_CODE_LENGTH, RTB_SYSTEM_ONLY_IND, RTB_SEQUENCE_ORDER_IND, RTB_CODE_RECORD_DEFINITION, RTB_VIEW_FIELDS, RTB_CODE_MANAGEMENT_IND, RTB_LAST_MODIFIED) VALUES ('rtbILDstContac', 'tblRefCode', NULL, '*dst', 1, 'IL SPED - District Contacts', 'Special Ed.', 50, '0', '0', NULL, NULL, '0', NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_TABLE (RTB_OID, RTB_TBL_OID, RTB_DDX_OID, RTB_OWNER_OID, RTB_OWNER_TYPE, RTB_USER_NAME, RTB_CATEGORY, RTB_CODE_LENGTH, RTB_SYSTEM_ONLY_IND, RTB_SEQUENCE_ORDER_IND, RTB_CODE_RECORD_DEFINITION, RTB_VIEW_FIELDS, RTB_CODE_MANAGEMENT_IND, RTB_LAST_MODIFIED) VALUES ('rtbILNonPfclts', 'tblRefCode', NULL, '*dst', 1, 'IL SPED - Non-Public Facilities', 'Special Ed.', 50, '0', '0', NULL, NULL, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO VIEW_TEMPLATE (VWT_OID, VWT_OWNER_OID, VWT_OWNER_TYPE, VWT_DDX_OID, VWT_NAME, VWT_CONTEXT, VWT_VIEW_DEFINITION, VWT_CUSTOM_IND, VWT_HIDE_IND, VWT_DESCRIPTION, VWT_HELP_ENABLED, VWT_PROCEDURE_ID, VWT_SCHOOL_VISIBILITY_TYPE, VWT_ROLE_VISIBILITY_TYPE, VWT_LAST_MODIFIED) VALUES ('vwtILSrvPnSch', '*dst', 1, NULL, 'std-srv-pln-schools', 'std-srv-pln-schools', '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [std-srv-pln-schools] -->
+<template>
+  <tab name="schools">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">PRIVATE SCHOOL</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+		    <property alias="notif-conf-chld-school-name" label-short="false" label-display="right" required="true" />
+        </line>			
+        <line align="left" border="none" shaded="true">			
+			<property alias="notif-conf-chld-home-school" label-short="false" label-display="right" />
+        </line>		
+        <line align="left" border="none" shaded="true">			
+			<property alias="notif-conf-chld-shcool-start" label-short="false" label-display="right" required="true" />
+        </line>			
+        <line align="left" border="none" shaded="true">			
+			<property alias="notif-conf-chld-shcool-end" label-short="false" label-display="right" />
+        </line>			
+        <line align="left" border="none" shaded="true">			
+			<property alias="notif-conf-chld-clroom-teacher" label-short="false" label-display="right" />
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', '0', '0', NULL, '0', NULL, 0, 0, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.sped] -->
+<template>
+  <tab name="Details">
+    <row>
+      <column>
+        <property alias="service-description" required="true"/>
+        <separator height="2" />
+        <property id="isvGoalView" />
+        <property id="isvDuration" label="Minutes/Week" />
+      </column>
+      <column>
+        <property id="isvStartDate" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" />
+        <group header="Frequency">
+          <property alias="frequency-hours" />
+          <property alias="frequency-days" />
+          <property alias="frequency-weeks" />
+        </group>
+		<property alias="srv-comment" />
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text  bold="true" underline="true">SPED Location:</text>
+        </line>
+        <line shaded="true">
+          <spacer height="10" />
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="true">Within General Education</radio>
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="false">OutSide General Education</radio>
+        </line>
+      </block>
+    </row>    
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILIeSeSpe' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iep.meeting.procedural.safeguards] -->
+<template>
+  <tab name="Procedural Safeguards">
+ 
+  
+      <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">PURPOSE OF CONFERENCE (Check all that apply)</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-review-exist-data" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-reevaluation" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-review-revision" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-manifest-determ" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-term-placement" label-short="false" label-display="right" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-initial-elig" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-initial" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-transition" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+            <property alias="mtg-graduation" label-short="false" label-display="right" />
+          </cell>
+          <cell border="none" cell-span="2" line-span="1">
+          </cell>
+        </line>
+      </block>
+    </row>
+  
+   <include context="iep.meeting.general.detail" read-only="false" />
+    <include context="iep.meeting.type.notification" read-only="false" />
+  
+  
+    <row>
+      <block>
+      <line align="center" border="none" shaded="true">
+      <text bold="true" font-size="medium">PROCEDURAL SAFEGUARDS</text>
+      </line>
+      
+        <line align="left" border="none" shaded="true">
+         <text bold="false" font-size="small">Explanation of Procedural Safeguards were provided to/reviewed with the parent(s) on    </text>
+         <property alias="iep-sum-safeguard-was-provide" label-display="false"/>   
+         </line> 
+         <line align="left" border="none" shaded="true">
+         <text bold="false" font-size="small">Transfer of Rights - Seventeen-year old student informed of his/her rights that will transfer to the student upon reaching age 18.   </text>
+         <radio alias="iep-sum-std-was-inf" value="true"/>
+         <text>Yes</text>
+         <radio alias="iep-sum-std-was-inf" value="false"/>
+         <text>No</text>
+         </line>
+         <line align="left" border="none" shaded="true">
+        <cell border="none" cell-span="1" line-span="1">
+         <text bold="false" font-size="small">Parent(s) were given a copy of the   </text>
+        </cell>
+        <cell border="none" cell-span="1" line-span="1">
+         <property alias="img-evaluation-report" label-display="right" label="Evaluation report and eligibility determination"/>
+      </cell>
+        <cell border="none" cell-span="1" line-span="1">
+         <property alias="img-iep" label-display="right" label="IEP"/>
+        </cell>
+         </line>
+       <line align="left" border="none" shaded="true">
+        <cell border="none" cell-span="1" line-span="1">
+         <text bold="false" font-size="small">   </text>
+      </cell>
+        <cell border="none" cell-span="1" line-span="1">
+         <property alias="img-beh-interv-policies" label-display="right" label="District''s behavioral intervention policies"/>
+        </cell>
+        <cell border="none" cell-span="1" line-span="1">
+         <property alias="img-beh-interv-policies-iep" label-display="right" label="District''s behavioral intervention procedures (initial IEP only)"/>
+       </cell>
+         </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILMePrSa' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-notification] -->
+<template>
+  <tab name="Notification">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">NOTIFICATION OF SERVICE PLAN CONFERENCE</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>In order to discuss the educational needs of you child, you are requested to attend an educational student services plan conference</text>
+        </line>
+        <line border="none" shaded="true">
+          <text>at</text>
+          <property alias="notif-location" label-short="false" label-display="none" />
+        </line>
+        <line border="none" shaded="true">
+          <text>scheduled for</text>
+          <property alias="notif-date" label-short="false" label=" Date:" />
+          <property alias="notif-time" label-short="false" label=", Time:" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>The purpose of this meeting is to: (check all that apply)</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="40" />
+          <property alias="notif-review" label-display="right" label="Review educational services plan." />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="40" />
+          <property alias="notif-other" label-display="right" label="Other" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="none" shaded="true">
+          <text>The individuals who are invited to attend the meeting are:</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <text>Name/Title</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <text>Name/Title</text>
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <property alias="notif-title1" label-display="none" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1" shaded="true">
+            <property alias="notif-title6" label-display="none" label-short="true" />
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <property alias="notif-title2" label-display="none" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1" shaded="true">
+            <property alias="notif-title7" label-display="none" label-short="true" />
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <property alias="notif-title3" label-display="none" label-short="false" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1" shaded="true">
+            <property alias="notif-title8" label-display="none" label-short="true" />
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <property alias="notif-title4" label-display="none" label-short="true" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1" shaded="true">
+            <property alias="notif-title9" label-display="none" label-short="true" />
+          </cell>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+            <property alias="notif-title5" label-display="none" label-short="true" />
+          </cell>
+          <cell align="left" border="none" cell-span="10" line-span="1" shaded="true">
+            <property alias="notif-title10" label-display="none" label-short="true" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="3" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>We encourage you to participate in this meeting. You have the right to bring legal or other representatives at you discretion to this conference. Please notify the District Contact if you require an interpreter or translating services.</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="3" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>We hope this date and time is convenient for you. If for some reason this scheduled meeting is not acceptable to you, or if you have question, please contact the District Contact by</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="3" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="notif-district-contact" label-display="right" label="District Contact"  />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="notif-phone" label-display="right" label-short="false" />
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Schools">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">PRIVATE SCHOOLS</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+		<cell align="left" border="none" cell-span="1" line-span="1" shaded="true">
+          <embedded-list extended-dictionary-oid="ddxIlnotificat" id="studentPrivateSchools" popup-height="400" popup-width="700" relationship="relGfdGfcOid" detail-context="std-srv-pln-schools" show-delete-button="true" show-add-button="true" independent-save="true">
+            <field alias="notif-conf-chld-school-name" />
+            <field alias="notif-conf-chld-home-school" />
+            <field alias="notif-conf-chld-shcool-start" sort="true" sort-direction="desc" />
+            <field alias="notif-conf-chld-shcool-end" />
+            <field alias="notif-conf-chld-clroom-teacher" />
+            <filter connector="and" alias="notif-conf-chld-record-type" operator="equals" source="constant" value="privateSchool" />
+            <system-value alias="notif-conf-chld-record-type" source="constant" value="privateSchool" />
+          </embedded-list>
+		</cell>
+		  </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILnotific' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.service.sped.extended] -->
+<template>
+  <tab name="Details">
+    <row>
+      <column>
+        <property alias="service-description" required="true"/>
+        <separator height="2" />
+        <property id="isvGoalView" />
+        <property id="isvDuration" label="Minutes/Week" />
+      </column>
+      <column>
+        <property id="isvStartDate" />
+        <property alias="service-date-pause" />
+        <property alias="service-date-cont" />
+        <property id="isvEndDate" />
+        <property id="isvEsy" />
+        <group header="Frequency">
+          <property alias="frequency-hours" />
+          <property alias="frequency-days" />
+          <property alias="frequency-weeks" />
+        </group>
+		<property alias="srv-comment" />		
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text  bold="true" underline="true">SPED Location:</text>
+        </line>
+        <line shaded="true">
+          <spacer height="10" />
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="true">Within General Education</radio>
+        </line>
+        <line>
+          <radio bold="true" alias="service-location-regular" value="false">OutSide General Education</radio>
+        </line>
+      </block>
+    </row>    
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILSrvSExt' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO VIEW_TEMPLATE (VWT_OID, VWT_OWNER_OID, VWT_OWNER_TYPE, VWT_DDX_OID, VWT_NAME, VWT_CONTEXT, VWT_VIEW_DEFINITION, VWT_CUSTOM_IND, VWT_HIDE_IND, VWT_DESCRIPTION, VWT_HELP_ENABLED, VWT_PROCEDURE_ID, VWT_SCHOOL_VISIBILITY_TYPE, VWT_ROLE_VISIBILITY_TYPE, VWT_LAST_MODIFIED) VALUES ('vwtX2ILStdSchI', '*dst', 1, NULL, 'sped-il-std.schl.info', 'sped-il-std.schl.info', '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [sped-il-std.schl.info] -->
+<template>
+  <tab name="tab.transcriptDetail.gradePopup.default">
+    <row>
+      <column>
+        <property id="relSskSklOid.sklSchoolName" label-short="false">
+          <picklist relationship="relSskSklOid" required="true">
+            <field id="sklSchoolName" sort="true" />
+            <filter connector="and" field="sklInactiveInd" operator="equals" source="constant" value="false" />
+          </picklist>
+        </property>
+        <property id="relSskCtxOid.ctxSchoolYear" label-short="false">
+          <picklist relationship="relSskCtxOid" required="true">
+            <field id="ctxSchoolYear" sort="true" />
+            <field id="ctxContextName" />
+          </picklist>
+        </property>
+        <property id="sskAssocType" label-short="false" />
+        <property id="sskAttMagType" label-short="false" />
+        <property id="sskStartDate" label-short="false" />
+        <property id="sskEndDate" label-short="false" />
+        <property alias="DOE OUTPLACEMENT DI" label="Outplacement RCDTS" label-short="false" />
+        <property alias="DOE SERVICE PROVIDER" label="Service Provider RCDTS" label-short="false" />
+		<property alias="StateId"  label-short="false" />
+      </column>
+    </row>
+  </tab>
+</template>', '0', '0', NULL, '0', NULL, 0, 0, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-std.srvc.plan] -->
+<template>
+  <tab name="Service Plan">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">Educational Student Services Plan</text>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">This Services Plan is developed for a resident student who has been designated to receive special education and related services under the Individuals with Disabilities Education Act ("IDEA"), but who is electively enrolled and attending a private school and is not enrolled to attend their home school</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">SERVICES PLAN</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <property alias="iep-srvcplan-conf-date" label-display="left" required="true" label="CONFERENCE DATE" />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1">
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <property id="relIepStfOid.stfNameView" label="Case Manager">
+              <picklist relationship="relIepStfOid" required="true" action="specialEdPickList.do">
+                <field id="stfNameView" sort="true" />
+                <field id="relStfSklOid.sklSchoolName" />
+                <field id="stfStaffID" />
+                <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+                <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+                <filter field="stfSklOID" operator="equals" source="session" value="schoolOid" application-context="iepSchool">
+                  <filter field="relStfSfsOid.sfsCtxOID" operator="equals" connector="or" source="session" value="district.currentContextOid">
+                    <filter field="relStfSfsOid.sfsSklOID" operator="equals" connector="and" source="session" value="schoolOid" />
+                  </filter>
+                </filter>
+              </picklist>
+            </property>
+          </cell>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PARENT/GUARDIAN INFORMATION</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1" shaded="true">
+            <embedded-list id="contacts" popup-height="600" popup-width="1300" relationship="relIepStdOid.relStdCtjOid" selection-type="none" detail-context="student.std.list.con.detail" show-delete-button="false" show-add-button="false" independent-save="true">
+              <field id="ctjEmergncyPri" sort="true" />
+              <field id="relCtjCntOid.cntViewName" />
+              <field id="relCtjCntOid.cntViewAdrs" />
+              <field id="ctjRelateCode" />
+              <field id="ctjLivesWith" />
+              <field id="relCtjCntOid.relCntPsnOid.psnPhone01" />
+              <field id="relCtjCntOid.relCntPsnOid.psnFieldA001" label="Phone 1 Type" />
+              <field id="relCtjCntOid.relCntPsnOid.psnPhone02" />
+              <field id="relCtjCntOid.relCntPsnOid.psnFieldA002" label="Phone 2 Type" />
+              <field id="relCtjCntOid.relCntPsnOid.psnEmail01" />
+              <field id="ctjFieldA001" />
+              <filter field="ctjRelateCode" connector="and" operator="equals" source="constant" value="FATHER">
+                <filter field="ctjRelateCode" connector="or" operator="equals" source="constant" value="MOTHER">
+                  <filter field="ctjRelateCode" connector="or" operator="equals" source="constant" value="GUARDIAN">
+                    <filter field="ctjFieldA001" connector="or" operator="equals" source="constant" value="true" />
+                  </filter>
+                </filter>
+              </filter>
+            </embedded-list>
+          </cell>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">STUDENT PRIMARY LANGUAGE</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property id="relIepStdOid.stdViewName" read-only="true" />
+          <spacer width="5" />
+          <property id="relIepStdOid.stdHomeLang" label-display="false" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PARENT PRIMARY LANGUAGE</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="parent" popup-height="600" popup-width="800" relationship="relIepItmOid" selection-type="none" embedded-edit="true" show-add-button="false" show-delete-button="false" independent-save="true">
+			  <field id="relItmPsnOid.psnNameFirst" />
+              <field id="relItmPsnOid.psnNameMiddle" />
+              <field alias="itm-interpreter" />
+              <field alias="itm-surrogate-parent" />
+              <field alias="itm-primary-language" />
+              <filter field="itmMemberRole" operator="equals" connector="and" source="constant" value="Parent" >
+             <filter field="itmMemberRole" connector="or" operator="equals" source="constant" value="Guardian" />
+             </filter>
+            </embedded-list>
+          </cell>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">DISABILITY</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property id="iepLastRvw" />
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true" align="right" font-size="small">Primary disability</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="studentPrimaryDisability" popup-height="400" popup-width="700" relationship="relIepIdbOid" selection-type="multiple" embedded-edit="true" warn-on-delete="true" independent-save="true">
+              <field id="idbDisability" sort="true" />
+			  <field alias="dsb-priority" sort="false" />
+              <system-value field="idbPrimaryInd" source="constant" value="true" />
+              <filter field="idbPrimaryInd" operator="equals" source="constant" value="true" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="true" align="right" font-size="small">Secondary disability</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="studentDisability" popup-height="400" popup-width="700" relationship="relIepIdbOid" selection-type="multiple" embedded-edit="true" warn-on-delete="true" independent-save="true">
+              <field id="idbDisability" sort="true" />
+			  <field alias="dsb-priority" sort="false" />
+              <system-value field="idbPrimaryInd" source="constant" value="false" />
+              <filter field="idbPrimaryInd" operator="equals" source="constant" value="false" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Services">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <spacer height="5" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">Special Education</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="iepform.service.sped.extended" extended-dictionary-oid="ddxIlIep" id="services-a" popup-height="450" popup-width="850" relationship="relIepIsvOid" show-add-button="true" independent-save="true">
+              <field id="isvGoalView" sort="true" />
+              <field id="isvDuration" label="Minutes/Week"/>
+              <field alias="service-description" />
+              <field alias="service-provider-other" />
+              <field alias="frequency-hours" />
+              <field alias="frequency-days" />
+              <field alias="frequency-weeks" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+			  <field id="isvEsy" />
+              <field alias="service-location-regular" label="SPED Within Gen Ed" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Special Education" />
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Special Education" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+  <tab name="Goals and Objectives">
+    <include context="form.sped-il-3454m" read-only="false" />
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILStdSrvP' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_TABLE_EXTENDED (TBX_OID, TBX_TBD_OID, TBX_DDX_OID, TBX_USER_NAME, TBX_SEQUENCE_NUMBER, TBX_AUDIT_TYPE, TBX_RECORD_LEVEL_SECURITY_IND, TBX_LAST_MODIFIED) VALUES ('tbxIlnotConfCh', 'tbdGenFormCh', 'ddxIlnotificat', 'Notification Of Conference Child', 20, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2i88000709';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2i88000710';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2A88000870', 'fddX2ISVD00001', 'tbxIlService', NULL, NULL, 190, 'Service Comment', 'Service Comment', 'Text', 0, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'srv-comment', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1720 WHERE FDX_OID = 'fdxX2a88000839';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1730 WHERE FDX_OID = 'fdxX2a88000840';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000871', 'fddX2GFCC00001', 'tbxIlnotConfCh', 'rtbILNonPfclts', NULL, 10, 'School Name', 'Name', 'Character', 50, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Picklist', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-school-name', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000874', 'fddX2GFCA00003', 'tbxIlnotConfCh', NULL, NULL, 20, 'Start Date', 'Start', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-shcool-start', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000875', 'fddX2GFCA00004', 'tbxIlnotConfCh', NULL, NULL, 30, 'End Date', 'End', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-shcool-end', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000876', 'fddX2GFCC00002', 'tbxIlnotConfCh', NULL, NULL, 40, 'Home School', 'Home School', 'Character', 50, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-home-school', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000878', 'fddX2GFCB00002', 'tbxIlnotConfCh', NULL, NULL, 50, 'Child-type', 'Child-type', 'Character', 25, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-record-type', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2a88000879', 'fddX2GFCC00003', 'tbxIlnotConfCh', NULL, NULL, 60, 'Classroom Teacher', 'Teacher', 'Character', 50, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'notif-conf-chld-clroom-teacher', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1430 WHERE FDX_OID = 'fdxX2F88000713';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1590 WHERE FDX_OID = 'fdxX2H88000790';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1600 WHERE FDX_OID = 'fdxX2H88000791';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1610 WHERE FDX_OID = 'fdxX2H88000792';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1630 WHERE FDX_OID = 'fdxX2H88000793';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1640 WHERE FDX_OID = 'fdxX2H88000794';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1650 WHERE FDX_OID = 'fdxX2H88000795';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1660 WHERE FDX_OID = 'fdxX2H88000796';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1670 WHERE FDX_OID = 'fdxX2H88000797';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1680 WHERE FDX_OID = 'fdxX2K88000829';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_DEFAULT_VALUE = '1' WHERE FDX_OID = 'fdxX2m88000827';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1690 WHERE FDX_OID = 'fdxX2n88000833';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1700 WHERE FDX_OID = 'fdxX2n88000834';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1520 WHERE FDX_OID = 'fdxX2p88000731';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1530 WHERE FDX_OID = 'fdxX2p88000732';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1540 WHERE FDX_OID = 'fdxX2p88000733';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1550 WHERE FDX_OID = 'fdxX2p88000734';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1570 WHERE FDX_OID = 'fdxX2p88000767';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1580 WHERE FDX_OID = 'fdxX2p88000768';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1440 WHERE FDX_OID = 'fdxX2Q88000714';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1450 WHERE FDX_OID = 'fdxX2Q88000715';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1460 WHERE FDX_OID = 'fdxX2Q88000716';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1470 WHERE FDX_OID = 'fdxX2Q88000717';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1480 WHERE FDX_OID = 'fdxX2Q88000718';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1490 WHERE FDX_OID = 'fdxX2Q88000719';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1500 WHERE FDX_OID = 'fdxX2Q88000720';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1510 WHERE FDX_OID = 'fdxX2Q88000721';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1560 WHERE FDX_OID = 'fdxX2u88000765';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_RTB_OID = 'rtbILNonPfclts' WHERE FDX_OID = 'fdxX2Y88000692';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_FDD_OID = 'fddX2GFDC00005', FDX_RTB_OID = 'rtbILDstContac', FDX_USER_LENGTH = 50, FDX_DETAIL_CONTROL = 'Picklist' WHERE FDX_OID = 'fdxX2Y88000706';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1710 WHERE FDX_OID = 'fdxX2y88000835';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 1620 WHERE FDX_OID = 'fdxX2Z88000798';
+]]> 
+</SQLStatement>
+</SQLDocument>
+</tool-input>

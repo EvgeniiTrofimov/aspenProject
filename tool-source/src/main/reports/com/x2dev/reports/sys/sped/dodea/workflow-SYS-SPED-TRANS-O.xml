@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="SYS-SPED-TRANS" name="Transfer from Non-DoDEA/EDIS" category="Special Ed." selection-type="1" owner-table="tblIEPData" selection-table="tblStudent" owner-phase-field="iepWFPhase" sped="true" procedure-id="SYS-SPED-TRAN2021">
+  <description>New workflow for transfer of an IEP from a Non-DoDEA school</description>
+  <workflow-filters>
+    <filter connector="and" field="relStdSklOid.sklOID" operator="equalsIgnoreCase" source="session" value="user.person.staff.schoolOid">
+      <filter connector="or" field="relStdSklOid.sklOID" operator="in" source="session" value="user.person.staff.fieldD005" />
+    </filter>
+    <filter connector="and" field="stdEnrStatus" operator="equalsIgnoreCase" source="preference" value="sys.std.activeCode" />
+    <filter connector="and" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.activeCode" />
+    <filter connector="and" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.referredCode" />
+  </workflow-filters>
+  <phase id="wphCSCNonDoDEAtrans" name="Initiate Non-DoDEA transfer" portlet-display="true">
+    <outcome id="transferwpoCSCNonDoD" name="Continue" next-phase-id="TransType" standard="true" method="transfer">
+      <form-attachment form-id="SPED-XFER" sequenceNumber="0" />
+    </outcome>
+    <participant security-role="SUR000000800nz" />
+  </phase>
+  <phase id="TransType" name="Transfer Type -- 1TN" portlet-display="true">
+    <outcome id="1TNNon-DoDEA" name="Non-DoDEA" next-phase-id="wphCSCTransIEP" standard="true" />
+    <outcome id="1TNEDIS" name="EDIS" next-phase-id="ConfirmTeam" standard="false" />
+  </phase>
+  <phase id="wphCSCTransIEP" name="Received Transfer IEP Date -- 2TN" portlet-display="true">
+    <outcome id="2TNComplete" name="Complete" next-phase-id="wphCSCTeam" standard="true" />
+  </phase>
+  <phase id="wphCSCTeam" name="Confirm Team -- 3TN" portlet-display="true">
+    <outcome id="3TNwpoCSCTeam" name="Continue" next-phase-id="wphCSCSchedMtg" standard="true">
+      <form-attachment form-id="TEAM" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedMtg" name="Schedule Internal Review/Comparable Services Meeting - Provide PWN -- 4TN" portlet-display="true">
+    <outcome id="4TNwpoCSCSchedMtg" name="Continue" next-phase-id="wphCSCConveneMtg" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="A " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConveneMtg" name="Convene Internal Review/Comparable Services Meeting - Provide PWN -- 5TN" portlet-display="true">
+    <outcome id="5TNComplete" name="Complete" next-phase-id="wphCSCRevIEP" standard="true">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="A " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="2" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRevIEP" name="Review Eligibility/IEP Records -- 6TN" portlet-display="true">
+    <outcome id="6TNAcceptEligSuffici" name="Accept Eligibility/IEP as written" next-phase-id="wphEligAcceptState" standard="true" />
+    <outcome id="6TNacceptiepnmod" name="Accept Eligibility/IEP with Modification - Meeting Required" next-phase-id="EligibleStateMod" standard="false" method="TransIepModified" />
+    <outcome id="6TNAssessPlanNeeded" name="Assessment Plan for additional information needed for services" next-phase-id="SEM-01" standard="false">
+      <form-attachment form-id="Add Assess" sequenceNumber="1" />
+    </outcome>
+    <outcome id="6TNAssessPlanEligibl" name="Assessment Plan for changes to eligibility" next-phase-id="SEM-02" standard="false" />
+    <outcome id="6TNwphParentRefuseSe" name="Parent Refuses Special Education services - Exit" standard="false" method="discardRefuse" />
+  </phase>
+  <phase id="wphEligAcceptState" name="Eligibility Acceptance Statement -- 7TN">
+    <outcome id="7TNComplete" name="Complete" next-phase-id="PLAAFP8TNa" standard="true">
+      <form-attachment form-id="EligibilityAccept" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="PLAAFP8TNa" name="Update PLAAFP 8TNa" portlet-display="true">
+    <outcome id="8TNaComplete" name="Complete" next-phase-id="wphEnterTranIEP" standard="true" method="setPlaafp">
+      <form-attachment form-id="PLAAFP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphEnterTranIEP" name="Enter Complete Transfer IEP -- 8TN">
+    <outcome id="8TNContinue" name="Continue" next-phase-id="wphSchAcceptMeet" standard="true">
+      <form-attachment form-id="IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphSchAcceptMeet" name="Schedule IEP Acceptance Meeting / PWN -- 9TN" portlet-display="true">
+    <outcome id="9TNContinue" name="Continue" next-phase-id="wphConAcceptMeet" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="B " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphConAcceptMeet" name="Convene IEP Acceptance Meeting -- 10TN">
+    <outcome id="10TNComplete" name="Complete" next-phase-id="wphCSCCompIEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="B " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCompIEP" name="Complete and Confirm IEP -- 11TN">
+    <outcome id="11TNComplete" name="Complete" next-phase-id="Validation12TNa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation12TNa" name="Validate IEP Data -- 12TNa" portlet-display="true">
+    <outcome id="12TNaComplete" name="Complete" next-phase-id="wphCSCAccept" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAccept" name="CSC Decision -- 12TN">
+    <outcome id="12TNwpoCSCAcceptIEP" name="Accept" standard="true" method="implementIep" />
+    <outcome id="12TNParRefExit" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+  </phase>
+  <phase id="EligibleStateMod" name="Eligibility Acceptance Statement - 13TN" portlet-display="true">
+    <outcome id="13TNComplete" name="Complete" next-phase-id="PLAAFP14TNa" standard="true">
+      <form-attachment form-id="EligibilityAccept" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="PLAAFP14TNa" name="Update PLAAFP 14TNa" portlet-display="true">
+    <outcome id="14TNaComplete" name="Complete" next-phase-id="wphCSCGenDraft" standard="true" method="setPlaafp">
+      <form-attachment form-id="PLAAFP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCGenDraft" name="Generate Draft IEP -- 14TN" portlet-display="true">
+    <outcome id="14TNComplete" name="Complete" next-phase-id="wphCSCSchedDevMtg" standard="true">
+      <form-attachment form-id="IEP" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedDevMtg" name="Schedule IEP Development Meeting / PWN -- 15TN" portlet-display="true">
+    <outcome id="15TNContinue" name="Continue" next-phase-id="wphCSCConveneDevMtg" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="C " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConveneDevMtg" name="Convene IEP Development Meeting -- 16TN" portlet-display="true">
+    <outcome id="16TNComplete" name="Complete" next-phase-id="wphCSCCompIEP" standard="true" method="conveneDevMeeting" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="C " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="Trnsfr of Rights" sequenceNumber="3" />
+      <form-attachment form-id="Trans. Plan/Final Yr" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCompIEP" name="Complete and Confirm IEP -- 17TN" portlet-display="true">
+    <outcome id="17TNComplete" name="Complete" next-phase-id="Validation18TNa" standard="true">
+      <form-attachment form-id="Confirm IEP" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="Validation18TNa" name="Validate IEP Data -- 18TNa" portlet-display="true">
+    <outcome id="18TNaComplete" name="Complete" next-phase-id="wphCSCDecision" standard="true" method="validation">
+      <form-attachment form-id="IEP_VALID" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCDecision" name="CSC Decision -- 18TN" portlet-display="true">
+    <outcome id="18TNwphCSCAcceptIEP" name="Accept" standard="true" method="implementIep" />
+    <outcome id="18TNParRefExit" name="Parent Refuses Special Education Services - Exit" standard="false" method="discardRefuse" />
+    <outcome id="18TNRecSchMeet" name="Table Meeting--Will Reconvene/Schedule new meeting" next-phase-id="SchFollowMeet" standard="false" />
+  </phase>
+  <phase id="SchFollowMeet" name="Schedule Follow-up Meeting / PWN -- 19TN" portlet-display="true">
+    <outcome id="19TNComplete" name="Complete" next-phase-id="ConFollowMeet" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="I " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConFollowMeet" name="Convene Follow-up Meeting -- 20TN" portlet-display="true">
+    <outcome id="20TNComplete" name="Complete" next-phase-id="wphCSCCompIEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="I " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="IEP" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="SEM-01" name="Schedule Assessment Planning Meeting -- 21TN" portlet-display="true">
+    <outcome id="21TNComplete" name="Complete" next-phase-id="wphIdentifyDisad" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="D " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="wphIdentifyDisad" name="Convene Assessment Planning  Meeting -- 22TN">
+    <outcome id="22TNwpoCSCIdentifyDi" name="Continue" next-phase-id="wphCSCParEvalRep" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="D " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Add Assess" sequenceNumber="2" instance-id="A " />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCParEvalRep" name="Send Parent Permission for Assessment(s) -- 23TN">
+    <outcome id="23TNwpoCSCParEvalRep" name="Continue" next-phase-id="wphCSCRecParPer" standard="true">
+      <form-attachment form-id="Parent Perm" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRecParPer" name="Receive Parent Permission -- 24TN">
+    <outcome id="24TNDateRecvdAcceptC" name="Accept" next-phase-id="wphCSCAdminAssess" standard="true" method="parentPermission" />
+    <outcome id="24TNDenyAcctpaswritt" name="Deny - Accept Eligibility/IEP as written" next-phase-id="EligibleStateMod" standard="false" />
+    <outcome id="24TNDeny" name="Deny- Hold Meeting for IEP modification" next-phase-id="EligibleStateMod" standard="false">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="AZ" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAdminAssess" name="Request for Assessment Personnel -- 25TN">
+    <outcome id="25TNwpoCSCAdminAsses" name="Continue" next-phase-id="wphCSCCompAssess" standard="true">
+      <form-attachment form-id="Assess Request" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCompAssess" name="Complete Assessments and Report -- 26TN">
+    <outcome id="26TNComplete" name="Complete" next-phase-id="wphCSCAcceptState" standard="true">
+      <form-attachment form-id="Add Assess" sequenceNumber="0" instance-id="A " />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAcceptState" name="Eligibility Acceptance Statement -- 27TN">
+    <outcome id="27TNComplete" name="Complete" next-phase-id="PLAAFP14TNa" standard="true">
+      <form-attachment form-id="EligibilityAccept" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="SEM-02" name="Schedule Assessment Planning Meeting -- 28TN" portlet-display="true">
+    <outcome id="28TNContinue" name="Continue" next-phase-id="Confirm_Dis" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="F " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Confirm_Dis" name="Confirm Suspected Disability -- 29TN" portlet-display="true">
+    <outcome id="29TNComplete" name="Complete" next-phase-id="wphIdentifyDisad" standard="true" method="reqAssess">
+      <form-attachment form-id="Confirm Sus Dis" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphIdentifyDisad" name="Convene Assessment Planning  Meeting -- 30TN">
+    <outcome id="30TNwpoCSCElig" name="Continue" next-phase-id="wphCSCParEvalRep" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="F " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Assess Plan 2018" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCParEvalRep" name="Send Parent Permission for Assessment(s) -- 31TN">
+    <outcome id="31TNwpoCSCParEvalRep" name="Continue" next-phase-id="wphCSCRecParPer" standard="true">
+      <form-attachment form-id="Parent Perm" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRecParPer" name="Receive Parent Permission -- 32TN" portlet-display="true">
+    <outcome id="32TNDateRecvdAcceptC" name="Accept" next-phase-id="wphCSCAdminAssess" standard="true" method="parentPermission" />
+    <outcome id="32TNDenyAcceptaswrit" name="Deny - Accept Eligibility/IEP as written" next-phase-id="wphCSCAcceptState" standard="false" />
+    <outcome id="32TNDeny" name="Deny- Hold Meeting for IEP modification" next-phase-id="wphCSCAcceptState" standard="false">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="L " />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAdminAssess" name="Request for Assessment Personnel -- 33TN">
+    <outcome id="33TNwpoCSCAdminAsses" name="Continue" next-phase-id="wphCSCCompAssess" standard="true">
+      <form-attachment form-id="Assess Request" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCompAssess" name="Complete Assessments and Report -- 34TN">
+    <outcome id="34TNComplete" name="Complete" next-phase-id="wphCSCSchedEligMtg" standard="true">
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCSchedEligMtg" name="Schedule Eligibility Determination Meeting / PWN -- 35TN">
+    <outcome id="35TNComplete" name="Complete" next-phase-id="Convene Eligibility" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="G " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Convene Eligibility" name="Convene Eligibility Determination Meeting - 36TN">
+    <outcome id="36TNComplete" name="Complete" next-phase-id="wphCSCConveneEligMtg" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="G " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCConveneEligMtg" name="Eligibility Determination -- 37TN">
+    <outcome id="37TNEligible" name="Eligible" next-phase-id="wphCSCGenDraft" standard="true" method="setPlaafp">
+      <form-attachment form-id="Confirm Elig" sequenceNumber="0" />
+    </outcome>
+    <outcome id="37TNNotElig" name="Not eligible- Process complete" standard="false" method="discardIneligible">
+      <form-attachment form-id="Confirm Elig" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCAcceptState" name="Eligibility Acceptance Statement - 38TN" portlet-display="true">
+    <outcome id="38TNComplete" name="Complete" next-phase-id="PLAAFP14TNa" standard="true">
+      <form-attachment form-id="EligibilityAccept" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="ConfirmTeam" name="Confirm Team -- 39TN" portlet-display="true">
+    <outcome id="39TNwpoCSCTeam" name="Continue" next-phase-id="SchRecReview" standard="true">
+      <form-attachment form-id="TEAM" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="SchRecReview" name="Schedule Incoming Records Review / PWN -- 40TN" portlet-display="true">
+    <outcome id="40TNwpoCSCSchedMtg" name="Continue" next-phase-id="ConRecReview" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="0" instance-id="P " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConRecReview" name="Convene Incoming Records Review -- 41TN" portlet-display="true">
+    <outcome id="41TNContinue" name="Continue" next-phase-id="AssessPlan" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="P " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="AssessPlan" name="Assessment Planning Determination -- 42TN" portlet-display="true">
+    <outcome id="42TNAcceptElgEDIS" name="Accept Eligibility" next-phase-id="SchElgMeet" standard="true">
+      <form-attachment form-id="EligibilityAccept" sequenceNumber="0" />
+    </outcome>
+    <outcome id="42TNAssessPlanEligED" name="Assessment Plan for Eligibility Needed" next-phase-id="SchAssessPlanMeet" standard="false" />
+  </phase>
+  <phase id="SchElgMeet" name="Schedule Eligibility Determination Meeting / PWN -- 43TN" portlet-display="true">
+    <outcome id="43TNComplete" name="Complete" next-phase-id="ConElgMeet" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="Q " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="ConElgMeet" name="Convene Eligibility Determination Meeting -- 44TN" portlet-display="true">
+    <outcome id="44TNComplete" name="Complete" next-phase-id="CompElgReport" standard="true" method="setPlaafp" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="Q " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="3" />
+    </outcome>
+  </phase>
+  <phase id="CompElgReport" name="Complete Eligibility Report -- 45TN" portlet-display="true">
+    <outcome id="45TNComplete" name="Complete" next-phase-id="wphCSCGenDraft" standard="true" method="setPlaafp">
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="1" />
+    </outcome>
+  </phase>
+  <phase id="SchAssessPlanMeet" name="Schedule Assessment Planning Meeting -- 46TN" portlet-display="true">
+    <outcome id="46TNContinue" name="Continue" next-phase-id="Confirm_Sus_Dis2" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="R " template-id-override="iep.img.detail.pwn" template-name-override="Default Template PWN (MA IEP)" />
+    </outcome>
+  </phase>
+  <phase id="Confirm_Sus_Dis2" name="Confirm Suspected Disabilities -- 47TN" portlet-display="true">
+    <outcome id="47TNComplete" name="Complete" next-phase-id="wphIdentifyDisad" standard="true" method="reqAssess">
+      <form-attachment form-id="Confirm Sus Dis" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphIdentifyDisad" name="Convene Assessment Planning  Meeting -- 48TN" portlet-display="true">
+    <outcome id="48TNContinue" name="Continue" next-phase-id="wphCSCParEvalRep" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="MTG" sequenceNumber="1" instance-id="R " template-id-override="iep.img.detail.min" template-name-override="Default Template MIN (MA IEP)" />
+      <form-attachment form-id="Assess Plan 2018" sequenceNumber="2" />
+      <form-attachment form-id="EDIS" sequenceNumber="4" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCParEvalRep" name="Send Parent Permission for Assessment(s) -- 49TN" portlet-display="true">
+    <outcome id="49TNwpoCSCParEvalRep" name="Conitnue" next-phase-id="wphCSCRecParPer" standard="true">
+      <form-attachment form-id="Parent Perm" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCRecParPer" name="Receive Parent Permission -- 50TN" portlet-display="true">
+    <outcome id="50TNDateRecvdAcceptC" name="Parents Accept" next-phase-id="wphCSCAdminAssess" standard="true" method="parentPermission" />
+    <outcome id="50TNDeny" name="Parents Deny" standard="false" method="discardDeny" />
+  </phase>
+  <phase id="wphCSCAdminAssess" name="Request for Assessment Personnel -- 51TN" portlet-display="true">
+    <outcome id="51TNwpoCSCAdminAsses" name="Continue" next-phase-id="wphCSCCompAssess" standard="true">
+      <form-attachment form-id="Assess Request" sequenceNumber="0" />
+    </outcome>
+  </phase>
+  <phase id="wphCSCCompAssess" name="Complete Assessments and Report -- 52TN" portlet-display="true">
+    <outcome id="52TNComplete" name="Complete" next-phase-id="wphCSCSchedEligMtg" standard="true">
+      <form-attachment form-id="Eligibility Guide" sequenceNumber="1" />
+    </outcome>
+  </phase>
+</workflow>
+

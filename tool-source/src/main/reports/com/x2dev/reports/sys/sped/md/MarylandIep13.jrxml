@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="SYS-SPED-MD-IEP13"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="792"
+		 pageHeight="612"
+		 columnWidth="736"
+		 columnSpacing="0"
+		 leftMargin="28"
+		 rightMargin="28"
+		 topMargin="28"
+		 bottomMargin="28"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+	<import value="com.x2dev.sis.web.sped.md.TestingAccommodationAttributes" />
+	<reportFont name="Trebuchet" isDefault="false" fontName="Trebuchet MS" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="trebuc.ttf" pdfEncoding="CP1252" isPdfEmbedded="true"/>
+	<reportFont name="Trebuchet-bold" isDefault="false" fontName="Trebuchet MS" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="trebucbd.ttf" pdfEncoding="CP1252" isPdfEmbedded="true"/>
+
+	<style 
+		name="Normal"
+		isDefault="true"
+		hAlign="Left"
+		vAlign="Top"
+		fontName="Trebuchet MS"
+		fontSize="9"
+		pdfFontName="trebuc.ttf"
+		isPdfEmbedded="true"
+		isBlankWhenNull="true"
+	/>
+	<style 
+		name="FieldValue"
+		isDefault="false"
+		hAlign="Left"
+		vAlign="Top"
+		fontName="Courier New"
+		fontSize="8"
+		isBold="false"
+		pdfFontName="Courier"
+		isPdfEmbedded="true"
+		isBlankWhenNull="true"
+	/>
+	<style 
+		name="SectionHeader"
+		isDefault="false"
+		fontName="Trebuchet MS"
+		fontSize="12"
+		pdfFontName="trebuc.ttf"
+		isBlankWhenNull="true"
+	/>
+	<style 
+		name="HeaderLabel"
+		isDefault="false"
+		fontName="Trebuchet MS"
+		fontSize="10"
+		isBlankWhenNull="true"
+	/>
+	<style 
+		name="NormalBold"
+		isDefault="false"
+		fontName="Trebuchet MS"
+		fontSize="9"
+		isBold="true"
+		pdfFontName="trebucbd.ttf"
+	/>
+	<style 
+		name="Title"
+		isDefault="false"
+		fontName="Trebuchet MS"
+		fontSize="16"
+		pdfFontName="trebuc.ttf"
+	/>
+	<style 
+		name="Wingdings2"
+		isDefault="false"
+		fontName="Wingdings 2"
+		fontSize="10"
+		isBold="true"
+		pdfFontName="WINGDNG2.TTF"
+		isPdfEmbedded="false"
+	/>
+
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="referenceLookup" isForPrompting="false" class="com.follett.fsc.core.k12.tools.ReferenceDescriptionLookup"/>
+	<parameter name="shortDateFormat" isForPrompting="false" class="java.text.DateFormat"/>
+	<parameter name="dictionary" isForPrompting="false" class="com.follett.fsc.core.k12.business.dictionary.DataDictionary"/>
+
+	<field name="rowNumber" class="java.lang.Integer"/>
+	<field name="datasource" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="format" class="java.lang.Object"/>
+	<field name="parameters" class="java.util.Map"/>
+	<field name="goal" class="com.x2dev.sis.model.beans.IepGoal"/>
+
+	<variable name="rowLabel" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{rowNumber}.intValue() == 0 ? "Academic:" : ($F{rowNumber}.intValue() == 1 ? "Employment Training:" : ($F{rowNumber}.intValue() == 2 ? "Activities of Daily Living:" : ($F{rowNumber}.intValue() == 3 ? "Independent Living:" : "Transportation:")))]]></variableExpression>
+	</variable>
+	<variable name="notificationMethod" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{goal}.getFieldValueByAlias("goal-notification-method", $P{dictionary})]]></variableExpression>
+	</variable>
+	<variable name="notificationOtherMethod" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{goal}.getFieldValueByAlias("goal-notification-other-method", $P{dictionary})]]></variableExpression>
+	</variable>
+	<variable name="notificationFreq" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{goal}.getFieldValueByAlias("goal-notification-frequency", $P{dictionary})]]></variableExpression>
+	</variable>
+	<variable name="notificationOtherFreq" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{goal}.getFieldValueByAlias("goal-notification-other-freq", $P{dictionary})]]></variableExpression>
+	</variable>
+
+		<group  name="all" >
+			<groupExpression><![CDATA["all"]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="32"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="5"
+						y="29"
+						width="726"
+						height="0"
+						key="line-37"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="5"
+						y="0"
+						width="0"
+						height="30"
+						key="line-43"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="730"
+						y="0"
+						width="0"
+						height="30"
+						key="line-44"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+				<staticText>
+					<reportElement
+						style="Normal"
+						x="8"
+						y="2"
+						width="325"
+						height="12"
+						key="staticText-126"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[How will the parent be notified of the student's progress toward the IEP goals?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Normal"
+						x="8"
+						y="15"
+						width="57"
+						height="12"
+						key="staticText-127"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[How often?]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Page" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="333"
+						y="2"
+						width="392"
+						height="12"
+						key="textField-41"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!StringUtils.isEmpty($V{notificationOtherMethod}) ? $V{notificationOtherMethod} : $V{notificationMethod}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Page" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="64"
+						y="15"
+						width="282"
+						height="12"
+						key="textField-42"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!StringUtils.isEmpty($V{notificationOtherFreq}) ? $V{notificationOtherFreq} : $V{notificationFreq}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="row" >
+			<groupExpression><![CDATA[$F{rowNumber}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="1"  isSplitAllowed="true" >
+				<line direction="TopDown">
+					<reportElement
+						x="5"
+						y="0"
+						width="726"
+						height="0"
+						key="line-47"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="102"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						x="0"
+						y="0"
+						width="736"
+						height="46"
+						backcolor="#CCCCCC"
+						key="rectangle-2"/>
+					<graphicElement stretchType="NoStretch" pen="None"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="41"
+						width="736"
+						height="29"
+						backcolor="#999999"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch" pen="None"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						style="Normal"
+						x="8"
+						y="28"
+						width="589"
+						height="12"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="Trebuchet" size="8"/>
+					</textElement>
+				<text><![CDATA[MARYLAND STATE DEPARTMENT OF EDUCATION (MSDE) DIVISION OF SPECIAL EDUCATION/EARLY INTERVENTION SERVICES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="HeaderLabel"
+						x="322"
+						y="10"
+						width="407"
+						height="16"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font reportFont="Trebuchet" size="10"/>
+					</textElement>
+				<text><![CDATA[IV. GOALS]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="40"
+						width="736"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<staticText>
+					<reportElement
+						style="Normal"
+						x="447"
+						y="30"
+						width="69"
+						height="10"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font reportFont="Trebuchet" size="6"/>
+					</textElement>
+				<text><![CDATA[(Effective July 1, 2007)]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="62"
+						width="736"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<staticText>
+					<reportElement
+						style="HeaderLabel"
+						x="8"
+						y="49"
+						width="53"
+						height="13"
+						key="staticText-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Bottom">
+						<font reportFont="Trebuchet" size="10"/>
+					</textElement>
+				<text><![CDATA[Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="HeaderLabel"
+						x="294"
+						y="49"
+						width="53"
+						height="13"
+						key="staticText-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Bottom">
+						<font reportFont="Trebuchet" size="10"/>
+					</textElement>
+				<text><![CDATA[Agency:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="HeaderLabel"
+						x="558"
+						y="49"
+						width="115"
+						height="13"
+						key="staticText-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Bottom">
+						<font reportFont="Trebuchet" size="10"/>
+					</textElement>
+				<text><![CDATA[IEP Team Meeting Date:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="6"
+						y="78"
+						width="724"
+						height="17"
+						backcolor="#CCCCCC"
+						key="rectangle-4"/>
+					<graphicElement stretchType="NoStretch" pen="None"/>
+				</rectangle>
+				<line direction="TopDown">
+					<reportElement
+						x="5"
+						y="95"
+						width="726"
+						height="0"
+						key="line-3"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="5"
+						y="77"
+						width="726"
+						height="0"
+						key="line-4"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="5"
+						y="77"
+						width="0"
+						height="25"
+						key="line-5"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="730"
+						y="77"
+						width="0"
+						height="25"
+						key="line-6"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+				<staticText>
+					<reportElement
+						style="SectionHeader"
+						x="14"
+						y="78"
+						width="564"
+						height="17"
+						key="staticText-120"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font reportFont="Trebuchet"/>
+					</textElement>
+				<text><![CDATA[GOAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						style="Title"
+						x="8"
+						y="9"
+						width="373"
+						height="24"
+						key="staticText-125"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<text><![CDATA[INDIVIDUALIZED EDUCATION PROGRAM (IEP)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="43"
+						y="49"
+						width="229"
+						height="13"
+						key="textField-37"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{goal}.getStudent().getNameView()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="334"
+						y="49"
+						width="196"
+						height="13"
+						key="textField-38"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="672"
+						y="49"
+						width="64"
+						height="13"
+						key="textField-39"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{shortDateFormat}.format($F{goal}.getIepData().getMeetingDate())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="49"
+						y="81"
+						width="260"
+						height="13"
+						key="textField-40"
+						isPrintWhenDetailOverflows="true"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{goal}.getFocus()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						style="FieldValue"
+						x="95"
+						y="81"
+						width="420"
+						height="13"
+						key="textField-43"
+						isPrintWhenDetailOverflows="true"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Courier New" pdfFontName="Courier" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{goal}.getFieldB002()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="31"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						mode="Opaque"
+						x="5"
+						y="0"
+						width="725"
+						height="31"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="subreport-1"/>
+					<parametersMapExpression><![CDATA[$F{parameters}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$F{datasource}]]></dataSourceExpression>
+					<subreportExpression  class="java.io.InputStream"><![CDATA[new java.io.ByteArrayInputStream((byte[]) $F{format})]]></subreportExpression>
+				</subreport>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="5"
+						y="0"
+						width="0"
+						height="31"
+						key="line-18"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						style="Normal"
+						x="730"
+						y="0"
+						width="0"
+						height="31"
+						key="line-19"
+						stretchType="RelativeToBandHeight"/>
+					<graphicElement stretchType="RelativeToBandHeight"/>
+				</line>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="15"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport><!-- ++++ Upgraded by PhoenixUpgradeProcedure ++++ on Mon Oct 31 16:30:26 EDT 2011 -->

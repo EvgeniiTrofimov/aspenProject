@@ -1,0 +1,103 @@
+<!-- *************************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "ENROLLMENT REGISTER - DAY - INDEPENDENT STUDY AND ELEARNING" FOR ONTARIO -->
+<!-- *************************************************************************************************** -->
+
+<tool-input allow-school-select="true" district-support="false">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input data-type="string" default-value="currentContextOid" default-value-source="session" display-name="report.shared.schoolYear" display-type="picklist" name="contextOid">
+  <picklist field-id="ctxSchoolYear">
+   <field id="ctxSchoolYear" sort="true"/>
+   <field id="ctxContextName"/>
+  </picklist>
+ </input>
+
+ <!-- ***************************************************************************** -->
+ <!-- IF NO COURSES SELECTED - DEFAULT CONT. ED. DELIVERY TYPES FOR ALL COURSES      -->
+ <!--                                                                               -->
+ <!-- Filter for course selection passed to use if all courses are needed in report -->
+ <!-- ***************************************************************************** -->
+ 
+ <input data-type="string" default-value="2;Indstudy" display-name="Cont. Ed. Delivery Types" display-type="hidden" multiple="true" name="cskConEdDeliveryTypes" reference-table="rtbOnCrsDelTyp"/>
+
+ <!-- *************** -->
+ <!-- COURSE PICKLIST -->
+ <!-- *************** -->
+
+ <input data-type="string" default-value="Select one or more classes. Leave blank for all. Classes are listed based on selected school year." default-value-source="constant" display-name="report.shared.instruction" display-type="textarea" name="instruction1" required="false"/>
+ <input data-type="string" display-name="report.shared.class" display-type="picklist" name="sectionOids" required="false">
+  <picklist field-id="mstCourseView" multiple="true" required="false">
+   <field id="mstCourseView" sort="true"/>
+   <field id="relMstCskOid.relCskSklOid.sklSchoolName" sort="true"/>
+   <field id="mstDescription"/>
+   <field id="mstTermView"/>
+   <filter field="relMstCskOid.cskSklOID" operator="equals" source="input" value="schoolOid"/>      
+   <filter field="relMstCskOid.relCskCrsOid.relCrsCtxOid.ctxOID" operator="equals" source="input" value="contextOid"/>
+   <filter field="relMstCskOid.cskFieldA003" operator="in" source="input" value="cskConEdDeliveryTypes"/> 
+  </picklist>
+  <condition action="hide" expression="(getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName()))"/>
+ </input>
+ <input data-type="string" display-name="report.shared.class" display-type="picklist" name="sectionOidsStaffView" required="false">
+  <picklist field-id="mstCourseView" multiple="true" required="false">
+   <field id="mstCourseView" sort="true"/>
+   <field id="relMstCskOid.relCskSklOid.sklSchoolName" sort="true"/>
+   <field id="mstDescription"/>
+   <field id="mstTermView"/>
+   <filter field="relMstCskOid.cskSklOID" operator="equals" source="input" value="schoolOid"/>    
+   <filter field="relMstCskOid.relCskCrsOid.relCrsCtxOid.ctxOID" operator="equals" source="input" value="contextOid"/>
+   <filter field="mstStfOID" operator="equals" source="session" value="staff.oid"/>
+   <filter field="relMstCskOid.cskFieldA003" operator="in" source="input" value="cskConEdDeliveryTypes"/> 
+  </picklist>
+  <disable if-parent-equals="" input-name="instruction1"/>
+  <condition action="hide" expression="!(getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName()))"/>
+ </input>
+
+ <!-- ******************* -->
+ <!-- COURSE SORT OPTIONS -->
+ <!-- ******************* -->
+
+ <input data-type="string" display-name="report.shared.sortByCourse" display-type="select" name="courseSort">
+  <option display-name="report.shared.courseNumberSection" value="courseNumber, section"/>
+  <option display-name="report.shared.courseDescriptionSection" value="courseDesc, section"/>
+ </input>
+
+ <!-- ******************************************************** -->
+ <!-- STUDENT INFO BY ASSIGNMENTS OR CLASS DATES               -->
+ <!--                                                          --> 
+ <!-- Both are needed by this report so changing default value --> 
+ <!-- will set true to both in codebe made true in code        -->                                   
+ <!-- ******************************************************** -->
+ 
+ <input data-type="string" default-value="byAssignmentAndDate" display-name="report.shared.studentInfoBy" display-type="hidden" name="studentInfoBy">
+  <option display-name="report.shared.byAssignment" value="byAssign"/>
+  <option display-name="report.shared.byDate" value="byDate"/>
+ </input>
+ 
+ <!-- *************************** -->
+ <!-- COURSE - INCLUDE DAYS/TIMES -->
+ <!-- *************************** -->
+ 
+ <input data-type="boolean" default-value="true" display-type="hidden" name="courseIncludeDays"/>
+ <input data-type="boolean" default-value="true" display-type="hidden" name="courseIncludeTimes"/> 
+
+ <!-- ************************************************************************ -->
+ <!-- REPORT TYPE - AS SAME IREPORT DESIGN USED IN SOME CASES                  -->
+ <!--                                                                          --> 
+ <!-- Putting a value (may not be used) as same code is used for other reports -->  
+ <!-- ************************************************************************ -->
+
+ <input data-type="string" default-value="dayIndepElearn" display-name="report.shared.reportType" display-type="hidden" name="rptType">
+  <option display-name="DAY - INDEPENDENT STUDY AND ELEARNING" value="dayIndepElearn"/>
+ </input>
+   
+ <!-- **************************************************** -->
+ <!-- REPORT ID - LANDSCAPE (PART 1) AND PORTRAIT (PART 2) -->
+ <!-- **************************************************** -->
+ 
+ <input data-type="string" default-value="OBC-ENR-008-L" display-name="report.shared.reportIdLandscape" display-type="hidden" name="rptIdPart1"/> 
+ <input data-type="string" default-value="OBC-ENR-008-P" display-name="report.shared.reportIdPortrait" display-type="hidden" name="rptIdPart2"/>  
+ 
+</tool-input>

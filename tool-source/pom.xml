@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>aspen-customer-tools-parent</artifactId>
+		<groupId>com.follett.fss.aspen-modules</groupId>
+		<version>6.7-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>customer-tool-source</artifactId>
+	<packaging>jar</packaging>
+	<description>Aspen state tools source code</description>
+
+	<properties>
+		<workspace.location>${project.parent.basedir}</workspace.location>
+		<maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
+		<build.timestamp>${maven.build.timestamp}</build.timestamp>
+	</properties>
+
+	<dependencies>
+		<!-- If any new dependencies need to come into this area, please validate 
+			that they are in the parent pom and place them there instead. No versions 
+			should be set here, this section only refers to dependencies that have been 
+			defined in the aspen-base-parent-pom or above in the dependencyManagement 
+			section -->	
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_4.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+			<artifactId>jboss-jsp-api_2.3_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-provided-bom</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-runtime-bom</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-dependency-bom</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-tools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-web</artifactId>
+			<classifier>aspen-test-harness</classifier>
+			<type>zip</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-core</artifactId>
+			<type>test-jar</type>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.follett.fss.aspen</groupId>
+			<artifactId>aspen-test-bom</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/procedures</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/procedures</source>
+								<source>src/main/reports</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>core</classifier>
+							<includes>
+								<include>**/sis/tools/procedures/*</include>
+								<include>**/k12/tools/procedures/*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Unpack 'bootstrap' into the target/test-classes dir to get it on 
+				the classpath to use for tests, uncomment for 6.5 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>resource-dependencies</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeArtifactIds>aspen-web</includeArtifactIds>
+							<classifier>aspen-test-harness</classifier>
+							<type>zip</type>
+							<outputDirectory>${web.project.location}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${config.project.location}</directory>
+							<excludes>
+								<exclude>local-test.properties</exclude>
+								<exclude>test.properties_template</exclude>
+							</excludes>
+						</fileset>
+						<fileset>
+							<directory>${web.project.location}</directory>
+						</fileset>
+						<fileset>
+							<directory>${basedir}</directory>
+							<includes>
+								<include>runtime-location.properties</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>com.x2dev.sis.statereporting.**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.internetitem</groupId>
+				<artifactId>write-properties-file-maven-plugin</artifactId>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>write-testTimestamp-properties</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>write-properties-file</goal>
+						</goals>
+
+						<configuration>
+							<outputDirectory>${config.project.location}</outputDirectory>
+							<filename>db-unique-test.properties</filename>
+							<!-- only save the version-related properties -->
+							<properties>
+								<property>
+									<name>build.timestamp</name>
+									<value>${unique.database.buildstamp}</value>
+								</property>
+							</properties>
+						</configuration>
+					</execution>
+					<!-- write out the runtime-location.properties file -->
+					<execution>
+						<id>write-location-properties</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>write-properties-file</goal>
+						</goals>
+
+						<configuration>
+							<outputDirectory>${basedir}</outputDirectory>
+							<filename>runtime-location.properties</filename>
+							<comment>This file is generated by Maven and is used for tests</comment>
+							<!-- only save the location-related properties -->
+							<properties>
+								<property>
+									<name>aspen.location.workspace</name>
+									<value>${basedir}</value>
+								</property>
+								<property>
+									<name>aspen.location.config</name>
+									<value>${basedir}/${config.project.location}</value>
+								</property>
+								<property>
+									<name>aspen.location.web</name>
+									<value>${basedir}/${web.project.location}</value>
+								</property>
+							</properties>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<!-- activate this profile when building on Jenkins. (mvn install -Dproduction) 
+			It will disable any development-specific goals -->
+		<profile>
+			<id>production</id>
+			<activation>
+				<property>
+					<name>production</name>
+				</property>
+			</activation>
+			<properties>
+				<unique.database.buildstamp>_STRPT_${maven.build.timestamp}</unique.database.buildstamp>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.spotbugs</groupId>
+						<artifactId>spotbugs-maven-plugin</artifactId>
+						<configuration>
+							<excludeFilterFile>${workspace.location}/findBugsFilters.xml</excludeFilterFile>
+							<!--Ranks: Scariest (1-4), Scary (5-9), Troubling (10-14), Of Concern 
+								(rank 15-20) -->
+							<maxRank>9</maxRank>
+							<failOnError>false</failOnError>
+							<failThreshold>High</failThreshold>
+							<threshold>High</threshold>
+							<maxHeap>3000</maxHeap>
+							<timeout>1200000</timeout>
+							<jvmArgs>-Xmx6G</jvmArgs>
+						</configuration>
+						<executions>
+							<execution>
+								<id>spotbugs-check</id>
+								<phase>package</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- activated when 'production' is not set, the normal state on dev boxes -->
+		<profile>
+			<id>development</id>
+			<activation>
+				<property>
+					<name>!production</name>
+				</property>
+			</activation>
+			<properties>
+				<unique.database.buildstamp>_STRPT</unique.database.buildstamp>
+			</properties>
+		</profile>
+	</profiles>
+</project>

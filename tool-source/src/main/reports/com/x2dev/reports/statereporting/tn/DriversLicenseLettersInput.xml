@@ -1,0 +1,120 @@
+<!-- ****************************************************************************** -->
+<!-- REPORT INPUT DEFINITIONS FOR THE "DRIVERS LICENSE LETTERS" AND RELATED REPORTS -->
+<!-- ****************************************************************************** -->
+
+<tool-input allow-school-select="false" allow-org-select="true" context="com.x2dev.sis.model.beans.SisStudent">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- ******* -->
+ <!-- SCHOOLS -->
+ <!-- ******* -->
+
+    <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+    <input name="schoolOids" data-type="string" display-type="picklist"
+        display-name="School(s)" default-value-source="session" default-value="school.oid"
+        required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true"/>
+  <option value="##all" display-name="report.shared.query.all"/>
+  <option value="yog" display-name="report.shared.query.yog"/>
+  <option value="homeroom" display-name="report.shared.query.homeroom"/>
+  <disable input-name="queryString" if-parent-equals="##current" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString"/>
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="##current" display-name="report.shared.sort.currentSort" context-dependent="true"/>
+  <option value="nameView" display-name="report.shared.sort.name"/>
+  <option value="yog" display-name="report.shared.sort.yog"/>
+  <option value="homeroom" display-name="report.shared.sort.homeroom"/>
+ </input>
+
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true"/>
+ 
+ <!-- ********************* -->
+ <!-- SECONDARY ASSOCIATION -->
+ <!-- ********************* -->
+ 
+ <input name="secondaryStudent" data-type="boolean" display-type="checkbox" display-name="report.student.secondaryAssociation" />
+
+ <!-- *********** -->
+ <!-- REPORT TYPE -->
+ <!-- *********** -->
+ 
+  <input name="reportText" data-type="string" display-type="select" display-name="Report Type">
+  <option value=
+"[CERT]
+I, the undersigned school official, pursuant to T.C.A. 55-50-321,
+do hereby certify that the above student is in compliance with the
+compulsory school attendance laws as required in T.C.A. 49-6-3017." 
+display-name="In Compliance"/>
+  <option value=
+"[374]
+I, the undersigned school official, pursuant to T.C.A. 55-50-321,
+do hereby certify that the above student failed to maintain
+satisfactory academic progress, and is not in compliance with
+T.C.A. 49-6-3017, and should be suspended or denied pursuant to
+T.C.A. 55-50-502." display-name="Not Compliant"/>
+  <option value=
+"[467]
+I, the undersigned school official, pursuant to T.C.A. 55-50-321,
+do hereby certify that the above student is withdrawn from school,
+and is not in compliance with T.C.A. 49-6-3017, and should be
+suspended or denied pursuant to T.C.A. 55-50-502." display-name="Withdrawn"/>
+  <option value=
+"[468]
+I, the undersigned school official, pursuant to T.C.A. 55-50-321,
+do hereby certify that the above student is enrolled in school and
+has made satisfactory academic progress(a passing grade in at least
+three full unit subjects or the equivalent) or otherwise qualifies
+for reinstatement pursuant to T.C.A. 49-6-3017." display-name="Reinstatement"/>
+ </input>
+ 
+  <!-- **************************** -->
+  <!-- NON-DISCRIMINATION STATEMENT -->
+  <!-- **************************** -->
+  <input name="nonDiscrimination" data-type="string" display-type="hidden" default-value=
+  "NONDISCRIMINATION POLICY STATEMENT - It is the policy of the ${schoolName} not to discriminate on the basis of race, color, religion, sex,
+national origin, age, or disability in its educational programs or employment
+policies as required by Titles VI and VII of the Civil Rights Act of 1964,
+the Equal Pay Act of 1973, Title IX (1973 Educational Amendments), Section
+504 of the Rehabilitation Act of 1973, and the Americans with Disabilities
+Act. Inquiries regarding compliance with title IX, Section 504 or the
+Americans with Disabilities Act should be directed to Dorothy Shuford, 504
+Coordinator, Claiborne County Board of Education, 1403 Tazewell Road,
+Tazewell, TN 37879 Phone 423-626-7979 or to the Office of Civil Rights,
+U.S. Department of Education, Washington, D.C." />
+ 
+</tool-input>

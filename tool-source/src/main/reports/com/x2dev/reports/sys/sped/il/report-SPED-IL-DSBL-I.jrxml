@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="report-SPED-IL-DSBL-I"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="540"
+		 columnSpacing="0"
+		 leftMargin="27"
+		 rightMargin="27"
+		 topMargin="20"
+		 bottomMargin="18"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="pg-name" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="pws" isForPrompting="false" class="com.follett.fsc.core.k12.beans.Staff"/>
+	<parameter name="pmd" isForPrompting="false" class="com.follett.fsc.core.k12.beans.Staff"/>
+
+	<field name="a:date-request" class="java.lang.String"/>
+	<field name="owner.student.nameView" class="java.lang.String"/>
+	<field name="owner.student.person.dob" class="java.lang.String"/>
+	<field name="owner.student.localId" class="java.lang.String"/>
+	<field name="owner.student.school.name" class="java.lang.String"/>
+	<field name="owner.staff.nameView" class="java.lang.String"/>
+	<field name="oid" class="java.lang.String"/>
+	<field name="a:dsbl-voice" class="java.lang.String"/>
+	<field name="a:dsbl-language" class="java.lang.String"/>
+	<field name="a:dsbl-fluency" class="java.lang.String"/>
+	<field name="a:dsbl-phonology" class="java.lang.String"/>
+	<field name="a:dsbl-descriptive-analysis" class="java.lang.String"/>
+	<field name="a:dsbl-adverse-effect" class="java.lang.String"/>
+	<field name="a:dsbl-meets-criteria" class="java.lang.String"/>
+	<field name="owner.meetingDate" class="java.lang.String"/>
+	<field name="owner.student.enrollmentStatus" class="java.lang.String"/>
+	<field name="owner.student.nextSchool.name" class="java.lang.String"/>
+	<field name="owner.student.school.schoolId" class="java.lang.String"/>
+	<field name="owner.student.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.person.lastName" class="java.lang.String"/>
+
+	<variable name="isBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} == null || $F{oid}.length() == 0)]]></initialValueExpression>
+	</variable>
+	<variable name="isNotBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} != null && $F{oid}.length() > 10)]]></initialValueExpression>
+	</variable>
+	<variable name="schoolName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></initialValueExpression>
+	</variable>
+	<variable name="studentName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></variableExpression>
+		<initialValueExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="720"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="49"
+						width="557"
+						height="41"
+						key="staticText-39"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ELIGIBILITY CRITERIA 
+SPEECH OR LANGUAGE IMPAIRMENT
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="44"
+						y="202"
+						width="206"
+						height="14"
+						key="staticText-71"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Articulation/Phonology]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="16"
+						y="202"
+						width="15"
+						height="14"
+						key="rectangle-14"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="16"
+						y="202"
+						width="15"
+						height="14"
+						key="textField-38"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-phonology}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="93"
+						width="557"
+						height="1"
+						key="line-37"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="94"
+						width="249"
+						height="14"
+						key="textField-43"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.nameView}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="94"
+						width="96"
+						height="14"
+						key="staticText-80"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Name:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="418"
+						y="94"
+						width="139"
+						height="14"
+						key="textField-44"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.meetingDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="374"
+						y="94"
+						width="44"
+						height="14"
+						key="staticText-81"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="110"
+						width="557"
+						height="1"
+						key="line-38"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="0"
+						y="111"
+						width="557"
+						height="30"
+						key="staticText-82"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Definition: Speech or language impairment means a communication disorder, such as stuttering, impaired articulation, a language impairment, or a voice impairment that adversely affects a child's educational performance.]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="141"
+						width="557"
+						height="1"
+						key="line-39"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="0"
+						y="150"
+						width="556"
+						height="14"
+						key="staticText-83"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Checklist for Determining Eligibility:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="44"
+						y="232"
+						width="206"
+						height="14"
+						key="staticText-84"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Fluency]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="16"
+						y="232"
+						width="15"
+						height="14"
+						key="rectangle-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="16"
+						y="232"
+						width="15"
+						height="14"
+						key="textField-45"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-fluency}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="44"
+						y="263"
+						width="330"
+						height="14"
+						key="staticText-85"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Language (Pragmatic Language / Expressive or Receptive)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="16"
+						y="263"
+						width="15"
+						height="14"
+						key="rectangle-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="16"
+						y="263"
+						width="15"
+						height="14"
+						key="textField-46"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-language}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="44"
+						y="295"
+						width="206"
+						height="14"
+						key="staticText-86"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Voice]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="16"
+						y="295"
+						width="15"
+						height="14"
+						key="rectangle-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="16"
+						y="295"
+						width="15"
+						height="14"
+						key="textField-47"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-voice}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="323"
+						width="540"
+						height="14"
+						key="staticText-87"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Descriptive Analysis:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="337"
+						width="540"
+						height="134"
+						key="textField-48"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-descriptive-analysis}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="471"
+						width="540"
+						height="14"
+						key="staticText-88"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Adverse Effect:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="485"
+						width="540"
+						height="193"
+						key="textField-49"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-adverse-effect}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="378"
+						y="697"
+						width="23"
+						height="14"
+						key="staticText-89"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="358"
+						y="697"
+						width="15"
+						height="14"
+						key="rectangle-21"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="358"
+						y="697"
+						width="15"
+						height="14"
+						key="textField-50"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-meets-criteria}.equals( "Y" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="425"
+						y="697"
+						width="23"
+						height="14"
+						key="staticText-90"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="405"
+						y="697"
+						width="15"
+						height="14"
+						key="rectangle-22"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="405"
+						y="697"
+						width="15"
+						height="14"
+						key="textField-51"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:dsbl-meets-criteria}.equals( "N" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="697"
+						width="333"
+						height="14"
+						key="staticText-91"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[The student meets criteria for Speech and/or Language Impairment: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="168"
+						width="556"
+						height="25"
+						key="staticText-92"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Documentation of student deficits in one or more of the following areas that are not developmentally or environmentally appropriate:
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="388"
+						y="1"
+						width="104"
+						height="14"
+						key="staticText-93"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[DATE OF MEETING:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="492"
+						y="15"
+						width="66"
+						height="0"
+						key="line-40"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="1"
+						width="66"
+						height="14"
+						key="textField-52"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.meetingDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="290"
+						y="1"
+						width="28"
+						height="14"
+						key="staticText-94"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[DOB:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="1"
+						width="190"
+						height="14"
+						key="textField-53"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{studentName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="96"
+						height="14"
+						key="staticText-95"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[STUDENT'S NAME:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="318"
+						y="1"
+						width="66"
+						height="14"
+						key="textField-54"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.dob}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="96"
+						y="15"
+						width="190"
+						height="1"
+						key="line-41"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="318"
+						y="15"
+						width="66"
+						height="1"
+						key="line-42"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="98"
+						y="19"
+						width="50"
+						height="14"
+						key="staticText-96"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[SCHOOL:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="19"
+						width="76"
+						height="14"
+						key="textField-55"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.localId}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="19"
+						width="18"
+						height="14"
+						key="staticText-97"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[ID:
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="148"
+						y="19"
+						width="206"
+						height="14"
+						key="textField-56"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{schoolName}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="18"
+						y="33"
+						width="76"
+						height="0"
+						key="line-43"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="148"
+						y="33"
+						width="206"
+						height="0"
+						key="line-44"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="358"
+						y="19"
+						width="64"
+						height="14"
+						key="staticText-98"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[CASE MGR:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="19"
+						width="136"
+						height="14"
+						key="textField-57"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.staff.nameView}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="422"
+						y="34"
+						width="136"
+						height="1"
+						key="line-45"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="12"  isSplitAllowed="false" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="143"
+						height="12"
+						key="staticText-49"/>
+					<box></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Speech or Language Impairment (I)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="174"
+						y="0"
+						width="366"
+						height="12"
+						key="textField-25"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="8" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="-1"
+						width="558"
+						height="2"
+						forecolor="#999999"
+						backcolor="#999999"
+						key="line-46"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</summary>
+</jasperReport>

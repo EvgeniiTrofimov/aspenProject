@@ -1,0 +1,2008 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="3454O"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="558"
+		 columnSpacing="0"
+		 leftMargin="27"
+		 rightMargin="27"
+		 topMargin="20"
+		 bottomMargin="18"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="descrMap" isForPrompting="false" class="java.util.Map"/>
+
+	<field name="owner.student.nameView" class="java.lang.String"/>
+	<field name="owner.student.school.name" class="java.lang.String"/>
+	<field name="owner.student.localId" class="java.lang.String"/>
+	<field name="owner.staff.nameView" class="java.lang.String"/>
+	<field name="oid" class="java.lang.String"/>
+	<field name="owner.meetingDate" class="java.lang.String"/>
+	<field name="a:assmnt-partic-with-accmdtns" class="java.lang.String"/>
+	<field name="a:assmnt-distr-not-admin" class="java.lang.String"/>
+	<field name="a:assmnt-grade-lvl-not-admin" class="java.lang.String"/>
+	<field name="a:assmnt-distr-wide" class="java.lang.String"/>
+	<field name="a:assmnt-state-academ-not-admin" class="java.lang.String"/>
+	<field name="a:assmnt-dml-is-guidelines-met" class="java.lang.String"/>
+	<field name="a:assmnt-dml-need-accom" class="java.lang.String"/>
+	<field name="a:assmnt-other-participate" class="java.lang.String"/>
+	<field name="a:assmnt-other-need-accom" class="java.lang.String"/>
+	<field name="a:assmnt-english-learner" class="java.lang.String"/>
+	<field name="a:assmnt-participate-parcc" class="java.lang.String"/>
+	<field name="a:assmnt-participate-isa" class="java.lang.String"/>
+	<field name="owner.student.enrollmentStatus" class="java.lang.String"/>
+	<field name="owner.student.nextSchool.name" class="java.lang.String"/>
+	<field name="owner.student.person.dob" class="java.lang.String"/>
+	<field name="owner.student.school.schoolId" class="java.lang.String"/>
+	<field name="owner.student.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.person.lastName" class="java.lang.String"/>
+
+	<variable name="isNotBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} != null && $F{oid}.length() > 10)]]></initialValueExpression>
+	</variable>
+	<variable name="schoolName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></initialValueExpression>
+	</variable>
+	<variable name="studentName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></variableExpression>
+		<initialValueExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></initialValueExpression>
+	</variable>
+
+		<group  name="Group 1" isStartNewPage="true" >
+			<groupExpression><![CDATA[$V{PAGE_NUMBER}]]></groupExpression>
+			<groupHeader>
+			<band height="742"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="36"
+						width="541"
+						height="16"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ASSESSMENT]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="54"
+						width="541"
+						height="13"
+						backcolor="#CCCCCC"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="54"
+						width="541"
+						height="13"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-7"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[CLASSROOM-BASED ASSESSMENTS]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="70"
+						width="15"
+						height="12"
+						key="rectangle-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="70"
+						width="15"
+						height="12"
+						key="textField-6">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-partic-with-accmdtns}.equals( "0" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="70"
+						width="479"
+						height="12"
+						key="staticText-8"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Student will participate in classroom assessments with no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="86"
+						width="15"
+						height="12"
+						key="rectangle-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="86"
+						width="15"
+						height="12"
+						key="textField-7">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-partic-with-accmdtns}.equals( "1" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="86"
+						width="479"
+						height="22"
+						key="staticText-9"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Student will participate in classroom assessments with accommodations(s). (Complete Assessment Accommodations section on the IEP)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="114"
+						width="541"
+						height="13"
+						backcolor="#CCCCCC"
+						key="rectangle-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="114"
+						width="541"
+						height="13"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[DISTRICT-WIDE ASSESSMENTS]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="132"
+						width="15"
+						height="12"
+						key="rectangle-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="132"
+						width="15"
+						height="12"
+						key="textField-8">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-not-admin}.equals( "0" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="132"
+						width="479"
+						height="12"
+						key="staticText-11"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[District does not administer district-wide assessments]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="148"
+						width="15"
+						height="12"
+						key="rectangle-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="148"
+						width="15"
+						height="12"
+						key="textField-9">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-not-admin}.equals( "1" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="148"
+						width="287"
+						height="12"
+						key="staticText-12"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[District does not administer district-wide assessments at this grade level:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="320"
+						y="148"
+						width="100"
+						height="12"
+						key="textField-10"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-grade-lvl-not-admin}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="320"
+						y="160"
+						width="100"
+						height="1"
+						key="line-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="1"
+						y="164"
+						width="104"
+						height="12"
+						key="staticText-13"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student will:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="178"
+						width="15"
+						height="12"
+						key="rectangle-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="178"
+						width="15"
+						height="12"
+						key="textField-11">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-wide}.equals( "NO ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="178"
+						width="479"
+						height="12"
+						key="staticText-15"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the entire district-wide assessment with no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="196"
+						width="15"
+						height="12"
+						key="rectangle-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="196"
+						width="15"
+						height="12"
+						key="textField-12">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-wide}.equals( "WITH ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="190"
+						width="479"
+						height="22"
+						key="staticText-16"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the entire district-wide assessment with accommodation(s). (Complete Assessment Accommodations section on the IEP)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="216"
+						width="15"
+						height="12"
+						key="rectangle-9"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="216"
+						width="15"
+						height="12"
+						key="textField-13">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-wide}.equals( "PART" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="212"
+						width="479"
+						height="22"
+						key="staticText-17"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in part(s) of the district-wide assessment (specify which part(s) and what, if any, accommodations are required).
+(Complete Assessment Accommodations section on the IEP).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="253"
+						width="15"
+						height="12"
+						key="rectangle-10"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="253"
+						width="15"
+						height="12"
+						key="textField-14">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-wide}.equals( "ALTERNATE WITHOUT ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="252"
+						width="479"
+						height="12"
+						key="staticText-18"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the district-wide alternate assessment without accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="37"
+						y="272"
+						width="15"
+						height="12"
+						key="rectangle-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="37"
+						y="272"
+						width="15"
+						height="12"
+						key="textField-15">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-distr-wide}.equals( "ALTERNATE WITH ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="62"
+						y="266"
+						width="479"
+						height="22"
+						key="staticText-19"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the district-wide alternate assessment with accommodation(s). (Complete Assessment Accommodations section on the IEP)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="291"
+						width="541"
+						height="13"
+						backcolor="#CCCCCC"
+						key="rectangle-12"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="291"
+						width="541"
+						height="13"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-20"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[STATE ACADEMIC ASSESSMENTS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="304"
+						width="541"
+						height="22"
+						key="staticText-21"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Indicate below which state academic assessment(s) this student will take and, if applicable, if accessibility feature(s) and/or accommodation(s) are needed.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="327"
+						width="15"
+						height="12"
+						key="rectangle-13"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="327"
+						width="15"
+						height="12"
+						key="textField-16">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{a:assmnt-state-academ-not-admin}.isEmpty() ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="327"
+						width="261"
+						height="12"
+						key="staticText-22"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[State academic assessments are not administered at this grade level:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="325"
+						y="338"
+						width="106"
+						height="0"
+						key="line-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="33"
+						y="342"
+						width="508"
+						height="14"
+						key="staticText-23"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[1.     <style isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold">Partnership for Assessment of Readiness for College and Careers (PARCC) (grades 3-8, and high school)</style>]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="51"
+						y="356"
+						width="490"
+						height="35"
+						key="staticText-24"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[PARCC is provided for English Language Arts/Literacy and Mathematics at grades 3-8 and high school. For high school administration, a student currently enrolled in Integrated Math 3 or Algebra 2 will take the mathematics assessment and a student currently enrolled in English 3 will take the English Language Arts assessment.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="391"
+						width="15"
+						height="12"
+						key="rectangle-14"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="391"
+						width="15"
+						height="12"
+						key="textField-17">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-parcc}.equals( "1" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="391"
+						width="464"
+						height="12"
+						key="staticText-25"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[The PARCC assessment is not appropriate. (Go to #2)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="52"
+						y="408"
+						width="128"
+						height="14"
+						key="staticText-26"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Student will:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="425"
+						width="15"
+						height="12"
+						key="rectangle-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="425"
+						width="15"
+						height="12"
+						key="textField-18">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-parcc}.equals( "2" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="425"
+						width="464"
+						height="12"
+						key="staticText-27"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in PARCC with no accessibility features turned on in advance and no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="446"
+						width="15"
+						height="12"
+						key="rectangle-16"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="446"
+						width="15"
+						height="12"
+						key="textField-19">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-parcc}.equals( "3" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="446"
+						width="464"
+						height="22"
+						key="staticText-28"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in PARCC assessment with accessibility features turned on in advance and/or accommodation(s).
+(Complete the PARCC Accessibility Features and Accommodations form and attach).]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="33"
+						y="467"
+						width="508"
+						height="14"
+						key="staticText-29"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[2.     <style isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold">Dynamic Learning Maps (DLM) (Alternate assessment for grades 3-8, and 11)</style>]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="483"
+						width="15"
+						height="12"
+						key="rectangle-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="483"
+						width="15"
+						height="12"
+						key="textField-32">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-dml-is-guidelines-met}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="483"
+						width="464"
+						height="12"
+						key="staticText-48"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[The DLM Participation Guidelines were met. (Complete the DLM Participation Guidelines and attach).]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="52"
+						y="498"
+						width="128"
+						height="14"
+						key="staticText-49"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[If met, the student will:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="516"
+						width="15"
+						height="12"
+						key="rectangle-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="516"
+						width="15"
+						height="12"
+						key="textField-33">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-dml-is-guidelines-met}.equals( "true" ) ? ($F{a:assmnt-dml-need-accom}.equals( "1" ) ? "" : "X") : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="515"
+						width="464"
+						height="12"
+						key="staticText-50"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in DLM with no accessibility features/accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="52"
+						y="538"
+						width="15"
+						height="12"
+						key="rectangle-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="52"
+						y="538"
+						width="15"
+						height="12"
+						key="textField-34">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-dml-is-guidelines-met}.equals( "true" ) ?  ($F{a:assmnt-dml-need-accom}.equals( "1" ) ? "X" : "") : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="77"
+						y="534"
+						width="464"
+						height="22"
+						key="staticText-51"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in DLM with accessibility features/accommodation(s). (Complete the DLM Accessibility Features and Accommodations form and attach)
+]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="575"
+						width="15"
+						height="12"
+						key="rectangle-28"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="575"
+						width="15"
+						height="12"
+						key="textField-35">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-isa}.equals( "1" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="78"
+						y="575"
+						width="463"
+						height="12"
+						key="staticText-53"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Not administered at student's current grade level.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="592"
+						width="15"
+						height="12"
+						key="rectangle-29"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="592"
+						width="15"
+						height="12"
+						key="textField-36">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-isa}.equals( "2" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="78"
+						y="592"
+						width="463"
+						height="12"
+						key="staticText-55"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in science assessment with no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="610"
+						width="15"
+						height="12"
+						key="rectangle-30"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="610"
+						width="15"
+						height="12"
+						key="textField-37">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-participate-isa}.equals( "3" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="33"
+						y="631"
+						width="508"
+						height="14"
+						key="staticText-57"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[4.     <style isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold">Other (optional by district).  If applicable, list assessment to be given (e.g. KIDS)</style>]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="647"
+						width="15"
+						height="12"
+						key="rectangle-31"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="647"
+						width="15"
+						height="12"
+						key="textField-38">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-other-participate}.isEmpty() ? "" : "X"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="78"
+						y="647"
+						width="58"
+						height="12"
+						key="staticText-58"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="665"
+						width="15"
+						height="12"
+						key="rectangle-32"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="665"
+						width="15"
+						height="12"
+						key="textField-39">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-other-participate}.isEmpty() ? "" :($F{a:assmnt-other-need-accom}.equals( "0" ) ? "X" : "")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="78"
+						y="664"
+						width="463"
+						height="12"
+						key="staticText-59"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate with no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="683"
+						width="15"
+						height="12"
+						key="rectangle-33"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="683"
+						width="15"
+						height="12"
+						key="textField-40">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-other-participate}.isEmpty() ? "" : ($F{a:assmnt-other-need-accom}.equals( "1" ) ? "X" : "")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="78"
+						y="683"
+						width="463"
+						height="12"
+						key="staticText-60"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate with accommodation(s). (Complete Assessment Accommodations section on the IEP)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="78"
+						y="610"
+						width="463"
+						height="12"
+						key="staticText-61"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in science assessment with accommodation(s). (Complete Assessment Accommodations section of the IEP)
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="128"
+						y="647"
+						width="263"
+						height="12"
+						key="textField-41"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-other-participate}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="730"
+						width="540"
+						height="0"
+						forecolor="#999999"
+						backcolor="#999999"
+						key="line-13"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="128"
+						y="658"
+						width="263"
+						height="1"
+						key="line-14"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="325"
+						y="327"
+						width="106"
+						height="12"
+						key="textField-43"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-state-academ-not-admin}]]></textFieldExpression>
+				</textField>
+				<break>
+					<reportElement
+						x="0"
+						y="741"
+						width="558"
+						height="0"
+						key="element-1"/>
+				</break>
+				<staticText>
+					<reportElement
+						x="33"
+						y="559"
+						width="508"
+						height="14"
+						key="staticText-63"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[3.     <style isBold="true" isItalic="false" isUnderline="true" pdfFontName="Helvetica-Bold">Illinois Science Assessment</style>]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="388"
+						y="0"
+						width="104"
+						height="14"
+						key="staticText-64"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[DATE OF MEETING:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="492"
+						y="14"
+						width="66"
+						height="0"
+						key="line-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="0"
+						width="66"
+						height="14"
+						key="textField-44"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.meetingDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="290"
+						y="0"
+						width="28"
+						height="14"
+						key="staticText-65"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[DOB:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="0"
+						width="190"
+						height="14"
+						key="textField-45"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{studentName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="96"
+						height="14"
+						key="staticText-66"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[STUDENT'S NAME:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="318"
+						y="0"
+						width="66"
+						height="14"
+						key="textField-46"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.dob}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="96"
+						y="14"
+						width="190"
+						height="1"
+						key="line-16"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="318"
+						y="14"
+						width="66"
+						height="1"
+						key="line-17"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="98"
+						y="18"
+						width="50"
+						height="14"
+						key="staticText-67"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[SCHOOL:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="18"
+						width="76"
+						height="14"
+						key="textField-47"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.localId}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="18"
+						width="18"
+						height="14"
+						key="staticText-68"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[ID:
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="148"
+						y="18"
+						width="206"
+						height="14"
+						key="textField-48"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{schoolName}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="18"
+						y="32"
+						width="76"
+						height="0"
+						key="line-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="148"
+						y="32"
+						width="206"
+						height="0"
+						key="line-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="358"
+						y="18"
+						width="64"
+						height="14"
+						key="staticText-69"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[CASE MGR:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="18"
+						width="136"
+						height="14"
+						key="textField-49"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.staff.nameView}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="422"
+						y="32"
+						width="136"
+						height="1"
+						key="line-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Group 2" isStartNewPage="true" >
+			<groupExpression><![CDATA[$V{PAGE_NUMBER}]]></groupExpression>
+			<groupHeader>
+			<band height="195"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						x="1"
+						y="3"
+						width="540"
+						height="13"
+						backcolor="#CCCCCC"
+						key="rectangle-17"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="1"
+						y="3"
+						width="540"
+						height="13"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-30"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[STATE ASSESSMENT OF LANGUAGE PROFICIENCY]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="16"
+						width="540"
+						height="23"
+						key="staticText-31"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[The State assessment of language proficiency Assessing Comprehension and Communication in English State to State (ACCESS) and the Alternate for English Access Learners (EL) in grades K-12 include:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="24"
+						y="83"
+						width="15"
+						height="12"
+						key="rectangle-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="83"
+						width="15"
+						height="12"
+						key="textField-20">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals( "NO ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="49"
+						y="83"
+						width="492"
+						height="12"
+						key="staticText-32"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the ACCESS with no accommodations]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="24"
+						y="99"
+						width="15"
+						height="12"
+						key="rectangle-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="99"
+						width="15"
+						height="12"
+						key="textField-21">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals( "WITH ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="49"
+						y="99"
+						width="492"
+						height="12"
+						key="staticText-33"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the ACCESS with accommodations  (Complete Assessment Accommodations section of the IEP).
+]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="24"
+						y="115"
+						width="15"
+						height="12"
+						key="rectangle-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="115"
+						width="15"
+						height="12"
+						key="textField-22">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals( "ALTERNATE WITHOUT ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="49"
+						y="115"
+						width="492"
+						height="12"
+						key="staticText-34"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the alternate ACCESS with no accommodation(s).]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="24"
+						y="131"
+						width="15"
+						height="12"
+						key="rectangle-21"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="24"
+						y="131"
+						width="15"
+						height="12"
+						key="textField-23">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals( "ALTERNATE WITH ACCOM" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="49"
+						y="131"
+						width="492"
+						height="12"
+						key="staticText-35"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Participate in the alternate ACCESS with accommodation(s). (Complete Assessment Accommodations section of the IEP).]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="24"
+						y="65"
+						width="492"
+						height="14"
+						key="staticText-36"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[If yes, the Student will:
+]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="10"
+						y="44"
+						width="15"
+						height="12"
+						key="rectangle-22"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="10"
+						y="44"
+						width="15"
+						height="12"
+						key="textField-24">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals("NO ACCOM")||
+$F{a:assmnt-english-learner}.equals("WITH ACCOM")||
+$F{a:assmnt-english-learner}.equals("ALTERNATE WITHOUT ACCOM")||
+$F{a:assmnt-english-learner}.equals("ALTERNATE WITH ACCOM")
+ ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement
+						x="53"
+						y="44"
+						width="15"
+						height="12"
+						key="rectangle-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="53"
+						y="44"
+						width="15"
+						height="12"
+						key="textField-25">
+							<printWhenExpression><![CDATA[$V{isNotBlank}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:assmnt-english-learner}.equals("0") ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="72"
+						y="43"
+						width="20"
+						height="14"
+						key="staticText-37"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="43"
+						width="20"
+						height="14"
+						key="staticText-38"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="103"
+						y="43"
+						width="283"
+						height="14"
+						key="staticText-39"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[ENGLISH LEARNER (EL).  If "NO", skip to next section]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="1"
+						y="154"
+						width="540"
+						height="13"
+						backcolor="#CCCCCC"
+						key="rectangle-24"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="1"
+						y="154"
+						width="540"
+						height="13"
+						forecolor="#000000"
+						backcolor="#0066CC"
+						key="staticText-40"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ASSESSMENT ACCOMMODATIONS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="167"
+						width="540"
+						height="25"
+						key="staticText-41"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[If the student will participate in assessments with accommodations, other than PARCC and DLM, document any needed accommodations for the content area(s) in the section below.
+]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Classroom-Based Assessments" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="540"
+						height="12"
+						key="staticText-42"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Classroom-Based Assessments
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="12"
+						width="540"
+						height="95"
+						key="textField-26"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{descrMap}.get( "Classroom-Based Assessments" )]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="District-Based Assessments" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="540"
+						height="12"
+						key="staticText-43"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[District-Based Assessments]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="12"
+						width="540"
+						height="95"
+						key="textField-27"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{descrMap}.get( "District-Based Assessments" )]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Science Assessment" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="540"
+						height="12"
+						key="staticText-44"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Science Assessment]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="12"
+						width="540"
+						height="95"
+						key="textField-28"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{descrMap}.get( "Science Assessment" )]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Other Assessment" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="540"
+						height="12"
+						key="staticText-45"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Other Assessment (e.g.  ACT/WORK KEYS, KIDS)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="12"
+						width="540"
+						height="95"
+						key="textField-29"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{descrMap}.get( "Other Assessment" )]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="ACCESS/Alternate ACCESS" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="540"
+						height="12"
+						key="staticText-46"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[ACCESS/Alternate ACCESS]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="12"
+						width="540"
+						height="95"
+						key="textField-30"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{descrMap}.get( "ACCESS/Alternate ACCESS" )]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="12"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="100"
+						height="11"
+						key="staticText-47"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[ISBE 34-54O (8/15) ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="159"
+						y="0"
+						width="382"
+						height="11"
+						key="textField-31"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="8" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

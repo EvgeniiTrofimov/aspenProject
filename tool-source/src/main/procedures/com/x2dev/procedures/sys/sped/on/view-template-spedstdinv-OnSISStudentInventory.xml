@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="spedstdinv" name="OnSIS Student Inventory" locked="false" extendedDataDictionaryOid="ddxOnInventory" extendedDataDictionaryId="ON-SPED-INVENTORY">
+  <resources>
+    <message-resource key="tools.vwtOBC00000192.task.global.spedinvstd.name" locale="en_CA" value="Name" objectOid="vwtOBC00000192" />
+    <message-resource key="tools.vwtOBC00000192.task.global.spedinvstd.name" locale="en_US" value="OnSIS Student Inventory" objectOid="vwtOBC00000192" />
+    <message-resource key="tools.vwtOBC00000192.task.global.spedinvstd.name" locale="fr_FR" value="Nom" objectOid="vwtOBC00000192" />
+    <message-resource key="template.vwtOBC00000192.vwtName" locale="en_CA" value="OnSIS Student Inventory" objectOid="vwtOBC00000192" />
+    <message-resource key="template.vwtOBC00000192.vwtName" locale="fr_FR" value="Inventaire des élèves dans SISOn" objectOid="vwtOBC00000192" />
+  </resources>
+  <template>
+    <tab name="task.global.spedinvstd.name">
+      <row>
+        <column>
+          <property id="relUdbStdOid.stdViewName" prefix-display="show">
+            <picklist relationship="relUdbStdOid" required="true">
+              <field id="stdViewName" sort="true" />
+              <field id="stdGradeLevel" />
+              <field id="relStdSklOid.sklSchoolName" />
+              <filter field="stdEnrStatus" operator="equals" source="preference" value="sys.std.activeCode">
+                <filter field="stdSpedStatus" operator="equals" source="preference" value="sys.sped.activeCode" />
+              </filter>
+            </picklist>
+          </property>
+          <property id="relUdbSklOid.sklSchoolName" prefix-display="show">
+            <picklist relationship="relUdbSklOid" required="true">
+              <field id="sklSchoolName" sort="true" />
+              <field id="sklSchoolID" />
+            </picklist>
+          </property>
+          <property alias="relUdbUdcOid.udc-spedinv-serial-no" prefix-display="hide">
+            <picklist relationship="relUdbUdcOid" required="true">
+              <field alias="udc-spedinv-serial-no" />
+              <field alias="relUdcUdaOid.uda-spedinv-type" sort="true" />
+              <field alias="relUdcUdaOid.uda-spedinv-description" sort="true" />
+              <filter field="udcDdxOID" operator="equals" source="constant" value="ddxOnInventory" />
+            </picklist>
+          </property>
+          <property alias="relUdbUdcOid.udc-spedinv-bar-code" read-only="true" />
+          <property alias="relUdbUdcOid.relUdcUdaOid.uda-spedinv-type" read-only="true" />
+          <property alias="relUdbUdcOid.relUdcUdaOid.uda-spedinv-category" read-only="true" />
+          <property alias="relUdbUdcOid.relUdcUdaOid.uda-spedinv-description" read-only="true" />
+          <property alias="relUdbUdcOid.relUdcUdaOid.uda-spedinv-delivery-date" read-only="true" />
+        </column>
+        <column>
+          <property alias="ubd-spedinv-transaction-type" />
+          <property alias="udb-spedinv-transaction-date" />
+          <property alias="udb-spedinv-location" />
+          <property alias="udb-spedinv-return-date" />
+          <property alias="udb-spedinv-return-location" />
+          <property alias="udb-spedinv-hide" />
+        </column>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

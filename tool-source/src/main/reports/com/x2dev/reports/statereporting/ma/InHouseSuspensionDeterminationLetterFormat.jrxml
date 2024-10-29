@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="InHouseSuspensionDeterminationLetterFormat"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+
+	<parameter name="school" isForPrompting="true" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization"/>
+	<parameter name="schoolContext" isForPrompting="true" class="java.lang.Boolean"/>
+	<parameter name="letterSignatureBy" isForPrompting="false" class="java.lang.String"/>
+
+	<field name="action" class="com.x2dev.sis.model.beans.ConductAction"/>
+	<field name="copy" class="java.lang.Integer"/>
+	<field name="address" class="com.x2dev.sis.model.beans.SisAddress"/>
+	<field name="relationshipCode" class="java.lang.String"/>
+	<field name="actionCode" class="java.lang.String"/>
+	<field name="startDate" class="java.lang.String"/>
+	<field name="endDate" class="java.lang.String"/>
+	<field name="principal" class="com.x2dev.sis.model.beans.SisPerson"/>
+	<field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+	<field name="noticeDate" class="java.lang.String"/>
+	<field name="methodOfDelivery" class="java.lang.String"/>
+
+	<variable name="signature" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA["Very truly yours,\n\n\n\n" +
+$F{principal}.getFirstName() + " " + 
+($F{principal}.getMiddleName() == null ? "" : ($F{principal}.getMiddleName() + " ")) +
+$F{principal}.getLastName() + "\n" +
+$P{letterSignatureBy}  + " " + $P{school}.getName() + "\n\n" +
+"Cc:<font color=\"red\">&lt;superintendent name&gt;</font>" + "\n" + 
+"Superintendent of " + $P{organization}.getName()]]></variableExpression>
+	</variable>
+	<variable name="cityStateZip" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[($F{address} != null)?
+($F{address}.getCity() + " " +
+ $F{address}.getState() + " " + 
+ $F{address}.getPostalCode()) : ""]]></variableExpression>
+	</variable>
+	<variable name="parentGuardian" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[($F{student}.getPerson().getAge() >= 18)? "Student" : "Parent/Guardian"]]></variableExpression>
+	</variable>
+	<variable name="greeting" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(($F{student}.getPerson().getAge() < 18) ? "Dear Parent/Guardian Of:\n" : "") + 
+ $F{student}.getPerson().getFirstName() + " " + $F{student}.getPerson().getLastName() + "\n" +
+ $F{student}.getAddressView() + "\n" +
+ $V{cityStateZip} + "\n\n" +
+"Dear " + (($F{student}.getPerson().getAge() < 18) ? "Parent/Guardian of "  : "") + $F{student}.getPerson().getFirstName() + " " + $F{student}.getPerson().getLastName() + ","]]></variableExpression>
+	</variable>
+
+		<group  name="notice" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{action}.getOid() + $F{copy}.intValue()]]></groupExpression>
+			<groupHeader>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="12"
+						y="0"
+						width="165"
+						height="16"
+						key="textField-1"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[Boolean.valueOf($F{action}.getIncident().getDescription() != null && !$F{action}.getIncident().getDescription().isEmpty())]]></printWhenExpression>
+						</reportElement>
+					<box rightPadding="5" topPadding="1" bottomPadding="1"></box>
+					<textElement textAlignment="Left">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Notice Date: " + ($F{noticeDate} != null ? $F{noticeDate} : "")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="255"
+						y="0"
+						width="260"
+						height="16"
+						key="textField-2"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[Boolean.valueOf($F{action}.getIncident().getDescription() != null && !$F{action}.getIncident().getDescription().isEmpty())]]></printWhenExpression>
+						</reportElement>
+					<box rightPadding="5" topPadding="1" bottomPadding="1"></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Method of Delivery: " + ($F{methodOfDelivery} != null ? $F{methodOfDelivery} : "")]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="70"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="25"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+				<text><![CDATA[In-House Suspension/Determination Letter]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="200"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="12"
+						y="12"
+						width="503"
+						height="159"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" isStyledText="true" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{greeting}  + 
+"\n\nToday " + (($F{student}.getPerson().getAge() < 18) ? "your child was " : "you were ") + "suspended on an in-house basis for violations of school rules, school code or the handbook. The suspension was imposed after it was determined that " + (($F{student}.getPerson().getAge() < 18) ? "your child " : "you ") + "did <style isBold='true' pdfFontName='Helvetica-Bold'>" + $F{actionCode} + "</style>. This in-house suspension shall be for the duration of " + $F{action}.getActionPenaltyTime() +" days beginning on " + $F{startDate} + " and ending on " + $F{endDate} + 
+".\n\nIf you would like to meet to discuss this in-house suspension, please contact me to discuss the behavior and your " + (($F{student}.getPerson().getAge() < 18) ? "child’s " : "") +  "academic performance, along with options for responding to this behavior going forward. The school will call or email you at least twice to determine if you wish to meet." +
+"\n\n" + $V{signature}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

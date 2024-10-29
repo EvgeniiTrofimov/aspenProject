@@ -1,0 +1,363 @@
+<tool-input>
+<input data-type="string" default-value="SYS-MAINT-LOAD-SQL" display-type="hidden" name="procedureId"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="reloadDictionary"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="refreshCache"/>
+<!--The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement><![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%942.45%';
+]]></TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',942.45' where history not like '%942.45%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_DEFINITION SET WFD_ALIGNED = 'wfdIlSpedRefer, wfdIlSpedTrans, wfdIlSpedRenew, wfdIlSpedReev' WHERE WFD_OID = 'wfdIlSpedAmend';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_DEFINITION SET WFD_ALIGNED = 'wfdIlSpedRefer, wfdIlSpedTrans, wfdIlSpedRenew, wfdIlSpedAmend' WHERE WFD_OID = 'wfdIlSpedReev';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_DEFINITION SET WFD_ALIGNED = 'wfdIlSpedTrans, wfdIlSpedRenew, wfdIlSpedReev, wfdIlSpedAmend' WHERE WFD_OID = 'wfdIlSpedRefer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_DEFINITION SET WFD_ALIGNED = 'wfdIlSpedRefer, wfdIlSpedTrans, wfdIlSpedAmend, wfdIlSpedReev' WHERE WFD_OID = 'wfdIlSpedRenew';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_DEFINITION SET WFD_ALIGNED = 'wfdIlSpedRefer, wfdIlSpedRenew, wfdIlSpedReev, wfdIlSpedAmend' WHERE WFD_OID = 'wfdIlSpedTrans';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'acadAch' WHERE WPO_OID = 'wpoIlAAFPerf';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'AccAsup' WHERE WPO_OID = 'wpoIlAccSupp';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'manyForms1' WHERE WPO_OID = 'wpoIlAdminAssm';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'acadAch' WHERE WPO_OID = 'wpoIlAmAcadAch';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'AccAsup' WHERE WPO_OID = 'wpoIlAmAccASup';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'adForms' WHERE WPO_OID = 'wpoIlAmAdForms';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Notes3' WHERE WPO_OID = 'wpoIlAmAdNotes';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Approve' WHERE WPO_OID = 'wpoIlAmApprIep';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Assessm' WHERE WPO_OID = 'wpoIlAmAssmnt';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'TeamDef2' WHERE WPO_OID = 'wpoIlAmCnfrmTm';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep1' WHERE WPO_OID = 'wpoIlAmConfSum';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'EducSer' WHERE WPO_OID = 'wpoIlAmEducSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'GoalObj' WHERE WPO_OID = 'wpoIlAmGoalObj';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'HMeet3' WHERE WPO_OID = 'wpoIlAmHldMtng';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'notConf' WHERE WPO_OID = 'wpoIlAmNotConf';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Meet3' WHERE WPO_OID = 'wpoIlAmSchMtng';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'secTran' WHERE WPO_OID = 'wpoIlAmSecTran';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sendDraft' WHERE WPO_OID = 'wpoIlAmSendDIE';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'tranSer' WHERE WPO_OID = 'wpoIlAmTranSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Assessm' WHERE WPO_OID = 'wpoIlAssmnt';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'adForms' WHERE WPO_OID = 'wpoIlBehAssmnt';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'TeamDef3' WHERE WPO_OID = 'wpoIlConfITM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'TeamDef2' WHERE WPO_OID = 'wpoIlConfTM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'DetermineDN' WHERE WPO_OID = 'wpoIlDetermDNd';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'DetermineDNN' WHERE WPO_OID = 'wpoIlDetermDNn';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'DetermineDTA' WHERE WPO_OID = 'wpoIlDetermDNT';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'manyForms2' WHERE WPO_OID = 'wpoIlDetermE';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'MeetingOutcome2' WHERE WPO_OID = 'wpoIlDetermMON';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'manyForms1' WHERE WPO_OID = 'wpoIlEvAdmAssm';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep3' WHERE WPO_OID = 'wpoIlEvCnfSum3';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'DetermineDN' WHERE WPO_OID = 'wpoIlEvDeteDNd';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'DetermineDNN' WHERE WPO_OID = 'wpoIlEvDeteDNn';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'manyForms2' WHERE WPO_OID = 'wpoIlEvDetermE';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'GoalObj' WHERE WPO_OID = 'wpoIlGoalBench';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'HMeet2' WHERE WPO_OID = 'wpoIlHoldEM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'HMeet3' WHERE WPO_OID = 'wpoIlHoldIM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'notConf' WHERE WPO_OID = 'wpoIlNotOfConf';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Draft' WHERE WPO_OID = 'wpoIlReferStd';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Notes' WHERE WPO_OID = 'wpoIlRf54SDmn';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Notes2' WHERE WPO_OID = 'wpoIlRf54SElig';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Notes3' WHERE WPO_OID = 'wpoIlRf54SIep';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep1' WHERE WPO_OID = 'wpoIlRfCnfSum1';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep2' WHERE WPO_OID = 'wpoIlRfCnfSum2';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep3' WHERE WPO_OID = 'wpoIlRfCnfSum3';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Meet2' WHERE WPO_OID = 'wpoIlSchedulEM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Meet3' WHERE WPO_OID = 'wpoIlSchedulIM';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'secTran' WHERE WPO_OID = 'wpoIlSecTrans';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'EducSer' WHERE WPO_OID = 'wpoIlSrvcPlace';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'AccAsup' WHERE WPO_OID = 'wpoIlTrAccASup';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Notes3' WHERE WPO_OID = 'wpoIlTrAdNotes';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'tranSer' WHERE WPO_OID = 'wpoIlTransServ';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'sumrep1' WHERE WPO_OID = 'wpoIlTrConfSum';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'TeamDef' WHERE WPO_OID = 'wpoIlTrDefTm';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'EducSer' WHERE WPO_OID = 'wpoIlTrEducSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'GoalObj' WHERE WPO_OID = 'wpoIlTrGoals';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'HMeet3' WHERE WPO_OID = 'wpoIlTrHoldTr';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Implement' WHERE WPO_OID = 'wpoIlTrImplIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Draft' WHERE WPO_OID = 'wpoIlTrReqIEP1';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'Meet3' WHERE WPO_OID = 'wpoIlTrSchedTr';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'secTran' WHERE WPO_OID = 'wpoIlTrSecTran';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_ALIGNMENT_ID = 'tranSer' WHERE WPO_OID = 'wpoIlTrTranSer';
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

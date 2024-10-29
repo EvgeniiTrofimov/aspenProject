@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+         name="attendanceHistory"
+         columnCount="1"
+         printOrder="Vertical"
+         orientation="Portrait"
+         pageWidth="612"
+         pageHeight="792"
+         columnWidth="552"
+         columnSpacing="0"
+         leftMargin="30"
+         rightMargin="30"
+         topMargin="20"
+         bottomMargin="20"
+         whenNoDataType="NoPages"
+         isTitleNewPage="false"
+         isSummaryNewPage="false">
+    <property name="ireport.scriptlethandling" value="0" />
+    <property name="ireport.encoding" value="UTF-8" />
+    <import value="java.util.*" />
+    <import value="net.sf.jasperreports.engine.*" />
+    <import value="net.sf.jasperreports.engine.data.*" />
+    <import value="com.x2dev.utils.*" />
+
+    <parameter name="school" isForPrompting="true" class="com.x2dev.sis.model.beans.SisSchool"/>
+    <parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+    <parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+    <parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization"/>
+    <parameter name="schoolContext" isForPrompting="true" class="java.lang.Boolean"/>
+    <parameter name="timeFormat" isForPrompting="true" class="java.text.DateFormat"/>
+    <parameter name="currentScheduleOid" isForPrompting="true" class="java.lang.String"/>
+    <parameter name="secondDailyAttendance" isForPrompting="false" class="java.lang.Boolean"/>
+
+    <field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+    <field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+    <field name="date" class="java.util.Date"/>
+    <field name="codeView" class="java.lang.String"/>
+    <field name="timeView" class="java.lang.String"/>
+    <field name="excusedIndicator" class="java.lang.Boolean"/>
+    <field name="reasonCode" class="java.lang.String"/>
+    <field name="comment" class="java.lang.String"/>
+    <field name="comment02" class="java.lang.String"/>
+    <field name="absentIndicator" class="java.lang.Boolean"/>
+    <field name="portionAbsent" class="java.math.BigDecimal"/>
+    <field name="tardyIndicator" class="java.lang.Boolean"/>
+    <field name="dismissedIndicator" class="java.lang.Boolean"/>
+    <field name="absentIndicator02" class="java.lang.Boolean"/>
+    <field name="excusedIndicator02" class="java.lang.Boolean"/>
+    <field name="tardyIndicator02" class="java.lang.Boolean"/>
+    <field name="dismissedIndicator02" class="java.lang.Boolean"/>
+
+    <variable name="ukDateFormat" class="java.text.DateFormat" resetType="None" calculation="Nothing">
+        <variableExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy")]]></variableExpression>
+    </variable>
+    <variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+        <variableExpression><![CDATA[$V{ukDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+    </variable>
+    <variable name="excusedAbsences" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double((($F{absentIndicator}.booleanValue() && $F{portionAbsent} != null && $F{excusedIndicator}.booleanValue()) ? $F{portionAbsent}.doubleValue() : 0) + 
+           ($P{secondDailyAttendance}.booleanValue() ? (($F{absentIndicator02}.booleanValue() && $F{portionAbsent} != null && $F{excusedIndicator02}.booleanValue()) ? $F{portionAbsent}.doubleValue() : 0) : 0))]]></variableExpression>
+    </variable>
+    <variable name="unexcusedAbsences" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double((($F{absentIndicator}.booleanValue() && $F{portionAbsent} != null && !$F{excusedIndicator}.booleanValue()) ?  $F{portionAbsent}.doubleValue() : 0) +
+           ($P{secondDailyAttendance}.booleanValue() ?  (($F{absentIndicator02}.booleanValue() && $F{portionAbsent} != null && !$F{excusedIndicator02}.booleanValue()) ?  $F{portionAbsent}.doubleValue() : 0) : 0))]]></variableExpression>
+    </variable>
+    <variable name="excusedTardies" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double( ($F{tardyIndicator}.booleanValue() && $F{excusedIndicator}.booleanValue() ? 1 : 0) +
+            ($P{secondDailyAttendance}.booleanValue() ? ($F{tardyIndicator02}.booleanValue() && $F{excusedIndicator02}.booleanValue() ? 1 : 0) : 0) )]]></variableExpression>
+    </variable>
+    <variable name="unexcusedTardies" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double( ($F{tardyIndicator}.booleanValue() && !$F{excusedIndicator}.booleanValue() ? 1 : 0) +
+            ($P{secondDailyAttendance}.booleanValue() ? ($F{tardyIndicator02}.booleanValue() && !$F{excusedIndicator02}.booleanValue() ? 1 : 0) : 0)   )]]></variableExpression>
+    </variable>
+    <variable name="excusedDismissals" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double(($F{dismissedIndicator}.booleanValue() && $F{excusedIndicator}.booleanValue() ? 1 : 0) + 
+            ($P{secondDailyAttendance}.booleanValue() ? ($F{dismissedIndicator02}.booleanValue() && $F{excusedIndicator02}.booleanValue() ? 1 : 0) : 0))]]></variableExpression>
+    </variable>
+    <variable name="unexcusedDismissals" class="java.lang.Double" resetType="Group" resetGroup="student" calculation="Sum">
+        <variableExpression><![CDATA[new Double(($F{dismissedIndicator}.booleanValue() && !$F{excusedIndicator}.booleanValue() ? 1 : 0) + 
+           ($P{secondDailyAttendance}.booleanValue() ? ($F{dismissedIndicator02}.booleanValue() && !$F{excusedIndicator02}.booleanValue() ? 1 : 0) : 0))]]></variableExpression>
+    </variable>
+
+        <group  name="student" isStartNewPage="true" >
+            <groupExpression><![CDATA[$F{student}]]></groupExpression>
+            <groupHeader>
+            <band height="85"  isSplitAllowed="true" >
+                <rectangle>
+                    <reportElement
+                        mode="Opaque"
+                        x="139"
+                        y="5"
+                        width="275"
+                        height="52"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="rectangle"/>
+                    <graphicElement stretchType="NoStretch" fill="Solid" >
+                    <pen lineWidth="0.5" lineStyle="Solid"/>
+</graphicElement>
+                </rectangle>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="112"
+                        y="69"
+                        width="46"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Code]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="43"
+                        y="69"
+                        width="69"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Date]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="157"
+                        y="69"
+                        width="178"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Comment AM]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="144"
+                        y="25"
+                        width="55"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Pupil ID:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="144"
+                        y="10"
+                        width="55"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Name:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="144"
+                        y="40"
+                        width="55"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Year:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="278"
+                        y="25"
+                        width="68"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[House:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="278"
+                        y="40"
+                        width="68"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Tutor Group:]]></text>
+                </staticText>
+                <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="204"
+                        y="10"
+                        width="204"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getNameView()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="204"
+                        y="25"
+                        width="69"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getLocalId()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="204"
+                        y="40"
+                        width="69"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getGradeLevel()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="347"
+                        y="25"
+                        width="61"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getFieldA080()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="347"
+                        y="40"
+                        width="61"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getHomeroom()]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="334"
+                        y="69"
+                        width="178"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText-1"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Comment PM]]></text>
+                </staticText>
+            </band>
+            </groupHeader>
+            <groupFooter>
+            <band height="24"  isSplitAllowed="true" >
+            </band>
+            </groupFooter>
+        </group>
+        <background>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </background>
+        <title>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </title>
+        <pageHeader>
+            <band height="56"  isSplitAllowed="true" >
+                <staticText>
+                    <reportElement
+                        mode="Transparent"
+                        x="161"
+                        y="17"
+                        width="230"
+                        height="20"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="staticText"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="14" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <text><![CDATA[Attendance History]]></text>
+                </staticText>
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="1"
+                        y="3"
+                        width="289"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica-Bold" size="10" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+                </textField>
+                <line direction="TopDown">
+                    <reportElement
+                        mode="Opaque"
+                        x="0"
+                        y="1"
+                        width="552"
+                        height="0"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="line"/>
+                    <graphicElement stretchType="NoStretch" fill="Solid" >
+                    <pen lineWidth="0.5" lineStyle="Solid"/>
+</graphicElement>
+                </line>
+                <line direction="TopDown">
+                    <reportElement
+                        mode="Opaque"
+                        x="0"
+                        y="47"
+                        width="552"
+                        height="0"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="line"/>
+                    <graphicElement stretchType="NoStretch" fill="Solid" >
+                    <pen lineWidth="0.5" lineStyle="Solid"/>
+</graphicElement>
+                </line>
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="1"
+                        y="32"
+                        width="159"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="399"
+                        y="32"
+                        width="153"
+                        height="13"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"/>
+                    <box>                   <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Right" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$V{date}]]></textFieldExpression>
+                </textField>
+            </band>
+        </pageHeader>
+        <columnHeader>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </columnHeader>
+        <detail>
+            <band height="15"  isSplitAllowed="true" >
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="112"
+                        y="-1"
+                        width="46"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"
+                        stretchType="RelativeToBandHeight"
+                        isPrintWhenDetailOverflows="true"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{codeView}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="43"
+                        y="-1"
+                        width="69"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"
+                        stretchType="RelativeToBandHeight"
+                        isPrintWhenDetailOverflows="true"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{date}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="157"
+                        y="-1"
+                        width="178"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField"
+                        stretchType="RelativeToBandHeight"
+                        isPrintWhenDetailOverflows="true"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{comment}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        mode="Transparent"
+                        x="334"
+                        y="-1"
+                        width="178"
+                        height="15"
+                        forecolor="#000000"
+                        backcolor="#FFFFFF"
+                        key="textField-1"
+                        stretchType="RelativeToBandHeight"
+                        isPrintWhenDetailOverflows="true"/>
+                    <box leftPadding="2" rightPadding="2" topPadding="1" bottomPadding="1">                 <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single">
+                        <font fontName="sansserif" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" isStrikeThrough="false" />
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{comment02}]]></textFieldExpression>
+                </textField>
+            </band>
+        </detail>
+        <columnFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </columnFooter>
+        <pageFooter>
+            <band height="6"  isSplitAllowed="true" >
+            </band>
+        </pageFooter>
+        <summary>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </summary>
+</jasperReport>

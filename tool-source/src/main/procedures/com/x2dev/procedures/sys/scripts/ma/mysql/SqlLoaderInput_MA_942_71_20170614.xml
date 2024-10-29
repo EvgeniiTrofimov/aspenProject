@@ -1,0 +1,39 @@
+<tool-input>
+<input data-type="string" default-value="SYS-MAINT-LOAD-SQL" display-type="hidden" name="procedureId"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="reloadDictionary"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="refreshCache"/>
+<!--The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement><![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%942.71%';
+]]></TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+UPDATE DBVersion set history = history + ',942.71' where history not like '%942.71%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_PROCEDURE_ID = 'SYS-SPED-MA-N1' WHERE VWT_OID = 'vwtX2MaN1' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

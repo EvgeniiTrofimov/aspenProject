@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export-format system-owned="false" procedure-id="EXPDATA-FL-MTC" name="FL Teacher Course" source-table="tblStaff">
+  <field position="10" name="District Number">
+    <fieldPath>organization1.[all-org-StateId]</fieldPath>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>2</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath />
+    <validationPattern>\d{1,2}</validationPattern>
+    <depth>0</depth>
+  </field>
+  <field position="20" name="School Number">
+    <calc-param>STUDENT SCHOOL</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>4</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The [all-skl-StateId] from the school where the master schedule is scheduled.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="30" name="Survey Period">
+    <calculationId>SURVEY_PERIOD</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath>The code of the selected survey period</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="40" name="Fiscal Year">
+    <calculationId>FISCAL_YEAR</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>4</maximumLength>
+    <minimumLength>4</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath>Concatenation of the two-digit year of the current context start date and the two-digit year of the current context end date.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="50" name="Course Number">
+    <calc-param>COURSE</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>7</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The field is determined based on [all-crs-StateId] of course related to the section.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="60" name="Section Number">
+    <calc-param>SECTION</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>5</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The [all-mst-StateId] from the master schedule.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="70" name="Period Number">
+    <calc-param>PERIOD NUMBER</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>4</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The four-digit value that shows start and end periods for the section and that is calculated based on 'perNumber' values of schedule periods for the section term and each schedule day. If schedule periods of the section are inconsistent during the day, or the calculated period number value is varied dependent from day or term, the smallest period number is used as the first two digits, and '88' is used as the last two digits in returned result.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="80" name="Facility Type">
+    <calc-param>FACILITY TYPE</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>2</maximumLength>
+    <minimumLength>2</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>This field is determined based on two aliases. The first alias [all-rms-FacilityType] from primary room of the section is checked. If no value is found the alias [all-skl-FacilityType] from associated school of the section is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="90" name="Days In Term">
+    <calc-param>TERM DAYS</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatExpression>000</formatExpression>
+    <formatType>2</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The value is calculated based on survey period, so that survey period 1 is associated with term code 5, survey period 2 is associated with term code 1, survey period 3 is associated with term code 2 and survey period 4 is associated with term code 4. Based on schedule term dates of the term, in-session school calendar dates are determined, and for each of these dates is checked if there are periods for the section. If yes, the result is incremented.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="100" name="Fund Source">
+    <calc-param>FUND SOURCE</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <defaultValue>Z</defaultValue>
+    <formatExpression>Y,N</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>For survey periods 2 and 3, if any of the related aliases [all-csk-NCLBTitleIIIFunded], [all-mst-NCLBTitleIIIFunded], [all-mtc-NCLBTitleIIIFunded] or [all-skl-NCLBTitleIIIFunded] is true, the field is set to Y. otherwise N.&#xD;
+&#xD;
+For any other survey period, z is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="110" name="Filler 01">
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="120" name="Certification Number">
+    <calc-param>CERTIFICATION NUMBER</calc-param>
+    <calculationId>STAFF_INFO</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The field is determined based on 'sfcCertNumber' of staff certification instance with type 'Certification' that is actual on survey period end date</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="130" name="SSN">
+    <calc-param>SSN</calc-param>
+    <calculationId>STAFF_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath>The 'psnPersonID' with eliminated '-' characters</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="140" name="Filler 02">
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="150" name="Transaction Code">
+    <defaultValue>A</defaultValue>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="160" name="Certification Status">
+    <calc-param>CERTIFICATION STATUS</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath>The field is determined based on [all-mtc-CertificationStatus].</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="170" name="Filler 03">
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>3</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="180" name="Primary Instructor">
+    <calc-param>PRIMARY INSTRUCTOR</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatExpression>Y,N</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The field is determined based on 'mtcPrimaryTchr'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="190" name="Filler 04">
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="200" name="Term">
+    <calc-param>TERM</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <keyInd>true</keyInd>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The state reference code value from trmTermCode.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="210" name="Filler 05">
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="220" name="Classroom Id Number">
+    <calc-param>FISH NUMBER</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>21</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>If the survey period code is equal to 2 or 3, the field is determined based on 'relMstRmsPrim.[all-rms-ClassroomIdentificationNo]' of the section.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="230" name="Scheduling Method">
+    <calc-param>SCHEDULING METHOD</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>For survey periods 2 and 3, the field is determined based on [all-mtc-SchedulingMethod], for other periods default value 'Z' is returned.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="240" name="Survey Indicator">
+    <calc-param>TERM SURVEY INDICATOR</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>3</formatType>
+    <formatExpression>Y,N</formatExpression>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>The value is determined based on condition if the master schedule is scheduled during the survey period</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="250" name="Team Teacher">
+    <calc-param>TEAM TEACHER TRAINING</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatType>0</formatType>
+    <defaultValue>Z</defaultValue>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>For survey periods 2 and 3, the field is determined based on [all-mtc-TeamTeacherTraining], for other periods default value 'Z' is returned.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="260" name="Filler 06">
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="270" name="Blended Learning">
+    <calc-param>BLENDED LEARNING COURSE</calc-param>
+    <calculationId>SCHED_INFO</calculationId>
+    <formatExpression>Y,N</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>1</paddingDirection>
+    <sifPath>This field is determined based on three aliases, all of which are optional. The following fields are searched in order.  As soon as any field returns a value, the search terminates.&#xD;
+&#xD;
+MasterSchedule.[all-mst-BlendedLearningIndicator]&#xD;
+SchoolCourse.[all-csk-BlendedLearningIndicator]&#xD;
+Course.[all-crs-BlendedLearningIndicator]</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="280" name="FL Education Id">
+    <fieldPath>person.[all-psn-StateEducationId]</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>14</maximumLength>
+    <minimumLength>14</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="290" name="Staff ID Local">
+    <fieldPath>localId</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="300" name="Filler 07">
+    <formatType>0</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>2</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+</export-format>
+

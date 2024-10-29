@@ -1,0 +1,95 @@
+<!-- ******************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "EPIMS WORK ASSIGNMENT" EXPORT -->
+<!-- ******************************************************** -->
+
+<tool-input allow-school-select="true" district-support="true">
+
+ <!-- ************** -->
+ <!-- DATA PROCEDURE -->
+ <!-- ************** -->
+
+ <input name="procedureId" data-type="string" display-type="hidden" default-value="EXPDATA-MA-EPIMS-WA"/>
+
+ <!-- *********** -->
+ <!-- REPORT DATE -->
+ <!-- *********** -->
+
+ <input name="reportDate" data-type="date" display-type="date" display-name="export.doe.reportDate" default-value="today" />
+
+ <!-- ********************* -->
+ <!-- CALCULATE FTE'S       -->
+ <!-- ********************* -->
+
+ <input name="calculateFTEs" data-type="boolean" display-type="checkbox" display-name="export.doe.calculateFTEs" default-value="true" />
+ 
+ <!-- *********************** -->
+ <!-- EXCLUDE SECTIONS WITH EMPTY ROSTERS -->
+ <!-- *********************** -->
+
+ <input name="excludeEmptyRosters" data-type="boolean" display-type="checkbox" display-name="Exclude sections with empty rosters" default-value="true" />
+ 
+ <!-- *********************** -->
+ <!-- UPDATE SCHEDULE RECORDS -->
+ <!-- *********************** -->
+
+ <input name="updateScheduleRecords" data-type="boolean" display-type="checkbox" display-name="export.doe.updateScheduleRecords" default-value="false" />
+ 
+ <!-- **************************** -->
+ <!-- COPY TEACHER STATUS FROM LY  -->
+ <!-- **************************** -->
+ <group header="Copy Teacher from Last Year">
+ 
+   <input name="copyTeacher" data-type="boolean" display-type="checkbox" display-name="Copy teacher status from last year" default-value="false">
+    <disable input-name="copyTeacherMode" if-parent-equals="false" />
+   </input>
+   
+   <input name="copyTeacherMode" data-type="string" display-type="select" display-name="Post-Copying" default-value="false">
+    <option value="insert" display-name="Insert missing values" />
+    <option value="overwrite" display-name="Overwrite existing values" />
+   </input>
+
+ </group>
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="integer" display-type="select" display-name="report.shared.query.staff">
+  <option value="0" display-name="report.shared.query.all" />
+  <option value="1" display-name="report.shared.sort.bargainingUnit" />
+  <option value="2" display-name="export.doe.selection.lasid" />
+  <option value="3" display-name="export.doe.selection.mepid" />
+  <option value="4" display-name="export.doe.selection.snapshot" />
+  <disable input-name="queryString" if-parent-equals="0" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="integer" display-type="select" display-name="report.shared.sort">
+  <option value="0" display-name="report.shared.sort.name"/>
+  <option value="1" display-name="export.doe.sort.lasid"/>
+  <option value="2" display-name="export.doe.sort.mepid"/>
+ </input>
+
+ <!-- ******************** -->
+ <!-- DISTRICT ID OVERRIDE -->
+ <!-- ******************** -->
+
+ <input name="districtId" data-type="string" display-type="text" display-name="export.doe.districtIdOverride" required="false" />
+ 
+ <!-- ************** -->
+ <!-- EXCLUDE SCHOOL -->
+ <!-- ************** -->
+ 
+ <input name="includeSifSchoolId" data-type="picklist" display-type="select" display-name="Include District" required="false">
+   <picklist field-id="rcdCode" multiple="true" width="500" height="470" required="false">
+    <filter field="rcdRtbOID" operator="equals" source="constant" value="" />
+    <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="1" />
+    <field id="rcdCode" />
+   </picklist>
+  </input>
+
+</tool-input>

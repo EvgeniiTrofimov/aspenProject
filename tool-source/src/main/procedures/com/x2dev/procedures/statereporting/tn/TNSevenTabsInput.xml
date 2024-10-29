@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool-input allow-school-select="false" district-support="false" height="650" width="800">
+
+ <!-- ************* -->
+ <!-- DELETE ROWIDS -->
+ <!-- ************* -->
+ 
+  <input name="deleteRowsOids" data-type="string" display-type="hidden" display-name="D records OIDs" default-value="dummy"/>
+ 
+ <!-- ************** -->
+ <!-- SAVE RESULTS   -->
+ <!-- ************** -->
+
+ <input name="saveResults" data-type="boolean" display-type="hidden" display-name="Save Results" default-value="true" />
+
+ <!-- ******** -->
+ <!-- Student -->
+ <!-- ******** -->
+ <tab name="Student">
+  <input name="queryBy1" data-type="string" display-type="select" display-name="report.shared.query">
+   <option value="none" display-name="Do not restage students" />
+   <option value="##all" display-name="All" />
+   <option value="localId" display-name="Local Student ID" />
+   <option value="stateId" display-name="State Student ID" />
+   <option value="##snapshot" display-name="export.doe.selection.snapshot" />
+   <disable input-name="queryString1" if-parent-equals="##all" />
+   <disable input-name="queryString1" if-parent-equals="none" />
+  </input>
+  <input name="queryString1" data-type="string" display-type="text" display-name="report.shared.queryString" />
+  <input name="EXP-TN-STD" data-type="boolean" display-type="checkbox" display-name="040 - Student" required="false" default-value="false" />
+  <input name="EXP-TN-ENR" data-type="boolean" display-type="checkbox" display-name="041 - Student Enrollment" required="false" default-value="false" />
+  <input name="exclude041Deletes" data-type="boolean" display-type="checkbox" display-name="Exclude Delete Records for 041 - Student Enrollment" required="false" default-value="true" />
+  <input name="EXP-TN-PGMI" data-type="boolean" display-type="checkbox" display-name="042 - Student Ineligibility Funding Status" required="false" default-value="false" />
+  <input name="EXP-TN-STDG" data-type="boolean" display-type="checkbox" display-name="043 - Student Instructional Grade" required="false" default-value="false" />
+
+  <input name="EXP-TN-PGMC" data-type="boolean" display-type="checkbox" display-name="044 - Student Classification" required="false" default-value="false" />
+  <input name="restrictClassific" data-type="boolean" display-type="checkbox" display-name="Restrict to selected classifications" default-value="false" />
+  <input name="classifications" data-type="picklist" display-type="select" display-name="Classifications" required="false">
+   <picklist field-id="rcdCode" multiple="true" width="500" height="470" required="false">
+    <filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="Student Programs" />
+    <filter field="rcdCategory" operator="equals" source="constant" value="Student Classification" />
+    <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="1" />
+    <field id="rcdDescription" sort="true" />
+    <field id="rcdCode" />
+   </picklist>
+  </input>
+
+  <input name="EXP-TN-STR_tabId:tabStd" data-type="boolean" display-type="checkbox" display-name="045 - Student Transportation" required="false" default-value="false" />
+  <input name="EXP-TN-CND" data-type="boolean" display-type="checkbox" display-name="046 - Student Disciplinary Action" required="false" default-value="false" />
+  <input name="EXP-TN-STDD" data-type="boolean" display-type="checkbox" display-name="047 - Student Standard Day" required="false" default-value="false" />
+  <input name="EXP-TN-SSC_tabId:tabStd" data-type="boolean" display-type="checkbox" display-name="048 - Student Class Assignment" required="false" default-value="false" />
+  <input name="EXP-TN-ATT" data-type="boolean" display-type="checkbox" display-name="049 - Student Attendance" required="false" default-value="false" />
+  <input name="EXP-TN-ENRW" data-type="boolean" display-type="checkbox" display-name="050 - Student Withdraw" required="false" default-value="false" />
+  <input name="EXP-TN-STDE" data-type="boolean" display-type="checkbox" display-name="051 - Student End Of Service" required="false" default-value="false" />
+  <input name="EXP-TN-PGMM" data-type="boolean" display-type="checkbox" display-name="052 - Student Club Membership" required="false" default-value="false" />
+  <input name="EXP-TN-TRN" data-type="boolean" display-type="checkbox" display-name="080 - Student Final Grade" required="false" default-value="false" />
+  <input name="EXP-TN-TAI" data-type="boolean" display-type="checkbox" display-name="081 - Student TA Instructional Services" required="false" default-value="false" />
+  <input name="EXP-TN-TAS" data-type="boolean" display-type="checkbox" display-name="082 - Student TA Support Services" required="false" default-value="false" />
+ </tab>
+ 
+ <!-- ******** -->
+ <!--   Staff  -->
+ <!-- ******** -->
+ <tab name="Staff">
+  
+  <input name="schoolOidStaff" data-type="picklist" display-type="select" display-name="School" required="false">
+   <picklist field-id="sklSchoolName" multiple="false" width="500" height="470" required="false">
+    <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+    <field id="sklSchoolName" sort="true"/>
+    <field id="sklSchoolID" />
+   </picklist>
+  </input>
+  <input name="staffsOids" data-type="picklist" display-type="select" display-name="Staff (all if nothing is selected)" required="false">
+   <picklist field-id="stfNameView" multiple="true" width="500" height="470" required="false">
+    <field id="stfNameView" sort="true"/>
+    <field id="relStfSklOid.sklSchoolName" />
+    <!-- <filter field="stfSklOID" operator="in" source="input" value="schoolOidStaff" /> -->
+    <filter field="relStfSfpOid.sfpSklOID" operator="in" source="input" value="schoolOidStaff" />
+   </picklist>
+  </input>
+  <input name="EXP-TN-STF" data-type="boolean" display-type="checkbox" display-name="060 - Staff Member" required="false" default-value="false" />
+  <input name="EXP-TN-SFP" data-type="boolean" display-type="checkbox" display-name="062 - Staff Current Assignment" required="false" default-value="false" />
+  <input name="EXP-TN-MTC_tabId:tabStf" data-type="boolean" display-type="checkbox" display-name="063 - Staff Member Class Assignment" required="false" default-value="false" />
+ </tab>
+ 
+ <!-- ************** -->
+ <!-- Course/Section -->
+ <!-- ************** -->
+ <tab name="Course/Section">
+  <input name="schoolOidCourse" data-type="picklist" display-type="select" display-name="School" required="false">
+   <picklist field-id="sklSchoolName" multiple="true" width="500" height="470" required="false">
+    <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+    <field id="sklSchoolName" sort="true"/>
+    <field id="sklSchoolID" />
+   </picklist>
+  </input>
+  
+  <input name="courseSections" data-type="picklist" display-type="select" display-name="Class sections (all if nothing is selected)" required="false">
+   <picklist field-id="mstCourseView" multiple="true" width="500" height="470" required="false">
+    <filter field="relMstSchOid.relSchCtxOid.ctxOID" operator="in" source="input" value="contextOid" />
+    <filter field="relMstCskOid.cskSklOID" operator="in" source="input" value="schoolOidCourse" />
+    <field id="mstCourseView" sort="true" />
+    <field id="mstStaffView" />
+    <field id="relMstCskOid.relCskSklOid.sklSchoolName" />
+    <field id="relMstCskOid.relCskCrsOid.crsFieldA009" />
+   </picklist>
+  </input>
+  <input name="EXP-TN-MST" data-type="boolean" display-type="checkbox" display-name="030 - Class Section" required="false" default-value="false" />
+  <input name="EXP-TN-MSTS" data-type="boolean" display-type="checkbox" display-name="031 - Class Section Schedule" required="false" default-value="false" />
+  <input name="EXP-TN-SSC_tabId:tabStdMst" data-type="boolean" display-type="checkbox" display-name="048 - Student Class Assignment" required="false" default-value="false" />
+  <input name="EXP-TN-MTC_tabId:tabStaffMst" data-type="boolean" display-type="checkbox" display-name="063 - Staff Member Class Assignment" required="false" default-value="false" />
+ </tab>
+ 
+ <!-- ******** -->
+ <!--   Bus    -->
+ <!-- ******** -->
+ <tab name="Bus">
+  <input name="allBuses" data-type="boolean" display-type="checkbox" display-name="All buses" required="false" />
+  <input name="buses" data-type="picklist" display-type="select" display-name="Buses" required="false">
+   <picklist field-id="rcdCode" multiple="true" width="500" height="470" required="false">
+    <filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="Bus Codes" />
+    <field id="rcdCode" sort="true" />
+   </picklist>
+  </input>
+  <input name="EXP-TN-BUS" data-type="boolean" display-type="checkbox" display-name="015 - District Bus" required="false" default-value="false" />
+  <input name="EXP-TN-BST" data-type="boolean" display-type="checkbox" display-name="016 - District Bus Staff" required="false" default-value="false" />
+  <input name="EXP-TN-STR_tabId:tabStdBus" data-type="boolean" display-type="checkbox" display-name="045 - Student Transportation" required="false" default-value="false" />
+ </tab>
+ 
+ <!-- *************** -->
+ <!-- Configuration   -->
+ <!-- *************** -->
+ <tab name="Configuration">
+  <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+    <picklist field-id="ctxSchoolYear">
+      <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+      <field id="ctxContextName" />
+    </picklist>
+  </input>
+
+  <!-- ************** -->
+  <!-- DATE RANGE     -->
+  <!-- ************** -->
+  <input name="startDate" data-type="date" display-type="date" display-name="report.shared.startDate" default-value="districtYearStart" />
+ 
+ </tab>
+ 
+ <!-- ****************** -->
+ <!-- District Calendars -->
+ <!-- ****************** -->
+ 
+ <tab name="District_Calendars">
+  <input name="calendarNumbers" data-type="picklist" display-type="select" display-name="Calendar Numbers" required="false">
+   <picklist field-id="rcdCode" multiple="true" width="500" height="470" required="false">
+    <field id="rcdCode" sort="true" />
+    <filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="Calendar Number Codes" />
+   </picklist>
+  </input>
+ 
+  <input name="EXP-TN-CTX" data-type="boolean" display-type="checkbox" display-name="010 - 200 Day Calendar" required="false" default-value="false" />
+  <input name="EXP-TN-CAL" data-type="boolean" display-type="checkbox" display-name="011 - 200 Day Event Calendar" required="false" default-value="false" />
+ </tab>
+
+ <!-- **************** -->
+ <!-- School Calendars -->
+ <!-- **************** -->
+ 
+ <tab name="School_Calendars">
+   <input name="schoolCalendars" data-type="picklist" display-type="select" display-name="School Calendars" required="false">
+    <picklist field-id="relCasSklOid.sklSchoolName" multiple="true" width="500" height="470" required="false">
+     <filter field="relCasSklOid.sklInactiveInd" operator="notEqual" source="constant" value="1" />
+     <filter alias="relCasSklOid.DOE SCHOOL STATE ID" operator="notEqual" source="constant" value="9999" />
+     <field id="relCasSklOid.sklSchoolName" sort="true"/>
+     <field id="casCalendarID" />
+     <filter field="relCasCtxOid.ctxOID" operator="equals" source="input" value="contextOid" />
+    </picklist>
+   </input>
+   <input name="EXP-TN-CAS" data-type="boolean" display-type="checkbox" display-name="020 - Instructional Program" required="false" default-value="false"/>
+   <input name="EXP-TN-CASP" data-type="boolean" display-type="checkbox" display-name="021 - Instructional Program Reporting Periods" required="false" default-value="false" />
+   <input name="EXP-TN-CSD" data-type="boolean" display-type="checkbox" display-name="022 - School Days" required="false" default-value="false" />
+ </tab>
+ 
+  <!-- This parameter is used to flag if export run as result of running of another export (e.g. if TN 030, TN 031 is run
+     TN 048 and TN 063 for selected Sections should be resent as well) -->
+ <input name="fromTab" data-type="string" display-type="hidden" required="false"></input>
+
+</tool-input>

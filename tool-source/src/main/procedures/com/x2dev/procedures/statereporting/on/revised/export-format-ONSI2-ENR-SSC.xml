@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export-format system-owned="false" procedure-id="ONSI2-ENR-SSC" name="ONSIS StudentClassEnrolment" source-table="tblStudent" delimiter-char="," wrapper-char="&quot;">
+  <siftopic>StudentClassEnrolment</siftopic>
+  <sifprofile>STUDENT CLASS ENROLMENT</sifprofile>
+  <documentation>&lt;p&gt;The main datasource for this Onsis segment is student schedule spans. &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The schedule span dates are determined by evaluating the schedule term for the section and any schedule change record dates. The term dates for a section are determined by evaluating the schedule term dates searching for a minimum start date and a maximum end date. If either the start date or the end date is not resolved then the schedule date is used. If still not found then the district context date is used.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If schedule change records are found they can be used to adjust the start and end dates for a span. They occcasionally will generate split spans. The date value for the schedule change record is the effective date. If the effective date is null the date is used. This date is unadjusted except for the case when a drop record is processed when the district settings specify that withdrawal dates are not member dates. In this case, the adjusted date is the latest in-session date prior the effective date. If an in-session date cannot be found then the previous date is used. In all cases the date adjustments made by schedule change records cannot expand the dates beyond the term dates.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;A span is not generated if the adjusted end date is before the start date.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Student schedule spans are included if&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;The span.section.schedule.school is in the list of schools&lt;/li&gt;&#xD;
+	&lt;li&gt;The entry and exit date for the span overlap with the submission period dates.&lt;/li&gt;&#xD;
+	&lt;li&gt;The entry and exit date for the span overlap with the ENROLMENT_START_DATE and ENROLMENT_END_DATE for the parent STUDENT_SCHOOL_ENROLLMENT.&lt;/li&gt;&#xD;
+	&lt;li&gt;The span.section.schoolCourse.course must be contained in the list of courses appropriate for this submission. &lt;/li&gt;&#xD;
+	&lt;li&gt;The span.section field all-mst-ExcludeFromOnSIS must nor be '1'&lt;/li&gt;&#xD;
+	&lt;li&gt;The span exit date and the span entry date must not be the same&lt;/li&gt;&#xD;
+	&lt;li&gt;Test inclusion rules by submission type&#xD;
+	&lt;ol&gt;&#xD;
+		&lt;li&gt;PUBLIC_SECONDARY - section.schoolCourse field all-csk-ConEdProgramType is empty&lt;/li&gt;&#xD;
+		&lt;li&gt;CONTINUING_EDUCATION - section.schoolCourse field all-csk-ConEdProgramType contains a value with state code in the set {CONED_CREDIT_NIGHT(1), CONED_CREDIT_DAY(2), CONED_SELF_STUDY(3)}&lt;/li&gt;&#xD;
+		&lt;li&gt;SUMMER_SCHOOL - section.schoolCourse field all-csk-ConEdProgramType contains a value with state code in the set {CONED_SUMMER_CREDIT(8), CONED_SELF_STUDY(3)}&lt;/li&gt;&#xD;
+	&lt;/ol&gt;&#xD;
+	&lt;/li&gt;&#xD;
+	&lt;li&gt;The span exit date is on or before the actual start date for the span.  The actual start date is latest date of the span entry date, the ENROLMENT_START_DATE and the section start date.  To calculate the section start date find the first in session date after the latest value from the following list:&#xD;
+	&lt;ol&gt;&#xD;
+		&lt;li&gt;The earliest schedule term start date that overlaps with the submission period&lt;/li&gt;&#xD;
+		&lt;li&gt;The value contained in the span.section field all-mst-ContinuingEducation&lt;/li&gt;&#xD;
+	&lt;/ol&gt;&#xD;
+	&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;The included schedule spans are collected matching by CLASS_CODE, MINISTRY_DFND_CRS, INSTITUTION_TYPE, LOCAL_DEV_CRS, CREDIT_VALUE and LANGUAGE_TYPE.  Each set oc collected values will be used to generate a STUDENT_SCHOOL_ENROLMENT entity.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;"list of schools" means the selected schools with the same BSID as the SCHOOL/SCHOOL_NUMBER beign processed&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;List of courses appropriate for each submission include all courses for sections that meet the following criteria:&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;GENERAL - applies to all submissions&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;all-mst-ExcludeFromOnSIS must not be equal to '1'&lt;/li&gt;&#xD;
+	&lt;li&gt;section.schoolCourse.masterType = 'Class'&lt;/li&gt;&#xD;
+	&lt;li&gt;section.schedule.activeSchoolScheduleContexts.districtContext is the current school year context&lt;/li&gt;&#xD;
+	&lt;li&gt;has a section.scheduleTerm.scheduleTermDates.startDate that is less than the submission end date&lt;/li&gt;&#xD;
+	&lt;li&gt;has a section.scheduleTerm.scheduleTermDates.endDate that is greater than the submission start date&lt;/li&gt;&#xD;
+	&lt;li&gt;has section.schedule.school that is in the list of schools&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;CONTINUING_EDUCATION &amp; SUMMER_SCHOOL&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;sections must meet the conditions for PUBLIC_SECONDARY and the following&lt;/li&gt;&#xD;
+	&lt;li&gt;if all-csk-ConEdProgramType exists the field all-csk-ConEdProgramType must contain a value with state codes in the set {CONED_SUMMER_CREDIT(8), CONED_SELF_STUDY(3), CONED_LITERACY(5), CONED_INDIGENOUS_LANGUAGE(6), CONED_DEVELOPMENTALLY_DISABLED(7)}&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;PUBLIC_SECONDARY&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;section.schoolCourse.course field all-crs-CourseCodeType contains a value with state reference code in the set {DCC, LDC, MDC}&lt;/li&gt;&#xD;
+	&lt;li&gt;section.schoolCourse.course field all-crs-MinistryCourseCode is not empty&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;OR&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;section.schoolCourse.course field all-crs-CourseCodeType contains the value 'Place holder'&lt;/li&gt;&#xD;
+	&lt;li&gt;section.schoolCourse.course field number is not empty&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;SUMMER_SCHOOL&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;sections must meet the conditions for PUBLIC_SECONDARY and the following&lt;/li&gt;&#xD;
+	&lt;li&gt;if all-csk-ConEdProgramType exists the field all-csk-ConEdProgramType must contain a value with state codes in the set {CONED_CREDIT_NIGHT(1), CONED_CREDIT_DAY(2), CONED_SELF_STUDY(3), CONED_LITERACY(5), CONED_INDIGENOUS_LANGUAGE(6), CONED_DEVELOPMENTALLY_DISABLED(7)}&lt;/li&gt;&#xD;
+&lt;/ol&gt;</documentation>
+  <field position="10" name="Action">
+    <calculationId>ACTION</calculationId>
+    <documentation>&lt;p&gt;Possible values are:&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;ADD - there is no corresponding record for the parent element in the CSV file&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;UPDATE - there is a corresponding record for the parent element in the CSV file&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;DELETE - the record is found in the CSV file and no corresponding element is generated from the database&lt;/p&gt;</documentation>
+    <fieldPath>guid</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>49</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ACTION</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="11" name="SkipCancel">
+    <defaultValue>Y</defaultValue>
+    <documentation>&lt;p&gt;If the SKIP_CANCEL flag is included in the fields for the submission, the cancel code will not be executed.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>SKIP_CANCEL</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="20" name="Class Code">
+    <calc-param>getClassEntity;getClassCode</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the span.section is a member of a class the value is span.section.class.id.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If it is not the value is span.section.courseView&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>20</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>CLASS_CODE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="30" name="Min Def Course Code">
+    <calc-param>getSpan;getSection;getMinistryDefinedCourse</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Evaluate span.section.schoolCourse.course.  If the state value associated with the all-crs-CourseCodeType is 'MDC' or 'DCC' then return the state reference code for the all-crs-MinistryCourseCode field.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>5</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>MINISTRY_DFND_CRS</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="40" name="Institution Type">
+    <calc-param>getSpan;getSection;getInstitutionType</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Evaluate span.section.schoolCourse.course.  If the state value associated with the all-crs-CourseCodeType is 'DCC' then find reference code for the all-crs-MinistryCourseCode field. If the code has an '_' or a '-' then return the portion of the code before the '_' or '-'.  Otherwise return the complete code.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>INSTITUTION_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="50" name="Local Course Code">
+    <calc-param>getSpan;getSection;getLocallyDevelopedCourse</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Evaluate span.section.schoolCourse.course.  If the state value associated with the all-crs-CourseCodeType is 'LDC' then return the state reference code for the all-crs-MinistryCourseCode field.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>LOCAL_DEV_CRS</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="60" name="Std Cl Enr Lang Type">
+    <calc-param>getClassEntity;getLanguageOfInstruction</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Search the following fields in order and stop when a value is found&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;the state reference code value associated with span.section field all-mst-LanguageOfInstruction&lt;/li&gt;&#xD;
+	&lt;li&gt;the state reference code value associated with span.section.schoolCourese field all-csk-LanguageOfInstruction&lt;/li&gt;&#xD;
+	&lt;li&gt;the state reference code value associated with span.section.schoolCourse.course field all-crs-LanguageOfInstruction&lt;/li&gt;&#xD;
+	&lt;li&gt;the state reference code value associated with span.section.schedule.school field all-skl-LanguageType&lt;/li&gt;&#xD;
+&lt;/ol&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>LANGUAGE_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="70" name="Credit Value">
+    <calc-param>getSpan;getSection;getCredit;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;evaluate span.section.schoolCourse credit field&lt;/p&gt;</documentation>
+    <formatExpression>#00.00</formatExpression>
+    <formatType>2</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>CREDIT_VALUE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="80" name="CourseDeliveryType">
+    <calc-param>getCrsDeliveryType;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Search the following fields in order and stop when a value is found&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;The state reference code value of the span.section.transcript field all-trn-CourseDeliveryTypeOverride&lt;/li&gt;&#xD;
+	&lt;li&gt;The state reference code value of the span.section.schoolCourse field all-csk-CourseDeliveryType&lt;/li&gt;&#xD;
+	&lt;li&gt;The state reference code value of the span.section.schoolCourse.course field all-crs-CourseDeliveryType&lt;/li&gt;&#xD;
+&lt;/ol&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>5</maximumLength>
+    <minimumLength>5</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_DELIVERY_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="90" name="CourseSemType">
+    <calc-param>getScheduleTermCode</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;return the state reference code value of the span.section.scheduleTerm field code&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>5</maximumLength>
+    <minimumLength>5</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_SEM_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="100" name="WithdrawalType">
+    <calc-param>getWithdrawalType;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;This value is populated when&lt;br /&gt;&#xD;
+1) the schedule span end date is on or before the submission period end date&lt;br /&gt;&#xD;
+2) the schedule span end date is on or before the term end date&lt;br /&gt;&#xD;
+3) no transcript exists or transcript total credits not greater than 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The value returned depends on the value in the transcript&lt;br /&gt;&#xD;
+field Academic grade status (all-trn-CourseRepeated).  This field is the state value of the reference code if a reference table is attached to the field.  Otherwise it is the value in the field.&lt;br /&gt;&#xD;
+1) the Academic grade status is 'R' the returned value is empty&lt;br /&gt;&#xD;
+2) the Academic grade status is 'W' the returned value is 'W'&lt;br /&gt;&#xD;
+3) otherwise the returned value is 'D'&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>5</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>WITHDRAWAL_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="110" name="WithdrawalDate">
+    <calc-param>getWithdrawalDate;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;This value is populated with the span exit date when&lt;br /&gt;&#xD;
+1) the schedule span end date is on or before the submission period end date&lt;br /&gt;&#xD;
+2) the schedule span end date is on or before the term end date&lt;br /&gt;&#xD;
+3) no transcript exists or transcript total credits not greater than 0&lt;br /&gt;&#xD;
+4) the withdrawal type is not 'D'&lt;/p&gt;</documentation>
+    <formatExpression>yyyy/MM/dd</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>WITHDRAWAL_DATE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="120" name="IepFlag">
+    <calc-param>getIepFlag;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If span.transcript is populated, find the earliest grade term date for the span.transcript using the transcriptDefinition.gradeTermDefinition and school with dates that overlap the submission period and the schedule term.  If no grade term date is found return false. If the grade term date is found, find the first transcript column definition for this transcript definition where the transcript column field all-gtc-ReferenceEntryType is equal to 'IEP'. If the transcript column definition is found, get the value from the transcript for this column.  If the is not empty return true.  If the transcript column defintion is not found return null.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>IEP_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="130" name="Program">
+    <calc-param>getLanguageProgram;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Search the following fields in order and stop when a value is found&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;the state reference code value for the all-mst-LanguageProgram field of span.section&lt;/li&gt;&#xD;
+	&lt;li&gt;the state reference code value for the all-crs-LanguageProgram field of span.section.schoolCourse.course&lt;/li&gt;&#xD;
+&lt;/ol&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>PROGRAM</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="140" name="ClassesMissed">
+    <calc-param>getClassesAbsent;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;This field counts period attendance records.  These records are limited to:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Dates within the current school district context&lt;/li&gt;&#xD;
+	&lt;li&gt;Schools within the current list of schools&lt;/li&gt;&#xD;
+	&lt;li&gt;One of these cases is met:&#xD;
+	&lt;ol&gt;&#xD;
+		&lt;li&gt;absent indicator is true&lt;/li&gt;&#xD;
+		&lt;li&gt;other code is 'G' or 'C'&lt;/li&gt;&#xD;
+		&lt;li&gt;other code 2 is 'G' or 'C'&lt;/li&gt;&#xD;
+	&lt;/ol&gt;&#xD;
+	&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the start date for evaluation by taking the latest date of COURSE_START_DATE and the span start date&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Process the calendar dates for the section.  If the date is included in the schedule spans set and the date is between the the start date and the submission end date it is included. For each period that the section met on the day being evaluated, determing the number with matching period attendance records.  Count the number of periods and return the value.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>CLASSES_MISSED</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="145" name="SchoolClosureDaysMissed">
+    <calc-param>getClassesAbsentForClosure</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;This field counts period attendance records.  These records are must meet these conditions:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Dates within the current school district context&lt;/li&gt;&#xD;
+	&lt;li&gt;Schools within the current list of schools&lt;/li&gt;&#xD;
+	&lt;li&gt;Reason code has a value with state reference code value 'NRL'&lt;/li&gt;&#xD;
+	&lt;li&gt;One of these cases is met:&#xD;
+	&lt;ol&gt;&#xD;
+		&lt;li&gt;other code is 'G'&lt;/li&gt;&#xD;
+		&lt;li&gt;other code 2 is 'G'&lt;/li&gt;&#xD;
+	&lt;/ol&gt;&#xD;
+	&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the start date for evaluation by taking the latest date of COURSE_START_DATE and the span start date&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Process the calendar dates for the section.  If the date is included in the schedule spans set and the date is between the start date and the submission end date it is included. For each period that the section met on the day being evaluated, determine the number with matching period attendance records.  Count the number of periods and return the value.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>SCHOOL_CLOSURE_CLASSES_MISSED</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="150" name="TimesLate">
+    <calc-param>getClassesTardy;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;This field counts period attendance records.  These records are limited to:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Dates within the current school district context&lt;/li&gt;&#xD;
+	&lt;li&gt;Schools within the current list of schools&lt;/li&gt;&#xD;
+	&lt;li&gt;Tardy indicator is true.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;Determine the start date for evaluation by taking the latest date of COURSE_START_DATE and the span start date&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Process the calendar dates for the section.  If the date is included in the schedule spans set and the date is between the start date and the submission end date it is included. For each period that the section met on the day being evaluated, determing the number with matching period attendance records.  Count the number of periods and return the value.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>TIMES_LATE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="160" name="TotalClasses">
+    <calc-param>getNumberOfPeriods;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Populate this field only if WITHDRAWAL_TYPE is empty and the COURSE_END_DATE field is not empty&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Sum the periods for each span in this set.  If the span start date is before the COURSE_START_DATE, use the COURSE_START_DATE as the begining date for the interval.  For each in session date within the interval sum the total number of periods that the section meets on each of these days.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>TOTAL_CLASSES</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="170" name="CourseStartDate">
+    <calc-param>getCourseStartDate</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the CSV file contains a record for this SCHOOL_NUMBER, OEN, CLASS_CODE, MINISTRY_DFND_CRS and LANGUAGE_TYPE and the CsvField COURSE_START_DATE is populated that value is used.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise to determine the start date follow the following progression&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Use the schedule span entry date for the current start date&lt;/li&gt;&#xD;
+	&lt;li&gt;If the STUDENT_SCHOOL_ENROLMENT/ENROLMENT_START_DATE is after the current start date then use the ENROLMENT_START_DATE for the current start date.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the section term date is populated and is after the current start date then use the section term date&lt;/li&gt;&#xD;
+	&lt;li&gt;If the section field all-mst-ContinuingEducationStartDate is populated and after the current start date then use the all-mst-ContinuingEducationStartDate date.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the submission period start date is after the current start date use the submission period start date.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;There is additional special case processing if the start date and end date are the same. If the course end date is less than the enrollment end date the course end date is incremented by one day. If the course end date equals the enrollment end date the course start date is decremented by one day.&lt;/p&gt;</documentation>
+    <formatExpression>yyyy/MM/dd</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_START_DATE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="175" name="NewCourseStartDate">
+    <calc-param>getNewCourseStartDate</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the CSV file contains a record for this SCHOOL_NUMBER, OEN, CLASS_CODE, MINISTRY_DFND_CRS and LANGUAGE_TYPE and the CsvField COURSE_START_DATE is populated then determine the course start date with the following progression:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;Use the schedule span entry date for the current start date&lt;/li&gt;&#xD;
+	&lt;li&gt;If the STUDENT_SCHOOL_ENROLMENT/ENROLMENT_START_DATE is after the current start date then use the ENROLMENT_START_DATE for the current start date.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the section term date is populated and is after the current start date then use the section term date&lt;/li&gt;&#xD;
+	&lt;li&gt;If the section field all-mst-ContinuingEducationStartDate is populated and after the current start date then use the all-mst-ContinuingEducationStartDate date.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;If the current course start date is not equal to the COURSE_START_DATE and the current course start date is within the submission period use the current course start date.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise return null.&lt;/p&gt;</documentation>
+    <formatExpression>yyyy/MM/dd</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>NEW_COURSE_START_DATE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="180" name="CourseEndDate">
+    <calc-param>getCourseEndDate;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the span has a transcript find the completion date column for the transcript by evaluating the all-trn-DateCompleted field. If the date column is found and populated in this transcript, the value becomes the candidate course end date.  If a value is not found using the transcript, the span exit date is used as the initial candidate. Then use this progression with the candidate course end date&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;if the section term end date is before the course end date, the candidate becomes the term end date.&lt;/li&gt;&#xD;
+	&lt;li&gt;if the section field all-mst-ContinuingEducationEndDate is populated and the value is before the course end date, the candidate becomes the all-mst-ContinuingEducationEndDate date.&lt;/li&gt;&#xD;
+	&lt;li&gt;If the candidate date is after the submission period end date, the field is null&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;There is additional special case processing if the start date and end date are the same. If the course end date is less than the enrollment end date the course end date is incremented by one day. If the course end date equals the enrollment end date the course start date is decremented by one day.&lt;/p&gt;</documentation>
+   <formatExpression>yyyy/MM/dd</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_END_DATE</sifPath>
+    <script>all-mst-ContinuingEducationEndDate</script>
+    <depth>0</depth>
+  </field>
+  <field position="190" name="EarnedCreditValue">
+    <calc-param>getEarnedCreditValue</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If field FINAL_MARK is empty or has a value less than 50 return 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If field WITHDRAWAL_TYPE has the value 'D' return 0&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise calculate the value as follows:&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;If COURSE_END_DATE has a value and the span has a transcript use the transcript field total credit.&lt;/li&gt;&#xD;
+	&lt;li&gt;The course repeated value is determined by evaluating the span transcript.  If the transcript is found and the alais all-trn-CourseRepeated is found, return the state value of the associated reference code value if the field has a reference code.  Otherwise return the field value directly. If the course repeated value id 'R' and the field FINAL_MARK has a value &gt;= 0 use the CREDIT_VALUE field.&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;If the value is still null and the span section is valid for this submission and the section.schoolCourse field all-csk-ConEdProgramType is in the set {CONED_CREDIT_NIGHT(1), CONED_CREDIT_DAY(2), CONED_CREDIT_SELF_STUDY(3), CONED_SUMMER_CREDIT(8)} and either 1) COURSE_END_DATE has a value and transcript final grade has value 'I' or 2) the span has no transcript return 0;&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;return the calculated value or null if no value determined.&lt;/p&gt;</documentation>
+    <formatExpression>##0.00</formatExpression>
+    <formatType>2</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>EARNED_CREDIT_VALUE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="200" name="FinalMark">
+    <calc-param>getFinalMark;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;The final mark will be null unless the COURSE_END_DATE is populated or the span section is valid for this submission and the section.schoolCourse field all-csk-ConEdProgramType is in the set {CONED_CREDIT_NIGHT(1), CONED_CREDIT_DAY(2), CONED_CREDIT_SELF_STUDY(3), CONED_SUMMER_CREDIT(8)}&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The initial value for the final mark is the value in the transcript final grade field. If this value is 'I' or the WITHDRAWAL_TYPE field contains 'D' the initial value is replaced with 0.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the initial value is not numeric, the initial value is replaced with null.&lt;/p&gt;</documentation>
+    <formatExpression>##0</formatExpression>
+    <formatType>2</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>FINAL_MARK</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="210" name="CourseSbstFlag">
+    <calc-param>getCourseSbstFlag;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;Return true when 1) the INSTITUTION_TYPE is populated, 2) the span has a transcript and 3) the transcript equivalent school course is populated. &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise the value is false&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_SBST_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="220" name="CourseCompleteFlag">
+    <calc-param>getCourseCompleteFlag;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the course has ended (CourseEndDate is populated) and the final grade is an 'I' return 'F'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If 1) the transcript is found and 2) the transcript completion date column is found and 3) the completion date for this transcript is found return 'T' if the completion date is on or before the submission end date.  If the completion date is after the submission end date return 'F'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If 1) the transcript is found and 2) the transcript completion date column is not found and 3) the span exit date is found and 4) the latest schedule term end date is found and 5) the span exit date is on or after the latest schedule term end date and the latest schedule term end date is on or before the end of submisstion date return 'T'. If conditions 1, 2 and 3 are met but condition 4 or 5 is false, return 'F'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise return null.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_COMPLETE_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="230" name="CourseRepeatFlag">
+    <calc-param>getCourseRepeatedFlag</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <defaultValue>F</defaultValue>
+    <documentation>&lt;p&gt;The value returned depends on the value in the transcript&lt;br /&gt;&#xD;
+field Academic grade status (all-trn-CourseRepeated).  This field is the state value of the reference code if a reference table is attached to the field.  Otherwise it is the value in the field.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;if this value is 'R' return true.  Otherwise return false;&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_REPEAT_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="240" name="CompulsoryCourseFlag">
+    <calc-param>getCompulsoryCourseFlag</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the INSTITUTION_TYPE is populated return false&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the span has no transcript return false&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the transcript field all-trn-CreditByReqDetail is blank return false&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the all-trn-CreditByReqDetail field map contains the key 'ELE' return false&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise return true&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COMPULSORY_COURSE_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="250" name="CourseIncompleteFlag">
+    <calc-param>getCourseIncompleteFlag;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the course has ended (CourseEndDate is populated) and the final grade is an 'I' return 'T'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the WithdrawalType field is populated return 'T'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otehrwise return 'F'.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt; &lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_INCOMPLETE_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="260" name="CourseContinuedFlag">
+    <calc-param>getSpan;getSection;getCourseContinuedIndicator</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <defaultValue>F</defaultValue>
+    <documentation>&lt;p&gt;the value from the field all-mst-ContinuedSection of span.section&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <formatType>3</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>COURSE_CONTINUED_FLAG</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="270" name="Ade">
+    <calc-param>SscAde</calc-param>
+    <calculationId>ONSIS-CHILD-EXPORT</calculationId>
+    <documentation>&lt;p&gt;This is a child export field. Documentation if available is in ONSIS-SSC-ADE export format definition&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>AVERAGE_DAILY_ENROLMENT</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="275" name="NewCourseSemType">
+    <documentation>&lt;p&gt;This field is always null&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>NEW_COURSE_SEM_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="280" name="NewCourseDelType">
+    <documentation>&lt;p&gt;This field is always null&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>NEW_COURSE_DELIVERY_TYPE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="290" name="NewAttemptCreditVal">
+    <documentation>&lt;p&gt;This field is always null&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>NEW_ATTEMPED_CREDIT_VALUE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="300" name="CampusNumber">
+    <calc-param>getSpanSet;getCampusNumber;</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;This field is only populated when there is more than one school for the current BSID in the selection of schools for the export.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;The value is school id for the span.section.schedule.school&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>CAMPUS_NUMBER</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="320" name="AttemptedCreditValue">
+    <calc-param>getAttemptedCreditValue</calc-param>
+    <calculationId>ENTITY-PROP</calculationId>
+    <documentation>&lt;p&gt;If the span.transcript potential credit field has a value that is numeric, that value is used.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise the value in span.section.schoolCourse credit field is used.&lt;/p&gt;</documentation>
+    <formatExpression>##0.00</formatExpression>
+    <formatType>2</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ATTEMPED_CREDIT_VALUE</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+  <field position="330" name="OtherCourseInfo">
+    <calc-param>SscOtherCourseInfo</calc-param>
+    <calculationId>ONSIS-CHILD-EXPORT</calculationId>
+    <documentation>&lt;p&gt;This is a child export field. Documentation if available is in ONSIS-ENR-SSC-OCI export format definition&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>OTHER_COURSE_INFO</sifPath>
+    <script />
+    <depth>0</depth>
+  </field>
+</export-format>
+

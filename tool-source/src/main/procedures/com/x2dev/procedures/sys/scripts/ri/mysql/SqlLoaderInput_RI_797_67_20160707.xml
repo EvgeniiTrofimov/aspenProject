@@ -1,0 +1,62 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT PRD_DEFAULT_VALUE FROM SYS_PREFERENCE_DEFINITION WHERE PRD_KEY = 'sys.state';
+]]>
+</TestStatement>
+<TestValue>RI</TestValue>
+</SQLTest>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%797.67%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',797.67') where history not like '%797.67%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoRIPCnotGivn', 'wphRIRefRAIPS2', NULL, NULL, 'Parent Consent Not Given', '0', '0', NULL, NULL, 'ineligible', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoRIPCnotGvn1', 'wphRIRefRAIPS1', NULL, NULL, 'Parent Consent Not Given', '0', '0', NULL, NULL, 'ineligible', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME_FORM SET WPF_INSTANCE_ID = NULL WHERE WPF_OID = 'wpf01iElImEIEP';
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

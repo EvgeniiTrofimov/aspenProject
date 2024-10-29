@@ -1,0 +1,2544 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="report-SPED-IL-INDICATOR-13"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="558"
+		 columnSpacing="0"
+		 leftMargin="27"
+		 rightMargin="27"
+		 topMargin="20"
+		 bottomMargin="18"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="residentDistrict" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="servingDistrict" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="residentSchool" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="servingSchool" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ch-ind-goal-sub" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="ethnic" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="subcategoryServicesMap" isForPrompting="false" class="java.util.Map"/>
+
+	<field name="owner.student.nameView" class="java.lang.String"/>
+	<field name="owner.student.person.dob" class="java.lang.String"/>
+	<field name="owner.student.person.genderCode" class="java.lang.String"/>
+	<field name="owner.student.person.fieldB008" class="java.lang.String"/>
+	<field name="owner.student.homeLanguageCode" class="java.lang.String"/>
+	<field name="a:ind-align-course" class="java.lang.String"/>
+	<field name="a:ind-std-invited" class="java.lang.String"/>
+	<field name="a:ind-prior-consent-prnt" class="java.lang.String"/>
+	<field name="a:ind-is-iep" class="java.lang.String"/>
+	<field name="a:ind-date" class="java.lang.String"/>
+	<field name="a:ind-begin-date" class="java.lang.String"/>
+	<field name="a:ind-end-date" class="java.lang.String"/>
+	<field name="oid" class="java.lang.String"/>
+	<field name="a:ind-prior-consent-prnt-1" class="java.lang.String"/>
+	<field name="a:ind-prior-consent-prnt-2" class="java.lang.String"/>
+	<field name="a:ind-prior-consent-prnt-3" class="java.lang.String"/>
+	<field name="owner.meetingDate" class="java.lang.String"/>
+	<field name="owner.student.localId" class="java.lang.String"/>
+	<field name="owner.student.school.name" class="java.lang.String"/>
+	<field name="owner.staff.nameView" class="java.lang.String"/>
+	<field name="owner.student.enrollmentStatus" class="java.lang.String"/>
+	<field name="owner.student.nextSchool.name" class="java.lang.String"/>
+	<field name="owner.student.school.schoolId" class="java.lang.String"/>
+	<field name="owner.student.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.person.lastName" class="java.lang.String"/>
+
+	<variable name="Employment" class="java.util.Map" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[$P{ch-ind-goal-sub}.get( "Employment" )]]></initialValueExpression>
+	</variable>
+	<variable name="Education and/or training" class="java.util.Map" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[$P{ch-ind-goal-sub}.get( "Education and/or training" )]]></initialValueExpression>
+	</variable>
+	<variable name="Independent Living" class="java.util.Map" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[$P{ch-ind-goal-sub}.get( "Independent living skills" )]]></initialValueExpression>
+	</variable>
+	<variable name="isBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} == null || $F{oid}.length() == 0)]]></initialValueExpression>
+	</variable>
+	<variable name="isNotBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} != null && $F{oid}.length() > 10)]]></initialValueExpression>
+	</variable>
+	<variable name="schoolName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{owner.student.school.schoolId}.equals( "PreReg" ) ? $F{owner.student.nextSchool.name} : $F{owner.student.school.name}]]></initialValueExpression>
+	</variable>
+	<variable name="studentName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}
+]]></variableExpression>
+		<initialValueExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}
+]]></initialValueExpression>
+	</variable>
+
+		<group  name="pageOne" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="718"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						x="0"
+						y="212"
+						width="558"
+						height="30"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="212"
+						width="558"
+						height="30"
+						key="staticText-159"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="213"
+						width="31"
+						height="28"
+						key="staticText-161"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[1.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="213"
+						width="447"
+						height="28"
+						key="staticText-162"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[There are measurable postsecondary goals in the areas of employment, education AND/OR training, and independent living. 34 CFR 300.320(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="476"
+						y="213"
+						width="40"
+						height="28"
+						key="staticText-163"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="516"
+						y="213"
+						width="40"
+						height="28"
+						key="staticText-164"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="62"
+						y="244"
+						width="415"
+						height="28"
+						key="staticText-165"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there a measurable postsecondary goal for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">employment</style>  which will occur after high school/aging out?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="244"
+						width="31"
+						height="16"
+						key="staticText-166"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[a.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="275"
+						width="31"
+						height="16"
+						key="staticText-170"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[b.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="307"
+						width="31"
+						height="16"
+						key="staticText-174"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[c.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="62"
+						y="275"
+						width="415"
+						height="28"
+						key="staticText-179"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there a measurable postsecondary goal for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">education and/or training</style>  which will occur after high school/aging out?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="307"
+						width="416"
+						height="28"
+						key="staticText-183"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there a measurable postsecondary goal for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">independent living</style>  which will occur after high school/ aging out? 105ILCS 5/14-8.03(a-5)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="-1"
+						y="346"
+						width="558"
+						height="17"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="346"
+						width="558"
+						height="17"
+						key="staticText-187"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="347"
+						width="31"
+						height="15"
+						key="staticText-188"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[2.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="347"
+						width="447"
+						height="15"
+						key="staticText-189"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[There postsecondary goals are updated annually. 34 CFR 300.320(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="476"
+						y="347"
+						width="40"
+						height="15"
+						key="staticText-190"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="516"
+						y="347"
+						width="40"
+						height="15"
+						key="staticText-191"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="365"
+						width="374"
+						height="16"
+						key="staticText-192"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Has the current IEP been updated for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">employment</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="365"
+						width="31"
+						height="16"
+						key="staticText-193"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[d.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="383"
+						width="31"
+						height="16"
+						key="staticText-196"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[e.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="401"
+						width="31"
+						height="16"
+						key="staticText-199"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[f.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="383"
+						width="416"
+						height="16"
+						key="staticText-211"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Has the current IEP been updated for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">education and/or training</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="401"
+						width="417"
+						height="16"
+						key="staticText-212"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Has the current IEP been updated for <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">independent living</style>? 105ILCS 5/14-8.03(a-5)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="-1"
+						y="427"
+						width="558"
+						height="37"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="427"
+						width="558"
+						height="37"
+						key="staticText-214"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="-1"
+						y="428"
+						width="31"
+						height="35"
+						key="staticText-215"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[3.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="428"
+						width="447"
+						height="35"
+						key="staticText-216"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[There is evidence that the measurable postsecondary goals were based on age appropriate transition assessments and provided information on "the student's needs taking into account strenghs, preferences and interests". 34 CFR 300.320(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="476"
+						y="428"
+						width="40"
+						height="35"
+						key="staticText-217"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="516"
+						y="428"
+						width="40"
+						height="35"
+						key="staticText-218"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="469"
+						width="31"
+						height="16"
+						key="staticText-220"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[g.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="487"
+						width="31"
+						height="16"
+						key="staticText-223"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[h.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="519"
+						width="31"
+						height="16"
+						key="staticText-226"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[i.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="469"
+						width="417"
+						height="16"
+						key="staticText-239"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Was an age appropriate assessment given prior to the IEP meeting that addressed <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">employment</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="487"
+						width="416"
+						height="28"
+						key="staticText-242"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Was an age appropriate assessment given prior to the IEP meeting that addressed <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">education and/or training</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="519"
+						width="416"
+						height="28"
+						key="staticText-247"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Was an age appropriate assessment given prior to the IEP meeting that addressed <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">independent living</style>? 105ILCS 5/14-8.03(a-5)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="595"
+						width="31"
+						height="16"
+						key="staticText-256"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[j.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="638"
+						width="31"
+						height="16"
+						key="staticText-259"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[k.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="680"
+						width="31"
+						height="16"
+						key="staticText-262"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[l.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="557"
+						width="558"
+						height="30"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-29"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="557"
+						width="558"
+						height="30"
+						key="staticText-276"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="558"
+						width="31"
+						height="28"
+						key="staticText-277"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[4.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="558"
+						width="447"
+						height="28"
+						key="staticText-278"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[There are transition services in the IEP that will reasonably enable the student to meet his or her postsecondary goals. 34 CFR 300.320(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="477"
+						y="558"
+						width="40"
+						height="28"
+						key="staticText-279"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="517"
+						y="558"
+						width="40"
+						height="28"
+						key="staticText-280"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="595"
+						width="418"
+						height="40"
+						key="staticText-281"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one transition service, including academic and functional activities, which addresses the postsecondary <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">employment</style> goal that will occur during and/or after high school to facilitate movement from school to post-school?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="638"
+						width="418"
+						height="38"
+						key="staticText-285"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one transition service, including academic and functional activities, which addresses the postsecondary <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">education and/or training</style> goal that will occur during and/or after high school to facilitate movement from school to post-school?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="680"
+						width="418"
+						height="38"
+						key="staticText-289"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one transition service, including academic and functional activities, which addresses the postsecondary <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">independent living</style> goal that will occur during and/or after high school to facilitate movement from school to post-school? 105ILCS 5/14-8.03(a-5)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="38"
+						width="557"
+						height="14"
+						key="staticText-297"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ILLINOIS STATE BOARD OF EDUCATION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="52"
+						width="557"
+						height="42"
+						key="staticText-298"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Special Education Services Division
+100 North First Street, N-253
+Springfield, Illinois 62777-0001]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="94"
+						width="557"
+						height="14"
+						key="staticText-299"/>
+					<box>					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ILLINOIS STATE PERFORMANCE PLAN (SPP) INDICATOR 13 CHECKLIST]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="114"
+						width="557"
+						height="91"
+						key="staticText-300"/>
+					<box leftPadding="2" rightPadding="2">					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="10" isBold="false"/>
+					</textElement>
+				<text><![CDATA["Percent of your with IEPs aged 16 and above with an IEP that includes appropriate measurable postsecondary goals that are annually updated and based upon an age appropriate transition assessment, transition services, including courses of study, that will reasonably enable the student to meet those postsecondary goals, and annual IEP goals related to the student's transition services needs. There also must be evidence that the student was invited to the IEP Team meeting where transition services are to be discussed and evidence that, if appropriate, a representative of any participating agency was invited to the IEP Team meeting with the prior consent of the parent or student who has reached the age of majority."]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="190"
+						width="120"
+						height="14"
+						key="staticText-301"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[20 U.S.C. 1416(a)(3)(B)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="245"
+						width="12"
+						height="13"
+						key="textField-35"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-measurable" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="245"
+						width="12"
+						height="13"
+						key="textField-36"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-measurable" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="276"
+						width="12"
+						height="13"
+						key="textField-37"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-measurable" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="276"
+						width="12"
+						height="13"
+						key="textField-38"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-measurable" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="308"
+						width="12"
+						height="13"
+						key="textField-39"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-measurable" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="308"
+						width="12"
+						height="13"
+						key="textField-40"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-measurable" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="366"
+						width="12"
+						height="13"
+						key="textField-41"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-update" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="366"
+						width="12"
+						height="13"
+						key="textField-42"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-update" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="384"
+						width="12"
+						height="13"
+						key="textField-43"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-update" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="384"
+						width="12"
+						height="13"
+						key="textField-44"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-update" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="402"
+						width="12"
+						height="13"
+						key="textField-45"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-update" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="402"
+						width="12"
+						height="13"
+						key="textField-46"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-update" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="471"
+						width="12"
+						height="13"
+						key="textField-47"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ind-based-age-appr-asmnt" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="471"
+						width="12"
+						height="13"
+						key="textField-48"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ind-based-age-appr-asmnt" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="495"
+						width="12"
+						height="13"
+						key="textField-49"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ind-based-age-appr-asmnt" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="495"
+						width="12"
+						height="13"
+						key="textField-50"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ind-based-age-appr-asmnt" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="525"
+						width="12"
+						height="13"
+						key="textField-51"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ind-based-age-appr-asmnt" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="525"
+						width="12"
+						height="13"
+						key="textField-52"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ind-based-age-appr-asmnt" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="607"
+						width="12"
+						height="13"
+						key="textField-53"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="607"
+						width="12"
+						height="13"
+						key="textField-54"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="651"
+						width="12"
+						height="13"
+						key="textField-55"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="651"
+						width="12"
+						height="13"
+						key="textField-56"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="691"
+						width="12"
+						height="13"
+						key="textField-57"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="691"
+						width="12"
+						height="13"
+						key="textField-58"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-goal-rel-to-tr-srv" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="388"
+						y="1"
+						width="104"
+						height="14"
+						key="staticText-437"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[DATE OF MEETING:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="492"
+						y="15"
+						width="66"
+						height="0"
+						key="line-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="1"
+						width="66"
+						height="14"
+						key="textField-77"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.meetingDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="290"
+						y="1"
+						width="28"
+						height="14"
+						key="staticText-438"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[DOB:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="1"
+						width="190"
+						height="14"
+						key="textField-78"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{studentName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="96"
+						height="14"
+						key="staticText-439"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[STUDENT'S NAME:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="318"
+						y="1"
+						width="66"
+						height="14"
+						key="textField-79"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.dob}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="96"
+						y="15"
+						width="190"
+						height="1"
+						key="line-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="318"
+						y="15"
+						width="66"
+						height="1"
+						key="line-28"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="98"
+						y="19"
+						width="50"
+						height="14"
+						key="staticText-440"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[SCHOOL:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="19"
+						width="76"
+						height="14"
+						key="textField-80"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.localId}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="19"
+						width="18"
+						height="14"
+						key="staticText-441"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[ID:
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="148"
+						y="19"
+						width="206"
+						height="14"
+						key="textField-81"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{schoolName}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="18"
+						y="33"
+						width="76"
+						height="0"
+						key="line-29"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="148"
+						y="33"
+						width="206"
+						height="0"
+						key="line-30"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="358"
+						y="19"
+						width="64"
+						height="14"
+						key="staticText-442"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[CASE MGR:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="19"
+						width="136"
+						height="14"
+						key="textField-82"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.staff.nameView}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="422"
+						y="34"
+						width="136"
+						height="1"
+						key="line-31"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="pageTwo" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="718"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="30"
+						y="78"
+						width="31"
+						height="16"
+						key="staticText-337"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[m.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="40"
+						width="558"
+						height="30"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-32"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="40"
+						width="558"
+						height="30"
+						key="staticText-340"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="41"
+						width="31"
+						height="28"
+						key="staticText-341"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[5.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="41"
+						width="447"
+						height="28"
+						key="staticText-342"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[The IEP includes a course of study that will reasonably enable the student to meet his/her postsecondary goals. 34 CFR 300.320(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="477"
+						y="41"
+						width="40"
+						height="28"
+						key="staticText-343"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="517"
+						y="41"
+						width="40"
+						height="28"
+						key="staticText-344"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="78"
+						width="418"
+						height="39"
+						key="staticText-345"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Does the course of study address the student's current and remaining years in school and lists names of classes, rather then a statement of instructional program that depicts a progression towards meeting the post-secondary goals?]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="124"
+						width="558"
+						height="17"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-33"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="124"
+						width="558"
+						height="17"
+						key="staticText-346"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="125"
+						width="31"
+						height="15"
+						key="staticText-347"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[6.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="125"
+						width="447"
+						height="15"
+						key="staticText-348"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[There are annual IEP goals related to the student's transition service needs. 34 CFR 300.320(2)(i)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="477"
+						y="125"
+						width="40"
+						height="15"
+						key="staticText-349"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="517"
+						y="125"
+						width="40"
+						height="15"
+						key="staticText-350"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="143"
+						width="415"
+						height="26"
+						key="staticText-351"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one annual goal and short term objective related to the student's transition service needs in the area of <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">employment</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="143"
+						width="31"
+						height="16"
+						key="staticText-352"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[n.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="171"
+						width="31"
+						height="16"
+						key="staticText-355"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[o.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="200"
+						width="31"
+						height="16"
+						key="staticText-358"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[p.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="62"
+						y="171"
+						width="415"
+						height="26"
+						key="staticText-369"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one annual goal and short term objective related to the student's transition service needs in the area of <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">education and/or training</style>?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="62"
+						y="200"
+						width="415"
+						height="26"
+						key="staticText-372"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is there at least one annual goal and short term objective related to the student's transition service needs in the area of <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">independent living</style>? 105ILCS 5/14-8.03(a-5)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="270"
+						width="31"
+						height="16"
+						key="staticText-373"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[q.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="232"
+						width="558"
+						height="30"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-42"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="232"
+						width="558"
+						height="30"
+						key="staticText-376"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="233"
+						width="31"
+						height="28"
+						key="staticText-377"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[7.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="233"
+						width="447"
+						height="28"
+						key="staticText-378"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[There is evidence that the student was invited to the IEP team meeting where transition services were discussed. 34 CFR 300.321(b)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="477"
+						y="233"
+						width="40"
+						height="28"
+						key="staticText-379"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="517"
+						y="233"
+						width="40"
+						height="28"
+						key="staticText-380"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="60"
+						y="270"
+						width="418"
+						height="28"
+						key="staticText-381"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Was the student invited to the IEP meeting by being listed on the Notification of Conference form and/or did the student sign in as an IEP team member at the meeting?]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="305"
+						width="558"
+						height="37"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-43"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="305"
+						width="558"
+						height="37"
+						key="staticText-382"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="306"
+						width="31"
+						height="35"
+						key="staticText-383"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[8.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="306"
+						width="447"
+						height="35"
+						key="staticText-384"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[It appropriate, there is evidence that a representative of any participating agency that is likely to be reponsible for providing or paying for transition services was invited to the IEP team meeting  with the prior consent of the parent or student who has reached the age of majority. 34 CFR 300.321(b)(3)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="477"
+						y="306"
+						width="40"
+						height="35"
+						key="staticText-385"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="517"
+						y="306"
+						width="40"
+						height="35"
+						key="staticText-386"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="347"
+						width="31"
+						height="16"
+						key="staticText-387"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[r.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="365"
+						width="31"
+						height="16"
+						key="staticText-390"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[s.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="397"
+						width="31"
+						height="16"
+						key="staticText-393"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[t.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="347"
+						width="338"
+						height="16"
+						key="staticText-396"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Is it too early to determine if the student will need outside agency involvement?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="365"
+						width="415"
+						height="26"
+						key="staticText-399"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[If transition services are listed that will be provided by or paid by an outside agency, is there evidence that the agency was listed on the Notification of Conference form?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="61"
+						y="397"
+						width="414"
+						height="38"
+						key="staticText-403"/>
+					<box></box>
+					<textElement verticalAlignment="Middle" isStyledText="true">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[If transition services are listed that will be provided by or paid by an outside agency, is there evidence of current written <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">PRIOR</style> consent obtained from the parent or student who has reached the age of majority? (Consent is valid for 1 year from date of signature on the form.)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="441"
+						width="558"
+						height="17"
+						forecolor="#CCCCCC"
+						backcolor="#CCCCCC"
+						key="rectangle-50"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="0"
+						y="441"
+						width="558"
+						height="17"
+						key="staticText-408"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.75" lineStyle="Solid"/>
+					<leftPen lineWidth="0.75" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+					<rightPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="442"
+						width="322"
+						height="15"
+						key="staticText-410"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Does the IEP meet the requirements of Indicator 13?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="458"
+						width="493"
+						height="54"
+						key="staticText-411"/>
+					<box>					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="511"
+						width="493"
+						height="39"
+						key="staticText-412"/>
+					<box>					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="492"
+						y="458"
+						width="66"
+						height="54"
+						key="staticText-413"/>
+					<box>					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="492"
+						y="511"
+						width="66"
+						height="39"
+						key="staticText-414"/>
+					<box>					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="12"
+						y="466"
+						width="2"
+						height="2"
+						backcolor="#333333"
+						key="ellipse-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="31"
+						y="459"
+						width="454"
+						height="16"
+						key="staticText-415"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica" size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[<style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">Yes:</style> If items 1a through 8r are <style isBold="true" isUnderline="true"  pdfFontName="Helvetica-Bold">ALL</style> answered <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">Yes</style>, then the IEP <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">meets</style> Indicator 13 requirements.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="31"
+						y="476"
+						width="454"
+						height="28"
+						key="staticText-423"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica" size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[<style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">Yes:</style> If items 1a through 7q, 8s and 8t are <style isBold="true" isUnderline="true"  pdfFontName="Helvetica-Bold">ALL</style> answered <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">Yes</style> <style isBold="true" isUnderline="true"  pdfFontName="Helvetica-Bold">AND</style> 8r is answered <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">No</style>, then the IEP <style isBold="true" isUnderline="true"  pdfFontName="Helvetica-Bold">meets</style> Indicator 13 requirements.]]></text>
+				</staticText>
+				<ellipse>
+					<reportElement
+						x="12"
+						y="483"
+						width="2"
+						height="2"
+						backcolor="#333333"
+						key="ellipse-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<ellipse>
+					<reportElement
+						x="14"
+						y="523"
+						width="2"
+						height="2"
+						backcolor="#333333"
+						key="ellipse-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</ellipse>
+				<staticText>
+					<reportElement
+						x="31"
+						y="516"
+						width="454"
+						height="28"
+						key="staticText-436"/>
+					<box></box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" isStyledText="true">
+						<font pdfFontName="Helvetica" size="9" isBold="false"/>
+					</textElement>
+				<text><![CDATA[<style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">No:</style> If one or more items were answered <style isBold="true" isUnderline="false"  pdfFontName="Helvetica-Bold">No</style>, with the exception of 8r, then the IEP <style isBold="true" isUnderline="true"  pdfFontName="Helvetica-Bold">does not meet</style> Indicator 13 requirements.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="90"
+						width="12"
+						height="13"
+						key="textField-59"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-align-course}.equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="90"
+						width="12"
+						height="13"
+						key="textField-60"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-align-course}.equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="150"
+						width="12"
+						height="13"
+						key="textField-61"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="150"
+						width="12"
+						height="13"
+						key="textField-62"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Employment}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="178"
+						width="12"
+						height="13"
+						key="textField-63"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="178"
+						width="12"
+						height="13"
+						key="textField-64"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Education and/or training}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="208"
+						width="12"
+						height="13"
+						key="textField-65"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="208"
+						width="12"
+						height="13"
+						key="textField-66"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{Independent Living}.get( "ch-ild-tr-will-meet-ps-goal" ).equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="275"
+						width="12"
+						height="13"
+						key="textField-67"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-std-invited}.equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="275"
+						width="12"
+						height="13"
+						key="textField-68"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-std-invited}.equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="348"
+						width="12"
+						height="13"
+						key="textField-69"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-1}.equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="348"
+						width="12"
+						height="13"
+						key="textField-70"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-1}.equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="370"
+						width="12"
+						height="13"
+						key="textField-71"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-2}.equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="370"
+						width="12"
+						height="13"
+						key="textField-72"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-2}.equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="491"
+						y="408"
+						width="12"
+						height="13"
+						key="textField-73"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-3}.equals( "Yes" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="408"
+						width="12"
+						height="13"
+						key="textField-74"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-prior-consent-prnt-3}.equals( "No" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="502"
+						y="479"
+						width="12"
+						height="13"
+						key="textField-75"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-is-iep}.equals( "Y" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="502"
+						y="524"
+						width="12"
+						height="13"
+						key="textField-76"/>
+					<box leftPadding="3">					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:ind-is-iep}.equals( "N" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="pageThree" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="1"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="35"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="557"
+						height="20"
+						key="staticText-335"/>
+					<box></box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[Prepared by the Illinois State Board of Education, Special Education Services Division, Revised August 2015.
+This checklist is adapted from the NSTTAC Indicator 13 Checklist prepared by the National Secondary Transition Technical Assistance Center.]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="24"
+						width="557"
+						height="0"
+						key="line-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="1"
+						y="25"
+						width="222"
+						height="9"
+						key="staticText-336"/>
+					<box></box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[ISBE 37-41 (8/15)]]></text>
+				</staticText>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

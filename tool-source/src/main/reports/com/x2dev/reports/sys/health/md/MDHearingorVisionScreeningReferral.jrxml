@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport name="VisionScreening" columnCount="1" printOrder="Vertical" orientation="Portrait"
+    pageWidth="612" pageHeight="792" columnWidth="552" columnSpacing="0" leftMargin="30" rightMargin="30" topMargin="20"
+    bottomMargin="15" whenNoDataType="NoPages" isTitleNewPage="false" isSummaryNewPage="false">
+    <property name="ireport.scriptlethandling" value="0"/>
+    <property name="ireport.encoding" value="UTF-8"/>
+    <import value="java.util.*"/>
+    <import value="net.sf.jasperreports.engine.*"/>
+    <import value="net.sf.jasperreports.engine.data.*"/>
+
+
+    <field name="Program" class="java.lang.String">
+        <fieldDescription><![CDATA[either "Vision" or "Hearing".  Could do with bool and tern, but why complicate life?]]></fieldDescription>
+    </field>
+    <field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+    <field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+    <field name="studentFullName" class="java.lang.String"/>
+    <field name="date" class="java.util.Date"/>
+    <field name="header" class="java.lang.String"/>
+
+    <variable name="Test" class="java.lang.String" resetType="Report" calculation="Nothing">
+        <variableExpression><![CDATA[$F{Program}.equals("Vision") ? "Titmus Vision Screener" : "Audiometric Test"]]></variableExpression>
+        <initialValueExpression><![CDATA[$F{Program}.equals("Vision") ? "Titmus Vision Screener" : "Audiometric Test"]]></initialValueExpression>
+    </variable>
+    <variable name="DearParentText" class="java.lang.String" resetType="Group" resetGroup="toParent"
+        calculation="Nothing">
+        <variableExpression><![CDATA[$F{Program}.equals("Vision") ? 
+"The results of the vision screening given to your child at "+$F{student}.getSchool().getName()+" seemed to indicate that he/she may have a problem with his/her vision and a professional vision exam is strongly recommended.\n\nGood eyesight is important for the personal happiness and the success of your child in school."
+:
+"As a result of the hearing screening given at at "+$F{student}.getSchool().getName()+", your child showed some degree of hearing loss.  We believe that if he/she could be examined by a hearing specialist, the cause of this apparent loss may be discovered and possibly remedied."]]></variableExpression>
+        <initialValueExpression><![CDATA[$F{Program}.equals("Vision") ? 
+"The results of the vision screening given to your child at "+$F{student}.getSchool().getName()+" seemed to indicate that he/she may have a problem with his/her vision and a professional vision exam is strongly recommended.\n\nGood eyesight is important for the personal happiness and the success of your child in school."
+:
+"As a result of the hearing screening given at at "+$F{student}.getSchool().getName()+", your child showed some degree of hearing loss.  We believe that if he/she could be examined by a hearing specialist, the cause of this apparent loss may be discovered and possibly remedied."]]></initialValueExpression>
+    </variable>
+
+    <group name="toParent">
+        <groupExpression><![CDATA[$F{student}]]></groupExpression>
+        <groupHeader>
+            <band height="203" isSplitAllowed="true">
+                <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                    hyperlinkType="None" hyperlinkTarget="Self">
+                    <reportElement x="0" y="5" width="552" height="13" key="textField-1"
+                        stretchType="RelativeToBandHeight" isPrintWhenDetailOverflows="true"/>
+                    <box></box>
+                    <textElement isStyledText="true">
+                        <font fontName="Calibri" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <textFieldExpression class="java.lang.String"><![CDATA["To the parent/guardian of: "+$F{studentFullName} +"\n\n" + "<style isBold='true' pdfFontName='Helvetica-Bold'>" + $V{DearParentText}+ "</style>" + "\n"]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement x="0" y="18" width="552" height="13" key="staticText-1"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[In order to provide follow-up services, we are providing a two-page form to be completed and signed.
+
+Please complete the bottom half of this page and return as soon as possible.
+
+Please sign the top of page 2.
+
+The rest of page 2 is to be completed by the examining physician and returned to school.]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="165" width="80" height="38" key="staticText-4"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Please retum by:
+
+Please check one:]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="36" width="552" height="97" key="staticText-20"
+                        positionType="FixRelativeToBottom">
+                        <printWhenExpression><![CDATA[new Boolean($F{Program}.equals("Vision"))]]></printWhenExpression>
+                    </reportElement>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Bold" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[    1) Please complete the bottom half of this page and return as soon as possible.
+
+    2) Please sign the top of page 2 authorizing the eye doctor to release the results of your child's eye exam.
+
+    3) The rest of page 2 is to be completed by the eye doctor and will be forwarded to the School Health division at the
+        health department, then be forwarded to the school nurse.]]></text>
+                </staticText>
+                <elementGroup><!-- Start: 1 ! -->
+                    <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                        hyperlinkType="None" hyperlinkTarget="Self">
+                        <reportElement x="0" y="144" width="552" height="13" key="textField-14"
+                            positionType="FixRelativeToBottom"/>
+                        <box></box>
+                        <textElement textAlignment="Left">
+                            <font fontName="Serif" pdfFontName="Times-Roman"/>
+                        </textElement>
+                        <textFieldExpression class="java.lang.String"><![CDATA["Name: "+$F{studentFullName}]]></textFieldExpression>
+                    </textField>
+                    <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                        hyperlinkType="None" hyperlinkTarget="Self">
+                        <reportElement x="0" y="144" width="552" height="13" key="textField-15"
+                            positionType="FixRelativeToBottom"/>
+                        <box></box>
+                        <textElement textAlignment="Center">
+                            <font fontName="Serif" pdfFontName="Times-Roman"/>
+                        </textElement>
+                        <textFieldExpression class="java.lang.String"><![CDATA["Grade: "+$F{student}.getGradeLevel()]]></textFieldExpression>
+                    </textField>
+                    <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                        hyperlinkType="None" hyperlinkTarget="Self">
+                        <reportElement x="0" y="144" width="552" height="13" key="textField-16"
+                            positionType="FixRelativeToBottom"/>
+                        <box></box>
+                        <textElement textAlignment="Right">
+                            <font fontName="Serif" pdfFontName="Times-Roman"/>
+                        </textElement>
+                        <textFieldExpression class="java.lang.String"><![CDATA["DOB: "+new SimpleDateFormat("MM/dd/yyyy").format($F{student}.getPerson().getDob())]]></textFieldExpression>
+                    </textField>
+                </elementGroup><!-- End 1 ! -->
+                <line direction="TopDown">
+                    <reportElement x="0" y="127" width="552" height="0" key="line-8"
+                        positionType="FixRelativeToBottom"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <break>
+                    <reportElement x="0" y="1" width="552" height="0" key="element-2"/>
+                </break>
+                <textField isStretchWithOverflow="false" pattern="MM/dd/yyyy" isBlankWhenNull="false"
+                    evaluationTime="Now" hyperlinkType="None" hyperlinkTarget="Self">
+                    <reportElement x="80" y="165" width="100" height="13" key="textField-18"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement>
+                        <font/>
+                    </textElement>
+                    <textFieldExpression class="java.util.Date"><![CDATA[$F{date}]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement x="0" y="36" width="552" height="97" key="staticText-28"
+                        positionType="FixRelativeToBottom">
+                        <printWhenExpression><![CDATA[new Boolean($F{Program}.equals("Hearing"))]]></printWhenExpression>
+                    </reportElement>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Bold" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[    1) Please complete the bottom half of this page and return as soon as possible.
+
+    2) Please sign the top of page 2.
+
+    3) The rest of page 2 is to be completed by the examining physician and returned to school.]]></text>
+                </staticText>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="68" isSplitAllowed="true">
+                <staticText>
+                    <reportElement x="0" y="44" width="552" height="13" key="staticText-6"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Helvetica-Bold" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Note: Please fax to Allegany Country Health Department 301-724-1072]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="321" y="19" width="231" height="16" key="staticText-8"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement textAlignment="Left">
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Physician's Signature]]></text>
+                </staticText>
+                <line direction="TopDown">
+                    <reportElement x="322" y="19" width="230" height="0" key="line-5"
+                        positionType="FixRelativeToBottom"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <staticText>
+                    <reportElement x="0" y="57" width="552" height="11" key="staticText-24"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement textAlignment="Center">
+                        <font size="8"/>
+                    </textElement>
+                    <text><![CDATA[2]]></text>
+                </staticText>
+            </band>
+        </groupFooter>
+    </group>
+    <group name="Hearing">
+        <groupExpression><![CDATA[$F{student}]]></groupExpression>
+        <groupHeader>
+            <band height="134" isSplitAllowed="true">
+                <printWhenExpression><![CDATA[Boolean.valueOf($F{Program}.equals("Hearing"))]]></printWhenExpression>
+                <staticText>
+                    <reportElement x="0" y="0" width="552" height="116" key="staticText-2"/>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[___ I will have my child examined by a hearing specialist
+
+___ My child is under the care of a specialist:
+
+              Doctor's Name: ________________________
+
+              Date of last/next appointment: _________________
+
+___ I would like you to contact the Board of Education's Audiologist to arrange for a hearing examination.]]></text>
+                </staticText>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="196" isSplitAllowed="true">
+                <printWhenExpression><![CDATA[Boolean.valueOf($F{Program}.equals("Hearing"))]]></printWhenExpression>
+                <staticText>
+                    <reportElement x="0" y="0" width="552" height="196" key="staticText-7"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Diagnosis: 
+
+_________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________
+
+Recommendations for follow-up by Physician: 
+
+_________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________]]></text>
+                </staticText>
+            </band>
+        </groupFooter>
+    </group>
+    <group name="Vision">
+        <groupExpression><![CDATA[$F{student}]]></groupExpression>
+        <groupHeader>
+            <band height="97" isSplitAllowed="true">
+                <printWhenExpression><![CDATA[Boolean.valueOf($F{Program}.equals("Vision"))]]></printWhenExpression>
+                <staticText>
+                    <reportElement x="0" y="0" width="552" height="97" key="staticText-5"/>
+                    <box></box>
+                    <textElement>
+                        <font fontName="Calibri" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[___ I will have my child examined by an eye specialist and authorize the doctor's form to be released to the school.
+
+___ My child is under the care of an eye specialist:
+
+              Doctor's Name: _________________________
+
+              Date of last/next appointment: _____________________
+
+]]></text>
+                </staticText>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="266" isSplitAllowed="true">
+                <printWhenExpression><![CDATA[Boolean.valueOf($F{Program}.equals("Vision"))]]></printWhenExpression>
+                <staticText>
+                    <reportElement x="100" y="39" width="87" height="95" key="staticText-9"/>
+                    <box></box>
+                    <textElement textAlignment="Center">
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[(Uncorrected)
+
+Right 20/_____
+
+Left  20/_____
+
+Both 20/_____]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="1" width="552" height="39" key="staticText-10"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Date:_________________ Diagnosis:_____________________________________________________________________
+
+______________________________________________________________________________________________________]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="365" y="39" width="87" height="95" key="staticText-11"/>
+                    <box></box>
+                    <textElement textAlignment="Center">
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[(Corrected)
+
+Right 20/_____
+
+Left  20/_____
+
+Both 20/_____]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="134" width="552" height="13" key="staticText-12"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Recommendations (please circle): Glasses: None                Distance                For close work                Constantly]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="162" width="552" height="104" key="staticText-13"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Other Treatments: __________________________________________________________________________
+Educational adjustments: (sight-saving books & materials, School for the Blind, etc.)
+
+____________________________________________________________________________________________
+
+Remarks:____________________________________________________________________________________
+
+____________________________________________________________________________________________]]></text>
+                </staticText>
+            </band>
+        </groupFooter>
+    </group>
+    <group name="Release">
+        <groupExpression><![CDATA[$F{student}]]></groupExpression>
+        <groupHeader>
+            <band height="140" isSplitAllowed="true">
+                <line direction="TopDown">
+                    <reportElement x="322" y="30" width="230" height="0" key="line-1"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <line direction="TopDown">
+                    <reportElement x="322" y="63" width="230" height="0" key="line-2"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <line direction="TopDown">
+                    <reportElement x="322" y="96" width="230" height="0" key="line-3"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <line direction="TopDown">
+                    <reportElement x="322" y="116" width="230" height="0" key="line-4"/>
+                    <graphicElement stretchType="NoStretch"/>
+                </line>
+                <staticText>
+                    <reportElement x="0" y="116" width="296" height="13" key="staticText-3"/>
+                    <box></box>
+                    <textElement>
+                        <font pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <text><![CDATA[Please return to the school nurse at the above school.]]></text>
+                </staticText>
+                <break>
+                    <reportElement x="0" y="135" width="552" height="0" key="element-1"/>
+                </break>
+                <staticText>
+                    <reportElement x="322" y="30" width="140" height="13" key="staticText-25"/>
+                    <box></box>
+                    <textElement>
+                        <font/>
+                    </textElement>
+                    <text><![CDATA[Parent Signature]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="322" y="63" width="140" height="13" key="staticText-26"/>
+                    <box></box>
+                    <textElement textAlignment="Left">
+                        <font/>
+                    </textElement>
+                    <text><![CDATA[Address]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="322" y="116" width="140" height="13" key="staticText-27"/>
+                    <box></box>
+                    <textElement>
+                        <font/>
+                    </textElement>
+                    <text><![CDATA[Phone Number]]></text>
+                </staticText>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="0" isSplitAllowed="true">
+            </band>
+        </groupFooter>
+    </group>
+    <background>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </background>
+    <title>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </title>
+    <pageHeader>
+        <band height="154" isSplitAllowed="true">
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="138" width="552" height="15" key="textField-10"
+                    stretchType="RelativeToTallestObject"/>
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font pdfFontName="Times-Roman" size="12"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{Program} + " Screening Referral"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="54" width="552" height="27" key="staticText-15"/>
+                <box></box>
+                <textElement textAlignment="Right">
+                    <font pdfFontName="Times-Roman" size="10"/>
+                </textElement>
+                <text><![CDATA[Allegany County Board of Education
+Allegany County Health Department]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="81" width="552" height="13" key="textField-6"
+                    stretchType="RelativeToTallestObject"/>
+                <box></box>
+                <textElement textAlignment="Right">
+                    <font pdfFontName="Times-Roman" size="10"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{Program} + " Program"]]></textFieldExpression>
+            </textField>
+            <image scaleImage="RetainShape" onErrorType="Icon" evaluationTime="Now" hyperlinkType="None"
+                hyperlinkTarget="Self">
+                <reportElement x="200" y="2" width="150" height="75" key="image-1"/>
+                <box></box>
+                <graphicElement stretchType="NoStretch"/>
+                <imageExpression class="java.lang.String"><![CDATA["/usr/fsc/resources/md-allegany/APSletterhead.jpg"]]></imageExpression>
+            </image>
+            <textField isStretchWithOverflow="true" pattern="MM/dd/yyyy" isBlankWhenNull="false"
+                evaluationTime="Now" hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="94" width="552" height="13" key="textField-17"
+                    stretchType="RelativeToTallestObject"/>
+                <box></box>
+                <textElement textAlignment="Right">
+                    <font pdfFontName="Times-Roman" size="10"/>
+                </textElement>
+                <textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="80" width="552" height="50" key="textField-19"/>
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{header}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="269" isSplitAllowed="true">
+            <staticText>
+                <reportElement x="0" y="30" width="552" height="53" key="staticText-16"/>
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Authorization for the Release of this Form to the School
+
+________________________________________________________
+Parent's Signature]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="96" width="552" height="75" key="textField-7"
+                    isPrintWhenDetailOverflows="true">
+                    <printWhenExpression><![CDATA[new Boolean($F{Program}.equals("Vision"))]]></printWhenExpression>
+                </reportElement>
+                <box></box>
+                <textElement>
+                    <font pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["Dear Ophthalmologist/Optometrist:\n\nThe "+$V{Test}+" is used in the Allegany County schools for identifying children apparently in need of further examination. The child indicated below received a visions screening and the results of the screening indicate that that the student may have a vision disorder. An examination by an eye doctor is recommended."]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="216" width="552" height="38" key="textField-8"/>
+                <box></box>
+                <textElement textAlignment="Center">
+                    <font pdfFontName="Times-Roman" size="12"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA[$F{Program} + " Screening\n Health Care Providers Report"]]></textFieldExpression>
+            </textField>
+            <elementGroup><!-- Start: 2 ! -->
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                    hyperlinkType="None" hyperlinkTarget="Self">
+                    <reportElement x="0" y="256" width="552" height="13" key="textField-11"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement textAlignment="Left">
+                        <font fontName="Serif" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <textFieldExpression class="java.lang.String"><![CDATA["Name: "+$F{studentFullName}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                    hyperlinkType="None" hyperlinkTarget="Self">
+                    <reportElement x="0" y="256" width="552" height="13" key="textField-12"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement textAlignment="Center">
+                        <font fontName="Serif" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <textFieldExpression class="java.lang.String"><![CDATA["Grade: "+$F{student}.getGradeLevel()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now"
+                    hyperlinkType="None" hyperlinkTarget="Self">
+                    <reportElement x="0" y="256" width="552" height="13" key="textField-13"
+                        positionType="FixRelativeToBottom"/>
+                    <box></box>
+                    <textElement textAlignment="Right">
+                        <font fontName="Serif" pdfFontName="Times-Roman"/>
+                    </textElement>
+                    <textFieldExpression class="java.lang.String"><![CDATA["DOB: "+new SimpleDateFormat("MM/dd/yyyy").format($F{student}.getPerson().getDob())]]></textFieldExpression>
+                </textField>
+            </elementGroup><!-- End 2 ! -->
+            <line direction="TopDown">
+                <reportElement x="0" y="193" width="552" height="0" key="line-7"/>
+                <graphicElement stretchType="NoStretch"/>
+            </line>
+            <staticText>
+                <reportElement x="335" y="83" width="217" height="13" key="staticText-21">
+                    <printWhenExpression><![CDATA[Boolean.valueOf($F{Program}.equals("Vision"))]]></printWhenExpression>
+                </reportElement>
+                <box></box>
+                <textElement>
+                    <font fontName="Serif" pdfFontName="Times-Roman"/>
+                </textElement>
+                <text><![CDATA[Screened: With Glasses        Without Glasses]]></text>
+            </staticText>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now"
+                hyperlinkType="None" hyperlinkTarget="Self">
+                <reportElement x="0" y="96" width="552" height="75" key="textField-20"
+                    isPrintWhenDetailOverflows="true">
+                    <printWhenExpression><![CDATA[new Boolean($F{Program}.equals("Hearing"))]]></printWhenExpression>
+                </reportElement>
+                <box></box>
+                <textElement>
+                    <font pdfFontName="Times-Roman"/>
+                </textElement>
+                <textFieldExpression class="java.lang.String"><![CDATA["Dear Doctor:\n\nThe "+$V{Test}+" is used in the Allegany County schools for identifying children apparently in need of further examination. Since the following child did not pass the screening successfully, a doctor's examination seems to be indicated."]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </pageFooter>
+    <summary>
+        <band height="0" isSplitAllowed="true">
+        </band>
+    </summary>
+</jasperReport>

@@ -1,0 +1,111 @@
+<!-- ******************************************* -->
+<!-- INPUT DEFINITIONS FOR THE "DOE SIMS" EXPORT -->
+<!-- ******************************************* -->
+
+<tool-input allow-school-select="true" district-support="true" height="680">
+
+ <!-- ************** -->
+ <!-- DATA PROCEDURE -->
+ <!-- ************** -->
+
+ <input name="procedureId" data-type="string" display-type="hidden" default-value="EXPDATA-MA-SCS"/>
+
+ <!-- **************** -->
+ <!-- REPORTING PERIOD -->
+ <!-- **************** -->
+
+ <input name="reportingPeriod" data-type="integer" display-type="select" display-name="Reporting Period">
+  <option value="0" display-name="October" />
+  <option value="1" display-name="March" />
+  <option value="2" display-name="Year End" />
+  <disable input-name="withdrawl1" if-parent-equals="0" />
+  <disable input-name="withdrawl1" if-parent-equals="1" />
+  <disable input-name="withdrawl2" if-parent-equals="0" />
+  <disable input-name="withdrawl2" if-parent-equals="1" />
+  <disable input-name="reportDateEoy" if-parent-equals="0" />
+  <disable input-name="reportDateMar" if-parent-equals="0" />
+  <disable input-name="reportDateEoy" if-parent-equals="1" />
+ </input>
+
+ <!-- ******************* -->
+ <!-- OCTOBER REPORT DATE -->
+ <!-- ******************* -->
+
+ <input name="reportDateOct" data-type="date" display-type="date" display-name="October date" required="false" />
+
+ <!-- ***************** -->
+ <!-- MARCH REPORT DATE -->
+ <!-- ***************** -->
+
+ <input name="reportDateMar" data-type="date" display-type="date" display-name="March date" required="false" />
+
+ <!-- *************** -->
+ <!-- EOY REPORT DATE -->
+ <!-- *************** -->
+
+ <input name="reportDateEoy" data-type="date" display-type="date" display-name="End of year date" required="false" />
+
+ <!-- **************************************************** -->
+ <!-- WITHDRAWL CODES FOR SENIORS FOR EOY REPORTING PERIOD -->
+ <!-- **************************************************** -->
+
+ <input name="withdrawl1" data-type="string" display-type="text" display-name="Graduated withdrawal code 1" required="false" />
+ <input name="withdrawl2" data-type="string" display-type="text" display-name="Graduated withdrawal code 2" required="false" />
+
+ <!-- ********************* -->
+ <!-- REQUIRE REPORT STATUS -->
+ <!-- ********************* -->
+
+ <input name="requireReportStatus" data-type="boolean" display-type="checkbox" display-name="export.doe.requireReportStatus" default-value="true" />
+
+ <!-- ************************ -->
+ <!-- USE ADJUSTED SCHOOL CODE -->
+ <!-- ************************ -->
+
+ <input name="useAdjustedSchool" data-type="boolean" display-type="checkbox" display-name="Use adjusted school code" default-value="false" />
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="integer" display-type="select" display-name="report.shared.query">
+  <option value="0" display-name="report.shared.query.all" />
+  <option value="1" display-name="report.shared.query.yog" />
+  <option value="2" display-name="export.doe.selection.lasid" />
+  <option value="3" display-name="export.doe.selection.sasid" />
+  <option value="4" display-name="export.doe.selection.snapshot" />
+  <disable input-name="queryString" if-parent-equals="0" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="integer" display-type="select" display-name="report.shared.sort">
+  <option value="0" display-name="report.shared.sort.name"/>
+  <option value="1" display-name="report.shared.sort.yog"/>
+  <option value="2" display-name="report.shared.sort.school"/>
+  <option value="3" display-name="export.doe.sort.lasid"/>
+  <option value="3" display-name="export.doe.sort.sasid"/>
+ </input>
+
+ <!-- ******************** -->
+ <!-- SAVE RESULTS OPTIONS -->
+ <!-- ******************** -->
+ 
+ <input name="saveResults" data-type="boolean" display-type="checkbox" display-name="Save Results" default-value="false" />
+ 
+ <!-- ************** -->
+ <!-- EXCLUDE SCHOOL -->
+ <!-- ************** -->
+ 
+ <input name="includeSifSchoolId" data-type="picklist" display-type="select" display-name="Include District" required="false">
+   <picklist field-id="rcdCode" multiple="true" width="500" height="470" required="false">
+    <filter field="rcdRtbOID" operator="equals" source="constant" value="" />
+    <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="1" />
+    <field id="rcdCode" />
+   </picklist>
+  </input>
+
+</tool-input>

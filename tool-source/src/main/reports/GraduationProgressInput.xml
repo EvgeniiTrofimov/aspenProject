@@ -1,0 +1,94 @@
+<!-- ****************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "GRADUATION PROGRESS" REPORT -->
+<!-- ****************************************************** -->
+
+<tool-input allow-school-select="true" district-support="true" context="com.x2dev.sis.model.beans.SisStudent" height="500" width="525">>
+
+ <!-- ****************** -->
+ <!-- PRGRAM OF STUDIES  -->
+ <!-- ****************** -->
+ <input name="programStudiesOid" data-type="string" display-type="picklist" display-name="report.graduationStats.programStudies">
+  <picklist field-id="gprName">
+   <field id="gprName"  sort="true" />
+   <field id="gprTtlCredit" />
+   <field id="gprDescription" />
+   <filter field="gprObsoleteInd" operator="equals" source="constant" value="0" />
+   <filter field="gprHideInd" operator="equals" source="constant" value="0" />
+  </picklist>
+ </input>
+ 
+ <input name="requirementOid" data-type="string" display-type="picklist" display-name="Requirement" required="false">
+  <picklist field-id="grqCode">
+   <field id="grqCode"  sort="true" />
+   <field id="grqType" />
+   <field id="grqDescription" />
+   <filter field="relGrqGprOid.gprOID" operator="equals" source="input" value="programStudiesOid" />
+  </picklist>
+ </input>
+ 
+ <!-- *********************** -->
+ <!-- STUDENT SELECT OPTIONS  -->
+ <!-- *********************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true"/>
+  <option value="yog" display-name="report.shared.query.yog" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ 
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" required="false"/>
+ 
+ <!-- ************** -->
+ <!-- FILTER OPTIONS -->
+ <!-- ************** -->
+
+ <input name="filterBy" data-type="integer" display-type="select" display-name="report.shared.filter.request">
+  <option value="-1" display-name="Less than" />
+  <option value="0" display-name="Equal" />
+  <option value="1" display-name="Greater than" />
+ </input>
+ 
+ <input name="percentage" data-type="integer" display-type="text" display-name="...percent complete" required="false"/>
+ 
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true"/>
+ 
+ 
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.graduationStats.studentSort">
+  <option value="nameView" display-name="report.shared.sort.name" />
+  <option value="yog, nameView" display-name="report.shared.sort.yog" />
+ </input>
+
+
+ <!-- ***************** -->
+ <!-- CREATE RECORD SETS -->
+ <!-- ***************** -->
+
+ <input name="createRecordSets" data-type="boolean" display-type="checkbox" display-name="report.shared.createSnapshots" default-value="false" >
+<disable input-name="snapshotName" if-parent-equals="false" />
+<disable input-name="snapshotOwner" if-parent-equals="false" />
+</input>
+
+ <!-- ******** -->
+ <!-- SNAPSHOT -->
+ <!-- ******** -->
+
+ <input name="snapshotName" data-type="string" display-type="text" display-name="report.shared.snapshotName" required="true" />
+
+ <input name="snapshotOwner" data-type="integer" display-type="select" display-name="report.shared.snapshotOwner" default-value="7">
+  <option value="7" display-name="User"/>
+  <option value="6" display-name="School"/>
+  <option value="1" display-name="District" />
+ </input>
+ 
+<input name="createHistory" data-type="boolean" display-type="checkbox" display-name="Create history" default-value="false" />
+
+</tool-input>

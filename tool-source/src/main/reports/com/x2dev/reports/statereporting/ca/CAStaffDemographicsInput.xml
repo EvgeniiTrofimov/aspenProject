@@ -1,0 +1,49 @@
+<!-- ******************************************* -->
+<!-- INPUT DEFINITIONS FOR THE "STUDENT DEMO EXPORT" -->
+<!-- ******************************************* -->
+
+<tool-input allow-school-select="false" district-support="true" height="560">
+ 
+ 
+    <!-- ************** -->
+    <!-- SCHOOLS -->
+    <!-- ************** -->
+
+    <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+
+    <input name="schoolOids" data-type="string" display-type="picklist"
+        display-name="School(s)" default-value-source="session" default-value="school.oid"
+        required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+
+	<input name="procedureId" data-type="string" display-type="hidden" default-value="EXPDATA-CA-SDEM"/>
+
+	<input name="queryBy1" data-type="string" display-type="select" display-name="Courses to include">
+		<option value="##all" display-name="All" />
+                <option value="localId" display-name="Local ID" />
+                <option value="stateId" display-name="State ID" />
+		<disable input-name="queryString1" if-parent-equals="##all" />
+	</input>
+
+	<input name="queryString1" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+	<input name="sortBy" data-type="string" display-type="select" display-name="report.shared.sort">
+                <option value="person.lastName, person.firstName" display-name="Person" />
+	</input>
+	
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStaffOnly" default-value="true"/>
+	
+</tool-input>

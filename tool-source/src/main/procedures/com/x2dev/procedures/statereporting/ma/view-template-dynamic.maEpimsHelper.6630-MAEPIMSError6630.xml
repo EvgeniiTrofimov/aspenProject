@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="dynamic.maEpimsHelper.6630" name="MA EPIMS Error 6630" locked="false">
+  <template>
+    <tab name="tab.staff.staff.list.detail.ethnicity">
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="large">&lt;span style="color:#00a3cc;"&gt;Validation Message:&lt;/span&gt;</text>
+              <text font-size="large">6630 - Working Staff may not have 0 Expected Days of Attendance</text>
+            </cell>
+          </line>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" font-size="medium">A staff member reported as working and not on leave (SR09=01) must not be reported with 0 expected days of attendance.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <block>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" underline="true" font-size="medium">Check Calendar and Attendance:</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer width="15" />
+              <text font-size="medium">1.  Verify that if the staff has a calendar assigned (check closely for spaces, typos, and differences in capitalization), and SR36 and SR37 do not have a value greater than 0.</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer width="15" />
+              <text font-size="medium">2.  If the district doesn't use Staff calendars, be sure SR36 and SR37 are populated accordingly.</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer width="15" />
+              <text font-size="medium">3.  Verify that the Staff has one and only one Staff Position flagged as SIF SFP Primary Assignment = Y.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <property alias="SR09" label="SR09 Status" label-short="false" />
+          <property id="stfCalendarID" label-short="false" />
+          <property alias="SR36-STF ADJUSTED" label="SR36 Adjusted Days Present" label-short="false" />
+          <property alias="SR37-STF ADJUSTED" label="SR37 Adjusted Days Expected" label-short="false" />
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="medium">WA06-WA12 Staff Positions</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="epimsSIFDetail.positionPopup" id="positions" popup-height="450" popup-width="550" relationship="relStfSfpOid" selection-type="multiple">
+                <field id="relSfpSklOid.sklSchoolName" />
+                <field alias="SIF SFP Primary Assignment" />
+                <field alias="SIF Job Function" />
+                <field alias="WA07-SFP" />
+                <field alias="WA08-SFP" />
+                <field alias="WA12-SFP" />
+                <field id="sfpStartDate" />
+                <field id="sfpEndDate" />
+                <field alias="Adjusted District ID" />
+                <field alias="EPIMS SFP Status" />
+                <filter connector="and" source="sql" value="SFP_END_DATE IS NULL">
+                  <filter connector="or" field="sfpEndDate" operator="greaterOrEqual" source="session" value="district.currentContext.startDate" />
+                </filter>
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

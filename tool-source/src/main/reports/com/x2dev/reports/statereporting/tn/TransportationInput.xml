@@ -1,0 +1,105 @@
+<!-- ************************************************************ -->
+<!-- INPUT DEFINITIONS FOR THE "TN Transportation ADT" REPORT -->
+<!-- ************************************************************ -->
+<tool-input allow-school-select="false" district-support="true">
+ 
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+ 
+ <!-- ******* -->
+ <!-- SCHOOLS -->
+ <!-- ******* -->
+
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         
+         <filter field="sklInactiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+
+ <!-- ********** -->
+ <!-- BUS NUMBERS-->
+ <!-- ********** -->
+ <input name="busNumbers" data-type="string" display-type="picklist" display-name="Bus Numbers" required="false" >
+     <picklist field-id="rcdCode" multiple="true" >
+     <field id="rcdCode" sort="true" />
+     <filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="Bus Codes" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     </picklist>
+ </input> 
+
+
+ <!-- ************ -->
+ <!-- SELECT REPORT MODE-->
+ <!-- ************ -->
+ <input name="reportMode" data-type="integer" display-type="select" display-name="Annual or Period" >
+     <option value="0" display-name="Annual" />
+     <option value="2" display-name="Annual as of" />
+     <option value="1" display-name="Report Period" />
+  <disable input-name="reportPeriod" if-parent-equals="0" />
+  <disable input-name="reportPeriod" if-parent-equals="2" />
+  <disable input-name="reportDate" if-parent-equals="0" />
+  <disable input-name="reportDate" if-parent-equals="1" />
+
+ </input>
+
+ <!-- ************ -->
+ <!-- REPORT PERIOD -->
+ <!-- ************ -->
+ <input name="reportPeriod" data-type="string" display-type="picklist" display-name="Report Period"  >
+     <picklist field-id="rcdCode">
+     <field id="rcdCode"/>
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+     </picklist>
+ </input> 
+
+ <!-- **************** -->
+ <!-- REPORT DATE -->
+ <!-- **************** -->
+ <input name="reportDate" data-type="date" display-type="date" display-name="Report date" default-value="today" required="true"/>
+
+ <!-- *************************** -->
+ <!-- INCLUDE BUSSES NOT REPORTED -->
+ <!-- *************************** -->
+ <input name="inclBussesNotReported" data-type="boolean" display-type="checkbox" display-name="Include buses not reported" default-value="false"/>
+ 
+ <!-- ********************* -->
+ <!-- PRINT DISTRICT TOTALS -->
+ <!-- ********************* -->
+ <input name="printTotals" data-type="boolean" display-type="checkbox" display-name="Print District Totals" default-value="true"/>
+ 
+ <!-- *********** -->
+ <!-- GRADE CODES -->
+ <!-- *********** -->
+ <input name="delimiter" data-type="string" display-type="hidden" default-value=","/>
+ <input name="k12GradesNumeric" data-type="string" display-type="hidden" default-value="0,1,2,3,4,5,6,7,8,9,10,11,12"/>
+ 
+  <!-- ********** -->
+  <!-- SUBREPORTS -->
+  <!-- ********** -->
+ 
+  <input name="subreportIdPDFVersion" data-type="string" display-type="hidden" default-value ="TN_TRANS_ADT"/>
+  <input name="subreportIdCSVVersion" data-type="string" display-type="hidden" default-value ="TN_STR_DETAIL_REPORT"/>
+
+</tool-input>

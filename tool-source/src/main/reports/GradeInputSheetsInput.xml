@@ -1,0 +1,71 @@
+<!-- ***************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "GRADE INPUT SHEETS" REPORT -->
+<!-- ***************************************************** -->
+
+<tool-input context="com.x2dev.sis.model.beans.MasterSchedule" district-support="false">
+
+ <!-- ********** -->
+ <!-- GRADE TERM -->
+ <!-- ********** -->
+
+ <input name="gradeTermOid" data-type="string" display-type="picklist" display-name="report.shared.term" default-value="currentGradeTerm" required="true">
+  <picklist field-id="gtmGrdTermID">
+   <field id="gtmGrdTermID" sort="true" />
+   <field id="gtmGrdTermNum" />
+   <filter field="relGtmGtaOid.gtaSklOID" operator="equals" source="session" value="school.oid" />
+   <filter field="relGtmGtaOid.gtaCtxOID" operator="equals" source="session" value="organization.currentContextOid" />
+  </picklist>
+ </input>
+
+ <!-- ************************* -->
+ <!-- GRADE TYPE - TERM/WARNING -->
+ <!-- ************************* -->
+
+ <input name="gradeType" data-type="integer" display-type="select" display-name="report.shared.gradeType">
+  <option value="1" display-name="format.gradeType.term" />
+  <option value="0" display-name="format.gradeType.progress"/>
+ </input>
+
+ <!-- ************** -->
+ <!-- COLUMNS SOURCE -->
+ <!-- ************** -->
+
+ <input name="columnsSource" data-type="integer" display-type="select" display-name="report.gradeSheets.columnsToInclude">
+  <option value="0" display-name="report.gradeSheets.columnsToInclude.0" />
+  <option value="1" display-name="report.gradeSheets.columnsToInclude.1" />
+  <disable input-name="columns" if-parent-equals="0" />
+ </input>
+
+ <!-- ******* -->
+ <!-- COLUMNS -->
+ <!-- ******* -->
+
+ <input name="columns" data-type="string" display-type="text" display-name="report.gradeSheets.columns" />
+ 
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query.masterSchedule">
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true" />
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="primaryStaff.departmentCode" display-name="report.shared.query.department" context-dependent="true" />
+  <option value="1" display-name="report.shared.query.teacherNamesBeginningWith" context-dependent="true" />
+  <option value="2" display-name="report.shared.course" />
+  <disable input-name="queryString" if-parent-equals="##current" />  
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="##current" display-name="report.shared.sort.currentSort" context-dependent="true" />
+  <option value="primaryStaff.departmentCode, primaryStaff.nameView, courseView" display-name="report.shared.sort.department" context-dependent="true" />
+  <option value="primaryStaff.nameView, courseView" display-name="report.shared.sort.name" context-dependent="true" />
+  <option value="courseView" display-name="report.shared.sort.courseNumber" />
+ </input>
+
+</tool-input>

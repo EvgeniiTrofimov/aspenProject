@@ -1,0 +1,66 @@
+<!-- **************************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "DIRECTORS ANNUAL SPECIAL EDUCATION REPORT" CONFIGURED FOR "DIRECTORS ANNUAL SPECIAL EDUCATION REPORT" REPORT -->
+<!-- **************************************************************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- ******* -->
+ <!-- SCHOOLS -->
+ <!-- ******* -->
+
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         <filter field="sklInactiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+
+ <!-- ************ -->
+ <!-- MONTH CHOICE -->
+ <!-- ************ -->
+ <input name="month" data-type="string" display-type="picklist" display-name="Month of School" >
+     <picklist field-id="rcdCode">
+     <field id="rcdCode"/>
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+     </picklist>
+ </input>
+
+ <!-- **************** -->
+ <!-- DISTRICT SUMMARY -->
+ <!-- **************** -->
+ <input name="includeDistrictSummary" data-type="boolean" display-type="checkbox" display-name="Include Summary"  default-value="true"/>
+ <input name="summaryOnly" data-type="boolean" display-type="checkbox" display-name="Summary Only"  default-value="false"/>
+
+ <!-- *********************** -->
+ <!-- EARLY GRADUATES and IEA -->
+ <!-- *********************** -->
+ <input name="includeEarlyGraduates" data-type="boolean" display-type="checkbox" display-name="Include Early Graduates"  default-value="false"/>
+ <input name="includeIEA" data-type="boolean" display-type="checkbox" display-name="Include IEA Students"  default-value="false"/>
+ 
+ <input name="subreportIdPDFVersion" data-type="string" display-type="hidden" default-value ="TN_DIR_SPED_MONTH"/>
+ <input name="subreportIdCSVVersion" data-type="string" display-type="hidden" default-value ="TN_DIR_SPED_CSV"/>
+
+</tool-input>

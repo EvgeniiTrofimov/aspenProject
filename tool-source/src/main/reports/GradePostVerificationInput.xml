@@ -1,0 +1,83 @@
+<!-- ********************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "GRADE POST VERIFICATION" REPORT -->
+<!-- ********************************************************** -->
+
+<tool-input allow-school-select="false">
+
+ <!-- ********** -->
+ <!-- GRADE TERM -->
+ <!-- ********** -->
+
+ <input name="gradeTermOid" data-type="string" display-type="picklist" display-name="report.shared.term" default-value="currentGradeTerm">
+  <picklist field-id="gtmGrdTermID">
+   <field id="gtmGrdTermID" sort="true" />
+   <field id="gtmGrdTermNum" />
+   <filter field="relGtmGtaOid.gtaSklOID" operator="equals" source="session" value="school.oid" />
+   <filter field="relGtmGtaOid.gtaCtxOID" operator="equals" source="session" value="organization.currentContextOid" />
+  </picklist>
+ </input>
+
+ <!-- ****************** -->
+ <!-- GRADE POST CONTROL -->
+ <!-- ****************** -->
+
+ <input name="gradePostControlOid" data-type="string" display-type="picklist" display-name="report.shared.postType">
+  <picklist field-id="gpoSummary">
+   <field id="gpoSummary" sort="true" />
+   <field id="relGpoGtmOid.gtmGrdTermID" />
+   <filter field="gpoSklOID" operator="equals" source="session" value="schoolOid" >
+    <filter field="gpoCtxOID" operator="equals" source="session" value="organization.currentContextOid" >
+     <filter field="gpoGtmOID" operator="equals" source="input" value="gradeTermOid" >
+      <filter field="gpoGtmOID" operator="empty" source="constant" connector="or" />
+     </filter>
+    </filter>
+   </filter>
+  </picklist>
+ </input>
+
+ <!-- ********************************* -->
+ <!-- GRADE COLUMN (for count purposes) -->
+ <!-- ********************************* -->
+
+ <input name="transcriptColumnOid" data-type="string" display-type="picklist" display-name="report.shared.gradeColumn">
+  <picklist action="transcriptColumnPickList.do" field-id="gtcName">
+   <field id="gtcName" sort="true" />
+   <field id="gtcColumnHdr" />
+   <field id="relGtcGtdOid.gtdName" />
+  </picklist>
+ </input>
+
+ <!-- ********************** -->
+ <!-- Group by Class -->
+ <!-- ********************** -->
+
+ <input name="groupByClass" data-type="boolean" display-type="checkbox" display-name="report.gradepost.groupByClass" default-value="false" />
+
+ <!-- ********************** -->
+ <!-- Hide from Grade Input -->
+ <!-- ********************** -->
+
+ <input name="hideFromGradeInput" data-type="boolean" display-type="checkbox" display-name="report.gradepost.hideFromGradeInput" default-value="false" />
+
+ <!-- ******************* -->
+ <!-- SHOW NON-POSTS ONLY -->
+ <!-- ******************* -->
+
+ <input name="nonPostsOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.showNoPosts" default-value="false"/>
+
+ <!-- ********************** -->
+ <!-- EXCLUDE EMPTY SECTIONS -->
+ <!-- ********************** -->
+ 
+ <input name="excludeEmpty" data-type="boolean" display-type="checkbox" display-name="report.gradepost.exludeEmpty" default-value="true" />
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="staffView, courseView" display-name="Teacher" />
+  <option value="courseView" display-name="Section" />
+ </input>
+
+</tool-input>

@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="PACASSummary"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="948"
+		 pageHeight="612"
+		 columnWidth="948"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+
+	<field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="stdCount" class="java.lang.Integer"/>
+	<field name="ADA" class="java.lang.Double"/>
+	<field name="ADM" class="java.lang.Double"/>
+	<field name="stdType" class="java.lang.String"/>
+
+	<variable name="stdsCount" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Students".equals($F{stdType}) && "ALL".equals($F{grade})  ? $F{stdCount} : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="resCount" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Resident students".equals($F{stdType}) && "ALL".equals($F{grade})  ? $F{stdCount} : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="nonResCount" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Non-Resident students".equals($F{stdType}) && "ALL".equals($F{grade})? $F{stdCount} : new Integer(0)]]></variableExpression>
+	</variable>
+	<variable name="allADA" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADA} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="allADM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADM} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="resADA" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Resident students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADA} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="resADM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Resident students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADM} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="nonResADA" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Non-Resident students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADA} : new Double(0.0)]]></variableExpression>
+	</variable>
+	<variable name="nonResADM" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA["Non-Resident students".equals($F{stdType}) && "ALL".equals($F{grade}) ? $F{ADM} : new Double(0.0)]]></variableExpression>
+	</variable>
+
+		<group  name="school" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{school}]]></groupExpression>
+			<groupHeader>
+			<band height="50"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="165"
+						y="27"
+						width="90"
+						height="23"
+						key="staticText-2"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Grade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="255"
+						y="27"
+						width="90"
+						height="23"
+						key="staticText-3"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Count]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="27"
+						width="165"
+						height="23"
+						key="textField-1"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getName()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="345"
+						y="27"
+						width="90"
+						height="23"
+						key="staticText-4"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ADA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="435"
+						y="27"
+						width="90"
+						height="23"
+						key="staticText-5"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="948"
+						height="13"
+						key="staticText-6"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Summary]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="165"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{stdType}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="165"
+						y="0"
+						width="90"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{grade}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="255"
+						y="0"
+						width="90"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stdCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="345"
+						y="0"
+						width="90"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ADA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="435"
+						y="0"
+						width="90"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{ADM}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="180"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="11"
+						width="948"
+						height="13"
+						key="staticText-7"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Grand Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="32"
+						width="171"
+						height="13"
+						key="staticText-8"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Number of Students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="45"
+						width="171"
+						height="13"
+						key="staticText-9"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Number of Resident Students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="58"
+						width="171"
+						height="13"
+						key="staticText-10"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Number of Non-Resident Students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="71"
+						width="171"
+						height="13"
+						key="staticText-11"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Number of AVTS students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="84"
+						width="171"
+						height="13"
+						key="staticText-13"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Number of IU Inclusion students]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="97"
+						width="171"
+						height="13"
+						key="staticText-14"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[All Student ADA/ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="110"
+						width="171"
+						height="13"
+						key="staticText-15"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[All Resident Student ADA/ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="123"
+						width="171"
+						height="13"
+						key="staticText-16"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[All Non-Resident Student ADA/ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="136"
+						width="171"
+						height="13"
+						key="staticText-17"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[All AVTS Student ADA/ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="149"
+						width="171"
+						height="13"
+						key="staticText-18"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[All IU Student ADA/ADM]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="32"
+						width="148"
+						height="13"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{stdsCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="58"
+						width="148"
+						height="13"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{nonResCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="45"
+						width="148"
+						height="13"
+						key="textField-2"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{resCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="97"
+						width="69"
+						height="13"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{allADA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="110"
+						width="69"
+						height="13"
+						key="textField-3"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{resADA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="171"
+						y="123"
+						width="69"
+						height="13"
+						key="textField-4"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{nonResADA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="97"
+						width="54"
+						height="13"
+						key="textField-5"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{allADM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="110"
+						width="54"
+						height="13"
+						key="textField-6"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{resADM}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="123"
+						width="54"
+						height="13"
+						key="textField-7"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="7"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{nonResADA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="240"
+						y="97"
+						width="25"
+						height="13"
+						key="staticText-19"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="240"
+						y="110"
+						width="25"
+						height="13"
+						key="staticText-20"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="240"
+						y="123"
+						width="25"
+						height="13"
+						key="staticText-21"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[/]]></text>
+				</staticText>
+			</band>
+		</summary>
+</jasperReport>

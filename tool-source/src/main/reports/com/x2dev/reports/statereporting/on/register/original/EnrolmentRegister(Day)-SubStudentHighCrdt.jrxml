@@ -1,0 +1,1537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EnrRegDaySubStdHcFte16" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="744" leftMargin="24" rightMargin="24" topMargin="24" bottomMargin="4" isFloatColumnFooter="true" uuid="46ce754e-af20-47d5-bb3e-f0cb8552665c">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="1"/>
+	<property name="ireport.y" value="89"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="com.x2dev.utils.StringUtils"/>
+	<import value="com.x2dev.sis.model.beans.StudentEventTracking"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="organization" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<parameter name="currentContext" class="com.follett.fsc.core.k12.beans.DistrictSchoolYearContext"/>
+	<parameter name="longDateFormat" class="java.text.DateFormat"/>
+	<parameter name="shortDateFormat" class="java.text.DateFormat"/>
+	<parameter name="timestampFormat" class="java.text.DateFormat"/>
+	<parameter name="schoolContext" class="java.lang.Boolean"/>
+	<parameter name="prefix" class="java.lang.String"/>
+	<parameter name="dateFmtOutput" class="java.text.DateFormat"/>
+	<parameter name="intFmtOutput" class="java.text.DecimalFormat"/>
+	<parameter name="decFmtOutput" class="java.text.DecimalFormat"/>
+	<parameter name="schoolLocale" class="org.apache.struts.util.MessageResources"/>
+	<parameter name="ontarioAliasForRptMap" class="java.util.Map">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="reportType" class="java.lang.String"/>
+	<parameter name="gradeRange" class="java.lang.String"/>
+	<parameter name="displaySumStdFte" class="java.lang.Boolean"/>
+	<parameter name="effectiveDate" class="java.util.Date"/>
+	<parameter name="endDateSklMonth" class="java.lang.Integer"/>
+	<parameter name="sklMonthOct" class="java.lang.Integer"/>
+	<parameter name="sklMonthMar" class="java.lang.Integer"/>
+	<parameter name="pBCtOct" class="java.lang.Integer"/>
+	<parameter name="pBCtMar" class="java.lang.Integer"/>
+	<parameter name="oPCtOct" class="java.lang.Integer"/>
+	<parameter name="oPCtMar" class="java.lang.Integer"/>
+	<parameter name="pBCtAdultOct" class="java.lang.Integer"/>
+	<parameter name="pBCtAdultMar" class="java.lang.Integer"/>
+	<parameter name="oPCtAdultOct" class="java.lang.Integer"/>
+	<parameter name="oPCtAdultMar" class="java.lang.Integer"/>
+	<parameter name="pBFteSumOct" class="java.lang.Double"/>
+	<parameter name="pBFteSumMar" class="java.lang.Double"/>
+	<parameter name="oPFteSumOct" class="java.lang.Double"/>
+	<parameter name="oPFteSumMar" class="java.lang.Double"/>
+	<parameter name="pBFteSumAdultOct" class="java.lang.Double"/>
+	<parameter name="pBFteSumAdultMar" class="java.lang.Double"/>
+	<parameter name="oPFteSumAdultOct" class="java.lang.Double"/>
+	<parameter name="oPFteSumAdultMar" class="java.lang.Double"/>
+	<parameter name="pBFteSumHcOct" class="java.lang.Double"/>
+	<parameter name="pBFteSumHcMar" class="java.lang.Double"/>
+	<parameter name="oPFteSumHcOct" class="java.lang.Double"/>
+	<parameter name="oPFteSumHcMar" class="java.lang.Double"/>
+	<parameter name="pBFteSumHcAdultOct" class="java.lang.Double"/>
+	<parameter name="pBFteSumHcAdultMar" class="java.lang.Double"/>
+	<parameter name="oPFteSumHcAdultOct" class="java.lang.Double"/>
+	<parameter name="oPFteSumHcAdultMar" class="java.lang.Double"/>
+	<field name="sumStdLastRow" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumStudent" class="com.x2dev.sis.model.beans.SisStudent"/>
+	<field name="sumOtherPupilInd" class="java.lang.Boolean"/>
+	<field name="sumRowAdultInd" class="java.lang.Boolean"/>
+	<field name="sumRowOctInd" class="java.lang.Boolean"/>
+	<field name="sumRowMarInd" class="java.lang.Boolean"/>
+	<field name="sumMinsOct" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumFteOct" class="java.lang.Double"/>
+	<field name="sumMinsMar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumFteMar" class="java.lang.Double"/>
+	<field name="sumMinsHcOct" class="java.lang.Integer"/>
+	<field name="sumFteHcOct" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumMinsHcMar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumFteHcMar" class="java.lang.Double"/>
+	<variable name="date" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[$P{timestampFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="octAllNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[(($F{sumMinsOct} == null) && ($F{sumMinsHcOct} == null)) ? true : false]]></variableExpression>
+	</variable>
+	<variable name="octRegNotNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$F{sumMinsOct} != null ? true : false]]></variableExpression>
+	</variable>
+	<variable name="octHcNotNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$F{sumMinsHcOct} != null ? true : false]]></variableExpression>
+	</variable>
+	<variable name="marAllNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[(($F{sumMinsMar} == null) && ($F{sumMinsHcMar} == null)) ? true : false]]></variableExpression>
+	</variable>
+	<variable name="marRegNotNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$F{sumMinsMar} != null ? true : false]]></variableExpression>
+	</variable>
+	<variable name="marHcNotNull" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$F{sumMinsHcMar} != null ? true : false]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="114">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="0" width="744" height="75" uuid="64f37bf9-e759-4e36-9624-657f5005d9c3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.1"/>
+					<leftPen lineWidth="0.1"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.1"/>
+				</box>
+				<textField>
+					<reportElement x="100" y="0" width="545" height="20" uuid="053d8fd7-10d8-40dc-8512-b1909d702480"/>
+					<textElement textAlignment="Center" markup="none">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(!$P{displaySumStdFte} ? $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.sum.std") : $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.sum.stdfte")).replace("-*-schoolYear-*-", $P{currentContext}.getContextId())]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="20" width="545" height="20" uuid="74e3c2c5-6bef-46a1-be6d-ddc07430ece7"/>
+					<textElement textAlignment="Center" markup="none">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{school}.getName()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="40" width="545" height="20" uuid="0563c3b7-d83e-4f7d-a03e-819f6f5cbd81"/>
+					<textElement textAlignment="Center" markup="none">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($P{reportType}.contains("Ft")) ? 
+    $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.ft") : ""
+) 
++ (($P{reportType}.contains("Pt")) ? 
+    $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.pt") : ""
+  ) 
++ (($P{reportType}.contains("Elem")) ? 
+    " - " + $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.type." + $P{gradeRange}) 
+    : (
+        ((!$F{sumRowAdultInd}) ? " - " + $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.under.21") : "") 
+        + (($F{sumRowAdultInd}) ? " - " + $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.card.atover.21") : "")
+      )
+   )]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-314" x="100" y="60" width="545" height="15" isRemoveLineWhenBlank="true" uuid="b453441d-1179-49d5-b545-495b3a798005">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true" isUnderline="false"/>
+						<paragraph lineSpacing="Proportional"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.report.date") + " " 
++ $V{date} + "     " 
++ $P{schoolLocale}.getMessage($P{prefix} + "rpt.report.effective.date") + " " 
++ $P{shortDateFormat}.format($P{effectiveDate})]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement key="" x="0" y="75" width="744" height="39" uuid="e3d955fb-2e2c-4a31-888b-925ce7ab638a">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.1"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.1"/>
+				</box>
+				<frame>
+					<reportElement x="0" y="0" width="744" height="12" uuid="7bf3e118-395f-47a2-bf9f-589b4ae56fc5">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.1"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.1"/>
+					</box>
+					<textField>
+						<reportElement key="staticText" mode="Transparent" x="0" y="0" width="744" height="12" backcolor="#FFFFFF" uuid="759192d1-fc50-4dcf-a8ca-4a125bf33eb7">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.mins.desc.hc")]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="0" y="12" width="744" height="27" uuid="d9ce5a90-102e-4b89-8d89-1d6ff418017a">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.1"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.1"/>
+					</box>
+					<frame>
+						<reportElement x="0" y="0" width="744" height="27" uuid="dcb9be96-060e-470f-b11c-95116b5349bc">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.1"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.1"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="185" y="0" width="280" height="11" forecolor="#000000" backcolor="#FFFFFF" uuid="3ed420bf-2c38-40b8-b493-fd934e2a4059">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle">
+								<font fontName="Arial" size="8" isBold="true"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{sumRowOctInd} ? (
+    $P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.oct")
+   	)
+: ($F{sumRowMarInd} ? (		
+    $P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.mar")
+	) 
+  : "")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="11" width="40" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="e958638c-3eb5-453f-87d3-017fb4bbf995">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.student.op")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="45" y="11" width="200" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="f6f77b2a-287a-44c6-a443-1d51988e985e">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.student.name2")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="245" y="11" width="75" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="12da5832-542a-4e04-8520-9202fc8eb875">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.mins.reg").replace("-*-newline-*-", "\r\n")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="320" y="11" width="75" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="d78d89a3-0798-46d6-bf09-e9739537b0f3">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.mins.hc").replace("--newline--", "\r\n")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="395" y="11" width="75" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="a0e56db5-4f95-4c89-a11a-a294c4152b77">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.ftes.reg").replace("--newline--", "\r\n")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="470" y="11" width="75" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="22e73730-defd-4446-b599-d16ad4dd2bd7">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Bottom">
+								<font fontName="SansSerif" size="8"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.ftes.hc").replace("--newline--", "\r\n")]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<frame>
+				<reportElement x="0" y="0" width="744" height="20" uuid="9acbd058-67d0-4b06-973c-3f984a395828">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.1"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.1"/>
+				</box>
+				<frame>
+					<reportElement x="0" y="2" width="744" height="15" uuid="47323b9f-2dd8-426d-aa05-9a7fc85a6703">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="0" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="5ffeed43-5f22-4a2c-8e46-30bbd184d461">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumOtherPupilInd} ?
+$P{schoolLocale}.getMessage($P{prefix} + "rpt.student.op")
+: ""]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="45" y="0" width="200" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="577bcfe1-7835-4e0e-af71-0d8a075b7ae3">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumStudent}.getPerson().getFieldValueByAlias((String) ($P{ontarioAliasForRptMap}.get("ALIAS_PSN_LEGAL_LAST_NAME"))) + ", " +
+$F{sumStudent}.getPerson().getFieldValueByAlias((String) ($P{ontarioAliasForRptMap}.get("ALIAS_PSN_LEGAL_FIRST_NAME")))]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="245" y="0" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="d7072ca6-6b50-4bfb-ba0b-0e335f1ef3bc">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumRowOctInd} ? (
+	$V{octAllNull} ? "*" : ($V{octRegNotNull} ? $P{intFmtOutput}.format($F{sumMinsOct}) : "")
+   	)
+: ($F{sumRowMarInd} ? (
+	$V{marAllNull} ? "*" : ($V{marRegNotNull} ? $P{intFmtOutput}.format($F{sumMinsMar}) : "")
+	) 
+  : "")]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="320" y="0" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="00b2b264-ec0f-43cb-bf40-9ffe793bc366">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumRowOctInd} ? (
+    $V{octAllNull} ? "*" : ($V{octHcNotNull} ? $P{intFmtOutput}.format($F{sumMinsHcOct}) : "")
+   	)
+: ($F{sumRowMarInd} ? (
+    $V{marAllNull} ? "*" : ($V{marHcNotNull} ? $P{intFmtOutput}.format($F{sumMinsHcMar}) : "")
+	) 
+  : "")]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="395" y="0" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="0ae2a73d-d570-4bf1-8aa6-6a91da2149a7">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumRowOctInd} ? (
+    $V{octAllNull} ? "*" : ($V{octRegNotNull} ? $P{decFmtOutput}.format($F{sumFteOct}) : "")
+   	)
+: ($F{sumRowMarInd} ? (
+    $V{marAllNull} ? "*" : ($V{marRegNotNull} ? $P{decFmtOutput}.format($F{sumFteMar}) : "")
+	) 
+  : "")]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="470" y="0" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="2c4f52e9-0c74-44a7-a35d-dd52b5657547">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement textAlignment="Center" verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{sumRowOctInd} ? (
+    $V{octAllNull} ? "*" : ($V{octHcNotNull} ? $P{decFmtOutput}.format($F{sumFteHcOct}) : "")
+   	)
+: ($F{sumRowMarInd} ? (	
+    $V{marAllNull} ? "*" : ($V{marHcNotNull} ? $P{decFmtOutput}.format($F{sumFteHcMar}) : "")
+	) 
+  : "")]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="-80" width="744" height="90" uuid="bd2f6077-114b-4901-843a-e01a747ea157">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.1"/>
+					<bottomPen lineWidth="0.1"/>
+					<rightPen lineWidth="0.1"/>
+				</box>
+			</frame>
+			<frame>
+				<reportElement x="0" y="10" width="744" height="15" uuid="68874055-8f18-45e2-ae3e-be7251bc266b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField-314" x="0" y="0" width="400" height="15" isRemoveLineWhenBlank="true" forecolor="#626262" uuid="e66368c9-239a-4104-aa18-732539b5691f">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8" isBold="false" isUnderline="false"/>
+						<paragraph lineSpacing="Proportional"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.report.footer")]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="200" splitType="Prevent">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<printWhenExpression><![CDATA[$F{sumRowMarInd}
+|| (!($P{sklMonthMar}.intValue() <= $P{endDateSklMonth}.intValue()))]]></printWhenExpression>
+			<frame>
+				<reportElement x="0" y="0" width="744" height="200" uuid="616e5040-5a92-407e-8234-1f6fe55fdc33">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.1" lineStyle="Solid"/>
+					<leftPen lineWidth="0.1"/>
+					<bottomPen lineWidth="0.1" lineStyle="Solid"/>
+					<rightPen lineWidth="0.1"/>
+				</box>
+				<frame>
+					<reportElement x="5" y="5" width="280" height="165" uuid="be5e0e91-0752-43a4-9bf5-04608ffc5cb4">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<frame>
+						<reportElement x="0" y="0" width="280" height="15" uuid="811dbe59-9d71-40f3-8920-874def8f82f6">
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField>
+							<reportElement key="staticText" mode="Transparent" x="0" y="0" width="280" height="15" backcolor="#FFFFFF" uuid="04c416db-52c8-48ae-b337-82cdc743ba61">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+								<font fontName="Arial" size="8" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.enr.summ")]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="15" width="280" height="15" uuid="64cf6b01-f1f0-472c-916d-828c9928e683">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="280" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="a1dcce17-2c6f-49b6-981b-1151618f1b40">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unitheight" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.enr.summ.01").replace("--newline--","\r\n")]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="30" width="280" height="45" uuid="58ecc3f2-9813-4394-8222-3977ac0955f8">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="280" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="1eb9e188-8715-437c-8820-62423b7992bc">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.enr.summ.02")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="15" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="a5fc906c-dc08-4953-8278-bf91f1171e22">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.pupils.board")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="30" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="576bdc5e-fe68-44a7-87ab-ad0eb964ab64">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.other.pupils")]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="75" width="280" height="90" uuid="a78b5339-7d73-40b0-8435-da3e7afb7622">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="280" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="813f2da2-2423-4f5a-92fb-0ede290ad1e4">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.enr.summ.03")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="15" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="bf230c26-c260-4282-a52f-d6ede2ede924">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="Arial" isItalic="true"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.pupils.board")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="30" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="201eab7b-4a40-4d92-a02a-6c5a3bb50486">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.pupils.reg")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="45" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="4424d73a-7ca9-4a52-8069-c234d25e3fee">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.pupils.hc")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="60" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="54542e64-f099-49c2-bdb6-b82a469fe70e">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="Arial" isItalic="true"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.other.pupils")]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="5" y="75" width="275" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="bc6814c2-b3bf-4115-ba45-2913fbeb01b4">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.pupils.reg")]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+				<frame>
+					<reportElement x="285" y="5" width="50" height="15" uuid="4d9627ac-95c7-47ac-a7de-94ce07cf4a6b">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textField>
+						<reportElement key="staticText" mode="Transparent" x="0" y="0" width="50" height="15" backcolor="#FFFFFF" uuid="d3750d12-7413-410a-a2e2-e77c5bd9468d">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+							<font fontName="Arial" size="8" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.oct")]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="335" y="5" width="50" height="15" uuid="16218ab9-fdac-41a8-b2f1-c4432bb938a9">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textField>
+						<reportElement key="staticText" mode="Transparent" x="0" y="0" width="50" height="15" backcolor="#FFFFFF" uuid="40fd00e3-5d18-4e8a-b6fe-36abfebe65bb">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+							<font fontName="Arial" size="8" isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.sum.mar")]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="285" y="5" width="50" height="165" uuid="f8d1376d-1fde-482e-b874-26547aba80f2">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<printWhenExpression><![CDATA[$P{sklMonthOct}.intValue() <= $P{endDateSklMonth}.intValue()]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<frame>
+						<reportElement x="0" y="15" width="50" height="15" uuid="ddfb7fb4-ffe4-4531-8c2e-16bcae9be611">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="9f83e102-3bc0-4319-9e91-c8206ea68b75">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{ontarioAliasForRptMap}.get("ENR_ELEM_CYCLE_MINS_TOT")]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="30" width="50" height="45" uuid="398bdf40-b9e4-4f9d-81e9-6abcaa5e0924">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="15" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="a49f43d2-ecf8-4f46-86e6-786b7c7e90fb">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{intFmtOutput}.format($P{pBCtOct}) : $P{intFmtOutput}.format($P{pBCtAdultOct})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="30" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="b1682cc0-6e9f-4c9b-b1dc-e7574830e105">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{intFmtOutput}.format($P{oPCtOct}) : $P{intFmtOutput}.format($P{oPCtAdultOct})]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="75" width="50" height="90" uuid="2545a79e-60f8-4bf6-8f24-14991bf5f99b">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="30" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="2818a70a-4196-4c54-84fa-3fc5bcdfde75">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{pBFteSumOct}) : $P{decFmtOutput}.format($P{pBFteSumAdultOct})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="45" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="ff558da1-cdcf-4310-b3b3-5d401c0310ce">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{pBFteSumHcOct}) : $P{decFmtOutput}.format($P{pBFteSumHcAdultOct})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="75" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="63390836-fc9b-4f6c-b5c6-1b380578c736">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{oPFteSumOct}) : $P{decFmtOutput}.format($P{oPFteSumAdultOct})]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+				<frame>
+					<reportElement x="335" y="5" width="50" height="165" uuid="502b0729-03f3-4b4c-8a88-c0fa15b08d25">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<printWhenExpression><![CDATA[$P{sklMonthMar}.intValue() <= $P{endDateSklMonth}.intValue()]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<frame>
+						<reportElement x="0" y="15" width="50" height="15" uuid="fa5dd0ec-c51a-4cef-9e3b-70956cd1034e">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="86c83a36-c4ef-4eac-86f0-aa58b5e1a078">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$P{ontarioAliasForRptMap}.get("ENR_ELEM_CYCLE_MINS_TOT")]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="30" width="50" height="45" uuid="1d9fe552-4cc0-47ed-9958-02f037d92764">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="15" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="c5ee6daf-174c-4fc6-93b5-d25f05aa5edb">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{intFmtOutput}.format($P{pBCtMar}) : $P{intFmtOutput}.format($P{pBCtAdultMar})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="30" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="51b4cd65-c51f-4507-8a56-77246bd3dabb">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{intFmtOutput}.format($P{oPCtMar}) : $P{intFmtOutput}.format($P{oPCtAdultMar})]]></textFieldExpression>
+						</textField>
+					</frame>
+					<frame>
+						<reportElement x="0" y="75" width="50" height="90" uuid="a09f69af-45ec-4618-8020-fc24e4544431">
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitheight" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<box>
+							<topPen lineWidth="0.0"/>
+							<leftPen lineWidth="0.0"/>
+							<bottomPen lineWidth="0.0"/>
+							<rightPen lineWidth="0.0"/>
+						</box>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="30" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="acfb609a-28fe-4258-ab52-18e9985f6394">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{pBFteSumMar}) : $P{decFmtOutput}.format($P{pBFteSumAdultMar})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="45" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="4f552df4-6663-45d9-b54e-dece05fbf2f2">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{pBFteSumHcMar}) : $P{decFmtOutput}.format($P{pBFteSumHcAdultMar})]]></textFieldExpression>
+						</textField>
+						<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+							<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="75" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="7ea31923-7272-40e2-aa3a-6ff67b80db6a">
+								<property name="local_mesure_unitx" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="local_mesure_unitwidth" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="local_mesure_unity" value="pixel"/>
+							</reportElement>
+							<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+								<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+								<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Right" verticalAlignment="Top">
+								<font fontName="SansSerif"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[(!$F{sumRowAdultInd}) ? $P{decFmtOutput}.format($P{oPFteSumMar}) : $P{decFmtOutput}.format($P{oPFteSumAdultMar})]]></textFieldExpression>
+						</textField>
+					</frame>
+				</frame>
+				<frame>
+					<reportElement x="5" y="180" width="550" height="18" uuid="db823489-91a3-4e89-9640-bcf191dc90bc">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="2" width="125" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="eabb9241-a769-4401-8aca-a35f3972c608">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.prin.cert")]]></textFieldExpression>
+					</textField>
+					<line>
+						<reportElement x="125" y="17" width="180" height="1" uuid="5fbe28b8-a35c-47de-b21f-97625126d9e4">
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						</reportElement>
+					</line>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+						<reportElement key="textField" stretchType="RelativeToBandHeight" mode="Transparent" x="330" y="2" width="40" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="89deda22-cc96-4e21-b655-2590417a5112">
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+							<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textElement verticalAlignment="Top">
+							<font fontName="SansSerif"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{schoolLocale}.getMessage($P{prefix} + "rpt.prin.cert.date")]]></textFieldExpression>
+					</textField>
+					<line>
+						<reportElement x="350" y="17" width="100" height="1" uuid="54aade05-1953-46a1-b0a5-d258ab9a7cef">
+							<property name="local_mesure_unity" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							<property name="local_mesure_unitx" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							<property name="local_mesure_unitwidth" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						</reportElement>
+					</line>
+				</frame>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

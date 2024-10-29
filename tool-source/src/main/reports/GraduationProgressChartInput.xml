@@ -1,0 +1,86 @@
+<!-- ****************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "GRADUATION PROGRESS" REPORT -->
+<!-- ****************************************************** -->
+
+<tool-input allow-school-select="true" district-support="true" context="com.x2dev.sis.model.beans.SisStudent" height="500" width="525">>
+
+<!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="currentContextOid" default-value-source="session">
+  <picklist field-id="ctxSchoolYear">
+   <field id="ctxSchoolYear" sort="false" />
+   <field id="ctxContextName" />
+  </picklist>
+ </input>
+
+ <!-- ****************** -->
+ <!-- PRGRAM OF STUDIES  -->
+ <!-- ****************** -->
+ <input name="programStudiesOid" data-type="string" display-type="picklist" display-name="report.graduationStats.programStudies">
+  <picklist field-id="gprName">
+   <field id="gprName"  sort="true" />
+   <field id="gprTtlCredit" />
+   <field id="gprDescription" />
+   <filter field="gprObsoleteInd" operator="equals" source="constant" value="0" />
+   <filter field="gprHideInd" operator="equals" source="constant" value="0" />
+  </picklist>
+ </input>
+ 
+ <input name="requirementOid" data-type="string" display-type="picklist" display-name="Requirement" required="false">
+  <picklist field-id="grqCode">
+   <field id="grqCode"  sort="true" />
+   <field id="grqType" />
+   <field id="grqDescription" />
+   <filter field="relGrqGprOid.gprOID" operator="equals" source="input" value="programStudiesOid" />
+  </picklist>
+ </input>
+ 
+ <!-- *********************** -->
+ <!-- STUDENT SELECT OPTIONS  -->
+ <!-- *********************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true"/>
+  <option value="yog" display-name="report.shared.query.yog" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ 
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" required="false"/>
+
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true"/>
+ 
+ <input name="excludeFreshman" data-type="boolean" display-type="checkbox" display-name="Exclude 9th grade" default-value="false" />
+  
+ <!-- *********************** -->
+ <!-- SCHOOL SELECT OPTIONS  -->
+ <!-- *********************** -->
+
+ <input name="schoolQueryBy" data-type="string" display-type="select" display-name="Include schools">
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="schoolLevelCode" display-name="School level" />
+  <option value="schoolTypeCode" display-name="School type" />
+  <disable input-name="schoolQueryString" if-parent-equals="##all" />
+ </input>
+ 
+ <input name="schoolQueryString" data-type="string" display-type="text" display-name="report.shared.queryString" required="true"/>
+ 
+ 
+ <!-- ******************** -->
+ <!-- SCHOOL BREAK OPTIONS -->
+ <!-- ******************** -->
+
+ <input name="breakByParam" data-type="string" display-type="select" display-name="Break school in graph by">
+  <option value="schoolLevelCode" display-name="School level" />
+  <option value="schoolTypeCode" display-name="School type" />
+ </input>
+
+<input name="createHistory" data-type="boolean" display-type="checkbox" display-name="Recalculate history" default-value="false" />
+
+</tool-input>

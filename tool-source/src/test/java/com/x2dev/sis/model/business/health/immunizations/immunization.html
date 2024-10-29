@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Immunization Cheat Sheet</title>
+  </head>
+  <body>
+    <table>
+	  <tr>
+	    <td>
+		  <input type="date" id="dob" onchange="calculateDoses()">
+	    </td>
+	  </tr>
+	</table>
+	<table>
+	  <tr>
+	    <td>
+		  <input type="date" id="dose0" onchange="calculateDoses()">
+	    </td>
+	    <td>
+		  <input type="date" id="dose1" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose2" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose3" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose4" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose5" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose6" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose7" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose8" onchange="calculateDoses()">
+	    </td>
+		<td>
+		  <input type="date" id="dose9" onchange="calculateDoses()">
+	    </td>
+	  </tr>
+	</table>
+	<br>
+	<br>
+	<br>
+	<textarea id="display" rows="20" cols="100">
+		This will eventually have all of the data between doses.
+	</textarea>
+	
+	<script>
+	
+	function calculateDoses()
+	{
+		var displayString = "";
+		
+		var dateString = document.getElementById('dob').value;
+		var dob;
+
+		if(dateString !== null)
+		{
+			dob = new Date(dateString);
+		}
+		
+		var lastDose, currentDose;
+		
+		for(var a = 0; a < 10; a++)
+		{
+			dateString = document.getElementById('dose' + a).value;
+			if(dateString !== null)
+			{
+				currentDose = new Date(dateString);
+				if(dob !== null && currentDose !== null && dateString !== "")
+				{
+					displayString += "Dose#" + (a+1) + " was given " + daysBetween(dob, currentDose) + " days after birthday.\n";
+					if(typeof lastDose !== "undefined")
+					{
+						displayString += "Dose#" + (a+1) + " was given " + daysBetween(lastDose, currentDose) + " days after the last dose.\n";
+					}
+					lastDose = currentDose;
+				}
+			}
+		}
+		document.getElementById('display').value = displayString;
+	}
+	
+	function daysBetween(first, second) {
+
+    // Do the math.
+    var millisecondsPerDay = 1000 * 60 * 60 * 24;
+    var millisBetween = second.getTime() - first.getTime();
+    var days = millisBetween / millisecondsPerDay;
+
+    // Round down.
+    return Math.floor(days);
+	}
+	</script>
+  </body>
+</html>

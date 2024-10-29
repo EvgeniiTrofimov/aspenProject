@@ -1,0 +1,140 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%942.25%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',942.25') where history not like '%942.25%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Participation Criteria for Alternate Assessments Form (2016-2017)</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="none" cell-span="10" line-span="1" shaded="true">
+            <text bold="true">Participation Criteria</text>
+          </cell>
+          <cell align="center" border="left" cell-span="10" line-span="1" shaded="true">
+            <text bold="true">Documentation Description</text>
+          </cell>
+          <cell border="left" cell-span="1" line-span="1" shaded="true">
+            <text />
+          </cell>
+          <cell border="none" cell-span="1" line-span="1" shaded="true">
+            <text bold="true">Decision*</text>
+          </cell>
+          <cell border="none" cell-span="1" line-span="1" shaded="true">
+            <text bold="true" />
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="center" border="bottom" cell-span="10" line-span="1" shaded="true">
+            <text bold="true" />
+          </cell>
+          <cell align="center" border="bottom,left" cell-span="10" line-span="1" shaded="true">
+            <text italic="true">(must be provided for each criteria or attach Documentation of Evidence Worksheet)</text>
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1" shaded="true">
+            <text>Yes</text>
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="true">
+            <text />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="true">
+            <text>No</text>
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>1.  Student has a disability that significantly impacts cognitive function and adaptive behavior.</text>
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <property alias="doc-desc-1" label-display="hide" label-short="false" rows="2" />
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-1" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="false">
+            <text />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-1" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>2.  The student''s instruction is aligned to the Common Core State Standards but is adapted to reflect the knowledge and skills in the Core Content Connectors.  Instruction in science is adapted to reflect the knowledge and skills in the NGSS.</text>
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <property alias="doc-desc-2" label-display="hide" label-short="false" rows="2" />
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-2" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="false">
+            <text />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-2" value="NO" />
+          </cell>
+        </line>
+        <line border="none">
+          <cell border="bottom" cell-span="10" line-span="1" vertical-align="top">
+            <text>3.  The student is unable to apply academic skills in home, school, and community without intensive, frequent, and individualized instruction in multiple settings.</text>
+          </cell>
+          <cell border="left,bottom" cell-span="10" line-span="1" vertical-align="top">
+            <property alias="doc-desc-3" label-display="hide" label-short="false" rows="2" />
+          </cell>
+          <cell border="left,bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-3" value="YES" />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" shaded="false">
+            <text />
+          </cell>
+          <cell border="bottom" cell-span="1" line-span="1" vertical-align="top">
+            <radio alias="decision-3" value="NO" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text>*If any of the decisions are "no", the student cannot participate in any alternate assessments. Instruction and curriculum for this student must be aligned to the CCSS and the NGSS for their current grade level. They will also participate in the PARCC and NECAP Science assessments as required for their designated grade level with appropriate accommodations.</text>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2RiPrtCrt' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

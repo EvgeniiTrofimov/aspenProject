@@ -1,0 +1,1089 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+         name="PACASAccountingSchool"
+         columnCount="1"
+         printOrder="Vertical"
+         orientation="Landscape"
+         pageWidth="1008"
+         pageHeight="612"
+         columnWidth="948"
+         columnSpacing="0"
+         leftMargin="30"
+         rightMargin="30"
+         topMargin="20"
+         bottomMargin="20"
+         whenNoDataType="NoPages"
+         isTitleNewPage="false"
+         isSummaryNewPage="false">
+    <property name="ireport.scriptlethandling" value="0" />
+    <property name="ireport.encoding" value="UTF-8" />
+    <import value="java.util.*" />
+    <import value="net.sf.jasperreports.engine.*" />
+    <import value="net.sf.jasperreports.engine.data.*" />
+
+    <parameter name="leaName" isForPrompting="false" class="java.lang.String"/>
+    <parameter name="paramStartCycle" isForPrompting="false" class="java.lang.String"/>
+    <parameter name="paramEndCycle" isForPrompting="false" class="java.lang.String"/>
+    <parameter name="casId" isForPrompting="false" class="java.lang.String"/>
+
+    <field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+    <field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+    <field name="race" class="java.lang.String"/>
+    <field name="grade" class="java.lang.String"/>
+    <field name="withdrawalEnr" class="com.x2dev.sis.model.beans.StudentEnrollment"/>
+    <field name="entryEnr" class="com.x2dev.sis.model.beans.StudentEnrollment"/>
+    <field name="membershipDays" class="java.lang.Integer"/>
+    <field name="stdAttendance" class="java.lang.Double"/>
+    <field name="resDays" class="java.lang.Integer"/>
+    <field name="adaForPeriod" class="java.lang.Double"/>
+    <field name="admForPeriod" class="java.lang.Double"/>
+    <field name="calendarId" class="java.lang.String"/>
+    <field name="schoolAbbr" class="java.lang.String"/>
+    <field name="calendar" class="com.follett.fsc.core.k12.beans.SchoolCalendar"/>
+    <field name="daysPresentForPeriod" class="java.lang.Double"/>
+    <field name="firstEntryDate" class="java.util.Date"/>
+    <field name="lastEntryDate" class="java.util.Date"/>
+    <field name="resDaysForPeriod" class="java.lang.Integer"/>
+    <field name="nonResDaysForPeriod" class="java.lang.Integer"/>
+    <field name="enrPercentage" class="java.lang.String"/>
+    <field name="isResident" class="java.lang.String"/>
+    <field name="residentDistrict" class="java.lang.String"/>
+    
+    <variable name="isResDays" class="java.lang.Boolean" resetType="Group" resetGroup="student" calculation="Nothing">
+        <variableExpression><![CDATA[Boolean.valueOf("Y".equals($F{isResident}))]]></variableExpression>
+    </variable>
+    <variable name="totalMemCount" class="java.lang.Integer" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{membershipDays}]]></variableExpression>
+    </variable>
+    <variable name="presentCount" class="java.lang.Double" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{daysPresentForPeriod}]]></variableExpression>
+    </variable>
+    <variable name="absentCount" class="java.lang.Double" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{stdAttendance}]]></variableExpression>
+    </variable>
+    <variable name="adaCount" class="java.lang.Double" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{adaForPeriod}]]></variableExpression>
+    </variable>
+    <variable name="admCount" class="java.lang.Double" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{admForPeriod}]]></variableExpression>
+    </variable>
+    <variable name="resDaysForPeriod_COUNT" class="java.lang.Integer" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{resDaysForPeriod}]]></variableExpression>
+    </variable>
+    <variable name="nonResDaysForPeriod_COUNT" class="java.lang.Integer" resetType="Group" incrementType="Group" incrementGroup="student" resetGroup="grade" calculation="Sum">
+        <variableExpression><![CDATA[$F{nonResDaysForPeriod}]]></variableExpression>
+    </variable>
+
+        <group  name="school" isStartNewPage="true" >
+            <groupExpression><![CDATA[$F{school}]]></groupExpression>
+            <groupHeader>
+            <band height="66"  isSplitAllowed="true" >
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="720"
+                        y="28"
+                        width="228"
+                        height="14"
+                        key="textField-36"/>
+                    <box></box>
+                    <textElement>
+                        <font size="10"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA["District: " + $P{leaName}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="720"
+                        y="42"
+                        width="228"
+                        height="14"
+                        key="textField-37"/>
+                    <box></box>
+                    <textElement>
+                        <font/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA["Reporting Period : " + $P{paramStartCycle} + " - " + $P{paramEndCycle}]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement
+                        x="720"
+                        y="0"
+                        width="228"
+                        height="14"
+                        key="staticText-31"/>
+                    <box></box>
+                    <textElement>
+                        <font/>
+                    </textElement>
+                <text><![CDATA[Child Accounting Summary Report]]></text>
+                </staticText>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="720"
+                        y="14"
+                        width="228"
+                        height="14"
+                        key="textField-39"/>
+                    <box></box>
+                    <textElement>
+                        <font size="10"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getName()]]></textFieldExpression>
+                </textField>
+            </band>
+            </groupHeader>
+            <groupFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+            </groupFooter>
+        </group>
+        <group  name="calendarId" >
+            <groupExpression><![CDATA[$F{calendarId}]]></groupExpression>
+            <groupHeader>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+            </groupHeader>
+            <groupFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+            </groupFooter>
+        </group>
+        <group  name="grade" isStartNewPage="true" >
+            <groupExpression><![CDATA[$F{grade}]]></groupExpression>
+            <groupHeader>
+            <band height="80"  isSplitAllowed="true" >
+                <staticText>
+                    <reportElement
+                        x="0"
+                        y="13"
+                        width="59"
+                        height="67"
+                        key="staticText-1"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Student Number]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="59"
+                        y="13"
+                        width="132"
+                        height="67"
+                        key="staticText-3"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Student Name]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="191"
+                        y="13"
+                        width="47"
+                        height="67"
+                        key="staticText-10"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[District of Residence]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="238"
+                        y="13"
+                        width="27"
+                        height="67"
+                        key="staticText-11"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Res Status Code]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="265"
+                        y="13"
+                        width="27"
+                        height="67"
+                        key="staticText-12"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Grade Level]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="292"
+                        y="13"
+                        width="45"
+                        height="67"
+                        key="staticText-15"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Enrollment Entry Date]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="337"
+                        y="13"
+                        width="27"
+                        height="67"
+                        key="staticText-16"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Enroll Entry Code]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="364"
+                        y="13"
+                        width="45"
+                        height="67"
+                        key="staticText-17"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Enrollment Exit Date]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="409"
+                        y="13"
+                        width="27"
+                        height="67"
+                        key="staticText-18"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Enroll Exit Code]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="436"
+                        y="13"
+                        width="51"
+                        height="67"
+                        key="staticText-19"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Percentage of Time Enrolled for Calendar]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="487"
+                        y="13"
+                        width="51"
+                        height="67"
+                        key="staticText-21"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Calendar ID]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="538"
+                        y="13"
+                        width="51"
+                        height="67"
+                        key="staticText-22"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[First Day of Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="589"
+                        y="13"
+                        width="51"
+                        height="67"
+                        key="staticText-23"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Last Day of Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="664"
+                        y="13"
+                        width="48"
+                        height="67"
+                        key="staticText-24"/>
+                    <box leftPadding="2" bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Resident Days Membership for Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="712"
+                        y="13"
+                        width="48"
+                        height="67"
+                        key="staticText-25"/>
+                    <box leftPadding="2" bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Non-Resident Days Membership for Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="760"
+                        y="13"
+                        width="48"
+                        height="67"
+                        key="staticText-26"/>
+                    <box leftPadding="2" bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Total Days Membership for Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="808"
+                        y="13"
+                        width="35"
+                        height="67"
+                        key="staticText-27"/>
+                    <box leftPadding="2" bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Days Present for Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="843"
+                        y="13"
+                        width="35"
+                        height="67"
+                        key="staticText-28"/>
+                    <box leftPadding="2" bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Days Absent for Period]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="878"
+                        y="13"
+                        width="35"
+                        height="67"
+                        key="staticText-29"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[ADA]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="913"
+                        y="13"
+                        width="35"
+                        height="67"
+                        key="staticText-30"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center" verticalAlignment="Bottom">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[ADM]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement
+                        x="640"
+                        y="13"
+                        width="24"
+                        height="67"
+                        key="staticText-32"/>
+                    <box bottomPadding="2">                 <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Left" verticalAlignment="Middle" rotation="Left">
+                        <font size="6"/>
+                    </textElement>
+                <text><![CDATA[Days in Session]]></text>
+                </staticText>
+            </band>
+            </groupHeader>
+            <groupFooter>
+            <band height="30"  isSplitAllowed="true" >
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="664"
+                        y="5"
+                        width="48"
+                        height="12"
+                        key="textField-28"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$V{resDaysForPeriod_COUNT}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="712"
+                        y="5"
+                        width="48"
+                        height="12"
+                        key="textField-29"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$V{nonResDaysForPeriod_COUNT}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="760"
+                        y="5"
+                        width="48"
+                        height="12"
+                        key="textField-30"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$V{totalMemCount}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="808"
+                        y="5"
+                        width="35"
+                        height="12"
+                        key="textField-31"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$V{presentCount}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="843"
+                        y="5"
+                        width="35"
+                        height="12"
+                        key="textField-32"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$V{absentCount}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="878"
+                        y="5"
+                        width="35"
+                        height="12"
+                        key="textField-33"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$V{adaCount}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="913"
+                        y="5"
+                        width="35"
+                        height="12"
+                        key="textField-34"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$V{admCount}]]></textFieldExpression>
+                </textField>
+            </band>
+            </groupFooter>
+        </group>
+        <group  name="student" >
+            <groupExpression><![CDATA[$F{student}]]></groupExpression>
+            <groupHeader>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+            </groupHeader>
+            <groupFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+            </groupFooter>
+        </group>
+        <background>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </background>
+        <title>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </title>
+        <pageHeader>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </pageHeader>
+        <columnHeader>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </columnHeader>
+        <detail>
+            <band height="12"  isSplitAllowed="true" >
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="0"
+                        y="0"
+                        width="59"
+                        height="12"
+                        key="textField"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getLocalId()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="59"
+                        y="0"
+                        width="132"
+                        height="12"
+                        key="textField-2"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getNameView()]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="191"
+                        y="0"
+                        width="47"
+                        height="12"
+                        key="textField-6"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{residentDistrict}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="265"
+                        y="0"
+                        width="27"
+                        height="12"
+                        key="textField-8"/>
+                    <box topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center">
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{grade}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="MM-dd-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="292"
+                        y="0"
+                        width="45"
+                        height="12"
+                        key="textField-10"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{entryEnr} != null ? $F{entryEnr}.getEnrollmentDate() : null]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="337"
+                        y="0"
+                        width="27"
+                        height="12"
+                        key="textField-11"/>
+                    <box topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center">
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{entryEnr} != null ? $F{entryEnr}.getEnrollmentCode() : null]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="MM-dd-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="364"
+                        y="0"
+                        width="45"
+                        height="12"
+                        key="textField-12"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{withdrawalEnr} != null ? $F{withdrawalEnr}.getEnrollmentDate() : null]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="409"
+                        y="0"
+                        width="27"
+                        height="12"
+                        key="textField-13"/>
+                    <box topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement textAlignment="Center">
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{withdrawalEnr} != null ? $F{withdrawalEnr}.getEnrollmentCode() : null]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="487"
+                        y="0"
+                        width="51"
+                        height="12"
+                        key="textField-14"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{calendarId}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="MM-dd-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="538"
+                        y="0"
+                        width="51"
+                        height="12"
+                        key="textField-15"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{firstEntryDate}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="MM-dd-yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="589"
+                        y="0"
+                        width="51"
+                        height="12"
+                        key="textField-16"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.util.Date"><![CDATA[$F{lastEntryDate}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="664"
+                        y="0"
+                        width="48"
+                        height="12"
+                        key="textField-17"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$F{resDaysForPeriod}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="760"
+                        y="0"
+                        width="48"
+                        height="12"
+                        key="textField-18"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$F{membershipDays}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="843"
+                        y="0"
+                        width="35"
+                        height="12"
+                        key="textField-19"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$F{stdAttendance}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="808"
+                        y="0"
+                        width="35"
+                        height="12"
+                        key="textField-20"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$F{daysPresentForPeriod}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="712"
+                        y="0"
+                        width="48"
+                        height="12"
+                        key="textField-21"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$F{nonResDaysForPeriod}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="238"
+                        y="0"
+                        width="27"
+                        height="12"
+                        key="textField-22"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{entryEnr} != null ? $F{entryEnr}.getFieldValueByAlias("DOE RESIDENCE STATUS") : null]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="436"
+                        y="0"
+                        width="51"
+                        height="12"
+                        key="textField-25"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.String"><![CDATA[$F{enrPercentage}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="878"
+                        y="0"
+                        width="35"
+                        height="12"
+                        key="textField-26"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$F{adaForPeriod}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" pattern="###0.000" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="913"
+                        y="0"
+                        width="35"
+                        height="12"
+                        key="textField-27"/>
+                    <box leftPadding="2" topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Double"><![CDATA[$F{admForPeriod}]]></textFieldExpression>
+                </textField>
+                <textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+                    <reportElement
+                        x="640"
+                        y="0"
+                        width="24"
+                        height="12"
+                        key="textField-38"/>
+                    <box topPadding="2" bottomPadding="2">                  <pen lineWidth="1.0"/>
+                    <topPen lineWidth="1.0"/>
+                    <leftPen lineWidth="1.0"/>
+                    <bottomPen lineWidth="1.0"/>
+                    <rightPen lineWidth="1.0"/>
+</box>
+                    <textElement>
+                        <font size="6"/>
+                    </textElement>
+                <textFieldExpression   class="java.lang.Integer"><![CDATA[$F{calendar} != null ? Integer.valueOf($F{calendar}.getDaysInSession()) : null]]></textFieldExpression>
+                </textField>
+            </band>
+        </detail>
+        <columnFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </columnFooter>
+        <pageFooter>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </pageFooter>
+        <summary>
+            <band height="0"  isSplitAllowed="true" >
+            </band>
+        </summary>
+</jasperReport>

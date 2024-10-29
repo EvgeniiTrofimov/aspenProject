@@ -1,0 +1,88 @@
+<!-- ******************************************* -->
+<!-- INPUT DEFINITIONS FOR THE GA MSU FILE EXPORT    -->
+<!-- ******************************************* -->
+
+<tool-input allow-school-select="true" district-support="true" height="560">
+
+ <!-- ************** -->
+ <!-- DATA PROCEDURE -->
+ <!-- ************** -->
+
+ <input name="procedureId" data-type="string" display-type="hidden" default-value="EXPDATA-GA-MSU"/>
+
+ <!-- ************** -->
+ <!-- Test Id        -->
+ <!-- ************** -->
+
+ <input name="testId" data-type="string" display-type="select" display-name="Test Type">
+  <option value="EOC" display-name="Georgia milestones - End Of Course (EOC)" />
+  <option value="EOG" display-name="Georgia milestones - End Of Grade (EOG)" />
+  
+  <disable input-name="term" if-parent-equals="01" />
+  <disable input-name="term" if-parent-equals="02" />
+  <disable input-name="term" if-parent-equals="03" />
+  <disable input-name="term" if-parent-equals="04" />
+  <disable input-name="term" if-parent-equals="05" />
+  <disable input-name="term" if-parent-equals="RE" />
+  <disable input-name="term" if-parent-equals="09" />
+  <disable input-name="term" if-parent-equals="10" />
+ </input>
+
+ <!-- ************** -->
+ <!-- Term Code      -->
+ <!-- ************** -->
+
+<input name="term" data-type="string" display-type="select" display-name="Term" required="true">
+  <picklist field-id="rcdCode" required="false" multiple="true">
+   <field id="rcdCode"  sort="true" />
+   <field id="rcdDescription" />
+   <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbSchTermCode" />
+  </picklist>
+</input>
+
+
+<!-- ************** -->
+ <!-- EOG Online      -->
+ <!-- ************** -->
+
+<input name="eogOnline" data-type="string" display-type="select" display-name="EOG Online" required="false">
+  <picklist field-id="rcdCode" required="false" multiple="true">
+   <field id="rcdCode"  sort="true" />
+    <filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="EOG Grade Levels" />
+  </picklist>
+</input>
+
+<!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="integer" display-type="select" display-name="report.shared.query">
+  <option value="0" display-name="report.shared.query.all" />
+  <option value="1" display-name="report.shared.query.yog" />
+  <option value="2" display-name="export.doe.selection.lasid" />
+  <option value="3" display-name="export.doe.selection.sasid" />
+  <option value="4" display-name="export.doe.selection.snapshot" />
+  <disable input-name="queryString" if-parent-equals="0" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="integer" display-type="select" display-name="report.shared.sort">
+  <option value="0" display-name="report.shared.sort.name"/>
+  <option value="1" display-name="report.shared.sort.school"/>
+  <option value="2" display-name="export.doe.sort.lasid"/>
+  <option value="3" display-name="export.doe.sort.sasid"/>
+ </input>
+
+<input name="returnClassSection" data-type="boolean" display-type="checkbox" display-name="Return Class Section" default-value="false" />
+
+<!-- ******************** -->
+  <!-- SAVE RESULTS OPTIONS -->
+  <!-- ******************** -->
+ 
+ <input name="saveResults" data-type="boolean" display-type="checkbox" display-name="Save Results" default-value="false" />
+
+</tool-input>

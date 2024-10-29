@@ -1,0 +1,3736 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ReportCards-Secondary-French-Legal"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="1008"
+		 columnWidth="552"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+
+	<parameter name="school" isForPrompting="true" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<parameter name="context" isForPrompting="false" class="com.x2dev.sis.model.beans.SisDistrictSchoolYearContext"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="termNumber" isForPrompting="false" class="java.lang.Integer"/>
+	<parameter name="attendances" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="additionalTeachers" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="gradeTermDates" isForPrompting="false" class="com.x2dev.sis.model.beans.GradeTermDate[]"/>
+	<parameter name="termsDateFormat" isForPrompting="false" class="java.text.DateFormat">
+		<defaultValueExpression ><![CDATA[new SimpleDateFormat("MMM dd, yyyy")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportMessage" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="printBothSides" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="teacherSignature" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeSignature" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeTermComments" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeGPA" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeInfoPage" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeAttendance" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeFinalExam" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="suppressTeacherName" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeBehaviour" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="lastNameType" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="firstNameType" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="behaviorCommentMap" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="termCommentMap" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="homeroomTeacher" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="homeroom" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="gradeLevel" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="gradeTerm" isForPrompting="false" class="com.x2dev.sis.model.beans.GradeTerm"/>
+
+	<field name="student" class="com.x2dev.sis.model.beans.SisStudent"/>
+	<field name="school" class="com.x2dev.sis.model.beans.SisSchool">
+		<fieldDescription><![CDATA[The related School to the Student bean.]]></fieldDescription>
+	</field>
+	<field name="transcript" class="com.x2dev.sis.model.beans.Transcript"/>
+	<field name="address" class="com.x2dev.sis.model.beans.SisAddress"/>
+	<field name="Final" class="java.lang.String"/>
+	<field name="Q1 Com" class="java.lang.String"/>
+	<field name="Q2 Com" class="java.lang.String"/>
+	<field name="Q3 Com" class="java.lang.String"/>
+	<field name="Q4 Com" class="java.lang.String"/>
+	<field name="Q1 Grade" class="java.lang.String"/>
+	<field name="Q2 Grade" class="java.lang.String"/>
+	<field name="Q3 Grade" class="java.lang.String"/>
+	<field name="Q4 Grade" class="java.lang.String"/>
+	<field name="Q1 Grade Num" class="java.math.BigDecimal"/>
+	<field name="Q2 Grade Num" class="java.math.BigDecimal"/>
+	<field name="Q3 Grade Num" class="java.math.BigDecimal"/>
+	<field name="Q4 Grade Num" class="java.math.BigDecimal"/>
+	<field name="Final Num" class="java.math.BigDecimal"/>
+	<field name="Q1 WH" class="java.lang.String"/>
+	<field name="Q2 WH" class="java.lang.String"/>
+	<field name="Q3 WH" class="java.lang.String"/>
+	<field name="Q4 WH" class="java.lang.String"/>
+	<field name="Tri 1 Com" class="java.lang.String"/>
+	<field name="Tri 2 Com" class="java.lang.String"/>
+	<field name="Tri 3 Com" class="java.lang.String"/>
+	<field name="Tri 4 Com" class="java.lang.String"/>
+	<field name="Tri 1" class="java.lang.String"/>
+	<field name="Tri 2" class="java.lang.String"/>
+	<field name="Tri 3" class="java.lang.String"/>
+	<field name="Tri 4" class="java.lang.String"/>
+	<field name="Tri 1 WH" class="java.lang.String"/>
+	<field name="Tri 2 WH" class="java.lang.String"/>
+	<field name="Tri 3 WH" class="java.lang.String"/>
+	<field name="Tri 4 WH" class="java.lang.String"/>
+	<field name="Tri 1 Num" class="java.math.BigDecimal"/>
+	<field name="Tri 2 Num" class="java.math.BigDecimal"/>
+	<field name="Tri 3 Num" class="java.math.BigDecimal"/>
+	<field name="Tri 4 Num" class="java.math.BigDecimal"/>
+	<field name="overallComments" class="java.lang.String"/>
+	<field name="SchExam S1" class="java.lang.String"/>
+	<field name="SchExam S2" class="java.lang.String"/>
+	<field name="% Complete" class="java.lang.String"/>
+
+	<variable name="dateFormat" class="java.text.DateFormat" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMM dd, yyyy")]]></variableExpression>
+	</variable>
+	<variable name="reportStartDate" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{dateFormat}.format(
+   $P{termNumber}.intValue() == 1 ? $P{gradeTermDates}[0].getStartDate() : 
+   $P{termNumber}.intValue() == 2 ? $P{gradeTermDates}[1].getStartDate() : 
+   $P{termNumber}.intValue() == 3 ? $P{gradeTermDates}[2].getStartDate() : 
+   $P{gradeTermDates}[3].getStartDate()
+)]]></variableExpression>
+	</variable>
+	<variable name="reportEndDate" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$V{dateFormat}.format(
+   $P{termNumber}.intValue() == 1 ? $P{gradeTermDates}[0].getEndDate() : 
+   $P{termNumber}.intValue() == 2 ? $P{gradeTermDates}[1].getEndDate() : 
+   $P{termNumber}.intValue() == 3 ? $P{gradeTermDates}[2].getEndDate() : 
+   $P{gradeTermDates}[3].getEndDate()
+)]]></variableExpression>
+	</variable>
+	<variable name="teacherName" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{transcript}.getMasterSchedule() != null && $F{transcript}.getMasterSchedule().getPrimaryStaff() != null ? 
+  $F{transcript}.getMasterSchedule().getPrimaryStaff().getPerson().getNameView() : 
+  $F{transcript}.getTeacher() != null ? 
+    $F{transcript}.getTeacher().getPerson().getNameView() : $F{transcript}.getFieldC001()]]></variableExpression>
+	</variable>
+	<variable name="additionalTeachers" class="java.lang.String" resetType="Group" resetGroup="student" calculation="Nothing">
+		<variableExpression><![CDATA[StringUtils.convertCollectionToDelimitedString((Collection) $P{additionalTeachers}.get($F{student}.getOid()),"; ")]]></variableExpression>
+		<initialValueExpression><![CDATA[StringUtils.convertCollectionToDelimitedString((Collection) $P{additionalTeachers}.get($F{student}.getOid()),"; ")]]></initialValueExpression>
+	</variable>
+	<variable name="absentByMonth" class="java.math.BigDecimal[]" resetType="Group" resetGroup="student" calculation="Nothing">
+		<variableExpression><![CDATA[$P{attendances}.get($F{student}.getOid() + "_absent")]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{attendances}.get($F{student}.getOid() + "_absent")]]></initialValueExpression>
+	</variable>
+	<variable name="lateByMonth" class="java.math.BigDecimal[]" resetType="Group" resetGroup="student" calculation="Nothing">
+		<variableExpression><![CDATA[$P{attendances}.get($F{student}.getOid() + "_late")]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{attendances}.get($F{student}.getOid() + "_late")]]></initialValueExpression>
+	</variable>
+	<variable name="absentByCourseAndTerm" class="java.math.BigDecimal[]" resetType="Group" resetGroup="student" calculation="Nothing">
+		<variableExpression><![CDATA[$P{attendances}.get(
+    $F{student}.getOid() + "_" +
+    $F{transcript}.getMasterScheduleOid() +
+    "_absent")]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{attendances}.get(
+    $F{student}.getOid() + "_" +
+    $F{transcript}.getMasterScheduleOid() +
+    "_absent")]]></initialValueExpression>
+	</variable>
+	<variable name="firstName" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{firstNameType}.booleanValue() ? 
+ (StringUtils.isEmpty((String) $F{student}.getPerson().getFieldValueByAlias("psn-preferred-first-name")) ? 
+  $F{student}.getPerson().getFirstName() : 
+  $F{student}.getPerson().getFieldValueByAlias("psn-preferred-first-name")) : 
+ $F{student}.getPerson().getFirstName()]]></variableExpression>
+	</variable>
+	<variable name="lastName" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{lastNameType}.booleanValue() ? 
+ (StringUtils.isEmpty((String) $F{student}.getPerson().getFieldValueByAlias("psn-surname")) ? 
+  $F{student}.getPerson().getLastName() : 
+  $F{student}.getPerson().getFieldValueByAlias("psn-surname")) : 
+ $F{student}.getPerson().getLastName()]]></variableExpression>
+	</variable>
+	<variable name="showScale" class="java.lang.Boolean" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean(!$F{transcript}.getTranscriptDefinition().getName().startsWith("Comment Only Courses"))]]></variableExpression>
+	</variable>
+	<variable name="schoolExam" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{termNumber}.intValue() <= 2 ?
+$F{SchExam S1} : StringUtils.coalesce($F{SchExam S2}, $F{SchExam S1})]]></variableExpression>
+	</variable>
+	<variable name="percentComplete" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[StringUtils.coalesce($F{% Complete}, "")]]></variableExpression>
+	</variable>
+
+		<group  name="graduation" >
+			<groupExpression><![CDATA[$F{student}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="467"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[$P{includeInfoPage} ]]></printWhenExpression>
+				<break>
+					<reportElement
+						x="0"
+						y="464"
+						width="552"
+						height="0"
+						key="element-1">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()%2==1 && $P{printBothSides}.booleanValue())]]></printWhenExpression>
+						</reportElement>
+				</break>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="402"
+						width="540"
+						height="60"
+						key="textField-238"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="2" bottomPadding="2">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["PARENTS OU TUTEURS: " + 
+($P{includeSignature}.booleanValue() ? 
+  "Conservez cet exemplaire. Écrivez vos commentaires sur la page couverture du bulletin, signez-le et retournez-le à l'enseignant(e) de votre enfant." : 
+  "Conservez cet exemplaire.")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="5"
+						y="15"
+						width="257"
+						height="12"
+						key="staticText-227"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[EXIGENCES - 2004]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="15"
+						width="285"
+						height="22"
+						key="staticText-228"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[EXIGENCES DU DIPLÔME D'ÉTUDES SECONDAIRES POUR ADULTES (18 ans et plus)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="552"
+						height="12"
+						key="staticText-267"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[EXIGENCES DU DIPLÔME DE FIN D'ÉTUDES SECONDAIRES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="5"
+						y="27"
+						width="257"
+						height="22"
+						key="staticText-292"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[80 crédits de 10e, 11e et 12e année, dont 48 provenant de cours obligatoires :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="49"
+						width="250"
+						height="12"
+						key="staticText-293"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Français langue première 10 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="61"
+						width="250"
+						height="12"
+						key="staticText-294"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Français langue première 11 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="73"
+						width="250"
+						height="12"
+						key="staticText-295"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Français langue première 12 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="85"
+						width="250"
+						height="12"
+						key="staticText-296"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Sciences humaines 10 (4 crédits)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="97"
+						width="250"
+						height="22"
+						key="staticText-297"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Sciences humaines 11, Éducation civique 11 ou Études des Premières Nations de la C.-B. 12 (4 crédits)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="119"
+						width="250"
+						height="12"
+						key="staticText-298"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Mathématiques 10 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="131"
+						width="250"
+						height="12"
+						key="staticText-299"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Mathématiques 11 ou 12 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="143"
+						width="250"
+						height="12"
+						key="staticText-300"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Sciences 10 (4 crédits)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="155"
+						width="250"
+						height="12"
+						key="staticText-301"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Sciences 11 ou 12 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="167"
+						width="250"
+						height="12"
+						key="staticText-302"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Planification 10 (4 crédits)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="179"
+						width="250"
+						height="12"
+						key="staticText-303"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Éducation physique 10 (4 crédits)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="191"
+						width="250"
+						height="22"
+						key="staticText-304"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Beaux-Arts et/ou Compétences pratiques 10, 11 ou 12 (4 crédits)*]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="213"
+						width="250"
+						height="12"
+						key="staticText-305"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[*un parmi plusieurs cours à option]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="5"
+						y="230"
+						width="257"
+						height="12"
+						key="staticText-306"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[De plus, les élèves :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="242"
+						width="250"
+						height="33"
+						key="staticText-307"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- doivent obtenir 4 crédits provenant de l'évaluation de leur plan de transition postsecondaire et au moins 28 crédits provenant de cours au choix.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="275"
+						width="250"
+						height="44"
+						key="staticText-308"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- peuvent obtenir un nombre illimité de crédits pour des cours au choix en suivant des cours autorisés par un conseil scolaire ou une école indépendante, ou des cours du niveau postsecondaire.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="319"
+						width="250"
+						height="44"
+						key="staticText-309"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- doivent obtenir au moins 16 crédits provenant de cours autorisés par le Ministère ou par un conseil ou une autorité scolaire, ou provenant de cours du niveau postsecondaire.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="10"
+						y="352"
+						width="250"
+						height="44"
+						key="staticText-310"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- doivent réussir cinq examens officiels obligatoires, dont Science 10, Français langue première 10, un examen de Mathématiques 10, un examen de Sciences humaines 11 ou 12 et Français langue première 12.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="37"
+						width="285"
+						height="22"
+						key="staticText-312"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[20 crédits au niveau secondaire; ou 5 cours au niveau postsecondaire; dont :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="59"
+						width="280"
+						height="12"
+						key="staticText-313"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Français langue première 12 (4 crédits)*; ou]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="71"
+						width="280"
+						height="22"
+						key="staticText-314"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- un cours d'anglais ou de français au niveau « Provincial » ou postsecondaire; et]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="93"
+						width="280"
+						height="12"
+						key="staticText-315"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Mathématiques 11 ou 12 (4 crédits)*; ou]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="105"
+						width="280"
+						height="22"
+						key="staticText-316"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- un cours de mathématiques de niveau « Provincial », postsecondaire ou « Advanced ».]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="132"
+						width="285"
+						height="12"
+						key="staticText-317"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[AINSI QU'UNE DES OPTIONS SUIVANTES :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="149"
+						width="285"
+						height="12"
+						key="staticText-318"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Option 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="161"
+						width="280"
+						height="33"
+						key="staticText-319"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Trois cours de 12e année autorisés par le Ministère, chacun donnant droit à 4 crédits, y compris les titres et diplômes externes; ou]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="183"
+						width="280"
+						height="22"
+						key="staticText-320"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Trois cours supplémentaires au niveau « Provincial » ou postsecondaire.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="210"
+						width="285"
+						height="12"
+						key="staticText-321"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Option 2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="222"
+						width="280"
+						height="12"
+						key="staticText-322"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Sciences humaines 11 (4 crédits);]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="234"
+						width="280"
+						height="12"
+						key="staticText-323"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Études des Premières Nations de la C.-B. 12 (4 crédits); ou]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="270"
+						y="246"
+						width="280"
+						height="12"
+						key="staticText-324"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Éducation civique 11 (4 crédits);]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="263"
+						width="285"
+						height="12"
+						key="staticText-325"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[ET]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="280"
+						width="285"
+						height="33"
+						key="staticText-326"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[- Deux cours de 12e année autorisés par le Ministère, chacun donnant droit à 4 crédits, y compris les titres et diplômes externes.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="307"
+						width="285"
+						height="12"
+						key="staticText-327"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[*un cours parmi les choix offerts]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="324"
+						width="285"
+						height="33"
+						key="staticText-328"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Les cours et les crédits peuvent provenir du système scolaire de la C.-B. ou du programme collégial de formation de base des adultes « Adult Basic Education » (ABE).]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="student" isStartNewPage="true" isResetPageNumber="true" >
+			<groupExpression><![CDATA[($F{student}.getOid() + ($F{address} != null ? $F{address}.getOid() : ""))]]></groupExpression>
+			<groupHeader>
+			<band height="200"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="169"
+						width="490"
+						height="14"
+						key="textField-153"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["PÉRIODES: " +
+  ($P{gradeTermDates}[0] != null ? ("   1 = " + $P{termsDateFormat}.format($P{gradeTermDates}[0].getStartDate())) : "") +
+  ($P{gradeTermDates}[1] != null ? ("   2 = " + $P{termsDateFormat}.format($P{gradeTermDates}[1].getStartDate())) : "") +
+  ($P{gradeTermDates}[2] != null ? ("   3 = " + $P{termsDateFormat}.format($P{gradeTermDates}[2].getStartDate())) : "") +
+  ($P{gradeTermDates}[3] != null ? ("   4 = " + $P{termsDateFormat}.format($P{gradeTermDates}[3].getStartDate())) : "")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="183"
+						width="490"
+						height="14"
+						key="textField-154"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Légende : HT - Habitudes de travail Abs. - Absence"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="490"
+						y="169"
+						width="62"
+						height="14"
+						key="textField-156"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{includeGPA}.booleanValue() ? "GPA" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.####" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="490"
+						y="183"
+						width="62"
+						height="14"
+						key="textField-157"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{includeGPA}.booleanValue() && StringUtils.isNumeric((String) $F{student}.getFieldValueByAlias("std-gpa-cumulative")) ?
+new BigDecimal((String) $F{student}.getFieldValueByAlias("std-gpa-cumulative")) : null]]></textFieldExpression>
+				</textField>
+				<image  scaleImage="RetainShape" hAlign="Center" onErrorType="Blank" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="416"
+						y="-9"
+						width="136"
+						height="43"
+						key="image-8"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["/nfs/aspen_images/" + $P{school}.getFieldC008()]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="0"
+						y="13"
+						width="150"
+						height="13"
+						key="staticText-205"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[NOM DE L'ÉLÈVE]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="26"
+						width="150"
+						height="13"
+						key="textField-246"/>
+					<box leftPadding="3" rightPadding="3" bottomPadding="1">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{lastName} + ", " + $V{firstName}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="39"
+						width="60"
+						height="13"
+						key="staticText-206"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[NO DE DIV.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="52"
+						width="60"
+						height="13"
+						key="textField-247"/>
+					<box leftPadding="3">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{homeroom}.get($F{student}.getOid())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="60"
+						y="39"
+						width="90"
+						height="13"
+						key="staticText-207"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[ENSEIGNANT(E)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="60"
+						y="52"
+						width="90"
+						height="13"
+						key="textField-248"/>
+					<box leftPadding="3">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{homeroomTeacher}.get($F{student}.getOid())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="65"
+						width="60"
+						height="13"
+						key="staticText-208"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="6" isBold="false"/>
+					</textElement>
+				<text><![CDATA[PIÉCES JOINTES]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="78"
+						width="60"
+						height="13"
+						key="textField-249"/>
+					<box leftPadding="3">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="60"
+						y="65"
+						width="90"
+						height="13"
+						key="staticText-209"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[PEN DE L'ÉLÈVE]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="60"
+						y="78"
+						width="90"
+						height="13"
+						key="textField-250"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{student}.getStateId()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="150"
+						y="13"
+						width="42"
+						height="13"
+						key="staticText-210"/>
+					<box leftPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<text><![CDATA[ANNÉE]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="150"
+						y="26"
+						width="42"
+						height="13"
+						key="textField-251"/>
+					<box leftPadding="3" topPadding="1" bottomPadding="1">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{gradeLevel}.get($F{student}.getOid())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="150"
+						y="39"
+						width="42"
+						height="26"
+						key="textField-309"/>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{includeAttendance}.booleanValue() ? "ABSENCES" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="150"
+						y="65"
+						width="42"
+						height="26"
+						key="textField-310"/>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{includeAttendance}.booleanValue() ? "RETARDS" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="192"
+						y="13"
+						width="224"
+						height="13"
+						key="textField-252">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box leftPadding="3" rightPadding="3" topPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["FICHE DE PRÉSENCE DE " + String.valueOf($P{context}.getSchoolYear())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="192"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-213">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[sep]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="209"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-214">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[oct]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="226"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-215">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[nov]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="243"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-216">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[déc]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="260"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-217">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[janv]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="277"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-218">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[févr]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="294"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-219">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[mars]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="311"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-220">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[avr]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="328"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-221">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[mai]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="345"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-222">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[juin]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="362"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-223">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[juil]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="379"
+						y="26"
+						width="17"
+						height="13"
+						key="staticText-224">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[août]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="396"
+						y="26"
+						width="20"
+						height="13"
+						key="staticText-225">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+					</textElement>
+				<text><![CDATA[Total]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="192"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-253">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[8]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="209"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-254">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[9]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="226"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-255">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[10]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="243"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-256">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[11]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="260"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-257">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[0]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="277"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-258">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[1]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="294"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-259">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[2]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="311"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-260">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[3]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="328"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-261">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[4]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="345"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-262">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[5]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="362"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-263">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[6]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="379"
+						y="39"
+						width="17"
+						height="26"
+						key="textField-264">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[7]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="396"
+						y="39"
+						width="20"
+						height="26"
+						key="textField-265">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByMonth}[12]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="192"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-266">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[8]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="209"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-267">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[9]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="226"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-268">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[10]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="243"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-269">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[11]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="260"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-270">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[0]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="277"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-271">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[1]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="294"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-272">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[2]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="311"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-273">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[3]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="328"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-274">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[4]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="345"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-275">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[5]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="362"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-276">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[6]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="379"
+						y="65"
+						width="17"
+						height="26"
+						key="textField-277">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[7]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="396"
+						y="65"
+						width="20"
+						height="26"
+						key="textField-278">
+							<printWhenExpression><![CDATA[$P{includeAttendance}]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{lateByMonth}[12]]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="416"
+						y="36"
+						width="136"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-279"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="7" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{school}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="416"
+						y="47"
+						width="136"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-280"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="7" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{school}.getAddress().getAddressLine01()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="416"
+						y="80"
+						width="136"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-281"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="7" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{school}.getAddress().getPhone01()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="416"
+						y="58"
+						width="136"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-282"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="7" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{school}.getAddress().getCity()+", "+$P{school}.getAddress().getState()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="416"
+						y="69"
+						width="136"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-283"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font fontName="sansserif" pdfFontName="Helvetica" size="7" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{school}.getAddress().getPostalCode()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="136"
+						width="552"
+						height="30"
+						key="textField-285"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{reportMessage}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="94"
+						width="552"
+						height="39"
+						key="staticText-226"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="1" bottomPadding="1">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="10" isBold="false"/>
+					</textElement>
+				<text><![CDATA[Ce bulletin présente les progrès de l'élève selon les résultats d'apprentissage prescrits par le ministère de l'Éducation pour chaque niveau scolaire. Il a pour but d'informer sur la réussite scolaire et, au besoin, de proposer des objectifs d'amélioration.]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="334"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+				<rectangle>
+					<reportElement
+						x="0"
+						y="5"
+						width="552"
+						height="323"
+						key="rectangle-1"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="20"
+						y="188"
+						width="247"
+						height="12"
+						key="staticText-229"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[L'élève a abandonné le cours.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="222"
+						width="247"
+						height="33"
+						key="staticText-230"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Sanction de transfert. Note de passage accordée après examen du dossier d'un établissement autre qu'une école.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="222"
+						width="16"
+						height="22"
+						key="staticText-231"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[TG]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="244"
+						width="247"
+						height="22"
+						key="staticText-232"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Exigences satisfaites (pour le programme Transition vers l'après-secondaire seulement).]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="200"
+						width="16"
+						height="22"
+						key="staticText-233"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[SG]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="244"
+						width="16"
+						height="22"
+						key="staticText-234"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[RM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="1"
+						y="6"
+						width="265"
+						height="14"
+						key="staticText-235"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[COTES ET DÉFINITIONS
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="200"
+						width="247"
+						height="33"
+						key="staticText-236"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Note de passage. Niveau de performance acceptable bien que les conditions normales ne soient pas satisfaites.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="133"
+						width="247"
+						height="33"
+						key="staticText-237"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Aucune évidence d'une performance minimum acceptable par rapport aux résultats d'apprentissage requis pour cette période.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="166"
+						width="247"
+						height="33"
+						key="staticText-238"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Aucune évidence d'une performance minimum acceptable par rapport aux résultats d'apprentissage requis pour ce cours.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="188"
+						width="16"
+						height="12"
+						key="staticText-239"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[W]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="166"
+						width="16"
+						height="22"
+						key="staticText-240"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[F]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="111"
+						width="16"
+						height="22"
+						key="staticText-241"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[C-]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="133"
+						width="16"
+						height="33"
+						key="staticText-242"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[I]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="89"
+						width="247"
+						height="22"
+						key="staticText-243"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[(60-66%) Performance satisfaisante par rapport aux résultats d'apprentissage.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="111"
+						width="247"
+						height="22"
+						key="staticText-244"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[(50-59 %) Performance minimum acceptable par rapport aux résultats d'apprentissage.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="67"
+						width="247"
+						height="22"
+						key="staticText-245"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[(67-72 %) Bonne performance par rapport aux résultats d'apprentissage.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="89"
+						width="16"
+						height="22"
+						key="staticText-246"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[C]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="45"
+						width="247"
+						height="22"
+						key="staticText-247"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[(73-85 %) Très bonne performance par rapport aux résultats d'apprentissage.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="67"
+						width="16"
+						height="22"
+						key="staticText-248"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[C+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="45"
+						width="16"
+						height="22"
+						key="staticText-249"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[B]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="3"
+						y="23"
+						width="16"
+						height="22"
+						key="staticText-250"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[A]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="23"
+						width="247"
+						height="22"
+						key="staticText-251"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[(86-100%) Performance exceptionnelle ou excellente par rapport aux résultats d'apprentissage.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="21"
+						width="275"
+						height="12"
+						key="staticText-252"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[EXCELLENTES (E)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="184"
+						width="275"
+						height="12"
+						key="staticText-253"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[SATISFAISANTES (S)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="113"
+						width="275"
+						height="12"
+						key="staticText-254"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[BONNES (G)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="255"
+						width="275"
+						height="12"
+						key="staticText-255"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[BESOIN D'AMÉLIORATION (N)
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="6"
+						width="275"
+						height="14"
+						key="staticText-256"
+						positionType="Float"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[$P{includeInfoPage}]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[HABITUDES DE TRAVAIL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="267"
+						width="275"
+						height="22"
+						key="staticText-276"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Responsabilité : a remis peu de travaux; peu souvent disposé à travailler et à apprendre.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="289"
+						width="275"
+						height="22"
+						key="staticText-277"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Coopération : a de la difficulté à travailler avec les autres élèves et les enseignants.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="311"
+						width="275"
+						height="22"
+						key="staticText-278"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Autonomie : a besoin d'attention personnelle la plupart du temps.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="196"
+						width="275"
+						height="22"
+						key="staticText-280"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Responsabilité : a remis la majorité de ses travaux, rarement en retard; habituellement disposé à travailler et à apprendre.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="218"
+						width="275"
+						height="22"
+						key="staticText-281"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Coopération : travaille habituellement bien avec les autres élèves et les enseignants.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="240"
+						width="275"
+						height="12"
+						key="staticText-282"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Autonomie : a souvent besoin d'être guidé.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="125"
+						width="275"
+						height="22"
+						key="staticText-284"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Responsabilité : a remis tous ses travaux, à temps; disposé à travailler et à apprendre.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="147"
+						width="275"
+						height="22"
+						key="staticText-285"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Coopération : travaille bien avec les autres élèves et les enseignants.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="169"
+						width="275"
+						height="12"
+						key="staticText-286"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Autonomie : apprend seul, prend de bonnes initiatives.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="33"
+						width="275"
+						height="22"
+						key="staticText-288"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Responsabilité : travaille bien de façon assidue; disposé à travailler et à apprendre.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="55"
+						width="275"
+						height="22"
+						key="staticText-289"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Coopération : meneur qui apporte volontiers à la classe une contribution utile et constructive.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="275"
+						y="77"
+						width="275"
+						height="33"
+						key="staticText-290"/>
+					<box></box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Autonomie : apprenant curieux et enthousiaste qui recherche les occasions de croissance personnelle et d'acquisition de connaissances.]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="signatures" >
+			<groupExpression><![CDATA[$F{student}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="69"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean((Boolean.FALSE).equals($P{includeInfoPage}))]]></printWhenExpression>
+				<break>
+					<reportElement
+						x="0"
+						y="66"
+						width="552"
+						height="0"
+						key="element-2">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue()%2==1 && $P{printBothSides}.booleanValue())]]></printWhenExpression>
+						</reportElement>
+				</break>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="3"
+						width="540"
+						height="60"
+						key="textField-240"
+						positionType="Float"/>
+					<box leftPadding="3" rightPadding="3" topPadding="2" bottomPadding="2">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["PARENTS OU TUTEURS: " + 
+($P{includeSignature}.booleanValue() ? 
+  "Conservez cet exemplaire. Écrivez vos commentaires sur la page couverture du bulletin, signez-le et retournez-le à l'enseignant(e) de votre enfant." : 
+  "Conservez cet exemplaire.")]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="termComment" >
+			<groupExpression><![CDATA[$F{student}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[$P{includeTermComments}]]></printWhenExpression>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="behavior" >
+			<groupExpression><![CDATA[$F{student}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[$P{includeBehaviour}]]></printWhenExpression>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="45"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="552"
+						height="13"
+						key="textField-241">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() >= 2)]]></printWhenExpression>
+						</reportElement>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{lastName} + ", " + $V{firstName}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="552"
+						height="13"
+						key="textField-242">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="9" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["pour la période du " + $V{reportStartDate} + " to " + $V{reportEndDate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="28"
+						width="266"
+						height="13"
+						key="textField-243">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() >= 2)]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="10" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["pour la période du " + $V{reportStartDate} + " au " + $V{reportEndDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="14"
+						width="145"
+						height="13"
+						key="staticText-203">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() >= 2)]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="10" isBold="false"/>
+					</textElement>
+				<text><![CDATA[BULLETIN SCOLAIRE
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="552"
+						height="13"
+						key="staticText-204">
+							<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
+						</reportElement>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[BULLETIN
+]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="231"
+						y="27"
+						width="60"
+						height="11"
+						key="textField-244"/>
+					<box rightPadding="2"></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Group" evaluationGroup="student"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="27"
+						width="19"
+						height="11"
+						key="textField-245"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="84"  isSplitAllowed="false" >
+				<staticText>
+					<reportElement
+						x="3"
+						y="57"
+						width="336"
+						height="13"
+						key="staticText-160"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Commentaires ou moyens pour favoriser l'apprentissage:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="70"
+						width="552"
+						height="14"
+						key="textField-166"/>
+					<box leftPadding="8" rightPadding="3" bottomPadding="1">					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() == 1 ? StringUtils.coalesce($F{Tri 1 Com}, $F{Q1 Com}) : 
+$P{termNumber}.intValue() == 2 ? StringUtils.coalesce($F{Tri 2 Com}, $F{Q2 Com}) : 
+$P{termNumber}.intValue() == 3 && $P{gradeTerm}.getGradeTermId().equals("Q3") ? StringUtils.coalesce($F{Tri 3 Com}, $F{Q3 Com}) : 
+$P{termNumber}.intValue() == 3 && $P{gradeTerm}.getGradeTermId().equals("Tri 3") ? 
+("S1".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? StringUtils.coalesce($F{Tri 3 Com}, $F{Q2 Com}) : 
+StringUtils.coalesce($F{Tri 3 Com}, $F{Q4 Com})) :
+("S1".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode())? 
+StringUtils.coalesce($F{Tri 3 Com}, $F{Q2 Com}) :
+"Q1".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? $F{Q1 Com} :
+"Q2".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? $F{Q2 Com} :
+"Q3".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? $F{Q3 Com} :
+"T1".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? $F{Tri 1 Com} :
+"T2".equals($F{transcript}.getMasterSchedule().getScheduleTerm().getCode()) ? $F{Tri 2 Com} :
+StringUtils.coalesce($F{Tri 3 Com}, $F{Q4 Com}))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="3"
+						y="5"
+						width="40"
+						height="13"
+						key="textField-167"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Cours: "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="39"
+						y="5"
+						width="300"
+						height="13"
+						key="textField-184"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{transcript}.getCourseDescription()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="3"
+						y="31"
+						width="336"
+						height="13"
+						key="textField-189"
+						isPrintWhenDetailOverflows="true">
+							<printWhenExpression><![CDATA[$P{suppressTeacherName}.booleanValue() ? new Boolean(!$V{teacherName}.equals($P{homeroomTeacher}.get($F{student}.getOid()))) : new Boolean(true)]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Enseignant(e): " + StringUtils.coalesce($V{teacherName},"")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="3"
+						height="70"
+						key="staticText-171"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="6" isBold="false"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="549"
+						y="0"
+						width="3"
+						height="70"
+						key="staticText-172"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="6" isBold="false"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="552"
+						height="3"
+						key="staticText-173"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2">					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="6" isBold="false"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="370"
+						y="4"
+						width="38"
+						height="13"
+						key="staticText-257">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Période
+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="408"
+						y="4"
+						width="28"
+						height="13"
+						key="staticText-258">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="436"
+						y="4"
+						width="28"
+						height="13"
+						key="staticText-259">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="464"
+						y="4"
+						width="28"
+						height="13"
+						key="staticText-260">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="370"
+						y="17"
+						width="38"
+						height="13"
+						key="staticText-263">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Cote]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="408"
+						y="17"
+						width="28"
+						height="13"
+						key="textField-286">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 1 ? StringUtils.coalesce($F{Tri 1},$F{Q1 Grade}) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="17"
+						width="28"
+						height="13"
+						key="textField-287">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 2 ? StringUtils.coalesce($F{Tri 2},$F{Q2 Grade}) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="464"
+						y="17"
+						width="28"
+						height="13"
+						key="textField-288">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 3 ? StringUtils.coalesce($F{Tri 3},$F{Q3 Grade}) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="370"
+						y="43"
+						width="38"
+						height="13"
+						key="staticText-264">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[HT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="370"
+						y="56"
+						width="38"
+						height="13"
+						key="staticText-265">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Abs.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="408"
+						y="56"
+						width="28"
+						height="13"
+						key="textField-291">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByCourseAndTerm} != null ?
+    $V{absentByCourseAndTerm}[0] != null ? $V{absentByCourseAndTerm}[0] : new BigDecimal(0)
+    : new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="56"
+						width="28"
+						height="13"
+						key="textField-292">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 2 ?
+($V{absentByCourseAndTerm} != null ?
+    $V{absentByCourseAndTerm}[1] != null ? $V{absentByCourseAndTerm}[1] : new BigDecimal(0)
+    : new BigDecimal(0)) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="464"
+						y="56"
+						width="28"
+						height="13"
+						key="textField-293">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 3 ?
+($V{absentByCourseAndTerm} != null ?
+    $V{absentByCourseAndTerm}[2] != null ? $V{absentByCourseAndTerm}[2] : new BigDecimal(0)
+    : new BigDecimal(0)) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="56"
+						width="28"
+						height="13"
+						key="textField-294">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 4 ?
+($V{absentByCourseAndTerm} != null ?
+    $V{absentByCourseAndTerm}[3] != null ? $V{absentByCourseAndTerm}[3] : new BigDecimal(0)
+    : new BigDecimal(0)) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="520"
+						y="56"
+						width="28"
+						height="13"
+						key="textField-295">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{absentByCourseAndTerm} != null ?
+    $V{absentByCourseAndTerm}[4] != null ? $V{absentByCourseAndTerm}[4] : new BigDecimal(0) :
+    new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="370"
+						y="30"
+						width="38"
+						height="13"
+						key="staticText-266">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[%]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="408"
+						y="30"
+						width="28"
+						height="13"
+						key="textField-296">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 1 ? ($F{Q1 Grade Num} != null ? $F{Q1 Grade Num} : $F{Tri 1 Num}) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="30"
+						width="28"
+						height="13"
+						key="textField-297">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 2 ? ($F{Q2 Grade Num} != null ? $F{Q2 Grade Num} : $F{Tri 2 Num}) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="464"
+						y="30"
+						width="28"
+						height="13"
+						key="textField-298">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 3 ? ($F{Q3 Grade Num} != null ? $F{Q3 Grade Num} : $F{Tri 3 Num}) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="408"
+						y="43"
+						width="28"
+						height="13"
+						key="textField-301">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 1 ? StringUtils.coalesce($F{Tri 1 WH},$F{Q1 WH}) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="43"
+						width="28"
+						height="13"
+						key="textField-302">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 2 ? StringUtils.coalesce($F{Tri 2 WH},$F{Q2 WH}) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="464"
+						y="43"
+						width="28"
+						height="13"
+						key="textField-303">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 3 ? StringUtils.coalesce($F{Tri 3 WH},$F{Q3 WH}) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="492"
+						y="30"
+						width="28"
+						height="13"
+						backcolor="#FFFFFF"
+						key="staticText-269">
+							<printWhenExpression><![CDATA[new Boolean($V{showScale}.booleanValue() && $P{termNumber}.intValue() >= 4 && StringUtils.isEmpty($F{Final}))]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="492"
+						y="17"
+						width="28"
+						height="13"
+						backcolor="#FFFFFF"
+						key="staticText-270">
+							<printWhenExpression><![CDATA[new Boolean($V{showScale}.booleanValue() && $P{termNumber}.intValue() >= 4 && StringUtils.isEmpty($F{Final}))]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="492"
+						y="4"
+						width="28"
+						height="13"
+						backcolor="#FFFFFF"
+						key="staticText-271">
+							<printWhenExpression><![CDATA[new Boolean($V{showScale}.booleanValue() && $P{termNumber}.intValue() >= 4 && StringUtils.isEmpty($F{Final}))]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="492"
+						y="4"
+						width="28"
+						height="13"
+						key="staticText-272">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="520"
+						y="4"
+						width="28"
+						height="13"
+						key="staticText-273">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[F]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="17"
+						width="28"
+						height="13"
+						key="textField-304">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 4 ? StringUtils.coalesce($F{Tri 4},$F{Q4 Grade}) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="520"
+						y="17"
+						width="28"
+						height="13"
+						key="textField-305">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!StringUtils.isEmpty($F{Final}) ? 
+$F{Final} : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="30"
+						width="28"
+						height="13"
+						key="textField-306">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{termNumber}.intValue() >= 4 ? ($F{Q4 Grade Num} != null ? $F{Q4 Grade Num} : $F{Tri 4 Num}) : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="0.##" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="520"
+						y="30"
+						width="28"
+						height="13"
+						key="textField-307">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[!StringUtils.isEmpty($F{Final}) ? 
+$F{Final Num} : null]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="492"
+						y="43"
+						width="28"
+						height="13"
+						key="textField-308">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{termNumber}.intValue() >= 4 ? StringUtils.coalesce($F{Tri 4 WH},$F{Q4 WH}) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="520"
+						y="43"
+						width="28"
+						height="13"
+						key="staticText-274">
+							<printWhenExpression><![CDATA[$V{showScale}]]></printWhenExpression>
+						</reportElement>
+					<box>					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="255"
+						y="19"
+						width="111"
+						height="13"
+						key="textField-311">
+							<printWhenExpression><![CDATA[new Boolean(!StringUtils.isEmpty($V{schoolExam}) && $P{includeFinalExam}.booleanValue())]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Exam: " + StringUtils.coalesce($V{schoolExam}, "")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="46"
+						y="18"
+						width="321"
+						height="13"
+						key="textField-312"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{transcript}.getSchool().getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="255"
+						y="32"
+						width="111"
+						height="13"
+						key="textField-313">
+							<printWhenExpression><![CDATA[new Boolean(!StringUtils.isEmpty($V{percentComplete}))]]></printWhenExpression>
+						</reportElement>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["% Complet:  " + StringUtils.coalesce($V{percentComplete}, "")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="3"
+						y="18"
+						width="59"
+						height="13"
+						key="textField-314"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["L'école: "]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1 && $P{includeBehaviour}.booleanValue())]]></printWhenExpression>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool-input allow-school-select="true"
+	allow-org-select="false" context="com.x2dev.sis.model.beans.SisStudent">
+
+	<input name="schoolYearContext" data-type="string"
+		display-type="picklist" display-name="report.shared.schoolYear"
+		default-value="organization.currentContext.oid"
+		default-value-source="session">
+		<picklist field-id="ctxSchoolYear">
+			<field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+			<field id="ctxContextName" />
+		</picklist>
+	</input>
+
+	<input name="queryBy" data-type="string" display-type="select"
+		display-name="report.shared.query">
+		<option value="##current"
+			display-name="report.shared.query.currentSelection"
+			context-dependent="true" />
+		<option value="##all" display-name="report.shared.query.all" />
+		<option value="nameView" display-name="report.shared.name" />
+		<option value="localId" display-name="Local Student ID" />
+		<option value="stateId" display-name="State Student ID" />
+		<option value="yog" display-name="report.shared.query.yog" />
+		<option value="homeroom"
+			display-name="report.shared.query.homeroom">
+			<condition action="display"
+				expression="@sklCurrentCtxOid.equals(@rootOrgCurrentCtxOid)" />
+		</option>
+		<option value="currentContextAttributes.homeroom"
+			display-name="report.shared.query.homeroom">
+			<condition action="hide"
+				expression="@sklCurrentCtxOid.equals(@rootOrgCurrentCtxOid)" />
+		</option>
+		<disable input-name="queryString" if-parent-equals="##current" />
+		<disable input-name="queryString" if-parent-equals="##all" />
+	</input>
+
+	<input name="queryString" data-type="string" display-type="text"
+		display-name="report.shared.queryString" />
+
+</tool-input>

@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OnGradeBySchoolReportFormat" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6bbff51f-2cda-4f56-b5e8-75922d690d41">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<parameter name="prefix" class="java.lang.String"/>
+	<parameter name="reportDate" class="java.lang.String"/>
+	<parameter name="orgName" class="java.lang.String"/>
+	<parameter name="version" class="java.lang.String"/>
+	<parameter name="reportLocale" class="org.apache.struts.util.MessageResources"/>
+	<field name="BSID" class="java.lang.String"/>
+	<field name="schoolName" class="java.lang.String"/>
+	<field name="gradesMap" class="java.util.Map"/>
+	<field name="ftesMap" class="java.util.Map"/>
+	<variable name="studentsCount" class="java.lang.Integer" resetType="Group" resetGroup="Grade" calculation="Count">
+		<variableExpression><![CDATA[new Integer($V{studentsCount}.intValue() + 1)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<group name="Grade">
+		<groupHeader>
+			<band height="36">
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="16" width="42" height="20" uuid="9d94fe89-fd39-4509-a608-6636410c5f39"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true" isItalic="false"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.BSID")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="42" y="16" width="88" height="20" uuid="7f6f1f25-2bc3-4a3d-b121-231c02c16e19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.School.Name")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" x="130" y="16" width="23" height="20" uuid="7ca420b0-7027-4c7c-9af6-fcaf5f62b07c"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.JK") + " "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="153" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="4ac1136e-011b-4c83-9ff2-4af23a2f8e3a"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.K") + " "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="176" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="738fbc50-c5b5-4ee4-8169-d183eec1314e"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.1")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="199" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="0f18805a-ba58-44d7-92f1-6d730cbd913d"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.2")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="222" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="767d7cdb-d520-48c1-9ee9-566e1063efef"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.3")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="245" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="1d3a1c51-3037-481f-aad8-96bf13dda6d2"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.4")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="268" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="62e47634-de15-4b51-b993-1b3e97ac562a"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.5")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="291" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="c69b899c-0e49-45ba-8f66-224578d36c92"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.6")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="314" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="b8a27bb9-03a4-4b4d-8cfe-fee9bca64e5d"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.7")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="337" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="9d555996-ef67-4db4-97cb-9179197c1636"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.8")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="360" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="b1e40259-1714-4a42-9d9b-9b5a424544b1"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.9")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="383" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="cca9be20-ad75-4532-a4de-75f2eceee930"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.10")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="406" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="ca0ffa08-a173-4cb1-8808-e22222fbc230"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.11")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="429" y="16" width="23" height="20" isPrintWhenDetailOverflows="true" uuid="afb69bff-c160-4840-b697-7f0272e76619"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.12")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="452" y="16" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="307125e8-4117-4a6c-9ed4-660fc57fac7d"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Total")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="492" y="16" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="01697e14-f73b-4edb-b138-5573d6ebb72f"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.FTE")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToTallestObject" x="532" y="16" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="7713f693-ca46-4b27-b056-cc5276ed6739"/>
+					<box rightPadding="3">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.HCFTE")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="80" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="31" width="572" height="18" uuid="4c135248-f4b5-43a0-bad1-712891d1b91c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Grade.by.School.Summary")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="2" width="572" height="1" uuid="33b92639-df41-4a47-97ed-a6d28a192afd"/>
+			</line>
+			<line>
+				<reportElement x="0" y="78" width="572" height="1" uuid="e2eb985f-632f-4e74-b7f6-8d516cfbca37"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="63" width="185" height="14" uuid="c4c48c8b-f59a-415d-aa72-1918edf80c08"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Page") + " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="4" width="572" height="14" uuid="92eadf33-5d92-4671-be05-26cad7ec9448"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="387" y="63" width="185" height="14" uuid="c92023ad-4832-4f2c-bbb8-6e31bad30935"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Effective.Date") + " " + $P{reportDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="42" height="30" uuid="4d882f37-660e-4afd-9d84-ed508ab47268"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BSID}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="42" y="0" width="88" height="30" uuid="95aaad12-954f-47bd-9dc8-bfd34214d827"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schoolName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="130" y="0" width="23" height="30" uuid="21730de9-7448-4d0f-aa9e-4ec725991eef"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "JK" ) ? " " + $F{gradesMap}.get( "JK" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="153" y="0" width="23" height="30" uuid="946f5f45-1157-4125-8100-b505b7d562c9"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "K" ) ? $F{gradesMap}.get( "K" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="176" y="0" width="23" height="30" uuid="ea7dccf7-8717-4ba6-8bcd-b6827b9cfb6b"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "1" ) ? $F{gradesMap}.get( "1" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="199" y="0" width="23" height="30" uuid="cbaa836b-f8ea-4de0-a1a7-0e44c600b486"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "2" ) ? $F{gradesMap}.get( "2" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="222" y="0" width="23" height="30" uuid="dc0c5bea-095e-4964-a950-ea3b1800adcf"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "3" ) ? $F{gradesMap}.get( "3" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="291" y="0" width="23" height="30" uuid="146302dd-428d-4104-a086-a1816a74f176"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "6" ) ? $F{gradesMap}.get( "6" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="245" y="0" width="23" height="30" uuid="8146cb79-9e64-4953-86b5-efcfb6650427"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "4" ) ? $F{gradesMap}.get( "4" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="268" y="0" width="23" height="30" uuid="5cf2ed86-b9e2-410b-a214-1753170e1eac"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "5" ) ? $F{gradesMap}.get( "5" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="383" y="0" width="23" height="30" uuid="f53d4a4d-2a81-4c6e-83a7-3bfcd0dde0ff"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "10" ) ? $F{gradesMap}.get( "10" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="314" y="0" width="23" height="30" uuid="c38b963c-97c4-4c5c-a774-60add3643203"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "7" ) ? $F{gradesMap}.get( "7" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="337" y="0" width="23" height="30" uuid="65e15337-67d1-4586-b3fe-5da946c45550"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "8" ) ? $F{gradesMap}.get( "8" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="360" y="0" width="23" height="30" uuid="e5b5e192-cc5b-422d-ad16-7251f76958b5"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "9" ) ? $F{gradesMap}.get( "9" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="406" y="0" width="23" height="30" uuid="11d7e4d5-2621-4cb4-9a08-3788aa98cde4"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "11" ) ? $F{gradesMap}.get( "11" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="532" y="0" width="40" height="30" uuid="bdbb0773-1dd5-4bfc-b2b9-982e1ded8a3a"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftesMap}.containsKey( "hcfte" ) ? (new BigDecimal($F{ftesMap}.get( "hcfte" ).toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString() : "0.00"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="0" width="23" height="30" uuid="1ab5dde0-e723-48cc-a0cd-69fcc0e207d2"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "12" ) ? $F{gradesMap}.get( "12" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="452" y="0" width="40" height="30" uuid="f0371ee5-7ed8-4be0-a6f4-9c25b1f68590"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gradesMap}.containsKey( "total" ) ? $F{gradesMap}.get( "total" ).toString() : "0"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="492" y="0" width="40" height="30" uuid="1972c2bb-5ac8-4b22-b591-9d4ab1aa5d4c"/>
+				<box rightPadding="3">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ftesMap}.containsKey( "fte" ) ? (new BigDecimal($F{ftesMap}.get( "fte" ).toString())).setScale(2, BigDecimal.ROUND_HALF_UP).toString() : "0.00"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField evaluationTime="Page">
+				<reportElement x="2" y="25" width="183" height="23" uuid="dbc80ee1-ac70-4426-881b-cf843dc3dae2">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Version") + ": " + ($P{version} != null ? $P{version} : $P{reportLocale}.getMessage($P{prefix} + "rpt.not.set"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="572" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="c178e965-ecce-42fe-9d1e-d36f3a7b6cf6">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="0">
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true" isItalic="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.Personal.information.is.confidential.and.must.be.protected")]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Page">
+				<reportElement x="364" y="25" width="116" height="23" uuid="42d72e17-18ac-4e79-ae6d-7b9dc540415b">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="480" y="25" width="88" height="23" uuid="d06aa744-dc25-4522-8615-844834e232c5">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#C2C2C2"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.of") + " " + $V{PAGE_NUMBER} + " " + $P{reportLocale}.getMessage($P{prefix} + "rpt.Page.s")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Arrival.Status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.BSID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Effective.Date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.FTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.JK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.K}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.by.School.Detail}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Grade.by.School.Summary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.HCFTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.not.set}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.of}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Page}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Page.s}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.not.set}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.OEN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.of}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Personal.information.is.confidential.and.must.be.protected}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Primary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.School.Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Student.Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.Gender.Counts.for}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.Gender.Counts.for.Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.FTE.for}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.FTE.for.Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.HCFTE.for}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.HCFTE.for.Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.Students.for}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Total.Students.for.Grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" x="0" y="0" width="0" height="0" uuid="dcfdd0b0-93e6-4efc-b8ee-90fc70f05919"/>
+				<textFieldExpression><![CDATA[$R{rpt.Version}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

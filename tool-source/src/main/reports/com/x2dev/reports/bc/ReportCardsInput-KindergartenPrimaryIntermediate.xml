@@ -1,0 +1,281 @@
+<!-- ************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "STANDARD GRADE REPORT" CONFIGURED FOR "REPORT CARDS" REPORT -->
+<!-- ************************************************************************************** -->
+
+<tool-input district-support="false" context="com.x2dev.sis.model.beans.SisStudent" height="620">
+
+  <!-- *********** -->
+  <!-- REPORT TYPE -->
+  <!-- *********** -->
+  
+  <input name="reportCardType" data-type="string" display-type="select" display-name="Report Card Type">
+    <option value="-K" display-name="Kindergarten" />
+    <option value="-P" display-name="Primary" />
+    <option value="-I" display-name="Intermediate" />
+  </input>
+  
+  <!-- *********** -->
+  <!-- SCHOOL YEAR -->
+  <!-- *********** -->
+  
+  <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContextOid" default-value-source="session">
+    <picklist field-id="ctxSchoolYear">
+      <field id="ctxSchoolYear" sort="true" />
+      <field id="ctxContextName" />
+    </picklist>
+  </input>
+  
+  <!-- ********** -->
+  <!-- GRADE TERM -->
+  <!-- ********** -->
+  
+   <input name="gradeTermOid" data-type="string" display-type="picklist" display-name="report.shared.term" default-value="currentGradeTerm">
+    <picklist field-id="gtmGrdTermID">
+      <field id="gtmGrdTermID" sort="true" />
+      <field id="gtmGrdTermNum" />
+      <filter field="relGtmGtaOid.gtaSklOID" operator="equals" source="session" value="school.oid" />
+      <filter field="relGtmGtaOid.gtaCtxOID" operator="equals" source="input" value="contextOid" />
+    </picklist>
+  </input>
+  
+  <!-- ************** -->
+  <!-- SELECT OPTIONS -->
+  <!-- ************** -->
+  
+  <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+    <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true" />
+    <option value="##all" display-name="report.shared.query.all" >
+     <condition action="hide"     expression="getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName())" />
+    </option>
+    <option value="student.yog" display-name="report.shared.query.yog" >
+      <condition action="hide"     expression="getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName())" />
+    </option>
+    <option value="##snapshot" display-name="report.shared.query.recordSet" />
+    <disable input-name="queryString" if-parent-equals="##current" />
+    <disable input-name="queryString" if-parent-equals="##all" />
+  </input>
+  <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+  
+  <!-- ******************** -->
+  <!-- STUDENT SORT OPTIONS -->
+  <!-- ******************** -->
+  
+  <input name="studentSort" data-type="string" display-type="select" display-name="report.schedule.studentSort">
+    <option value="nameView" display-name="report.shared.sort.name" />
+    <option value="yog, nameView" display-name="report.shared.sort.yog" />
+    <option value="homeroom, nameView" display-name="report.shared.sort.homeroom" />
+  </input>
+  
+  <!-- ************************ -->
+  <!-- MULTIPLE MAILINGS OPTION -->
+  <!-- ************************ -->
+  
+  <input name="multipleMailings" data-type="boolean" display-type="checkbox" display-name="report.shared.alternateMailings" />
+  
+  <!-- ***************************** -->
+  <!-- EXCLUDE MISSING GRADES OPTION -->
+  <!-- ***************************** -->
+  
+  <input name="excludeEmpty" data-type="boolean" display-type="checkbox" display-name="report.shared.excludeEmpty" />
+  
+  <!-- ****************** -->
+  <!-- DISPLAY FIRST NAME -->
+  <!-- ****************** -->
+  
+  <input name="firstNameType" data-type="string" display-type="select" display-name="First Name Format">
+    <option value="preferred" display-name="Preferred" />
+    <option value="legal" display-name="Legal" />
+  </input>
+  
+  <!-- ***************** -->
+  <!-- DISPLAY LAST NAME -->
+  <!-- ***************** -->
+  
+  <input name="lastNameType" data-type="string" display-type="select" display-name="Last Name Format">
+    <option value="usual" display-name="Usual" />
+    <option value="legal" display-name="Legal" />
+  </input>
+  
+  <!-- ******* -->
+  <!-- MESSAGE -->
+  <!-- ******* -->
+  
+  <input name="includeSchoolMessage" data-type="boolean" display-type="checkbox" display-name="Display School Message" default-value="false" />
+  
+  <!-- ********* -->
+  <!-- SIGNATURE -->
+  <!-- ********* -->
+  
+  <input name="includeSignature" data-type="boolean" display-type="checkbox" display-name="Parent Signature Required" default-value="false" />
+  
+  <!-- ********** -->
+  <!-- BOTH SIDES -->
+  <!-- ********** -->
+  
+  <input name="printBothSides" data-type="boolean" display-type="checkbox" display-name="Print on Both Sides" default-value="false" />
+  
+  <!-- ******** -->
+  <!-- COMMENTS -->
+  <!-- ******** -->
+  
+  <input name="includeTermComments" data-type="boolean" display-type="checkbox" display-name="Include Term Comments" default-value="false" />
+  
+  <!-- *************** -->
+  <!-- HIDE MARK SCALE -->
+  <!-- *************** -->
+  
+  <input name="hideScale" data-type="boolean" display-type="checkbox" display-name="Hide Performance Scale if no Mark Entered" default-value="false" />
+  
+  <!-- ***************** -->
+  <!-- PERFORMANCE SCALE -->
+  <!-- ***************** -->
+  
+  <input name="includePerformance" data-type="boolean" display-type="checkbox" display-name="Print Performance Scale" default-value="false" />
+  
+  <!-- ******** -->
+  <!-- LANGUAGE -->
+  <!-- ******** -->
+  
+  <input name="isFrench" data-type="boolean" display-type="checkbox" display-name="French Language" default-value="false" />
+  
+  <!-- ********** -->
+  <!-- LEGAL SIZE -->
+  <!-- ********** -->
+  
+  <input name="printLegalSize" data-type="boolean" display-type="checkbox" display-name="Print on Legal Size Paper" default-value="false" />
+  
+  <!-- ************************************************************************************* -->
+  <!-- ************************ -->
+  <!-- CONFIGURATION PARAMETERS -->
+  <!-- ************************ -->
+  <!-- ************************************************************ -->
+  <!-- ITERATE GRID                                                 -->
+  <!--                                                              -->
+  <!-- This allows for a second grid iteration after the transcript -->
+  <!-- report grid has been initially populated. It can perform the -->
+  <!-- following operations:                                        -->
+  <!--                                                              -->
+  <!-- 1 - Creates equal spacing between transcript records across  -->
+  <!--     years if it is a multi-year report.                      -->
+  <!-- 2 - Sets the school field on the grid based on the students' -->
+  <!--     enrollment records.                                      -->
+  <!-- 3 - Creates transcript records for mailing contacts if       -->
+  <!--     multiple mailing is selected.                            -->
+  <!-- 4 - Adds the credit information for each student             -->
+  <!--                                                              -->
+  <!-- If any of the above operations are necessary or if custom    -->
+  <!-- methods that are called by iterateGrid() are set up, then    -->
+  <!-- the value for this parameter must be "true".                 -->
+  <!-- ************************************************************ -->
+  
+  <input name="iterateGrid" data-type="boolean" display-type="hidden" default-value="true" />
+  
+  <!-- *********** -->
+  <!-- ACTIVE ONLY -->
+  <!-- *********** -->
+  
+  <input name="activeOnly" data-type="boolean" display-type="hidden" default-value="true" />
+  
+ <!-- ********************* -->
+ <!-- SECONDARY ASSOCIATION -->
+ <!-- ********************* -->
+ 
+ <input name="secondaryStudent" data-type="boolean" display-type="hidden" display-name="report.student.secondaryAssociation" default-value="true" />
+    
+  <!-- ********************** -->
+  <!-- CONVERT NUMERIC GRADES -->
+  <!-- ********************** -->
+  
+  <input name="convertNumeric" data-type="boolean" display-type="hidden" display-name="report.shared.convertNumeric" default-value="false" />
+  
+  <!-- ***************** -->
+  <!-- CONVERT REFERENCE -->
+  <!-- ***************** -->
+  
+  <input name="convertReference" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ****************** -->
+  <!-- LOCALIZE REFERENCE -->
+  <!-- ****************** -->
+  
+  <input name="localizeReference" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ************* -->
+  <!-- RUBRIC REPORT -->
+  <!-- ************* -->
+  
+  <input name="rubricReport" data-type="boolean" display-type="hidden" default-value="true" />
+  
+  <!-- ************************ -->
+  <!-- REPORT TYPE              -->
+  <!--                          -->
+  <!-- 0 - Progress             -->
+  <!-- 1 - Term                 -->
+  <!--                          -->
+  <!-- Not important if it is   -->
+  <!-- a rubric report          -->
+  <!-- ************************ -->
+  
+  <input name="reportType" data-type="integer" display-type="hidden" default-value="1" />
+  
+  <!-- ************************* -->
+  <!-- LOAD ATTENDANCE SUMMARIES -->
+  <!-- ************************* -->
+  
+  <input name="loadAttendanceSummaries" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ******************* -->
+  <!-- LOAD CREDIT SUMMARY -->
+  <!-- ******************* -->
+  
+  <input name="loadCreditSummary" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ****************** -->
+  <!-- ADD HONOR ROLL MAP -->
+  <!-- ****************** -->
+  
+  <input name="addHonorRollMap" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ***************** -->
+  <!-- HONOR ROLL COLUMN -->
+  <!-- ***************** -->
+  
+  <input name="honorRollColumn" data-type="string" display-type="hidden" display-name="report.reportCards.honorRollColumn" required="false">
+    <picklist action="transcriptColumnPickList.do" field-id="gtcName" required="false">
+      <field id="relGtcGtdOid.gtdName" sort="true" />
+      <field id="gtcName" sort="true" />
+      <filter field="gtcGrsOID" operator="notEmpty" source="constant" />
+    </picklist>
+  </input>
+  
+  <!-- ****************************** -->
+  <!-- USE REPORT CARD HIDE INDICATOR -->
+  <!-- ****************************** -->
+  
+  <input name="useReportCardHideInd" data-type="boolean" display-type="hidden" default-value="true" />
+  
+  <!-- ****************** -->
+  <!-- LOAD REPORT SCHOOL -->
+  <!-- ****************** -->
+  
+  <input name="loadReportSchool" data-type="boolean" display-type="hidden" default-value="false" />
+  
+  <!-- ******** -->
+  <!-- PAD ROWS -->
+  <!-- ******** -->
+  
+  <input name="padRows" data-type="integer" display-type="hidden" default-value="0" />
+  
+  <!-- ************ -->
+  <!-- SUBREPORT ID -->
+  <!-- ************ -->
+  
+  <input name="reportId" data-type="string" display-type="hidden" default-value="BC-GRD-001" />
+
+  <!-- ****************** -->
+  <!-- COMMENT COURSE IDS -->
+  <!-- ****************** -->
+ 
+  <input name="commentCourses" data-type="string" display-type="hidden" display-name="" default-value="XTC--01,XTC--02,XTC--03,XTC--04,XTC--05,XTC--06,XTC--07,XTC--08,XTC--K,XTC---01,XTC---02,XTC---03,XTC---04,XTC---05,XTC---06,XTC---07,XTC---08,XTC---K"/>
+  
+</tool-input>

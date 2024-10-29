@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="DirectorsAnnualVocFTEADM"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="792"
+		 pageHeight="612"
+		 columnWidth="732"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="shortDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="dobDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="organization" isForPrompting="true" class="com.follett.fsc.core.k12.beans.Organization"/>
+	<parameter name="user" isForPrompting="true" class="com.follett.fsc.core.k12.beans.User"/>
+	<parameter name="year" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="suppressCol2Codes" isForPrompting="false" class="java.util.Collection">
+		<defaultValueExpression ><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="suppressCol3Codes" isForPrompting="false" class="java.util.Collection">
+		<defaultValueExpression ><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="includeEarlyGraduates" isForPrompting="false" class="java.lang.Boolean"/>
+	<parameter name="includeIEA" isForPrompting="false" class="java.lang.Boolean"/>
+
+	<field name="school" class="com.x2dev.sis.model.beans.SisSchool"/>
+	<field name="voc_classification" class="java.lang.String"/>
+	<field name="column_1" class="java.lang.String"/>
+	<field name="column_2" class="java.lang.String"/>
+	<field name="column_3" class="java.lang.String"/>
+	<field name="column_4" class="java.lang.String"/>
+	<field name="column_5" class="java.lang.String"/>
+	<field name="column_6" class="java.lang.String"/>
+	<field name="column_7" class="java.lang.String"/>
+	<field name="orgName" class="java.lang.String"/>
+	<field name="vocCode" class="java.lang.String"/>
+
+	<variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{shortDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="longDate" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+
+		<group  name="school" isStartNewPage="true" isResetPageNumber="true" >
+			<groupExpression><![CDATA[$F{orgName}]]></groupExpression>
+			<groupHeader>
+			<band height="180"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="9"
+						y="45"
+						width="86"
+						height="17"
+						key="staticText-1"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[District]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="62"
+						width="86"
+						height="17"
+						key="staticText-2"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="240"
+						y="45"
+						width="65"
+						height="17"
+						key="staticText-3"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[District No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="240"
+						y="62"
+						width="65"
+						height="17"
+						key="staticText-4"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="342"
+						y="45"
+						width="85"
+						height="17"
+						key="staticText-6"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Prepared By]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="570"
+						y="45"
+						width="35"
+						height="17"
+						key="staticText-7"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Phone]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="95"
+						y="45"
+						width="145"
+						height="17"
+						key="textField-2"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="95"
+						y="62"
+						width="145"
+						height="17"
+						key="textField-3"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school} != null ? $F{school}.getName() : "DISTRICT SUMMARY"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="305"
+						y="45"
+						width="37"
+						height="17"
+						key="textField-5"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{organization}.getId()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="305"
+						y="62"
+						width="122"
+						height="17"
+						key="textField-6"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{school}.getSchoolId()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="427"
+						y="45"
+						width="143"
+						height="17"
+						key="textField-7"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{user}.getNameView()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="605"
+						y="45"
+						width="115"
+						height="17"
+						key="textField-8"/>
+					<box rightPadding="5"></box>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{user}.getPerson().getPhone01()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="732"
+						height="45"
+						key="textField-22"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" isStyledText="true">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="12" isBold="true" isItalic="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["DIRECTOR'S ANNUAL REPORT \n " +
+"VOCATIONAL CLASS FULL TIME EQUIVALENT AVERAGE DAILY <style isItalic=\"true\" isBold =\"true\" pdfFontName=\"Times-BoldItalic\">MEMBERSHIP</style> \n" +
+"BY SCHOOL AND DISTRICT"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="427"
+						y="62"
+						width="217"
+						height="17"
+						key="staticText-23"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[*Name of Districts Receiving]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="103"
+						width="122"
+						height="77"
+						key="staticText-27"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[CLASSIFICATION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="185"
+						y="79"
+						width="80"
+						height="17"
+						key="staticText-38"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Report Date]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="79"
+						width="69"
+						height="17"
+						key="textField-18"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="9"
+						y="79"
+						width="108"
+						height="17"
+						key="staticText-39"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true"/>
+					</textElement>
+				<text><![CDATA[School Year]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="79"
+						width="68"
+						height="17"
+						key="textField-19"/>
+					<box></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{year}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="427"
+						y="79"
+						width="255"
+						height="15"
+						key="staticText-40"/>
+					<box topPadding="2"></box>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Arial" pdfFontName="Times-Bold" size="9" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[Students (Column 6)_______________________]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="209"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-24"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(2) Grades" + System.lineSeparator()
++"7-8" + System.lineSeparator()
++ "FTEADM" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "@with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="296"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-25"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(3) Grades" + System.lineSeparator()
++"9" + System.lineSeparator()
++ "FTEADM" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="383"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-26"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(4) Grades" + System.lineSeparator()
++"10-12" + System.lineSeparator()
++ "FTEADM" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-27"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(5) Gross" + System.lineSeparator()
++"District FTEADM" + System.lineSeparator()
++ "Sum of Column (1)-(4)" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="557"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-28"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(6) +/- Other" + System.lineSeparator()
++"FTEADM" + System.lineSeparator()
++ "Note 2 & 3" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="644"
+						y="103"
+						width="88"
+						height="77"
+						key="textField-29"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(7) Net District" + System.lineSeparator()
++"FTEADM Column (5)" + System.lineSeparator()
++ "plus or minus Column (6)" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="103"
+						width="87"
+						height="77"
+						key="textField-30"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["(1) Grade 'N'" + System.lineSeparator()
++"Special Ed." + System.lineSeparator()
++"Option 7, 8, 9" + System.lineSeparator()
++ "FTEADM" + System.lineSeparator()
++ "(Note 1)" + System.lineSeparator()
++ ($P{includeEarlyGraduates}.booleanValue() ? "(with Early Graduates, " : "(without Early Graduates, ")
++ ($P{includeIEA}.booleanValue() ? "with IEA Students)" : "without IEA Students)")]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="78"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="9"
+						y="10"
+						width="40"
+						height="12"
+						key="staticText-24"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[NOTE:    ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="9"
+						y="60"
+						width="101"
+						height="14"
+						key="staticText-26"
+						positionType="Float"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[ED-1861 (REV 5/02)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="49"
+						y="41"
+						width="683"
+						height="13"
+						key="staticText-35"
+						positionType="Float"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[3. FTEADM for a Tennessee Technology Center managed by the Tennessee Board of Regents should not be subtracted.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="49"
+						y="23"
+						width="683"
+						height="19"
+						key="textField-23"
+						positionType="Float"/>
+					<box></box>
+					<textElement isStyledText="true">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["2. The FTEADM <style isItalic=\"true\" isBold =\"true\" pdfFontName=\"Helvetica-BoldOblique\"> received from another district</style> in a center operated by you is <style isItalic=\"true\" isBold =\"true\" pdfFontName=\"Helvetica-BoldOblique\">added</style>. The FTEADM which <style isItalic=\"true\" isBold =\"true\" pdfFontName=\"Helvetica-BoldOblique\">you send</style> to vocational program operated by someone else is <style isItalic=\"true\" isBold =\"true\" pdfFontName=\"Helvetica-BoldOblique\">substracted</style>."]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="49"
+						y="10"
+						width="683"
+						height="13"
+						key="staticText-37"/>
+					<box></box>
+					<textElement>
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[1. Grade 'N' (Special Ed. Option 7, 8, 9) Include only students whose vocational education classes are not part of their special education (IEP)]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="21"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="122"
+						height="21"
+						key="textField-10"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="5" rightPadding="5" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{voc_classification}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-11"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="209"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-12"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="296"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-13"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="383"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-14"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_4}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-15"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_5}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="557"
+						y="0"
+						width="87"
+						height="21"
+						key="textField-16"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_6}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="644"
+						y="0"
+						width="88"
+						height="21"
+						key="textField-17"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{column_7}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="209"
+						y="0"
+						width="87"
+						height="21"
+						backcolor="#CCCCCC"
+						key="textField-20"
+						stretchType="RelativeToTallestObject">
+							<printWhenExpression><![CDATA[new Boolean($P{suppressCol2Codes}.contains($F{vocCode}))]]></printWhenExpression>
+						</reportElement>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="296"
+						y="0"
+						width="87"
+						height="21"
+						backcolor="#CCCCCC"
+						key="textField-21"
+						stretchType="RelativeToTallestObject">
+							<printWhenExpression><![CDATA[new Boolean($P{suppressCol3Codes}.contains($F{vocCode}))]]></printWhenExpression>
+						</reportElement>
+					<box leftPadding="10" rightPadding="15" topPadding="1" bottomPadding="2">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- When running from eclipse, in the eclipse launch configuration enter
+        ${workspace_loc:/com.x2dev.sis}
+     as the Base Directory.
+     The tn-pub-bundle.zip will be built in the com.x2dev.sis/target directory. 
+  -->
+    
+<project name="TN Ed-Fi Pub exports" default="bundle" basedir=".">
+
+  <property name="target.dir"                     value="target" />
+  <property name="edfiBase.dir"                   value="procedures" />
+  <property name="etc.dir"                        value="src/main/resources/etc/" />	
+  <property name="tnProcedures.dir"               value="${edfiBase.dir}/com/x2dev/procedures/edfi/tn" />
+  <target name="bundle">
+
+    <delete file="${target.dir}/tn-pub-bundle.zip" />
+ 	 
+ 	<copy todir="${target.dir}">
+      <fileset dir="${etc.dir}/" includes="bundle-definition-edfi-tn-pub.xml" />
+    </copy>
+ 	
+    <move file="${target.dir}/bundle-definition-edfi-tn-pub.xml" tofile="${target.dir}/bundle-definition.xml" />
+ 	
+    <zip destfile="${target.dir}/tn-pub-bundle.zip" filesonly="false">
+      <fileset dir="${edfiBase.dir}">
+        <include name="**/edfi/tn/*.xml" />
+      </fileset>
+      <fileset dir="${target.dir}/" includes="bundle-definition.xml"/>
+    </zip>
+ 	<delete>
+      <fileset dir="${target.dir}/" includes="bundle-definition.xml"/>
+    </delete>
+  </target>
+</project>

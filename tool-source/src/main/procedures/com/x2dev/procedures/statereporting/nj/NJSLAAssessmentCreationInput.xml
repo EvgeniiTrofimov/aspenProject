@@ -1,0 +1,117 @@
+<!-- *************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "PARCC NJ EXPORT" -->
+<!-- *************************************************************************** -->
+
+
+<tool-input allow-school-select="false" district-support="true" height="560">
+
+    <input name="asmDefinitionId" data-type="string" display-type="hidden" default-value="NJSLA"/>
+    
+    <input name="asmDate" data-type="date" display-type="date" display-name="Assessment Date" required="true" />
+
+    <input name="schoolYearContext" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+        <picklist field-id="ctxSchoolYear">
+            <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+            <field id="ctxContextName" />
+        </picklist>
+    </input>
+
+    <!-- ******* -->
+    <!-- SCHOOLS -->
+    <!-- ******* -->
+
+    <input name="schoolOids" data-type="string" display-type="picklist"
+        display-name="School(s)" default-value-source="session" default-value="school.oid"
+        required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant"
+                value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+
+  <input name="queryBy" data-type="string" display-type="select" display-name="Search by">
+    <option value="##all" display-name="All" />
+      <option value="stateId" display-name="State ID" />
+      <option value="localId" display-name="Local ID" />
+      <option value="##snapshot" display-name="export.doe.selection.snapshot" />
+      <disable input-name="queryString" if-parent-equals="##all" />
+    </input>
+    <input name="queryString" data-type="string" display-type="text" display-name="Search value" />
+
+  
+  <input name="createBasedOn" data-type="String" display-type="select" display-name="Create Records based on" required="true" default-value="Course">
+    <option value="Course" display-name="Course"/>
+    <option value="Grade Level" display-name="Grade Level"/>
+  </input>
+
+   <!-- ******** -->
+   <!-- Sections -->
+   <!-- ******** --> 
+
+   <input name="courseSections" data-type="picklist" display-type="select" display-name="Class sections" required="false">
+        <picklist field-id="mstCourseView" multiple="true" width="500" height="470" required="false">
+            <filter field="relMstCskOid.cskSklOID" operator="in" source="input" value="schoolOids" />
+            <filter field="relMstSchOid.relSchCtxOid.ctxOID" operator="equals" source="input" value="schoolYearContext" />
+            <filter alias="relMstCskOid.relCskCrsOid.all-crs-NJTestCode" operator="notEmpty"/>
+            <field id="mstCourseView" sort="true" />
+            <field id="relMstCskOid.cskCourseDesc" /> 
+            <field alias="relMstCskOid.relCskCrsOid.all-crs-NJTestCode" />
+            <field id="relMstTrmOid.trmTermCode" /> 
+            <field id="relMstCskOid.relCskSklOid.sklSchoolName" /> 
+        </picklist>
+  </input>
+
+  <!-- ********** -->
+  <!-- TEST CODES -->
+  <!-- ********** -->
+   
+  <input name="testCode" data-type="string" display-type="picklist" display-name="Test Code" required="true">
+        <picklist field-id="rcdCode" multiple="true" width="500" height="470">
+    		<filter field="relRcdRtbOid.rtbUserName" operator="equals" source="constant" value="Test Code" />
+            <field id="rcdCode" sort="true" />
+            <field id="rcdDescription" />
+        </picklist>
+  </input>
+
+  <!-- ****** -->
+  <!-- GRADES -->
+  <!-- ****** -->
+   
+  <input name="gradeList" data-type="string" display-type="picklist" display-name="Grades" required="false">
+        <picklist field-id="rcdCode" multiple="true" required="false" >
+            <field id="rcdCode" sort="true" />
+            <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+            <filter field="rcdCode" operator="in" source="constant" value="01;02;03;04;05;06;07;08;09;10;11;12;13;14;3F;4F;KF;PG;SP" />
+        </picklist>
+  </input>
+  
+  <!-- **************** -->
+  <!-- SEMESTER SELECT  -->
+  <!-- **************** -->
+  
+  <input name="cycle" data-type="String" display-type="select" display-name="Cycle Selection" required="true" default-value="Spring">
+    <option value="Fall" display-name="Fall"/>
+    <option value="Summer" display-name="Summer"/>
+    <option value="Spring" display-name="Spring"/>
+    <option value="ACCESS/DLM" display-name="ACCESS/DLM"/>
+  </input>
+  
+  <!-- ************ -->
+  <!-- TEST FORMATS -->
+  <!-- ************ -->
+   
+  <input name="testFormat" data-type="string" display-type="picklist" display-name="Test Format" required="true">
+        <picklist field-id="rcdCode" multiple="false" >
+            <field id="rcdCode" sort="true" />
+            <field id="rcdDescription" sort="true" />
+            <filter field="relRcdRtbOid.rtbUserName" operator="equals" value="Test Format"/>
+        </picklist>
+  </input>
+  
+  <input name="ctxBeanPath" data-type="string" display-type="hidden" default-value="contextId"/>
+  
+</tool-input>

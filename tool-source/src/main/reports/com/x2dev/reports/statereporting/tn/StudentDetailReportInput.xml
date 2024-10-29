@@ -1,0 +1,81 @@
+<!-- ******************************************************************************* -->
+<!-- REPORT INPUT DEFINITIONS FOR THE "MONTHLY REGISTER" REPORT                      -->
+<!-- ******************************************************************************* -->
+
+<tool-input allow-school-select="true" district-support="false">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- ******************** -->
+ <!-- INCLUDE ALL STUDENTS -->
+ <!-- ******************** -->
+<input name="includeAllStudents" data-type="boolean" display-type="checkbox" display-name="Include all students"  default-value="false"/>
+
+ <!-- ******************** -->
+ <!-- INCLUDE ALL STUDENTS -->
+ <!-- ******************** -->
+<input name="includeScheduledWithdrawn" data-type="boolean" display-type="checkbox" display-name="Include Scheduled While Withdrawn"  default-value="false"/>
+
+ <!-- ******************** -->
+ <!-- SCHEDULED ONLY -->
+ <!-- ******************** -->
+<input name="overUnderScheduledOnly" data-type="boolean" display-type="checkbox" display-name="Over/Under Scheduled Only"  default-value="false"/>
+
+ <!-- ************ -->
+ <!-- REPORT PERIOD -->
+ <!-- ************ -->
+ <input name="reportPeriod" data-type="string" display-type="picklist" display-name="Report Period">
+   <picklist field-id="rcdCode" required="true">
+     <field id="rcdCode" />
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+   </picklist>
+ </input>
+
+ <!-- ************************* -->
+ <!-- RECORDS SELECTION OPTION  -->
+ <!-- ************************* -->
+
+ <group header="report.student.primary" value-from="resource" >
+  <input name="primaryStudentPrimarySchool" data-type="boolean" display-type="checkbox" display-name="report.student.primaryStudentPrimarySchool" default-value="true" preference-key="sys.ssk.secondaryStudent" preference-value="true"/>
+  <input name="primaryStudentSecondarySchool" data-type="boolean" display-type="checkbox" display-name="report.student.primaryStudentSecondarySchool" default-value="true" preference-key="sys.ssk.secondaryStudent" preference-value="true"/>
+ </group> 
+ 
+ <group header="report.student.secondary" value-from="resource" >
+  <input name="secondaryStudentCurrentSchool" data-type="boolean" display-type="checkbox" display-name="report.student.secondaryStudentCurrentSchool" default-value="false" preference-key="sys.ssk.secondaryStudent" preference-value="true"/>
+  <input name="secondaryStudentPrimarySchool" data-type="boolean" display-type="checkbox" display-name="report.student.secondaryStudentPrimarySchool" default-value="false" preference-key="sys.ssk.secondaryStudent" preference-value="true"/>
+ </group>
+
+ <!-- *********** -->
+ <!-- TOTALS ONLY -->
+ <!-- *********** -->
+ 
+ <input name="totalsOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.totalOnly"/>
+ 
+ <!-- ******************** -->
+ <!-- STUDENT SORT OPTIONS -->
+ <!-- ******************** -->
+ <!--  Note: calendarCode must come first to accommodate districts with multiple calendars per school -->
+ <input name="sortBy" data-type="string" display-type="select" display-name="report.schedule.studentSort">
+  <option value="calendarCode, nameView" display-name="report.shared.sort.name" />
+  <option value="calendarCode, gradeLevel, nameView" display-name="report.shared.sort.gradeLevel" />
+  <option value="calendarCode, homeroom, nameView" display-name="report.shared.sort.homeroom" />
+ </input>
+ 
+ <!-- ************* -->
+ <!-- HIDDEN FIELDS -->
+ <!-- ************* -->
+ <input name="excludedGrades" data-type="string" display-type="hidden" default-value="PK,P3,P4"/>
+
+</tool-input>

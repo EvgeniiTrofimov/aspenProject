@@ -1,0 +1,72 @@
+<!-- ************************************************************** -->
+<!-- INPUT DEFINITION FOR THE "CANDIDATE FOR EXAM COMPONENT" REPORT -->
+<!-- ************************************************************** -->
+
+<tool-input allow-school-select="false">
+
+ <!-- ******* -->
+ <!-- SEASON  -->
+ <!-- ******* -->
+ <input name="season" data-type="string"
+     display-type="reference" display-name="Season"
+     required="false">
+     <picklist field-id="sesName" multiple="false"
+         required="false">
+         <field id="sesName" sort="true" />
+     </picklist>
+ </input>
+
+ <!-- ****** -->
+ <!-- Course -->
+ <!-- ****** -->
+ <input name="courseList" data-type="string"
+     display-type="reference" display-name="Course"
+     required="false">
+     <picklist field-id="mstCourseView" multiple="true" width="500"
+         height="470" required="false">
+      <filter field="mstSchOID" operator="equals"
+             value="school.activeScheduleOid" source="session" />
+         <field id="mstCourseView" sort="true" />
+         <field id="relMstCskOid.cskCourseDesc" />
+         <field id="mstStaffView" />
+         <field id="relMstCskOid.cskDeptCode" />
+     </picklist>
+ </input>
+
+ <!-- ************* -->
+ <!-- Exam Entries  -->
+ <!-- ************* -->
+ <input name="examSeries" data-type="string" display-type="select" display-name="Exam Series">
+    <picklist field-id="serSeriesId" required="false" multiple="false">
+      <filter field="relSerSesOid.sesOID" operator="equals" source="input" value="season" />
+      <field id="serSeriesId" sort="true" />
+      <field id="serAwdingBody" />
+    </picklist>
+ </input>
+
+
+ <!-- ******* -->
+ <!-- Options -->
+ <!-- ******* -->
+ <input name="optionList" data-type="string"
+     display-type="reference" display-name="Options"
+     required="false">
+     <picklist field-id="optTitle" multiple="true" width="600"
+         height="470" required="false">
+      <filter field="relOptSerOid.serOID" operator="equals"
+             value="examSeries" source="input" />
+         <field id="optAwdingBody" />
+         <field id="optTitle" sort="true" />
+         <field id="optEntCode" />
+         <field id="optExQuUnt" />
+         <field id="relOptSerOid.serSeriesId" />
+     </picklist>
+ </input>
+
+ <!-- *********** -->
+ <!-- ACTIVE-ONLY -->
+ <!-- *********** -->
+
+ <input name="activeOnly" data-type="boolean" display-type="checkbox" display-name="report.shared.activeStudentsOnly" default-value="true"/>
+
+</tool-input>

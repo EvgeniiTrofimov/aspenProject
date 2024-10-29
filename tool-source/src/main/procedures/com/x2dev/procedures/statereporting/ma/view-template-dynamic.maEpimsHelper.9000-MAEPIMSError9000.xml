@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="dynamic.maEpimsHelper.9000" name="MA EPIMS Error 9000" locked="false">
+  <template>
+    <tab name="Work&amp;nbsp;Assignments&amp;nbsp;(WA01&amp;nbsp;-&amp;nbsp;WA12) ">
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="large">&lt;span style="color:#00a3cc;"&gt;Validation Message:&lt;/span&gt;</text>
+              <text font-size="large">9000 - Invalid/Missing Course Term (WA16)</text>
+            </cell>
+          </line>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" font-size="medium">WA16 must be a valid course term code listed in the EPIMS Data Handbook. It must not be blank or null.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <property alias="SR09" label="SR09 Status" label-short="false" />
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer height="10" />
+            </cell>
+          </line>
+          <line border="bottom" shaded="true">
+            <cell border="none" cell-span="1" line-span="1" shaded="true">
+              <text bold="true" underline="true" font-size="medium">Check Work Assignments/Teacher Schedules:</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text font-size="medium">Verify that there's a term populated in the below Schedule Term &gt; Code field</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer width="15" />
+              <text font-size="medium">*If there is not, then the term field for the section in the master schedule is most likely not populated.  Verify that there's a term specified for the section in the Schedule Master record (School view &gt; Schedules top tab &gt; Master side tab &gt; Sections side tab)</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text font-size="medium">If a term is selected, check to make sure there's a state code associated with that code in the corresponding reference table. The default table name for that reference table is Schedule Term Codes. This may be different in your site if the name has been customized.</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer height="10" />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="medium">WA06-WA12 Teacher Schedules</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="epimsSIFDetail.schedulePopup" id="schedules" popup-height="300" popup-width="550" relationship="relStfMtcOid" selection-type="multiple">
+                <field id="relMtcMstOid.mstCourseView" sort="true" />
+                <field id="relMtcMstOid.mstDescription" />
+                <field id="relMtcMstOid.relMstSchOid.relSchSklOid.sklSchoolName" />
+                <field id="mtcTeacherRole" />
+                <field alias="WA08-MTC" />
+                <field id="relMtcMstOid.relMstCskOid.relCskCrsOid.crsFieldA002" />
+                <field id="relMtcTrmOid.trmTermCode" />
+                <field alias="EPIMS SMT Status" />
+                <filter connector="and" source="sql" value="MST_SCH_OID IN (SELECT SKX_SCH_OID_ACTIVE FROM SCHOOL_SCHEDULE_CONTEXT, SCHOOL WHERE SKX_OID = SKL_SKX_OID_ACTIV) " />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

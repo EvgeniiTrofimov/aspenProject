@@ -1,0 +1,85 @@
+<!-- **************************************************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "DIRECTORS MEMBERSHIP/ATTENDANCE REPORT" CONFIGURED FOR "DIRECTORS MONTHLY MEMBERSHIP/ATTENDANCE REPORT" REPORT -->
+<!-- **************************************************************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="organization.currentContext.oid" default-value-source="session">
+     <picklist field-id="ctxSchoolYear">
+         <field id="ctxSchoolYear" sort="true" sort-direction="DESC" />
+         <field id="ctxContextName" />
+     </picklist>
+ </input>
+
+ <!-- ************** -->
+ <!-- SCHOOLS -->
+ <!-- ************** -->
+
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+
+
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="School(s)" default-value-source="session" default-value="school.oid"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         <filter field="sklInactiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant"
+             value="1" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+
+ <!-- ********** -->
+ <!-- MONTH CHOICE -->
+ <!-- ********** -->
+ <input name="reportPeriod" data-type="string" display-type="picklist" display-name="Report Period" >
+     <picklist field-id="rcdCode">
+     <field id="rcdCode"/>
+     <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+     <filter field="rcdDisabledInd" operator="equals" source="constant" value="0" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="00" />
+     <filter field="rcdCode" operator="notEqual" source="constant" value="99" />
+     </picklist>
+ </input>
+  
+ <!-- ***** -->
+ <!-- GRADES -->
+ <!-- ***** --> 
+ <input name="includeAllGrades" data-type="boolean" display-type="checkbox" display-name="All Grade Levels"  default-value="true"/>
+ <input name="grades" data-type="string" display-type="picklist" display-name="Grade Levels" required="false">
+     <picklist field-id="rcdCode" multiple="true" required="false">
+      <field id="rcdCode" sort="true" />
+      <filter field="rcdRtbOID" operator="equals" value="rtbGradeLevel"/>
+      <filter field="rcdCode" operator="in" source="constant" value="KG;K;01;02;03;04;05;06;07;08;09;10;11;12;" />
+     </picklist>
+ </input>
+ <input name="includeNonGraded" data-type="boolean" display-type="checkbox" display-name="Include Grade 'N'"  default-value="true"/>
+
+ <!-- **************** -->
+ <!-- DISTRICT SUMMARY -->
+ <!-- **************** -->
+ <input name="includeDistrictSummary" data-type="boolean" display-type="checkbox" display-name="Include Summary"  default-value="true"/>
+ <input name="summaryOnly" data-type="boolean" display-type="checkbox" display-name="Summary Only"  default-value="false"/>
+
+  <!-- *********************** -->
+  <!-- EARLY GRADUATES and IEA -->
+  <!-- *********************** -->
+ <input name="includeEarlyGraduates" data-type="boolean" display-type="checkbox" display-name="Include Early Graduates"  default-value="false"/>
+ <input name="includeIEA" data-type="boolean" display-type="checkbox" display-name="Include IEA Students"  default-value="false"/>
+ 
+  <!-- ********** -->
+  <!-- SUBREPORTS -->
+  <!-- ********** -->
+ 
+  <input name="subreportIdPDFVersion" data-type="string" display-type="hidden" default-value ="TN_DIR_MEM_MONTH"/>
+  <input name="subreportIdCSVVersion" data-type="string" display-type="hidden" default-value ="TN_DETAIL_REPORT_CSV"/>
+  <input name="subreportIdSummaryCSVVersion" data-type="string" display-type="hidden" default-value ="TN_ANNUAL_SUMMARY_CSV"/>
+ 
+
+</tool-input>

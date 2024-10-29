@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>aspen-base-parent-pom</artifactId>
+		<groupId>com.follett.fss.aspen</groupId>
+		<version>2.1</version>
+		<relativePath />
+	</parent>
+
+	<groupId>com.follett.fss.aspen-modules</groupId>
+	<artifactId>aspen-customer-tools-parent</artifactId>
+	<version>6.7-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<description>Aspen state tools parent</description>
+
+	<properties>
+		<aspen.static.version>670.7.265</aspen.static.version>
+		<bom.static.version>1.9</bom.static.version>
+
+		<workspace.location>${basedir}</workspace.location>
+		<web.project.location>aspen-web</web.project.location>
+		<config.project.location>aspen-config</config.project.location>
+	</properties>
+
+	<modules>
+		<module>tool-source</module>
+		<module>bundle-builder</module>
+	</modules>
+
+	<dependencyManagement>
+		<!-- If any new dependencies need to come into this area, please validate 
+			that they are in the parent pom and place them there instead -->
+		<dependencies>
+
+			<!-- Aspen standard dependencies -->
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-provided-bom</artifactId>
+				<type>pom</type>
+				<version>${bom.static.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-runtime-bom</artifactId>
+				<scope>runtime</scope>
+				<type>pom</type>
+				<version>${bom.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-dependency-bom</artifactId>
+				<type>pom</type>
+				<version>${bom.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-test-bom</artifactId>
+				<type>pom</type>
+				<version>${bom.static.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-utils</artifactId>
+				<version>${aspen.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-core</artifactId>
+				<version>${aspen.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-tools</artifactId>
+				<version>${aspen.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-web</artifactId>
+				<classifier>aspen-test-harness</classifier>
+				<type>zip</type>
+				<scope>test</scope>
+				<version>${aspen.static.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-core</artifactId>
+				<type>test-jar</type>
+				<version>${aspen.static.version}</version>
+				<classifier>tests</classifier>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.follett.fss.aspen</groupId>
+				<artifactId>aspen-config</artifactId>
+				<version>${aspen.static.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<doclint>none</doclint>
+					<sourcepath>src</sourcepath>
+					<author>true</author>
+					<version>true</version>
+					<use>true</use>
+					<windowtitle>Aspen State Reporting</windowtitle>
+					<maxmemory>1024m</maxmemory>
+					<encoding>ISO-8859-1</encoding>
+					<doctitle>
+<![CDATA[
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr valign="middle">
+<td nowrap="true"><span style="font-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:28px;font-weight:normal;color:#000000;">Aspen State Reporting</span></td>
+</tr>
+</table>
+]]>
+					</doctitle>
+					<bottom />
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<inherited>false</inherited>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-FSC-20150712</version>
+				<configuration>
+					<username>jenkins</username>
+					<password>Stuffy2</password>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.internetitem</groupId>
+										<artifactId>write-properties-file-maven-plugin</artifactId>
+										<versionRange>[1.0.1,)</versionRange>
+										<goals>
+											<goal>
+												write-properties-file
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[3.0.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

@@ -1,0 +1,855 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%942.38%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',942.38') where history not like '%942.38%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [iepform.career.dev.plan] -->
+<template>
+  <tab name="Career Development Plan">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">My Career Development Plan</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="20" />
+        </line>
+		<line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Career Development Plan Date:</text>
+          </cell>
+        </line>
+		<line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-plan-date" label-display="false" rows="2" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My Career Goal:</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-goal" label-display="false" rows="2" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My anticipated exit date:</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-anticipated-exit-date" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">I will meet with Benefits Specialist (One year prior to exit):</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-date-meet-benefits" label-display="false" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">My Career Development Team: (Persons assisting me with the development of this plan)</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="center" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large">Name</text>
+          </cell>
+          <cell align="center" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large">Title</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name1" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title1" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Student</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name2" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title2" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name3" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title3" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Special Educator</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name4" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title4" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Adult Services (ORS/BHDDH)</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name5" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title5" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Other</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name6" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title6" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Other</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name7" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title7" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Other</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name8" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title8" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Other</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-name9" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-title9" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="false">Other</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="20" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''accomod'');"&gt;Populate table&lt;/button&gt; </text>
+       </line>
+        <line align="center" border="none" shaded="true">
+        <text bold="true" >(Pull data from &quot;Transition Assessments&quot; table on &quot;Secondary Transition&quot; tab. After pulling require save form.)</text>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">My Transition Assessments (Include Vocational Assessment  &amp; Person Centered Planning):</text>
+        </line>
+        <line border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxRiCrrPlan" id="transitionAssessments" popup-height="400" popup-width="700" relationship="relGfdGfcOid" selection-type="multiple" detail-context="career.dev.plan.tr.assessment.detail" show-add-button="true" show-delete-button="true" independent-save="true">
+              <field alias="crrpln-ch-method" />
+              <field alias="crrpln-ch-date1" />
+              <filter connector="and" field="gfcFieldC001" operator="equals" source="constant" value="Transition Assessments" />
+              <system-value field="gfcFieldC001" source="constant" value="Transition Assessments" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">My Interests &amp; Preferences</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My Expressed Area of Interest</text>
+          </cell>
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-area-interest" label-display="false" rows="3" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My Job Preferences</text>
+          </cell>
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-job-preferences" label-display="false" rows="3" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Recommendations from my Career Development team</text>
+          </cell>
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-recomendation-team" label-display="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Community Support Services</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">ORS Introduction Date:</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">BHDDH Introduction date:</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="2">
+            <text bold="true">SSI (Supplemental Security Income)</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="2">
+            <text bold="true">SSDI (Social Security Disability Insurance)</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-orsi-date" label-display="false" label="ORS Introduction Date:" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-bhddhi-date" label-display="false" label="BHDDH Introduction date:" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">ORS REFERRAL Date:</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">*BHDDH Application Date:</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ssi-ind" label-display="false" label="SSI (Supplemental Security Income)" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ssdi-ind" label-display="false" label="SSDI (Social Security Disability Insurance)" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-orsr-date" label-display="false" label="ORS REFERRAL Date:" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-bhddha-date" label-display="false" label="*BHDDH Application Date: " rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ssi-date" label-display="false" label="SSI (Supplemental Security Income) Date" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ssdi-date" label-display="false" label="SSI (Supplemental Security Income) Date" rows="1" />
+          </cell>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">* http://www.riemploymentfirst.ri.gov/participants/EligibilityInformation.php</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" shaded="true">
+          <text bold="true" font-size="large">I will Transition to...POST SCHOOL GOALS</text>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="top" cell-span="1" line-span="1">
+            <text bold="true">Work Full-time</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Work Part-time</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Post-Secondary Education</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Apprenticeship</text>
+          </cell>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-work-full-time-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-work-part-time-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-post-sec-education-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-apprenticeship-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="top" cell-span="2" line-span="1">
+            <text bold="true">Other</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Supported Employment</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Short-term training</text>
+          </cell>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-work-other-time-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-supported-empl-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-short-term-training-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <text bold="true">describe</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true">Customized Employment:</text>
+          </cell>
+          <cell align="left" border="top,left" cell-span="1" line-span="1">
+            <text bold="true" />
+          </cell>
+        </line>
+        <line align="left" shaded="true">
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-work-other-descr" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <property alias="crrpln-customized-empl-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="left" cell-span="1" line-span="1">
+            <text bold="true" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">My School Based Preparatory Experiences (Check)</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Social Skills Training</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-soc-skill-training-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Self-Advocacy/ Self-Determination</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-self-advocacy-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Career Exploration</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-career-exploration-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Conflict Resolution</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-confl-resolution-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Soft Skill Development</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-soft-skill-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Peer &amp; Adult Mentorship</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-adult-mentorship-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Job Skill Development</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-job-skill-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Daily Living Skills</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-daily-lvng-skill-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Youth Development &amp; Leadership</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-you-dev-lidership-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Assistive Technology</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-assistive-tech-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Post School Educational &amp; Community Services</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ps-community-srv-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="crrpln-sch-prepar-exp-other" bold="true" label-display="left" label="Other" rows="1" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">My Vocational &amp; Related Services</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Transition Fair</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-transition-fair-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Integrated Work based Learning Experience</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-int-wbsd-learn-exp-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Career Days</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-career-days-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Job Shadow</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-job-shadow-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Internships</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-internships-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Business Tour</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-business-tour-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Part-time Employment</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-part-time-empl-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Summer Employment</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-summer-empl-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Volunteering</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-volunteering-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Work-study</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-work-study-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+     <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Service Learning</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-service-learning-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Informational interviews</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-inform-interview-ind" label-display="false" rows="1" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Integrated Trial Work Experiences</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxRiCrrPlan" id="workExperiences" popup-height="400" popup-width="700" relationship="relGfdGfcOid" detail-context="career.dev.plan.work.experiences" show-add-button="true" show-delete-button="true" independent-save="true">
+              <field alias="crrpln-ch-experience-type" label="*Type" />
+              <field alias="crrpln-ch-location" />
+              <field alias="crrpln-ch-anticipated-dates" />
+              <field alias="crrpln-ch-person-responsible" />
+              <field alias="crrpln-ch-completed" />
+              <field alias="crrpln-ch-total-days" />
+              <filter connector="and" field="gfcFieldC001" operator="equals" source="constant" value="Work Experiences" />
+              <system-value field="gfcFieldC001" source="constant" value="Work Experiences" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line shaded="true">
+          <text bold="true">*Community Based Vocational Experience= CBVE; Situational Assessment in the Community= SAC; Summer Work Experience= SWE;</text>
+        </line>
+        <line shaded="true">
+          <text bold="false">&lt;b&gt;Trial Work Experience =TWE&lt;/b&gt; is the opportunity to work in a real job in an integrated employment setting alongside non-disabled co-workers, customers, and/or peers, with the appropriate services and supports for a sufficient period of time to establish whether an individual''s interests, skills and abilities are well-suited for the particular job, but for no shorter than 60 days.  The trial work experience shall be selected though a person centered planning process and shall be individually tailored to each person.</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Information below is based upon results of My Assessments, Person Centered Planning, School Based Preparatory Experiences, Vocational &amp; Related Services, and Integrated Trial Work Experiences:</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My Employment Strengths</text>
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="crrpln-empl-strengths" label-display="false" rows="3" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">My Employment Barriers</text>
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="crrpln-empl-barriers" label-display="false" rows="3" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Services &amp; Supports Needed to Attain Career Goal</text>
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="crrpln-supp-for-attain-goal" label-display="false" rows="3" />
+          </cell>
+        </line>
+       <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Persons Responsible</text>
+          </cell>
+          <cell align="left" border="none" cell-span="5" line-span="1">
+            <property alias="crrpln-persons-respble-asment" label-display="false" rows="3" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="medium">My Accommodations Needed (Including Assistive Technology):</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-accommod-needed" label-display="false" rows="3" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="medium">Person/Agency Responsible:</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-persons-respble-accom" label-display="false" rows="1" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large">Transportation:</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large">How will I get to and From Work? (Check all that apply)</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">RIPTA</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ripta-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Family</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-family-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Paratranset (RIDE)</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-ride-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Friends/co-worker</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-friend-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Agency</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-agency-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Walk</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-walk-ind" label-display="false" size="50" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Driver''s License/Car</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-drive-ind" label-display="false" size="50" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-other-way-to-from-work" label-display="left" bold="true" label="Other (describe)" rows="1" />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" font-size="large">Type of Support Needed: (Check what applies)</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Need</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Person or Agency Responsible</text>
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Independent</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-independed-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-independed-prn" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Needs Training: (i.e. Travel &amp; pedestrian safety, reading bus schedule)</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-need-training-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-need-training-prn" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">Needs Assistance to Access</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-need-assistance-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-need-assistance-prn" label-display="false" rows="1" />
+          </cell>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text bold="true">No Access to Transportation</text>
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-no-access-transp-ind" label-display="false" rows="1" />
+          </cell>
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="crrpln-no-access-transp-prn" label-display="false" rows="1" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtRiCrrPlan' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2q88001035', 'fddX2GFDA00034', 'tbxRiCrrPlan', NULL, NULL, 880, 'Career Development Plan Date', 'Career Development Plan Date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'crrpln-plan-date', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

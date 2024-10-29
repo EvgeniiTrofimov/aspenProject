@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export-format system-owned="false" procedure-id="EXPDATA-CT18-SASID" name="CT 18 SASID Register" source-table="tblStudent" delimiter-char="," wrapper-char="&quot;">
+  <heading>TYPE,SASID,DISTRICT,ENTRY_DATE,RESIDENT_TOWN,FACILITY_1,FACILITY_2,FORMAL_LAST_NAME,FORMAL_FIRST_NAME,FORMAL_MIDDLE_NAME,SUFFIX,DOB,HISPANIC_OR_LATINO,AMERICAN_INDIAN,ASIAN,AFRICAN_AMERICAN,NATIVE_HAWAIIAN,WHITE,GENDER,GRADE,LASID,LAST_NAME,TOWN_BIRTH,MOTHER_MAIDEN_NAME,POLIO_DATE,SECONDARY_ID,EXIT_DATE,EXIT_TYPE,EXIT_STATUS,MEMBERSHIP_DAYS,ATTENDANCE_DAYS,CHANGE_EXIT_DATE,CHANGE_ENTRY_DATE,NEXUS_DISTRICT,NEXUS_EXIT_DATE,NEXUS_ENTRY_DATE,END_OF_RECORD</heading>
+  <field position="10" name="TYPE">
+    <calculationId>SASID-REC-TYPE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>The record type will be 'R' when the student originally enters or reenters the school district.  If the enrollment span is the first span for this student and the entry enrollment enrollment date is in the previous school year context the record type is 'C'.  If enrollment span does not include the previous school year context, look for a previous span.  If a previous span is found, check that span to determine if the student was a member on the last in session day for the previous school year.  To discover the calendar, first check the student context attributes for the previous year. If none is found, use the current calendar.  If this calendar code is not found for the previous school year for the span school, use the earliest last in0session date for any calendar.  If the span indicates the student is active on the calculated last in-session date, then the record type is 'R'.&#xD;
+&#xD;
+When processing the exit enrollment for the current span determine if the record indicates an exit from the district.  To do this, you need to look to the next enrollment span for the student.  If there is no additional span, the exit enrollment record is processed as a record type 'U'.  If there is a net enrollment span determine if there are any days that the student was withdrawn from the district.  This means that there is a date that is in-session for the previous school that is after the last active date that is also an in-session date for the next school and is not included in the next enrollment span.  In this case, the exit enrollment record is processed with record type 'U'. Otherwise the exit enrollment is not processed at all.&#xD;
+&#xD;
+The entry enrollment of the next span is processed as an 'R' record if the previous enrollment span generated a 'U' record.  If not, the next span is processed as a 'C' record</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="20" name="SASID">
+    <fieldPath>stateId</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="30" name="REPORTING_DISTRICT">
+    <fieldPath>school.organization1.id</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>3</minimumLength>
+    <paddingChar>0</paddingChar>
+    <paddingDirection>0</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="40" name="ENTRY_DATE">
+    <calc-param>ENTRY</calc-param>
+    <calculationId>SASID-DATE</calculationId>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>Obtain the entry date by evaluating the current span and any previous spans.  If the previous span provides coverage of all in-session days until the next span, it is considered a continuous enrollment span.  The previous continuous enrollment spans exist, the entry date is the entry enrollment date of the earliest continuous enrollment span.  Otherwise it is the entry enrollment date of the current enrollment span.  &#xD;
+&#xD;
+This field is only reported for record type='R' records and must be blank for 'U' and 'C' records.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="50" name="RESIDENT_TOWN">
+    <calculationId>SASID-RES-TOWN</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, evaluate student alias [PSIS04] and populate with the state reference code.  If a non-empty state reference code cannot be found, populate the field with the value from the REPORTING_DISTRICT field.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="60" name="FACILITY_1">
+    <calculationId>SASID-FACILITY</calculationId>
+    <calc-param>CODE_1</calc-param>
+    <formatType>0</formatType>
+    <maximumLength>7</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+This field is based on the entry enrollment associated with this record.  If the enrollment field for alias [all-enr-SchoolOverride] is populated and the field has a reference table, the state reference code value is used.  If this enrollment field is populated and does not have a reference table, the value in the field is used.  If the reference code is not populated, the [StateId] alias from the enrollment span school is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="70" name="FACILITY_CODE2">
+    <calculationId>SASID-FACILITY</calculationId>
+    <calc-param>CODE_2</calc-param>
+    <formatType>0</formatType>
+    <maximumLength>7</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+This field is based on the entry enrollment associated with this record.  If the enrollment field for alias [all-enr-SecondarySchool] is populated and the field has a reference table, the state reference code value is used.  If this enrollment field is populated and does not have a reference table, the value in the field is used.  Otherwise the value is empty.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="80" name="STUDENT_LAST_NAME">
+    <calculationId>SASID-CLEAN</calculationId>  
+    <fieldPath>person.lastName</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>35</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>3</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types remove all characters matching java regular expression [_W&amp;&amp;[^-'. ]]</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="90" name="STUDENT_FIRST_NAME">
+    <calculationId>SASID-CLEAN</calculationId>  
+    <fieldPath>person.firstName</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>3</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+Validation will be performed according to state documentation.  The content of the field is not modified programmatically.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="100" name="STUDENT_MIDDLE_NAME">
+    <calculationId>SASID-CLEAN</calculationId>
+    <fieldPath>person.middleName</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>3</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+Validation will be performed according to state documentation.  The content of the field is not modified programmatically.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="110" name="GENRATIONAL_SUFFIX">
+    <calculationId>SASID-CLEAN</calculationId>
+    <fieldPath>person.nameSuffixCode</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>4</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>3</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+Validation will be performed according to state documentation.  The content of the field is not modified programmatically.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="120" name="DATE_OF_BIRTH">
+    <fieldPath>person.dob</fieldPath>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+  <field position="130" name="HISPANIC_OR_LATINO">
+    <calculationId>SASID-HISPANIC-IND</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+The returned value is 'Y ' or 'N' based on the value in the indicator.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="140" name="AMERICAN_INDIAN">
+    <calc-param>YN8</calc-param>
+    <calculationId>SASID-RACE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, the value is 'Y' if the student has a race record where the state value of the race code = 8.  Otherwise the value is 'N'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="150" name="ASIAN">
+    <calc-param>YN4</calc-param>
+    <calculationId>SASID-RACE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, the value is 'Y' if the student has a race record where the state value of the race code = 4.  Otherwise the value is 'N'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="160" name="AFRICAN_AMERICAN">
+    <calc-param>YN2</calc-param>
+    <calculationId>SASID-RACE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, the value is 'Y' if the student has a race record where the state value of the race code = 2.  Otherwise the value is 'N'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="170" name="NATIVE_HAWAIIAN">
+    <calc-param>YN16</calc-param>
+    <calculationId>SASID-RACE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, the value is 'Y' if the student has a race record where the state value of the race code = 16.  Otherwise the value is 'N'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="180" name="WHITE">
+    <calc-param>YN1</calc-param>
+    <calculationId>SASID-RACE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record types, the value is 'Y' if the student has a race record where the state value of the race code = 1.  Otherwise the value is 'N'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="190" name="GENDER">
+    <calc-param>R</calc-param>
+    <calculationId>SASID-FILTER</calculationId>
+    <fieldPath>person.genderCode</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <referenceMap>1</referenceMap>
+    <sifPath>The state value from the reference code associated with gender.  Possible values are 'F', 'M' and 'N';</sifPath>
+    <validationPattern>[MFN]|^$</validationPattern>
+    <depth>0</depth>
+  </field>
+  <field position="200" name="GRADE_CODE">
+    <calculationId>SASID-GRADE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>2</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'&#xD;
+&#xD;
+For other record type this value is based on the YOG in the enrollment record corresponding to this export record.  If the YOG in the enrollment record matches the YOG for the student, use the state reference code from the grade level of the student.  If the YOG is different, calculate the value base on the YOG in the enrollment record and find the appropriate state reference code value.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="210" name="LOCAL_ID">
+    <calc-param>RC</calc-param>
+    <calculationId>SASID-FILTER</calculationId>
+    <fieldPath>localId</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>20</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is empty for record type = 'U'</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="220" name="SIS_LAST_NAME">
+    <calc-param>RC</calc-param>
+    <calculationId>SASID-FILTER</calculationId>
+    <fieldPath>person.lastName</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>35</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>3</paddingDirection>
+    <sifPath>Use the value from field STUDENT_LAST_NAME</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="230" name="TOWN_BIRTH">
+    <calc-param>R</calc-param>
+    <calculationId>SASID-FILTER</calculationId>
+    <fieldPath>[SASID23]</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>50</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is only populated for the 'R' record.&#xD;
+&#xD;
+Use student alias field [SASID23]</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="240" name="MOTHER_MAIDEN_NAME">
+    <calc-param>R</calc-param>
+    <calculationId>SASID-FILTER</calculationId>
+    <fieldPath>[all-std-MotherMaidenName]</fieldPath>
+    <formatType>0</formatType>
+    <maximumLength>35</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is only populated for the 'R' record.&#xD;
+&#xD;
+Use student alias field [all-std-MotherMaidenName]</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="250" name="POLIO_DATE">
+    <calculationId>SASID-POLIO-DATE</calculationId>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is only populated for the 'R' record.&#xD;
+&#xD;
+Use the student's first polio vaccination date.  The Polio vaccinations are determined by loading the earliest dose with immunization definition id = 'IPV'.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="260" name="SECONDARY_ID">
+    <formatType>0</formatType>
+    <maximumLength>9</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is reserved and is reported empty.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="270" name="EXIT_DATE">
+    <calc-param>EXIT</calc-param>
+    <calculationId>SASID-DATE</calculationId>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is only populated for U records.&#xD;
+&#xD;
+The field contains the enrollment date for the exit enrollment associated with this export row.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="280" name="EXIT_TYPE">
+    <calculationId>SASID-EXIT-TYPE</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>2</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>In the case of 'U' record, this field is populated with the state reference value for the exit enrollment enrollment code.&#xD;
+&#xD;
+In the case of a 'C', this field is populated with the code '01' if the facility code 1 value has changed from the previous value.  Otherwise the value is blank.&#xD;
+&#xD;
+This field is always blank for 'R' records.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="290" name="EXIT_STATUS">
+    <calculationId>SASID-EXIT-STATUS</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>2</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>This field is populated only for 'U' records.&#xD;
+&#xD;
+The field is populated with the state reference value from the reason code for the withdrawal enrollment associated with this record.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="300" name="MEMBERSHIP_DAYS">
+    <calc-param>MEMBERSHIP</calc-param>
+    <calculationId>SASID-MEMBER-DAYS</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>In the case of 'R' records, this field is blank.  &#xD;
+&#xD;
+For 'C' or 'U', if there is an exit enrollment record associated with this record, the membership days are the days in this school year represented by the span that exits on this date.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="310" name="ATTENDANCE_DAYS">
+    <calc-param>PRESENT</calc-param>
+    <calculationId>SASID-MEMBER-DAYS</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>In the case of 'R' records, this field is blank.  &#xD;
+&#xD;
+For 'C' or 'U', if there is an exit enrollment record associated with this record, the attendance days are the days in this school year represented by the span that exits on this date minus the sum of the portion absent for student attendance within this span.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="320" name="CHANGE_EXIT_DATE">
+    <calc-param>EXIT_CHANGE</calc-param>
+    <calculationId>SASID-DATE</calculationId>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>In the case of 'R' records, this field is blank.  &#xD;
+&#xD;
+For 'C' and 'U' records this is the last in session date for the previous interval.  If the record is a change record base on the grade change at the start of the school year, this date will be the last in-session date the student was enrolled in the previous year. Otherwise this record is the last active date of the previous span.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="330" name="CHANGE_ENTRY_DATE">
+    <calc-param>ENTRY_CHANGE</calc-param>
+    <calculationId>SASID-DATE</calculationId>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>In the case of 'U' records, this field is blank.  &#xD;
+&#xD;
+For 'R' and 'C' records, this is the date from the entry enrollment from the span generating the record.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="340" name="NEXUS_DISTRICT">
+    <calculationId>SASID-NEXUS</calculationId>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>If the state reference code associated with the student alias [NEXUS] is populated, that value is used.&#xD;
+&#xD;
+Otherwise if the student alias [PSIS16] contains the state reference code "Y" the value in the REPORTING_DISTRICT field is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="350" name="NEXUS_EXIT_DATE">
+    <calc-param>NEXUS_EXIT</calc-param>
+    <calculationId>SASID-NEXUS-DATE</calculationId>
+    <fieldPath>spedExitDate</fieldPath>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>If the field NEXUS_DISTRICT is blank, this field is blank.&#xD;
+&#xD;
+If the field NEXUS_DISTRICT is populated and the sped exit date is populated, the sped exit date is returned.&#xD;
+&#xD;
+If the field NEXUS_DISTRICT is populated and the sped exit date is empty and the record type is 'U', the value from the EXIT_DATE field is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="360" name="NEXUS_ENTRY_DATE">
+    <calc-param>NEXUS_ENTRY</calc-param>
+    <calculationId>SASID-NEXUS-DATE</calculationId>
+    <fieldPath>spedLastEligibilityDate</fieldPath>
+    <formatExpression>MMddyyyy</formatExpression>
+    <formatType>1</formatType>
+    <maximumLength>8</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>If the field NEXUS_DISTRICT is blank, this field is blank.&#xD;
+&#xD;
+If the field NEXUS_DISTRICT is populated and the sped last eligibility date is populated, the sped last eligibility date is returned.&#xD;
+&#xD;
+If the field NEXUS_DISTRICT is populated and the sped last eligibility  date is empty and the record type is 'R', the value from the ENTRY_DATE field is used.</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="370" name="END_OF_RECORD">
+    <defaultValue>X</defaultValue>
+    <formatType>0</formatType>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath />
+    <depth>0</depth>
+  </field>
+</export-format>
+

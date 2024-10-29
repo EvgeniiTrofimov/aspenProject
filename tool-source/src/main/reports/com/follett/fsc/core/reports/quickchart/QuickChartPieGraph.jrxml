@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="QuickChartPieGraph"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="550"
+		 pageHeight="316"
+		 columnWidth="550"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<import value="com.x2dev.utils.*" />
+	<import value="java.text.*" />
+
+	<parameter name="longDateFormat" isForPrompting="true" class="java.text.DateFormat"/>
+	<parameter name="totalCount" isForPrompting="false" class="java.math.BigDecimal"/>
+	<parameter name="decimalFormat" isForPrompting="false" class="java.text.DecimalFormat"/>
+
+	<field name="categoryField" class="java.lang.String"/>
+	<field name="countField" class="java.math.BigDecimal"/>
+
+	<variable name="date" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$P{longDateFormat}.format(new java.util.Date(System.currentTimeMillis()))]]></variableExpression>
+	</variable>
+	<variable name="monthFormat" class="java.text.SimpleDateFormat" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[new SimpleDateFormat("MMMMM")]]></variableExpression>
+	</variable>
+	<variable name="yearFormat" class="java.text.SimpleDateFormat" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[new SimpleDateFormat("yyyy")]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="316"  isSplitAllowed="true" >
+				<pieChart>
+					<chart isShowLegend="false"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="550"
+						height="316"
+						key="element-1"/>
+					<box></box>
+					</chart>
+					<pieDataset>
+						<dataset >
+						</dataset>
+						<keyExpression><![CDATA[!StringUtils.isEmpty($F{categoryField}) ? $F{categoryField} : "Blank"]]></keyExpression>
+						<valueExpression><![CDATA[$F{countField}]]></valueExpression>
+						<labelExpression><![CDATA[new String((!StringUtils.isEmpty($F{categoryField}) ? $F{categoryField} : "Blank") + " (" + 
+$P{decimalFormat}.format(($F{countField} != null && $P{totalCount} != null ?
+new BigDecimal($F{countField}.doubleValue() / $P{totalCount}.doubleValue()) :
+new BigDecimal(0))) + ")")]]></labelExpression>
+				<sectionHyperlink >
+				</sectionHyperlink>
+					</pieDataset>
+					<piePlot 
+isCircular="true" >
+						<plot backgroundAlpha="0.0" />
+					</piePlot>
+				</pieChart>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

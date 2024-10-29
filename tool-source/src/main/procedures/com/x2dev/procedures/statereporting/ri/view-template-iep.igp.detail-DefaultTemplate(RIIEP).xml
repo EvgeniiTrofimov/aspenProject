@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="iep.igp.detail" name="Default Template (RI IEP)" locked="false" extendedDataDictionaryOid="ddxRiIep      " extendedDataDictionaryId="SPED-RI-IEP">
+  <template>
+    <tab>
+      <row>
+        <column>
+          <page build-row="false" path="../../sped/previousProgresses.jsp" />
+          <property id="igpRepPrd" label-short="false" />
+          <property id="relIgpIglOid.iglIdentifier" label-short="false">
+            <picklist relationship="relIgpIglOid" required="true" extended-dictionary="SPED-RI-IEP">
+              <field id="iglIdentifier" sort="true" />
+              <field alias="goal-area" />
+              <filter connector="and" field="iglIepOID" operator="equals" source="parent" value="iepOID">
+                <filter connector="or" field="iglIepOID" operator="equals" source="current" value="relIglIepOid.iepOID" />
+              </filter>
+            </picklist>
+          </property>
+          <property id="relIgpStfOid.stfNameView" label="Staff Name" label-short="false">
+            <picklist relationship="relIgpStfOid" required="true" extended-dictionary="SPED-RI-IEP">
+              <field id="stfNameView" sort="true" />
+              <field id="relStfSklOid.sklSchoolName" />
+              <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode">
+                <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+              </filter>
+            </picklist>
+          </property>
+          <property id="igpProgressCde" label-short="false" />
+          <property id="igpOnTrackInd" label-short="false" />
+          <property id="igpPostedInd" label-short="false" read-only="true"/>
+          <property id="igpPerformance" label-short="false" />
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <text bold="true" font-size="medium">Goal Information</text>
+          </line>
+        </block>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <spacer height="5" />
+          </line>
+          <line border="full">
+            <cell border="none" cell-span="1" line-span="1">
+              <property id="relIgpIglOid.iglIdentifier" label-short="false" bold="true" />
+            </cell>
+            <cell border="none" cell-span="3" line-span="1">
+              <property id="relIgpIglOid.iglFocus" label="Specific Goal Focus:" label-short="false" bold="true" />
+            </cell>
+          </line>
+          <line border="none">
+            <spacer height="5" />
+          </line>
+          <line border="none" shaded="true">
+            <cell border="top,bottom,right" cell-span="2" line-span="1" shaded="true">
+              <text bold="true" font-size="medium">Measurable Annual Goal</text>
+            </cell>
+            <cell border="top,bottom" cell-span="2" line-span="1" shaded="true">
+              <text bold="true" font-size="medium">Current Performance Level</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="right" cell-span="2" line-span="1">
+              <text>What challenging, yet attainable, goal can we expect the student to meet by the end of this IEP period? How will we know that the student has reached this goal?</text>
+            </cell>
+            <cell border="none" cell-span="2" line-span="1" vertical-align="top">
+              <text>What can the student currently do?</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell align="center" border="right,bottom" cell-span="2" line-span="1">
+              <property id="relIgpIglOid.iglGoal" label-display="false" label-short="false" rows="3" />
+            </cell>
+            <cell align="center" border="bottom" cell-span="2" line-span="1">
+              <property id="relIgpIglOid.iglBaseline" label-display="false" label-short="false" rows="3" />
+            </cell>
+          </line>
+          <line border="none">
+            <spacer height="5" />
+          </line>
+          <line border="top,bottom" shaded="true">
+            <text bold="true" font-size="medium">Benchmark/Objectives</text>
+          </line>
+          <line border="none">
+            <text>What will the student need to do to complete this goal?</text>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="4" line-span="1">
+              <embedded-list extended-dictionary-oid="ddxRiIep      " id="objectives" relationship="relIgpIglOid.relIglIgoOid" selection-type="multiple" embedded-edit="true" show-blob-text="true" read-only="true">
+                <field id="igoSeqNo" sort="true" />
+                <field id="igoObjective" />
+              </embedded-list>
+            </cell>
+          </line>
+          <line border="none">
+            <spacer height="5" />
+          </line>
+        </block>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

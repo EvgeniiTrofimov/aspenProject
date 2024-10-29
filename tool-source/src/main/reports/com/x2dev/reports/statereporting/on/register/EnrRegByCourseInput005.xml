@@ -1,0 +1,93 @@
+<!--  ***************************************************************************************************************************************************  -->
+<!--  INPUT DEFINITIONS FOR THE "ENROLLMENT REGISTER - BY COURSE - CLASS DATES AND ATTENDANCE - CONTINUING ED. LITERACY AND NUMERACY COURSES" FOR ONTARIO  -->
+<!--  ***************************************************************************************************************************************************  -->
+<tool-input allow-school-select="true" district-support="false">
+
+<!-- *********** -->
+<!--  TOOL NAME  -->
+<!-- *********** -->
+    <input data-type="string" display-name="report.shared.toolName" default-value="OBC-ENR-005" display-type="hidden" name="toolName"/>
+<!--  ***********  -->
+<!--  SCHOOL YEAR  -->
+<!--  ***********  -->
+    <input data-type="string" default-value="currentContextOid" default-value-source="session" display-name="report.shared.schoolYear" display-type="picklist" name="contextOid">
+        <picklist field-id="ctxSchoolYear">
+            <field id="ctxSchoolYear" sort="true"/>
+            <field id="ctxContextName"/>
+        </picklist>
+    </input>
+<!--  *****************************************************************************  -->
+<!--  IF NO COURSES SELECTED - DEFAULT CONT. ED. PROGRAM TYPES FOR ALL COURSES       -->
+<!--                                                                                 -->
+<!--  Filter for course selection passed to use if all courses are needed in report  -->
+<!--  *****************************************************************************  -->
+    <input data-type="string" default-value="5" display-name="Cont. Ed. Program Types" display-type="hidden" multiple="true" name="cskConEdProgramTypes" reference-table="rtbConEdPgmTyp"/>
+<!--  ***************  -->
+<!--  COURSE PICKLIST  -->
+<!--  ***************  -->
+    <input data-type="string" default-value="Select one or more classes. Leave blank for all. Classes are listed based on selected school year." default-value-source="constant" display-name="report.shared.instruction" display-type="textarea" name="instruction1" required="false"/>
+    <input data-type="string" display-name="report.shared.class" display-type="picklist" name="sectionOids" required="false">
+        <picklist field-id="mstCourseView" multiple="true" required="false">
+            <field id="mstCourseView" sort="true"/>
+            <field id="relMstCskOid.relCskSklOid.sklSchoolName" sort="true"/>
+            <field id="mstDescription"/>
+            <field id="mstTermView"/>
+            <filter field="relMstCskOid.cskSklOID" operator="equals" source="input" value="schoolOid"/>
+            <filter field="relMstCskOid.relCskCrsOid.relCrsCtxOid.ctxOID" operator="equals" source="input" value="contextOid"/>
+            <filter field="relMstCskOid.cskFieldA008" operator="in" source="input" value="cskConEdProgramTypes"/>
+        </picklist>
+        <condition action="hide" expression="(getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName()))"/>
+    </input>
+    <input data-type="string" display-name="report.shared.class" display-type="picklist" name="sectionOidsStaffView" required="false">
+        <picklist field-id="mstCourseView" multiple="true" required="false">
+            <field id="mstCourseView" sort="true"/>
+            <field id="relMstCskOid.relCskSklOid.sklSchoolName" sort="true"/>
+            <field id="mstDescription"/>
+            <field id="mstTermView"/>
+            <filter field="relMstCskOid.cskSklOID" operator="equals" source="input" value="schoolOid"/>
+            <filter field="relMstCskOid.relCskCrsOid.relCrsCtxOid.ctxOID" operator="equals" source="input" value="contextOid"/>
+            <filter field="mstStfOID" operator="equals" source="session" value="staff.oid"/>
+            <filter field="relMstCskOid.cskFieldA008" operator="in" source="input" value="cskConEdProgramTypes"/>
+        </picklist>
+        <disable if-parent-equals="" input-name="instruction1"/>
+        <condition action="hide" expression="!(getApplicationContext().contextName().equals(ApplicationContext.STAFF.contextName()))"/>
+    </input>
+<!--  *******************  -->
+<!--  COURSE SORT OPTIONS  -->
+<!--  *******************  -->
+    <input data-type="string" display-name="report.shared.sortByCourse" display-type="select" name="courseSort">
+        <option display-name="report.shared.courseNumberSection" value="courseNumber, section"/>
+        <option display-name="report.shared.courseDescriptionSection" value="courseDesc, section"/>
+    </input>
+<!--  ******************************************  -->
+<!--  STUDENT INFO BY ASSIGNMENTS OR CLASS DATES  -->
+<!--  ******************************************  -->
+    <input data-type="string" default-value="byDate" display-name="report.shared.studentInfoBy" display-type="hidden" name="studentInfoBy">
+        <option display-name="report.shared.byAssignment" value="byAssign"/>
+        <option display-name="report.shared.byDate" value="byDate"/>
+    </input>
+<!--  ***************************  -->
+<!--  COURSE - INCLUDE DAYS/TIMES  -->
+<!--  ***************************  -->
+    <input data-type="boolean" default-value="true" display-type="hidden" name="courseIncludeDays"/>
+    <input data-type="boolean" default-value="true" display-type="hidden" name="courseIncludeTimes"/>
+<!--  *******************************************************  -->
+<!--  REPORT TYPE - AS SAME IREPORT DESIGN USED IN SOME CASES  -->
+<!--  *******************************************************  -->
+    <input data-type="string" default-value="byDate3LitNum" display-name="report.shared.reportType" display-type="hidden" name="rptType">
+        <option display-name="report.shared.byAssignment" value="byAssign"/>
+        <option display-name="By Date - CONTINUING ED. CREDIT COURSES" value="byDate1Credit"/>
+        <option display-name="By Date - CONTINUING ED. CREDIT COURSES" value="byDate2IntLang"/>
+        <option display-name="By Date - CONTINUING ED. CREDIT COURSES" value="byDate3LitNum"/>
+        <option display-name="By Date - CONTINUING ED. CREDIT COURSES" value="byDate4AdultNative"/>
+    </input>
+<!--  ***************************************************************************************  -->
+<!--  CONSTANT FOR ADE CALCULATION  -->
+<!--  ***************************************************************************************  -->
+    <input data-type="string" default-value="950" display-type="hidden" name="adeCalcConstant"/>
+<!--  ****************************************************  -->
+<!--  REPORT ID - LANDSCAPE (PART 1) AND PORTRAIT (PART 2)  -->
+<!--  ****************************************************  -->
+    <input data-type="string" default-value="OBC-ENR-005-P" display-name="report.shared.reportIdPortrait" display-type="hidden" name="rptIdPart1"/>
+    <input data-type="string" default-value="OBC-ENR-005-L" display-name="report.shared.reportIdLandscape" display-type="hidden" name="rptIdPart2"/>
+</tool-input>

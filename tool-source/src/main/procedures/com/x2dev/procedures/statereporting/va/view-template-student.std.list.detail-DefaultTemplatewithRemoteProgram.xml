@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="student.std.list.detail" name="Default Template with Remote Program" locked="false" extendedDataDictionaryId="">
+  <template>
+    <tab name="tab.student.std.list.detail.demographics">
+      <row>
+        <column>
+          <property id="relStdPsnOid.psnNameFirst" label-short="false" />
+          <property id="relStdPsnOid.psnNameMiddle" label-short="false" />
+          <property id="relStdPsnOid.psnNameLast" label-short="false" />
+          <property id="relStdPsnOid.psnNameSuffix" label-short="false" />
+          <property id="stdFieldA067" label-short="false" />
+          <property id="stdFieldA001" label="Birth Verification" label-short="false" />
+          <property alias="DOE LASID" label-short="false" />
+          <property alias="DOE SASID" label-short="false" />
+        </column>
+        <column>
+          <property id="relStdPsnOid.psnGenderCode" label-short="false" required="true" />
+          <property id="relStdPsnOid.psnDob" label-short="false" required="true" />
+          <property id="relStdPsnOid.psnPhone01" label="Phone 1 Home" label-short="false" />
+          <property id="relStdPsnOid.psnEmail01" label="Student email" label-short="false" read-only="true" />
+        </column>
+      </row>
+      <row>
+        <column>
+          <property id="relStdSklOid.sklSchoolName" label-short="false" />
+          <property id="stdYog" label-short="false" />
+          <property id="stdGradeLevel" label-short="false" />
+          <property id="stdEnrStatus" label-short="false" read-only="true" />
+          <property id="stdCalendar" label-short="false" />
+          <property id="stdHomeroom" label-short="false" read-only="true" />
+          <property id="stdFieldA070" label="Homeroom Staff #" label-short="false" read-only="true" />
+          <property alias="std_hr_teacher_name" label="Homeroom Staff Name" label-short="false" read-only="true" />
+          <property id="stdFieldA024" label="Counselor #" label-short="false" />
+          <property id="stdFieldB030" label-short="false" />
+          <property id="stdLocker" label="Locker #" label-short="false" />
+        </column>
+        <column>
+          <property alias="DOE STD SCHOOL HOME" label="Home School" label-short="false" required="true" />
+          <group header="Out of Zone" value-from="literal">
+            <property id="stdFieldA071" label="Out of Zone" label-short="false" />
+            <property id="stdFieldA073" label="Batch Code" label-short="false" />
+            <property id="stdFieldB032" label="City of Residence" label-short="false" />
+            <property id="stdFieldB036" label="Bus Transportation" label-short="false" />
+            <property id="stdFieldA090" label-short="false" />
+          </group>
+          <group header="Build Year" value-from="literal">
+            <property id="relStdSklNext.sklSchoolName" label="Next School Name" label-short="false">
+              <picklist relationship="relStdSklNext" required="true">
+                <field id="sklSchoolName " sort="true" />
+                <field id="sklSchoolID   " sort="true" />
+              </picklist>
+            </property>
+          </group>
+          <group header="Transferring a Student" value-from="literal">
+            <property id="relStdSklTrans.sklSchoolName" label="Transfer School Name" label-short="false">
+              <picklist relationship="relStdSklTrans" required="true">
+                <field id="sklSchoolName " sort="true" />
+                <field id="sklSchoolID   " sort="true" />
+                <filter connector="and" field="sklOID" operator="notEqual" source="current" value="stdSklOID" />
+              </picklist>
+            </property>
+            <property id="stdTransferInd" label-short="false" />
+          </group>
+          <group header="Rank" value-from="literal">
+            <property id="stdRankInclude" label-short="false" />
+          </group>
+          <group header="Impact Aid" value-from="literal">
+            <property id="stdFieldA016" label="Impact Aid Code" label-short="false" required="true" />
+          </group>
+          <group header="10 Day Count" value-from="literal">
+            <property alias="reporting-status" label="Reporting Status" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text font-size="medium">Enrollment records for current school</text>
+            </cell>
+            <cell border="none" cell-span="3" line-span="1">
+              <text>(remember to update the most recent enrollment date when changing the Reporting Status from "No Show" to "Reported to School")</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="4" line-span="1">
+              <embedded-list id="student-enrollment" relationship="relStdEnrOid" selection-type="multiple" embedded-edit="true" show-blob-text="true" warn-on-delete="true">
+                <field id="enrEnrType    " />
+                <field id="enrEnrDate    " sort="true" />
+                <field id="enrEnrCode    " sort="true" />
+                <field id="relEnrSklOid.sklSchoolName " sort="true" />
+                <field id="enrEnrReason  " sort="true" />
+                <filter connector="and" field="enrSklOID" operator="equals" source="current" value="stdSklOID" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+    <tab name="tab.student.std.list.detail.addresses">
+      <row>
+        <column>
+          <group header="relPsnAdrPhys" prefix-display="hide" value-from="relationship">
+            <property id="relStdPsnOid.relPsnAdrPhys.adrAddress01" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetNum" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetLet" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPreD" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetName" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPostD" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrStreetType" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid1" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid2" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid3" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrAddress02" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrAddress03" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrCity" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrState" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrPhys.adrPostalCode" display="false" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <group header="relPsnAdrMail" prefix-display="hide" value-from="relationship">
+            <property id="relStdPsnOid.relPsnAdrMail.adrAddress01" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetNum" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetLet" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetPreD" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetName" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetPostD" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrStreetType" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrUserValid1" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrUserValid2" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrUserValid3" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrAddress02" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrAddress03" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrCity" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrState" display="false" label-short="false" />
+            <property id="relStdPsnOid.relPsnAdrMail.adrPostalCode" display="false" label-short="false" />
+          </group>
+        </column>
+      </row>
+    </tab>
+    <tab name="tab.student.std.list.detail.ethnicity">
+      <row>
+        <column>
+          <property id="relStdPsnOid.psnHispLatInd" label-short="false" />
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text source="relationship" bold="true" font-size="medium">relPsnRacOid</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="person.race.popup" id="races" popup-height="150" popup-width="350" relationship="relStdPsnOid.relPsnRacOid" selection-type="multiple">
+                <field id="racRaceCode" sort="true" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+    <tab name="tab.student.std.list.detail.alerts">
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text source="resource" bold="true" font-size="medium">format.StudentAlert.AlertType.legal</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="student.alert.popup" extra-create-privileges="alr.biz.legal,alr.bean.create" extra-delete-privileges="alr.biz.legal,alr.bean.delete" extra-update-privileges="alr.biz.legal" id="legalAlerts" popup-height="400" popup-width="450" relationship="relStdAlrOid" selection-type="multiple">
+                <system-value field="alrType" source="constant" value="0" />
+                <field id="alrSeqNo" sort="true" />
+                <field id="alrAlertDesc" />
+                <field id="alrStartDate" />
+                <field id="alrEndDate" />
+                <field id="alrDisabledInd" />
+                <filter connector="and" field="alrType" operator="equals" source="constant" value="0" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text source="resource" bold="true" font-size="medium">format.StudentAlert.AlertType.medical</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="student.alert.popup" extra-create-privileges="alr.biz.medical,alr.bean.create" extra-delete-privileges="alr.biz.medical,alr.bean.delete" extra-update-privileges="alr.biz.medical" id="medicalAlerts" popup-height="400" popup-width="450" relationship="relStdAlrOid" selection-type="multiple">
+                <system-value field="alrType" source="constant" value="1" />
+                <field id="alrSeqNo" sort="true" />
+                <field id="alrAlertDesc" />
+                <field id="alrStartDate" />
+                <field id="alrEndDate" />
+                <field id="alrDisabledInd" />
+                <filter connector="and" field="alrType" operator="equals" source="constant" value="1" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <text source="resource" bold="true" font-size="medium">format.StudentAlert.AlertType.other</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <spacer />
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="student.alert.popup" extra-create-privileges="alr.biz.other,alr.bean.create" extra-delete-privileges="alr.biz.other,alr.bean.delete" extra-update-privileges="alr.biz.other" id="otherAlerts" popup-height="400" popup-width="450" relationship="relStdAlrOid" selection-type="multiple">
+                <system-value field="alrType" source="constant" value="2" />
+                <field id="alrSeqNo" sort="true" />
+                <field id="alrAlertDesc" />
+                <field id="alrStartDate" />
+                <field id="alrEndDate" />
+                <field id="alrDisabledInd" />
+                <field id="alrIconFile" />
+                <filter connector="and" field="alrType" operator="equals" source="constant" value="2" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+    <tab name="tab.student.std.list.detail.photo">
+      <row>
+        <column>
+          <property id="relStdPsnOid.psnPhoOIDPrim" label-short="false" />
+        </column>
+      </row>
+    </tab>
+    <tab name="Parental Permissions">
+      <row>
+        <column>
+          <property id="stdFieldC006" label="AUP" label-short="false" />
+          <property id="stdFieldA011" label="Internet Safety Instruction" label-short="false" />
+          <property id="stdFieldB031" label="BYOT" label-short="false" />
+          <property id="stdFieldA037" label="Posting Student Work Electronically" label-short="false" />
+          <property id="stdFieldC008" label="Media Permission/Directory Info (FERPA)" label-short="false" />
+          <property id="stdFieldA010" label-short="false" />
+          <property id="stdFieldA038" label="Family Life" label-short="false" />
+        </column>
+      </row>
+    </tab>
+    <tab name="State Reporting">
+      <row>
+        <column>
+          <property alias="DOE LASID" label-short="false" />
+          <property id="stdViewName" label-short="false" />
+          <property id="stdEnrStatus" label-short="false" read-only="true" />
+          <property id="stdGradeLevel" label-short="false" />
+          <property alias="DOE GRADE LEVEL OVERRIDE" label-short="false" />
+          <property alias="DOE BIRTH COUNTRY" label-short="false" />
+          <property alias="DOE US ENTRY DATE" label-short="false" />
+          <property alias="DOE US END DATE" label-short="false" />
+          <property alias="DOE IMMIGRANT" label-short="false" />
+          <group header="Attendance" value-from="literal">
+            <property alias="all-std-AttendancePlanCode" label-short="false" />
+            <property alias="all-std-AttendanceConferenceCode" label-short="false" />
+            <property alias="all-std-CourtReferralComplaintProceedingsCode" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <group header="Preschool" value-from="literal">
+            <property alias="DOE PK EXPERIENCE" label="Experience Code" label-short="false" />
+            <property alias="DOE PK WEEKLY TIME" label="Weekly Time Code" label-short="false" />
+            <property alias="DOE PK FUNDING" label="Funding Source" label-short="false" />
+            <property id="stdFieldA079" label="PK Bus Route" label-short="false" />
+            <property id="stdFieldA091" label="PK Program" label-short="false" />
+          </group>
+          <group header="Special Education" value-from="literal">
+            <property alias="DOE SPED DISABILITY" label="Primary Disability" label-short="false" />
+            <property alias="DOE SPED DISABILITY 2" label="Secondary Disability" label-short="false" />
+            <property alias="DOE SPED DISABILITY 3" label="Tertiary Disability" label-short="false" />
+            <property id="stdSpedStatus" label="SPED Status" label-short="false" />
+            <property id="stdSpedIniElig" label="SPED Start Date" label-short="false" />
+            <property id="stdSpedExitDt" label="SPED Exit Date" label-short="false" />
+            <property id="std504Status" label="504 Status" label-short="false" />
+            <property id="std504LastEndD" label="504 Last End Date" label-short="false" />
+            <property id="stdFieldA086" label="District Out of Zone Placement" label-short="false" />
+            <property id="stdFieldA055" label="Parental Placement" label-short="false" />
+            <property id="stdFieldA088" label="Bldg Assigned" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list id="Remote Learnng" relationship="relStdPgmOid" selection-type="multiple" embedded-edit="true" show-blob-text="true" warn-on-delete="true">
+                <field id="pgmProgramCode" sort="true" />
+                <field id="pgmActionStart" sort="true" />
+                <field alias="all-pgm-InternetAccessforRemoteLearning" sort="true" />
+                <field alias="all-pgm-DeviceAccessforRemoteLearning" sort="true" />
+                <field alias="all-pgm-ParentalRemoteLearningDecision" sort="true" />
+                <field alias="all-pgm-RegionalLocalCenterPercentofTime" sort="true" />
+                <field alias="all-pgm-RemoteInstructionPercentofTime" sort="true" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Other" value-from="literal">
+            <property alias="DOE TRUANCY CONF" label-short="false" />
+            <property id="stdFieldA036" label="Truancy Referral Date" label-short="false" />
+            <property alias="DOE NONPUB FTE" label="Non-public student FTE (Part-Time)" label-short="false" />
+            <property alias="DOE TITLE I" label-short="false" />
+            <property id="stdFieldA063" label-short="false" />
+            <property alias="DOE K READINESS" label="KG Readiness Assessment" label-short="false" />
+          </group>
+          <group header="Homeless" value-from="literal">
+            <property alias="DOE NIGHT RESIDENT" label="Nighttime Residence" label-short="false" />
+            <property alias="DOE UY" label="Unaccomp Youth" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <group header="Guidance" value-from="literal">
+            <property alias="DOE RETAINED" label-short="false" />
+            <property alias="DOE GRAD CODE" label="Diploma" label-short="false" />
+            <property alias="DOE GRAD PLAN" label-short="false" />
+            <property alias="DOE DIPLOMA" label-short="false" />
+            <property alias="DOE EARLY SCHOLARSHIP" label="Early College Scholar" label-short="false" />
+            <property id="stdFieldA033" label-short="false" />
+            <property alias="DOE ACCOMMODATION" label-short="false" />
+            <property alias="DOE ASSOCIATES" label="Uniform Certificate/ Associate Degree" label-short="false" />
+          </group>
+          <group header="IB" value-from="literal">
+            <property alias="DOE IB PROGRAM" label="IB Program" label-short="false" />
+            <property alias="DOE IB CODE" label-short="false" />
+          </group>
+          <group header="Honors Program" value-from="literal">
+            <property id="stdFieldA078" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <column>
+          <group header="Gifted" value-from="literal">
+            <property alias="Gifted Code" label-short="false" />
+            <property alias="DOE GIFTED" label-short="false" />
+            <property alias="DOE GIFTED REFERRAL" label="Gifted Referral Date" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <group header="Virtual" value-from="literal">
+            <property alias="DOE MOP FLAG" label-short="false" />
+            <property alias="DOE MOP CLASSES" label="Number of Classes" label-short="false" />
+            <property alias="DOE RESIDENT DIV" label-short="false" />
+            <property alias="DOE STUDENT TUITION" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <column>
+          <group header="LEP" value-from="literal">
+            <property alias="DOE ESL SERVICE" label="EL Code" label-short="false" />
+            <property alias="ellevation-std-ellEntryDate" label-short="false" />
+            <property alias="ellevation-std-monitoringStatus" label-short="false" />
+            <property alias="ellevation-std-englishProficiency" label="EL Proficiency Level" label-short="false" />
+            <property alias="ellevation-std-ellExitDate" label="EL Exit Date" label-short="false" />
+            <property id="stdFieldA015" label="EL Test Tier" label-short="false" />
+            <property id="stdFieldA012" label="EL Literacy Proficiency" label-short="false" />
+            <property id="stdFieldA013" label="EL Composite Proficiency" label-short="false" />
+            <property id="stdHomeLang" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <group header="CTE" value-from="literal">
+            <property alias="DOE CTE PATHWAY" label="Career Pathway" label-short="false" />
+            <property alias="DOE CTE FINISHER" label="Finisher Code" label-short="false" />
+            <property alias="DOE CTE POPULATION" label="Special Populations" label-short="false" />
+            <property alias="DOE CTE ATTAINMENT" label="Competency Attain" label-short="false" />
+          </group>
+        </column>
+      </row>
+    </tab>
+    <tab name="Programs">
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">Please choose the students zoned school next to each Program that the student comes to your school for fulltime.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Student is Full Time In Your School, choose the students zoned school from the dropdown for each program they attend at your school." value-from="literal">
+            <property id="stdFieldB037" label="Magnet" label-short="false" />
+            <property id="stdFieldB038" label="IB" label-short="false" />
+            <property id="stdFieldB042" label="MSAM" label-short="false" />
+            <property id="stdFieldB039" label="Health Science" label-short="false" />
+            <property id="stdFieldB040" label="Self-Contained" label-short="false" />
+            <property id="stdFieldA020" label="Virtual Academy" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">Please choose the  students zoned school next to each Program that the student leaves your school and attends another school part time.</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">Also please enter the YCSD school that the student is attending part time as a secondary school on the students membership/schools side tab (No MEMBERSHIP SIDE TAB Entry is requirement for Governor School or New Horizon).</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Student goes Part Time to another School, choose the zoned school from the dropdown next to each program the student attends elsewhere." value-from="literal">
+            <property id="stdFieldB041" label="SOA" label-short="false" />
+            <property id="stdFieldB043" label="English Language" label-short="false" />
+            <property id="stdFieldB044" label="Extend" label-short="false" />
+            <property id="stdFieldB045" label="JROTC" label-short="false" />
+            <property id="stdFieldB046" label="New Horizon" label-short="false" />
+            <property id="stdFieldB052" label="Governor School" label-short="false" />
+          </group>
+        </column>
+      </row>
+    </tab>
+    <tab name="Transportation">
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">Please select the appropriate codes in the PK Section Below.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="PK Section." value-from="literal">
+            <property id="stdFieldA079" label="PK Bus Route" label-short="false" />
+            <property id="stdFieldA091" label="PK Program" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">Please check if the student is Homebound.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Homebound Section." value-from="literal">
+            <property id="stdFieldA096" label="Homebound" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">If the student's current school is one of these (803,910, 931, 950, 951) then choose the actual building that the student is attending from the Building Assigned Section.</text>
+            </cell>
+          </line>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">If the student is Out of Zoned or Parentally placed mark accordingly in the Placement Section.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Building Assigned Section." value-from="literal">
+            <property id="stdFieldA088" label="Building Assigned" label-short="false" />
+          </group>
+          <group header="Placement Section." value-from="literal">
+            <property id="stdFieldA086" label=" District Out of Zone Placement" label-short="false" />
+            <property id="stdFieldA055" label="Parental Placement" label-short="false" />
+          </group>
+        </column>
+      </row>
+      <row>
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1" shaded="#b3e0ff">
+              <text source="" font-size="medium">The below Information comes from Easy IEP. If the student has an IEP then do not update this information here. Login to Easy IEP and update the Transportation Dropdown on the Students IEP Process - Related Services tab.</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row>
+        <column>
+          <group header="Easy IEP Import Section." value-from="literal">
+            <property id="stdFieldA092" label="Sped Bus Only" label-short="false" read-only="true" />
+            <property id="stdFieldA093" label="Bus Assistant" label-short="false" read-only="true" />
+            <property id="stdFieldB047" label="Curb Stop" label-short="false" read-only="true" />
+            <property id="stdFieldA094" label="Declined Transportation" label-short="false" read-only="true" />
+            <property id="stdFieldB048" label="Accommodation 01 " label-short="false" read-only="true" />
+            <property id="stdFieldB049" label="Accommodation 02" label-short="false" read-only="true" />
+            <property id="stdFieldB054" label="Accommodation 03" label-short="false" read-only="true" />
+          </group>
+        </column>
+      </row>
+    </tab>
+    <tab name="SOL Verification Requirements">
+      <row>
+        <column>
+          <property alias="std-Eoc-Assessment-Summary" label="EOC Assessment Summary" label-short="false" read-only="true" />
+        </column>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

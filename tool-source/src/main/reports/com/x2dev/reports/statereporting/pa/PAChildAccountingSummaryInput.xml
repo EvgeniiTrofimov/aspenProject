@@ -1,0 +1,65 @@
+<!-- *************************************************-->
+<!-- INPUT DEFINITIONS FOR THE "PA Child Accounting Report" -->
+<!-- *************************************************-->
+
+<tool-input allow-school-select="false" district-support="true" height="600">
+ 
+ <!-- ***************** -->
+ <!-- ATTENDANCE PERIOD -->
+ <!-- ***************** -->
+
+ <input name="startCycle" data-type="string" display-type="select" display-name="Start Attendance period"  required="true">
+  <picklist field-id="rcdCode"  multiple="false" required="false">
+   <field id="rcdCode" sort="true" />
+   <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+  </picklist>
+ </input>
+ 
+ <!-- ***************** -->
+ <!-- ATTENDANCE PERIOD -->
+ <!-- ***************** -->
+
+ <input name="endCycle" data-type="string" display-type="select" display-name="End Attendance period"  required="true">
+  <picklist field-id="rcdCode"  multiple="false" required="false">
+   <field id="rcdCode" sort="true" />
+   <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbAttLockCycl" />
+  </picklist>
+ </input>
+  
+  <!-- ******* -->
+  <!-- SCHOOLS -->
+  <!-- ******* -->
+  
+  <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="All Active Schools" default-value="false" />
+  
+  <input name="schoolOids" data-type="string" display-type="picklist" display-name="School(s)" default-value="school.oid" default-value-source="session" required="false">
+   <picklist field-id="sklSchoolName" multiple="false" required="false">
+    <field id="sklSchoolName" sort="true" />
+    <field id="sklSchoolID" />
+   <filter field="sklOID" application-context="school" operator="equals" source="session" value="school.oid" />
+   <filter field="sklOrgOID2" application-context="org2" operator="equals" source="session" value="organization.oid" />
+   </picklist>
+  </input>
+
+  <!-- ********* -->
+  <!-- CALENDARS -->
+  <!-- ********* -->
+    
+  <input name="allCalendars" data-type="boolean" display-type="checkbox" display-name="All School Calendars" default-value="false" />
+      
+  <input name="calendarId" data-type="string" display-type="select" display-name="Calendar"  required="false">
+   <picklist field-id="casCalendarID"  multiple="false" required="false">
+    <filter field="casSklOID" operator="equals" source="input" value="schoolOids" />
+    <field id="casCalendarID" sort="true" />
+   </picklist>
+  </input>  
+
+  <!-- ********** -->
+  <!-- SUBREPORTS -->
+  <!-- ********** -->
+ 
+  <input name="subreportIdPDFVersion" data-type="string" display-type="hidden" default-value ="PA_CHILD_ACC"/>
+  <input name="subreportIdCSVVersion" data-type="string" display-type="hidden" default-value ="PA_CHILD_ACC_DETAIL"/>
+
+</tool-input>
+

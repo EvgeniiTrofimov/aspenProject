@@ -1,0 +1,1277 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.69%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.69' where history not like '%770.69%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_CODE (RCD_OID, RCD_RTB_OID, RCD_DDX_OID, RCD_OWNER_OID, RCD_OWNER_TYPE, RCD_SEQUENCE_NUMBER, RCD_CODE, RCD_DESCRIPTION, RCD_TEMPLATE_CONTEXT, RCD_CODE_LOCAL, RCD_CODE_STATE, RCD_CODE_FEDERAL, RCD_CODE_SYSTEM, RCD_CODE_DEPENDENT, RCD_NO_HIDE_IND, RCD_DISABLED_IND, RCD_CATEGORY, RCD_CATEGORY_IND, RCD_DESCRIPTION_LOCALE_1, RCD_DESCRIPTION_LOCALE_2, RCD_DESCRIPTION_LOCALE_3, RCD_DESCRIPTION_LOCALE_4, RCD_DESCRIPTION_LOCALE_5, RCD_ROLE_VISIBILITY_TYPE, RCD_FIELDA_001, RCD_FIELDA_002, RCD_FIELDA_003, RCD_FIELDA_004, RCD_FIELDA_005, RCD_FIELDA_006, RCD_FIELDA_007, RCD_FIELDA_008, RCD_FIELDA_009, RCD_FIELDA_010, RCD_FIELDB_001, RCD_FIELDB_002, RCD_FIELDB_003, RCD_FIELDB_004, RCD_FIELDB_005, RCD_FIELDB_006, RCD_FIELDB_007, RCD_FIELDB_008, RCD_FIELDB_009, RCD_FIELDB_010, RCD_FIELDC_001, RCD_FIELDC_002, RCD_FIELDC_003, RCD_FIELDC_004, RCD_FIELDC_005, RCD_FIELDD_001, RCD_FIELDD_002, RCD_FIELDD_003, RCD_LAST_MODIFIED) VALUES ('rcdX2Y04003136', 'rtbILSysMtgTyp', NULL, '*dst', 1, 130, 'wphIlTrSchedTr', 'transfer-in', NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO REF_CODE (RCD_OID, RCD_RTB_OID, RCD_DDX_OID, RCD_OWNER_OID, RCD_OWNER_TYPE, RCD_SEQUENCE_NUMBER, RCD_CODE, RCD_DESCRIPTION, RCD_TEMPLATE_CONTEXT, RCD_CODE_LOCAL, RCD_CODE_STATE, RCD_CODE_FEDERAL, RCD_CODE_SYSTEM, RCD_CODE_DEPENDENT, RCD_NO_HIDE_IND, RCD_DISABLED_IND, RCD_CATEGORY, RCD_CATEGORY_IND, RCD_DESCRIPTION_LOCALE_1, RCD_DESCRIPTION_LOCALE_2, RCD_DESCRIPTION_LOCALE_3, RCD_DESCRIPTION_LOCALE_4, RCD_DESCRIPTION_LOCALE_5, RCD_ROLE_VISIBILITY_TYPE, RCD_FIELDA_001, RCD_FIELDA_002, RCD_FIELDA_003, RCD_FIELDA_004, RCD_FIELDA_005, RCD_FIELDA_006, RCD_FIELDA_007, RCD_FIELDA_008, RCD_FIELDA_009, RCD_FIELDA_010, RCD_FIELDB_001, RCD_FIELDB_002, RCD_FIELDB_003, RCD_FIELDB_004, RCD_FIELDB_005, RCD_FIELDB_006, RCD_FIELDB_007, RCD_FIELDB_008, RCD_FIELDB_009, RCD_FIELDB_010, RCD_FIELDC_001, RCD_FIELDC_002, RCD_FIELDC_003, RCD_FIELDC_004, RCD_FIELDC_005, RCD_FIELDD_001, RCD_FIELDD_002, RCD_FIELDD_003, RCD_LAST_MODIFIED) VALUES ('rcdX2Y04003137', 'rtbILSysMtgTyp', NULL, '*dst', 1, 140, 'wphIlTrHoldTr', 'transfer-in', NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO VIEW_TEMPLATE (VWT_OID, VWT_OWNER_OID, VWT_OWNER_TYPE, VWT_DDX_OID, VWT_NAME, VWT_CONTEXT, VWT_VIEW_DEFINITION, VWT_CUSTOM_IND, VWT_HIDE_IND, VWT_DESCRIPTION, VWT_HELP_ENABLED, VWT_PROCEDURE_ID, VWT_SCHOOL_VISIBILITY_TYPE, VWT_ROLE_VISIBILITY_TYPE, VWT_LAST_MODIFIED) VALUES ('vwtILSpedTrans', '*dst', 1, 'ddxIepTransfer', 'Special Education IEP Transfer Form', 'sped.transfer', '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [sped.transfer] -->
+<template>
+  <tab>
+    <row>
+      <column>
+        <property alias="transfer-iep-start-date" />
+        <property alias="transfer-iep-end-date" />
+        <property alias="meeting-type" default-value-source="constant" default-value="4" />
+        <property alias="transfer-iep-meeting-date" />
+        <property alias="staff-oid" foreign-id="stfNameView" label="Case Coordinator">
+          <picklist>
+            <filter field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter field="stfSpedInd" operator="equals" source="constant" value="1" />
+            <field id="stfNameView" sort="true" />
+          </picklist>
+        </property>
+        <group header="Disability">
+          <property alias="transfer-iep-prim-dsbl" size="" />
+          <property alias="transfer-iep-sec-dsbl1" />
+          <property alias="transfer-iep-sec-dsbl2" />
+        </group>
+      </column>
+      <column>
+        <property alias="transfer-iep-an-review-recent" />
+        <property alias="transfer-iep-an-review-next" />
+        <property alias="transfer-iep-re-eval-last" />
+        <property alias="transfer-iep-re-eval-next" />
+        <property alias="transfer-iep-referal-date" />
+        <property alias="transfer-iep-in-eleg-date" />
+        <property alias="transfer-iep-eval-last" />
+        <property alias="transfer-iep-eval-next" />
+      </column>
+    </row>
+  </tab>
+</template>', '0', '0', NULL, '0', 'SYS-SPED-TRANS-TMPL', 0, 0, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454h] -->
+
+<template>
+  <tab name="Secondary Transition">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">SECONDARY TRANSITION</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="false" font-size="small">Complete for students age 14 1/2 and older, and when appropriate for students younger than age 14 1/2.  Post-school outcomes should guide the development of the IEP for students age 14 1/2 and older.</text>
+        </line>
+      </block>
+    </row>  
+    <row>
+      <block>
+      <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">AGE-APPROPRIATE TRANSITION ASSESSMENTS</text>
+        </line>
+      <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+          
+            <embedded-list detail-context="iepform.trans.assess" extended-dictionary-oid="ddxIlIep" id="trans-assess" popup-height="400" popup-width="700" relationship="relIepIplOid" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="iplType" source="constant" value="Transition Planning" />
+              <field alias="transAssess-categoty" edit="false"  />
+              <field alias="transAssess-type" />
+              <field alias="transAssess-agency" />
+             <field alias="transAssess-contact-person" />
+              <field alias="transAssess-date" sort="true" />
+              <field alias="transAssess-rpt-att" />
+              <field alias="transAssess-goals" />
+            <filter connector="and" field="iplType" operator="equals" source="constant" value="Transition Planning" />
+            </embedded-list>
+          </cell>
+        </line>
+        
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">POST-SECONDARY OUTCOMES (Address By Age 14 1/2)</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+          
+            <embedded-list  detail-context="iepform.trans.assess" extended-dictionary-oid="ddxIlIep" id="trans-assess" popup-height="400" popup-width="700" relationship="relIepIplOid" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="iplType" source="constant" value="Transition Planning" />
+              <field alias="transAssess-categoty" edit="false" />
+              <field alias="transAssess-desire-goal" />
+             <filter connector="and" field="iplType" operator="equals" source="constant" value="Transition Planning" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+       <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''all'');"&gt;Populate tables&lt;/button&gt;</text>
+        </line>    
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">COURSE OF STUDY (address by age 14 1/2)</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Identify a course of study that is a long-range educational plan or multi-year description of the educational program that directly relates to the student''s anticipated post-school goals, preferences and interests as described above.</text>
+        </line>
+        <line border="bottom" shaded="true" >
+            <cell border="none" cell-span="1" line-span="1">
+            <embedded-list  extended-dictionary-oid="ddxIlIep" id="CourseOfStudy" popup-height="400" popup-width="700" relationship="relIepIosOid" selection-type="multiple"  detail-context="iep.course.of.study.detail" warn-on-delete="true" independent-save="true">
+                  <system-value field="iosStdOID" source="ancestor" value="iepStdOID" />
+                  <system-value field="iosServiceType" source="constant" value="Transition" />
+                  <field alias="other-service-type" label="Year" />
+                  <field alias="other-value" label="Course" />
+            </embedded-list>
+            </cell>
+        </line>
+      </block>
+    </row>
+    </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-IL-3454H' WHERE VWT_OID = 'vwtX2IL3454h' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454i] -->
+<template>
+  <tab name="Transition Services">
+    <row>
+      <column>
+        <!-- <property alias="date-of-meeting" label-short="false" /> -->
+      </column>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">TRANSITION SERVICES</text>
+          <text bold="false" font-size="large">(address by age 141/2)</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">Please include, if appropriate, needed linkages for outside agencies, (e.g.,DMH, DRS, DSCC, PAS, SASS, SSI, WIC, DCHFS, etc.)</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+        <line align="left" border="top,bottom" shaded="true">
+          <text bold="true" font-size="medium">Education Services</text>
+        </line>
+        <line border="none">
+          <spacer height="20" />
+        </line>
+     <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''services-trans'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>    
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="services-trans" popup-height="400" popup-width="700" relationship="relIepIsvOid" selection-type="none" detail-context="iepform.service.trans" show-add-button="false" show-delete-button="false" independent-save="true">
+              <field alias="transition-area" />
+              <field alias="service-provider-other" />
+              <field id="isvGoalView" />
+              <field id="isvStartDate" />
+              <field id="isvEndDate" />
+              <field id="isvOtherInfo" />
+              <filter connector="and" field="isvServiceMode" operator="equals" source="constant" value="Transition Services" />
+              <filter connector="and" alias="transition-area" operator="notEmpty" />
+              <system-value field="isvStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="isvServiceMode" source="constant" value="Transition Services" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">HOME-BASED SUPPORT SERVICES PROGRAM</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <cell align="left" border="none" cell-span="20" line-span="1">
+            <property alias="hb-ser-can-eligible" label-display="right" label="The student has a developmental disability and may become eligible for the program after reaching age 18 and when no longer receiving special education services." />
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="true" font-size="small">If yes, complete the following statements:</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="false" font-size="small">Plans for determining the student''s eligibility for home-based services:</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <property alias="hb-ser-determining-eligible" label-display="false" size="110" rows="1" />
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="false" font-size="small">Plans for enrolling the student in the program of home-based services:</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <property alias="hb-ser-std-plans-for-enroll" label-display="false" size="110" rows="1" />
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <text bold="false" font-size="small">Plans for developing a plan for the student''s most effective use of home-based services after reaching age 18 and when no longer receiving special education services:</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <property alias="hb-ser-develop-plans-for-std" label-display="false" size="110" rows="1" />
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-IL-3454I' WHERE VWT_OID = 'vwtX2IL3454i' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- #TEMPLATE-ID [form.sped-il-3454v] -->
+
+<template>
+  <tab>
+    <row>
+      <block>
+          <line border="none">
+           <cell align="center" border="bottom" cell-span="2" line-span="1" shaded="true">
+             <text bold="true" font-size="large">AUTISM CONSIDERATIONS</text>
+           </cell>
+          </line>
+          <line border="none" shaded="true">
+            <spacer height="1" />
+          </line>
+          <line shaded="true">
+            <text font-size="small">In accordance with Section 14-8.02 of the School code, "In the development of the individualized education program for a student who has a disability on the autism spectrum (which includes autistic disorder, Asperger disorder, pervasive developmental disorder not otherwise specified, childhood disintegrative disorder, and Rett Syndrome, as defined in the [(DSM-IV,2000)], the IEP team shall consider all the following factors."</text>
+          </line>
+          <line shaded="true">
+            <text font-size="small">1. Verbal and nonverbal communication needs</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="verbalNonverbalFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Verbal and Nonverbal Communication" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+              <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Verbal and Nonverbal Communication" />
+            </embedded-list>
+          </cell>
+        </line>
+     
+       <line shaded="true">
+            <text font-size="small">2. Social interaction skills and proficiencies</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="socialInteractionFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false"  independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Social Interaction and Proficiencies" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+             <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Social Interaction and Proficiencies" />
+            </embedded-list>
+          </cell>
+        </line>
+       
+       <line shaded="true">
+            <text font-size="small">3. Needs resulting from unusual responses to sensory experience</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="unusualResponsesFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Unusual Responses to Sensory Experience" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+              <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Unusual Responses to Sensory Experience" />
+            </embedded-list>
+          </cell>
+        </line>
+        
+       <line shaded="true">
+            <text font-size="small">4. Needs resulting from resistance to environmental change or change in daily routines</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="resistanceEnvironmentalFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Resistance to Environmental Change" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+             <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Resistance to Environmental Change" />
+            </embedded-list>
+          </cell>
+        </line>
+     
+       <line shaded="true">
+            <text font-size="small">5. Needs resulting from engagement in repetitive activities and stereotyped movements</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="engagementRepetitiveFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Engagement in Repetitive Activities" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+            <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Engagement in Repetitive Activities" />
+            </embedded-list>
+          </cell>
+        </line>
+        
+       <line shaded="true">
+            <text font-size="small">6. Needs for any positive behavioral interventions, strategies and supports</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="AnyPositiveBehavioralFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Any Positive Behavioral Interventions" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+           <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Any Positive Behavioral Interventions" />
+            </embedded-list>
+          </cell>
+        </line>
+      
+       <line shaded="true">
+            <text font-size="small">7. Other needs which impact progress in general curriculum, including social and emotional development</text>
+          </line>
+           <line border="none" shaded="true">
+          <cell border="none" cell-span="4" line-span="1">
+            <embedded-list detail-context="iep.3744v.detail" extended-dictionary-oid="ddxIl3454V    " id="otherWhichImpactProgressFactors" popup-height="600" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value alias="aut-conf-ch-factors" source="constant" value="Other which Impact Progress in General Curriculum" />
+              <field alias="aut-conf-ch-std-needs" sort="true" label="Student Needs" />
+              <field alias="aut-conf-ch-supports" sort="true" label="Supports Identified" />
+             <filter alias="aut-conf-ch-factors" connector="and" operator="equals" source="constant" value="Other which Impact Progress in General Curriculum" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''verbalNonverbalFactors,socialInteractionFactors,unusualResponsesFactors,resistanceEnvironmentalFactors,engagementRepetitiveFactors,AnyPositiveBehavioralFactors,otherWhichImpactProgressFactors'');"&gt;Populate tables&lt;/button&gt;</text>
+        </line>  
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-IL-3454V' WHERE VWT_OID = 'vwtX2IL3454v' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3457b/c] #PROCEDURE-ID [SYS-SPED-3457BC] -->
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+         
+          <text bold="true" font-size="large">PARENT/GUARDIAN CONSENT FOR INITIAL EVALUATION</text>
+        </line>
+        <line border="none" shaded="true">
+          <property alias="date" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="1" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Each school district shall ensure that a full and individual evaluation is conducted for each child being considered for special education and related services. The purpose of an evaluation is to determine:</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="1" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="20" />
+          <text bold="false" font-size="small">-</text>
+          <spacer width="10" />
+          <text bold="false" font-size="small">Whether the child has one or more disabilities;</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="20" />
+          <text bold="false" font-size="small">-</text>
+          <spacer width="10" />
+          <text bold="false" font-size="small">The present levels of academic achievement and functional performance of the child;</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="20" />
+          <text bold="false" font-size="small">-</text>
+          <spacer width="10" />
+          <text bold="false" font-size="small">Whether the disability is adversely affecting the child''s education; and,</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <spacer width="20" />
+          <text bold="false" font-size="small">-</text>
+          <spacer width="10" />
+          <text bold="false" font-size="small">Whether the child needs special education and related services.</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="1" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">An evaluation considers domains (areas related to the suspected disability) that may be relevant to the educational problems experienced by the individual child under consideration. The nature and intensity of the evaluation, including which domains will be addressed, will vary depending on the needs of your child and the type of existing information already available. The IEP Team, of which you are a member, determines the specific assessments needed to evaluate the individual needs of your child. Within 60 school days from the date of parent/guardian consent, a conference will be scheduled with you to discuss the findings and determine eligibility for special education and related services.</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="1" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">The IEP team must complete page 2 of this form prior to obtaining parental consent for evaluation. If the IEP team determines no additional evaluation is needed, than parental agreement and not parental consent is required.</text>
+        </line>
+        <line border="none" shaded="true">
+          <spacer height="1" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true" font-size="small">PARENT/GUARDIAN CONSENT FOR INITIAL EVALUATION</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <text bold="false" font-size="small">I understand the school district must have my consent for the initial evaluation. If I refuse consent for an initial evaluation, the school district may, but is not required to, pursue override procedures through due process. If the school district chooses not to pursue such procedures, the school district is not in violation of the required evaluation procedures. I understand my rights as explained to me and contained in the</text>
+            <text bold="true" font-size="small">Explanation of Procedural Safeguards.</text>
+            <text bold="false" font-size="small">I understand the scope of the evaluation as described on page 2 of this form.</text>
+          </cell>
+        </line>
+       <line align="left" border="none" shaded="true">
+            <radio alias="is-give-consent" value="-1" bold="true" font-size="medium">Not chosen</radio>
+        </line>
+       <line align="left" border="none" shaded="true">
+          <radio alias="is-give-consent" value="1" bold="true" font-size="medium">I give consent</radio>
+          <radio alias="is-give-consent" value="0" bold="true" font-size="medium">I do not give consent</radio>
+          <text font-size="medium" bold="true"> to collect the evaluation data as described on page 2 of this form.</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">PARENT/GUARDIAN CONSENT FOR EVALUATION</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Identification of Needed Assessments</text>
+        </line>
+      <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''identificationAssessments'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="DDX000000R602X" id="identificationAssessments" popup-height="400" popup-width="700" relationship="relGfdGfcOid" selection-type="none" detail-context="iep.identification.assessments.detail" show-add-button="false" show-delete-button="false" warn-on-delete="true" independent-save="true">
+              <field alias="domain-types" />
+              <field alias="is-relevant" label="RELEVANT" />
+              <field alias="exist-inf" label="ABOUT THE CHILD" />
+              <field alias="add-evdata" label="ADDITIONAL EVALUATION" />
+              <field alias="source" label="SOURCES" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-3457BC' WHERE VWT_OID = 'vwtX2IL3457bc' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3457c] -->
+<template>
+  <tab name="Parent Consent (34-57C)">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">PARENT/GUARDIAN CONSENT FOR REEVALUATION</text>
+        </line>
+        <line align="left" shaded="true">
+           <property alias="pgcre-date" label="Date" />
+        </line>
+        <line shaded="true">
+          <spacer />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="medium" bold="true">Dear Parent/Guardian</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium">Each school district shall ensure that a reevaluation is conducted for each child being reconsidered for special education and related services. A reevaluation must occur at least once every three years unless the parent and school district agree that a reevaluation is not needed. A reevaluation may not occur more than once a year, unless the parent and school district agree it is necessary. The purpose of a reevaluation is to determine:</text>
+        </line>
+        <line shaded="true">
+          <spacer />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">- Whether the child continues to have one or more disabilities;</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">- The present levels of academic achievement and functional performance of the child;</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">- Whether the disability is adversely affecting the child''s education</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">- Whether the child continues to need special education and related services; and</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">- Whether any additions or modifications to the child''s special education and related services are needed</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">to enable the child to meet the measurable annual goals in the Individualized Education Program (IEP)</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">and to participate appropriately in the general curriculum, extracurricular activities and other nonacademic</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">activities.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium">An evaluation considers domains (areas related to the suspected disability) that may be relevant to the educational problems experienced by the individual child under consideration. The nature and intensity of the evaluation, including which domains will be addressed, will vary depending on the needs of your child and the type of existing information already available. The IEP Team, of which you are a member, determines the specific assessments needed to evaluate the individual needs of your child. Upon completion of your child''s evaluation, a conference will be scheduled with you to discuss the findings and determine eligibility for special education and related services.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell>
+            <spacer hight="5" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium">The IEP team must complete page 2 of this form prior to obtaining parental consent for reevaluation. If the IEP team determines no additional evaluation is needed, then  parental agreement and not parental consent is required.</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <spacer height="25" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="true">PARENT/GUARDIAN AGREEMENT THAT NO ADDITIONAL DATA IS NEEDED</text>
+        </line>
+       <line align="left" border="none" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium">I understand the school district is not required to conduct a reevaluation to determine if my child continues to be a child with a disability. However, I may request the school district to conduct the reevaluation.</text>
+        </line>
+      <line align="left" border="none" shaded="true">
+           <radio alias="pgcre-agree" value="-1" bold="true" font-size="medium">Not chosen</radio>
+     </line>
+        <line align="left" border="none" shaded="true">
+          <radio alias="pgcre-agree" value="1" bold="true" font-size="medium">I agree</radio>
+          <radio alias="pgcre-agree" value="0" bold="true" font-size="medium">I do not agree</radio>
+          <text font-size="medium" bold="true"> with the determination that no additional data is needed</text>
+        </line>
+        <line align="left" border="bottom" shaded="true">
+          <spacer height="25" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium" bold="true">PARENT/GUARDIAN CONSENT TO COLLECT ADDITIONAL EVALUATION DATA</text>
+        </line>
+     <line align="left" border="none" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <text font-size="medium">I understand the school district must have my consent for the reevaluation. If I refuse consent, the school district may, but is not required to, pursue override procedures through due process. If the school district chooses not pursue such procedures, the school district is not in violation of the required evaluation procedure. Furthermore, I understand that if I fail to respond to the request for consent, the school district may pursue the reevaluation if the school district made reasonable efforts to obtain such consent. I understand my rights as explained to me and contained in the Explanation of Procedural Safeguards. I understand the scope of the evaluation as described on page 2 of this form.</text>
+        </line>
+     <line align="left" border="none" shaded="true">
+          <radio alias="pgcre-give-consent" value="-1" bold="true" font-size="medium">Not chosen</radio> 
+      </line>
+        <line align="left" border="none" shaded="true">
+          <radio alias="pgcre-give-consent" value="1" bold="true" font-size="medium">I give consent</radio>
+          <radio alias="pgcre-give-consent" value="0" bold="true" font-size="medium">I do not give consent</radio>
+          <text font-size="medium" bold="true"> to collect the evaluation data as described on page 2 of this form.</text>
+        </line>
+       <line align="left" border="bottom" shaded="true">
+          <spacer height="10" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="pgcre-signed-date" label="Signed date" />
+        </line>
+      </block>
+    </row>
+  <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">PARENT/GUARDIAN CONSENT FOR EVALUATION</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">Identification of Needed Assessments</text>
+        </line>
+     <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''identificationAssessments'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIl3457C" id="identificationAssessments" popup-height="400" popup-width="700" relationship="relGfdGfcOid" selection-type="none" detail-context="iep.identification.assessments.detail" show-add-button="false" show-delete-button="false" warn-on-delete="true" independent-save="true">
+              <field alias="domain-types" />
+              <field alias="is-relevant" label="RELEVANT" />
+              <field alias="exist-inf" label="ABOUT THE CHILD" />
+              <field alias="add-evdata" label="ADDITIONAL EVALUATION" />
+              <field alias="source" label="SOURCES" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-3457BC' WHERE VWT_OID = 'vwtX2IL3457c' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-ind] -->
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text font-size="large" bold="true">INDICATOR 13 - DATA ENTRY</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-date" label-display="right" label="Date" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-begin-date" label-display="right" label="Begin Date" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-end-date" label-display="right" label="End Date" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''GoalSubcategoryIndicator'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>  
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="DDX000000T203r" id="GoalSubcategoryIndicator" popup-height="400" popup-width="700" relationship="relGfdGfcOid" detail-context="iep.goal.subcategory.indicator.detail" warn-on-delete="true" show-add-button="false" show-delete-button="false" selection-type="none" independent-save="true">
+              <field alias="ch-ind-goal-sub" label="Post secondary goal area" />
+              <field alias="ch-ild-goal-measurable" label="Is goal stated on this area?" />
+              <field alias="ch-ild-goal-update" label="Is goal updated annually?" />
+              <field alias="ch-ind-based-age-appr-asmnt" label="Is goal was based on age-appropriate transition assessments?" />
+              <field alias="ch-ild-goal-rel-to-tr-srv" label="Is there at least one transition service for annual goal(s)?" />
+             <field alias="ch-ild-tr-will-meet-ps-goal" label="Is there annual goal(s) included in the IEP that is related to the student''s transition services needs?" />
+              <system-value alias="gfd-embedded-list-type" source="constant" value="GoalSubcategoryIndicator" />
+              <filter connector="and" alias="gfd-embedded-list-type" operator="equals" source="constant" value="GoalSubcategoryIndicator" />
+            </embedded-list>
+          </cell>
+        </line>
+       <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true">5. The IEP includes a course of study that will reasonably enable the student to meet his/her postsecondary goals.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+      <spacer width="15" />
+          <property alias="ind-align-course" label-display="right" label="Does the course of study address the student''s current and remaining years in school and lists names of classes, rather then a statement of instructional program that depicts a progression towards meeting the post-secondary goals?" />
+        </line>
+     <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true">7. There is evidence that the student was invited to the IEP team meeting where transition services were discussed.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+     <spacer width="15" />
+          <property alias="ind-std-invited" label-display="right" label="Was the student invited to the IEP meeting by being listed on the Notification of Conference form and/or did the student sign in as an IEP team member at the meeting?" />
+        </line>
+      <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <spacer height="100" />
+        <line align="left" border="none" shaded="true">
+          <text bold="true">8. It appropriate, there is evidence that a representative of any participating agency that is likely to be reponsible for providing or paying for transition services was invited to the IEP team meeting  with the prior consent of the parent or student who has reached the age of majority.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-1" label-display="right" label="Is it too early to determine if the student will need outside agency involvement?" />
+        </line>
+      <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-2" label-display="right" label="If transition services are listed that will be provided by or paid by an outside agency, is there evidence that the agency was listed on the Notification of Conference form?" />
+        </line>
+      <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-3" label-display="right" label="If transition services are listed that will be provided by or paid by an outside agency, is there evidence of current written PRIOR consent obtained from the parent or student who has reached the age of majority? (Consent is valid for 1 year from date of signature on the form.)" />
+        </line>
+     <spacer height="100" />
+        <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-is-iep" label-display="left" label="Does the IEP meet the requirement of Indicator 13?" />
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-IL-IND' WHERE VWT_OID = 'vwtX2ILInd' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-sp-appr] -->
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">SUMMARY OF PERFORMANCE (AS APPROPRIATE)</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">STUDENT PERSPECTIVE</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="small" bold="true">This should be completed by the student or with the assistance of another adult.</text>
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="small" bold="false">1.    How does your disability affect you in the work environment?  What strengths do you have in the work environment?</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="spappr-env-disability" label-display="hide" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="small" bold="false">2. What strengths and needs should professionals know about you as you enter the postsecondary education or work environment?</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="spappr-strengths-and-needs" label-display="hide" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="small" bold="false">3.   How does your disability affect your schoolwork and school activities (e.g. grades, assignments)?</text>
+          </cell>
+        </line>
+        <line border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <property alias="spappr-schoolwork-disability" label-display="hide" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text font-size="small" bold="false">4.  Complete the table below by identifying the accommodations and supports that have been tried by teachers or by you (e.g. pacing, extra time, visual supports, adaptive equipment) to help you succeed in school.  Please indicate whether each one was effective or not effective:</text>
+          </cell>
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''accomod'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>       
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlSPAppr" detail-context="iepform.sp.appr.detail" id="accomod" popup-height="200" popup-width="800" relationship="relGfdGfcOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <field alias="spappr-chld-accomod-sup" />
+              <field alias="spappr-chld-effective" />
+              <field alias="spappr-chld-not-effective" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text font-size="small" bold="false">Information completed by:</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="spappr-student" label-display="right" />
+          </cell>
+          <cell align="left" border="none" cell-span="4" line-span="1">
+            <property alias="spappr-parent" label-display="right" />
+            <spacer width="100" />
+          </cell>
+          <cell align="left" border="none" cell-span="8" line-span="1">
+            <property alias="spappr-teacher" label-display="right" />
+          </cell>
+          <cell align="left" border="none" cell-span="16" line-span="1">
+            <checkbox-view checkbox-id="other" label="Other Support Person" />
+            <spacer width="130" />
+          </cell>
+          <cell align="left" border="none" cell-span="128" line-span="1">
+            <property alias="spappr-other" checkbox-id="other" label-display="false" size="25" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="2" line-span="1">
+            <property alias="spappr-independently" label-display="right" />
+          </cell>
+          <cell align="left" border="none" cell-span="4" line-span="1">
+            <property alias="spappr-with-adult" label-display="right" />
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-SP-APPR' WHERE VWT_OID = 'vwtX2ILSPAppr' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-sum-perf] -->
+<template>
+  <tab>
+   <row>
+    <block>
+      <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">SUMMARY OF PERFORMANCE</text>
+        </line>
+        
+       <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="medium">Complete for students leaving/exiting school.  Subsequent to the termination of the student''s eligibility due to graduation or aging out, the Summary of Performance must be provided to the student.  This form must be completed in the final year prior to the student exiting high school.</text>
+        </line>
+      
+       <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Person(s) Competing Form:</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="iep-summary-persons" label-display="hide" />
+        </line>
+        
+       <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Person(s) Contact Information:</text>
+        </line>
+       
+       <line align="left" border="none" shaded="true">
+          <property alias="iep-summary-phones" label="Phones" label-display="right" />
+        </line>
+     
+       <line align="left" border="none" shaded="true">
+          <property alias="iep-summary-emails" label="E-mails" label-display="right" />
+        </line>
+        
+       <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Date Summary Completed</text>
+        </line>
+       
+       <line align="left" border="none" shaded="true">
+          <property alias="iep-summary-date-compl" label="E-mails" label-display="right" />
+        </line>
+
+       <line align="left" border="none" shaded="true">
+          <text bold="false" font-size="small">Attach copies of most recent assessment reports that address academic, functional performance, and transition that will assist in post-secondary planning.</text>
+        </line>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">STUDENT DESIRED POST-SECONDARY GOAL(S)</text>
+        </line>
+       <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="medium">Define and project the desired post-secondary outcomes as identified by the student, parent, and other IEP team members.</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list  detail-context="iepform.trans.assess" extended-dictionary-oid="ddxIlIep" id="trans-assess" popup-height="400" popup-width="700" relationship="relIepIplOid" selection-type="none" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <system-value field="iplType" source="constant" value="Transition Planning" />
+              <field alias="transAssess-categoty" edit="false" />
+              <field alias="transAssess-desire-goal" />
+             <filter connector="and" field="iplType" operator="equals" source="constant" value="Transition Planning" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+       <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">SUMMARY OF STUDENT''S ACADEMIC ACHIEVEMENT AND FUNCTIONAL PERFORMANCE</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list   extended-dictionary-oid="ddxIlIep" selection-type="none" detail-context="iepform.func.perf.detail"  id="functional-performance" popup-height="400" popup-width="700" relationship="relIepIplOid" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <filter connector="and" field="iplType" operator="equals" source="constant" value="Academic Read &amp; Math" >
+             <filter connector="or" field="iplType" operator="equals" source="constant" value="Functional Perform" >
+                   <filter connector="or" field="iplType" operator="equals" source="constant" value="Independent Living" >
+                  <filter connector="or" field="iplType" operator="equals" source="constant" value="Communication Status" >
+                    <filter connector="or" field="iplType" operator="equals" source="constant" value="Vocational &amp; Career" />
+                    </filter>
+                </filter>
+               </filter>
+            </filter>
+              <field id="iplType"  />
+              <field id="iplPerfSummary" />
+            <field alias="transAssess-ments" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+     
+       <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">RECOMMENDATIONS FOR POST-SCHOOL</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list   extended-dictionary-oid="ddxIlIep" detail-context="iepform.post.school.recom.detail" id="post-school-recommendation" popup-height="400" popup-width="700" selection-type="none" relationship="relIepIplOid" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="iplStdOID" source="ancestor" value="iepStdOID" />
+              <filter connector="and" field="iplType" operator="equals" source="constant" value="Recommendation" />
+              <system-value field="iplType" source="constant" value="Recommendation" />
+              <field alias="transAssess-recom-area" />
+           <field alias="transAssess-recommendation" />
+           <field alias="transAssess-agency" />
+           <field alias="transAssess-contact-person" />
+           <field alias="transAssess-contact-phone" />
+            <field alias="transAssess-address-line1" />
+            <field alias="transAssess-address-line2" />
+            <field alias="transAssess-address-line3" />
+            <field alias="transAssess-mail" />
+             <field alias="transAssess-website" />
+            </embedded-list>
+          </cell>
+        </line>
+        <line border="none">
+          <spacer height="10" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''all'');"&gt;Populate tables&lt;/button&gt;</text>
+        </line>  
+      </block>
+    </row>
+  </tab>
+</template>', VWT_PROCEDURE_ID = 'SYS-SPED-IL-SUM-PERF' WHERE VWT_OID = 'vwtX2ILSumPerf' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000852', 'fddX2000003918', 'tbxSPEDTrnForm', NULL, NULL, 10, 'Date of last Reevaluation', 'Date of last Reevaluation', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-re-eval-last', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000853', 'fddX2000003919', 'tbxSPEDTrnForm', NULL, NULL, 20, 'Date of next Reevaluation', 'Date of next Reevaluation', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-re-eval-next', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000854', 'fddX2000003920', 'tbxSPEDTrnForm', NULL, NULL, 30, 'Special ed. referral date', 'SPED referral date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-referal-date', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000855', 'fddX2000003921', 'tbxSPEDTrnForm', NULL, NULL, 40, 'Special ed. initial eligibility date', 'SPED initial eligibility date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-in-eleg-date', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000856', 'fddX2000003922', 'tbxSPEDTrnForm', NULL, NULL, 50, 'Most Recent Annual Review Date', 'Most Recent Annual Review Date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-an-review-recent', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000857', 'fddX2000003923', 'tbxSPEDTrnForm', NULL, NULL, 60, 'Next Annual Review Date', 'Next Annual Review Date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-an-review-next', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000858', 'fddX2000003924', 'tbxSPEDTrnForm', NULL, NULL, 70, 'Last IEP evaluation date', 'Last IEP evaluation date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-eval-last', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000859', 'fddX2000003925', 'tbxSPEDTrnForm', NULL, NULL, 80, 'Next IEP evaluation', 'Next IEP evaluation', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-eval-next', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000860', 'fddX2000003932', 'tbxSPEDTrnForm', 'rtbSpedDisab', NULL, 90, 'Primary Disability', 'Primary Disability', 'Character', 25, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Picklist', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-prim-dsbl', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000861', 'fddX2000003933', 'tbxSPEDTrnForm', 'rtbSpedDisab', NULL, 100, 'Secondary', 'Secondary', 'Character', 25, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Picklist', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-sec-dsbl1', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2t88000862', 'fddX2000003934', 'tbxSPEDTrnForm', 'rtbSpedDisab', NULL, 110, 'Secondary', 'Secondary', 'Character', 25, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Picklist', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'transfer-iep-sec-dsbl2', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE WHERE WPH_OID = 'wphIlTrRevIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE WHERE WPH_OID = 'wphIlTrRfrStd';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrAdNotes', 'wfdIlSpedTrans', NULL, 'wpoIlTrAdNotes', NULL, 'Additional Notes/Information', NULL, NULL, NULL, 9, 'Additional Notes/Information', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_SEQUENCE_NUMBER = 10 WHERE WPH_OID = 'wphIlTrApprIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrConfSum', 'wfdIlSpedTrans', NULL, 'wpoIlTrConfSum', NULL, 'Conference Summary Report', NULL, NULL, NULL, 4, 'Conference Summary Report', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrDefTm', 'wfdIlSpedTrans', NULL, 'wpoIlTrDefTm', NULL, 'Define Team', NULL, NULL, NULL, 1, 'Define Team', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrEducSer', 'wfdIlSpedTrans', NULL, 'wpoIlTrEducSer', NULL, '4. Ed. SErvices and Placment', NULL, NULL, NULL, 8, 'Ed. SErvices and Placment', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrGoals', 'wfdIlSpedTrans', NULL, 'wpoIlTrGoals', NULL, '1. Goals', NULL, NULL, NULL, 5, 'Goals', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrHoldTr', 'wfdIlSpedTrans', NULL, 'wpoIlTrHoldTr', NULL, 'Hold Transfer-In Meeting', NULL, NULL, NULL, 3, 'Hold Transfer-In Meeting', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrImplIEP', 'wfdIlSpedTrans', NULL, 'wpoIlTrImplIEP', NULL, 'Implement IEP', NULL, NULL, NULL, 11, 'Refer student for Initial Ivaluation', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_NAME = 'Transfer-In', WPH_DESCRIPTION = 'Transfer-In' WHERE WPH_OID = 'wphIlTrReqIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrSchedTr', 'wfdIlSpedTrans', NULL, 'wpoIlTrSchedTr', NULL, 'Schedule Transfer-In Meeting', NULL, NULL, NULL, 2, 'Schedule Transfer-In Meeting', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrSecTran', 'wfdIlSpedTrans', NULL, 'wpoIlTrSecTran', NULL, '2. Secondary Transition', NULL, NULL, NULL, 6, 'Secondary Transition', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrTranSer', 'wfdIlSpedTrans', NULL, 'wpoIlTrTranSer', NULL, '3. Transition Services', NULL, NULL, NULL, 7, 'Transition Services', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE_OUTCOME WHERE WPO_OID = 'wpoIlTrReqIEP2';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE_OUTCOME WHERE WPO_OID = 'wpoIlTrRevIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE_OUTCOME WHERE WPO_OID = 'wpoIlTrRfrStd';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrAdNotes', 'wphIlTrAdNotes', 'wphIlTrApprIEP', NULL, 'Complete', '1', '0', NULL, NULL, 'submitForApproval', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_WPH_OID_NEXT = 'wphIlTrImplIEP', WPO_METHOD_ID = 'iepApproved', WPO_ALIGNMENT_ID = NULL WHERE WPO_OID = 'wpoIlTrApprIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrConfSum', 'wphIlTrConfSum', 'wphIlTrGoals', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrDefTm', 'wphIlTrDefTm', 'wphIlTrSchedTr', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrEducSer', 'wphIlTrEducSer', 'wphIlTrAdNotes', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrGoals', 'wphIlTrGoals', 'wphIlTrSecTran', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrHoldTr', 'wphIlTrHoldTr', 'wphIlTrConfSum', NULL, 'Complete', '1', '0', NULL, 'meetingOutcomeDetail.do', 'trHoldMeeting', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrImplIEP', 'wphIlTrImplIEP', NULL, NULL, 'Complete', '1', '0', NULL, NULL, 'implementIep', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_WPH_OID_NEXT = 'wphIlTrDefTm' WHERE WPO_OID = 'wpoIlTrReqIEP1';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrSchedTr', 'wphIlTrSchedTr', 'wphIlTrHoldTr', NULL, 'Complete', '1', '0', NULL, 'meetingOutcomeDetail.do', 'trMeeting', NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrSecTran', 'wphIlTrSecTran', 'wphIlTrTranSer', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrTranSer', 'wphIlTrTranSer', 'wphIlTrEducSer', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+DELETE FROM WORKFLOW_PHASE_OUTCOME_FORM WHERE WPF_OID = 'wpf00TrReqIEP2';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrAdNotes', 'wpoIlTrAdNotes', 'fmdMtgTr', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrApprIEP', 'wpoIlTrApprIEP', 'fmdIlFacts', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrConfSum', 'wpoIlTrConfSum', 'fmdIl3454', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrDefTm', 'wpoIlTrDefTm', 'fmdIlTeam', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrEducSer', 'wpoIlTrEducSer', 'fmdIl3454PQ', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrGoals', 'wpoIlTrGoals', 'fmdIl3454M', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrHoldTr', 'wpoIlTrHoldTr', 'fmdIlMtg', NULL, 'H', NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrSchedTr', 'wpoIlTrSchedTr', 'fmdIlMtg', NULL, 'H', NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrSecTran', 'wpoIlTrSecTran', 'fmdIl3454H', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrTranSer', 'wpoIlTrTranSer', 'fmdIl3454I', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf01TrApprIEP', 'wpoIlTrApprIEP', 'fmdIliNdicator', NULL, NULL, NULL, 1, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf01TrHoldTr', 'wpoIlTrHoldTr', 'fmdIl3457H', NULL, NULL, NULL, 1, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf01TrSchedTr', 'wpoIlTrSchedTr', 'fmdIl3457D', NULL, NULL, NULL, 1, '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO FORM_DEFINITION (FMD_OID, FMD_ORG_OID_1, FMD_ORG_OID_2, FMD_ORG_OID_3, FMD_ORG_OID_4, FMD_ORG_OID_5, FMD_TBD_OID_OWNER, FMD_TBD_OID_STORAGE, FMD_DDX_OID, FMD_VWT_OID, FMD_ID, FMD_NAME, FMD_SEQUENCE_NUMBER, FMD_CATEGORY, FMD_SPED_IND, FMD_PD_IND, FMD_STUDENT_IND, FMD_CREATION_TYPE, FMD_SCALE_TYPE, FMD_STORAGE_QUERY, FMD_STORAGE_SYSTEM_VALUES, FMD_DETAIL_ACTION, FMD_WINDOW_WIDTH, FMD_WINDOW_HEIGHT, FMD_REPORT_ID, FMD_DISCONTINUED_IND, FMD_POST_MAPPING, FMD_OWNER_PRIVILEGE_IND, FMD_FIELDA_001, FMD_FIELDA_002, FMD_FIELDA_003, FMD_FIELDA_004, FMD_FIELDA_005, FMD_FIELDB_001, FMD_FIELDB_002, FMD_FIELDB_003, FMD_FIELDB_004, FMD_FIELDB_005, FMD_FIELDC_001, FMD_FIELDC_002, FMD_FIELDC_003, FMD_FIELDD_001, FMD_FIELDD_002, FMD_LAST_MODIFIED) VALUES ('fmdMtgTr', '*dst', NULL, NULL, NULL, NULL, 'tbdIEPData', 'tbdIEPMeeting', 'ddxIlIep', 'vwtX2ILMtgNot', 'SPED-IL-3454S-TR', 'Additional Notes/Information', 640, 'System', '1', '0', '0', 1, 0, '<?xml version="1.0" encoding="UTF-8"?>
+<filters>
+  <context>
+        <filter field="imgOID" source="constant" customClass="com.x2dev.sis.model.business.IlSpedMeetingNotesFilter"   />
+  </context>
+<workflow>
+        <filter field="imgIepOID" source="session" operator="equals" value="currentWorkflow.ownerOid" />
+         <filter field="imgFieldB004" source="constant" operator="equals" value="transfer-in" />
+</workflow>
+</filters>', '<?xml version="1.0" encoding="UTF-8"?>
+<system-values>
+  <context>
+    <system-value field="imgIepOID" source="ancestor" value="iepOID" />
+    <system-value field="imgStdOID" source="ancestor" value="iepStdOID" />
+  </context>
+  <workflow>
+    <system-value field="imgIepOID" source="session" value="currentWorkflow.ownerOid" />
+    <system-value field="imgStdOID" source="session" value="currentWorkflow.owner.studentOid" />
+  </workflow>
+</system-values>', NULL, 450, 400, 'SYS-SPED-IL-3454S', '0', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE FORM_DEFINITION SET FMD_VWT_OID = 'vwtILSpedTrans', FMD_WINDOW_WIDTH = 800 WHERE FMD_OID = 'fmdTransfer';
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

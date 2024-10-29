@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export-format procedure-id="ONSI2-ENR-SPED" name="ONSIS SpecialEducation" source-table="tblStudent" delimiter-char="," wrapper-char="&quot;">
+  <siftopic>SpecialEducation</siftopic>
+  <sifprofile>SPECIAL EDUCATION</sifprofile>
+  <documentation>&lt;p&gt;A SPECIAL_EDUCATION element is created for each student program participation record for the student where&lt;/p&gt;&#xD;
+&#xD;
+&lt;ol&gt;&#xD;
+	&lt;li&gt;The extended dictionary id is STD-PGM-SPECED&lt;/li&gt;&#xD;
+	&lt;li&gt;The date range for the program includes the cubmission end date&lt;/li&gt;&#xD;
+	&lt;li&gt;The boolean pgm-speced-report-ind is true&lt;/li&gt;&#xD;
+&lt;/ol&gt;&#xD;
+&#xD;
+&lt;p&gt;These elements are sorted by the progrm start date.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;NOTES:&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;A few of the fields depend on determining the program details record to use for reporting.  This determination is made by finding the record with the maximum pgd-speced-start-date from records where 1) the date range determined by pgd-speced-start-date and pgd-speced-end-date includes the submission end date and 2) the pgd-speced-type is equal to the value 'Placement'&lt;/p&gt;</documentation>
+  <field position="10" name="Action">
+    <calculationId>ACTION</calculationId>
+    <calc-param></calc-param>
+    <formatType>0</formatType>
+    <maximumLength>49</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>ACTION</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="20" name="Exceptionality Type">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getExceptionalityType</calc-param>
+    <documentation>&lt;p&gt;The value returned is the state value from the pgm-speced-exceptionality field.  If the value returned is "NONEXC" or "NONIDE" an empty string is returned.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>3</maximumLength>
+    <minimumLength>3</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>EXCEPTIONALITY_TYPE</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="30" name="Spec Edu Plmnt Type">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getPlacementType</calc-param>
+    <documentation>&lt;p&gt;To determine this record find the program details (see note in export format details) and return the state value from the pgd-speced-placement-type field.&lt;/p&gt;</documentation>
+    <formatType>0</formatType>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>SPECIAL_EDU_PLMNT_TYPE</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="40" name="Non Id Student Flag">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getNonIdentifiedFlag</calc-param>
+    <defaultValue>F</defaultValue>
+    <formatType>3</formatType>
+    <documentation>&lt;p&gt;If the state value for the pgm-speced-exceptionality is empty or contains "NONEXC" or "NONIDE", return TRUE.  Otherwise return FALSE.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>NON_IDENTIFIED_STUDENT_FLAG</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="50" name="Main Except Flag">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getMainExceptFlag</calc-param>
+    <defaultValue>F</defaultValue>
+    <formatType>3</formatType>
+    <documentation>&lt;p&gt;If the state value for the pgm-speced-exceptionality is populated with a value other than "NONEXC" or "NONIDE", return the value from pgm-speced-pri-exceptionality. Otherwise return FALSE.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <maximumLength>0</maximumLength>
+    <minimumLength>0</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>MAIN_EXCEPTIONALITY_FLAG</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="60" name="IPRC Review Date">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getReviewDate</calc-param>
+    <formatType>1</formatType>
+    <documentation>&lt;p&gt;If the value for the non identified student flag is TRUE, return null. &lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;Otherwise get the students spedLastEvaluationDate field.  If this value is populated and the value is on or before the submission end date, return the spedLastEvaluationDate.&lt;/p&gt;&#xD;
+&#xD;
+&lt;p&gt;If the spedLastEvaluationDate cannot be used, find the maximum date value in the all-std-IPRCReviewDateHistory field that is on or before the submission end date.&lt;/p&gt;</documentation>
+    <formatExpression>yyyy/MM/dd</formatExpression>
+    <maximumLength>10</maximumLength>
+    <minimumLength>10</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>IPRC_REVIEW_DATE</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="70" name="IPRC Student Flag">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getIprcStudentFlag</calc-param>
+    <defaultValue>F</defaultValue>
+    <formatType>3</formatType>
+    <documentation>&lt;p&gt;This field is TRUE when the IPRC review date is populated and the exceptionality type is populated.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>IPRC_STUDENT_FLAG</sifPath>
+    <depth>0</depth>
+  </field>
+  <field position="80" name="Ind Ed Plan Flag">
+    <fieldPath></fieldPath>
+    <calculationId>ENTITY-PROP</calculationId>
+    <calc-param>getIepFlag</calc-param>
+    <defaultValue>F</defaultValue>
+    <formatType>3</formatType>
+    <documentation>&lt;p&gt;To determine this record find the program details (see note in export format details) and return the value from the pgd-speced-iep-required field. If a value cannot be found return FALSE.&lt;/p&gt;</documentation>
+    <formatExpression>T,F</formatExpression>
+    <maximumLength>1</maximumLength>
+    <minimumLength>1</minimumLength>
+    <paddingDirection>0</paddingDirection>
+    <sifPath>INDIVIDUAL_EDUCATION_PLAN_FLAG</sifPath>
+    <depth>0</depth>
+  </field>
+</export-format>

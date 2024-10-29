@@ -1,0 +1,2054 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="MA-PH-RSTRNT"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="558"
+		 pageHeight="654"
+		 columnWidth="558"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="hformatter" isForPrompting="false" class="java.text.SimpleDateFormat"/>
+	<parameter name="mformatter" isForPrompting="false" class="java.text.SimpleDateFormat"/>
+	<parameter name="aformatter" isForPrompting="false" class="java.text.SimpleDateFormat"/>
+	<parameter name="timeFormatter" isForPrompting="false" class="java.text.SimpleDateFormat"/>
+	<parameter name="timePattern" isForPrompting="false" class="java.util.regex.Pattern"/>
+	<parameter name="DOE RESTRAINT LOCATION" isForPrompting="false" class="java.lang.String"/>
+
+	<field name="incident.incidentDate" class="java.lang.String"/>
+	<field name="a:DOE FORM FILLED BY" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT EXTENDED DURATION EXPLANATION" class="java.lang.String"/>
+	<field name="a:DOE PERSON 1 INV NAME" class="java.lang.String"/>
+	<field name="a:DOE PERSON 1 INV TITLE" class="java.lang.String"/>
+	<field name="a:DOE PERSON 2 INV NAME" class="java.lang.String"/>
+	<field name="a:DOE PERSON 2 INV TITLE" class="java.lang.String"/>
+	<field name="a:DOE PERSON 3 INV NAME" class="java.lang.String"/>
+	<field name="a:DOE PERSON 3 INV TITLE" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT HOLD" class="java.lang.String"/>
+	<field name="a:DOE OBSERV NAME" class="java.lang.String"/>
+	<field name="a:DOE OBSERV TITLE" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT SUBJECT PERIOD" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT INJURY" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT MEDICAL CARE PROVIDED" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT PARENT COMMUNICATION" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT BEHAVIOR" class="java.lang.String"/>
+	<field name="a:DOE ADMINISTRATOR NOTIFIED" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT HOLD DESC" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT DOE COMMUNICATION" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT ANTECEDENT ACTIVITY" class="java.lang.String"/>
+	<field name="a:DOE CONDUCT ACTION" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT DE-ESCALATION" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT BEHAVIOR JUSTIFIED RESTRAINT" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT START TIME" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT END TIME" class="java.lang.String"/>
+	<field name="a:DOE RESTRAINT SCHOOL CONTACT" class="java.lang.String"/>
+	<field name="a:incident.[DOE RESTRAINT LOCATION]" class="java.lang.String"/>
+
+	<variable name="timeStartValidate" class="java.lang.Boolean" resetType="Page" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean ($P{timePattern}.matcher($F{a:DOE RESTRAINT START TIME}).matches())]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean ($P{timePattern}.matcher($F{a:DOE RESTRAINT START TIME}).matches())]]></initialValueExpression>
+	</variable>
+	<variable name="startTime" class="java.util.Date" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{timeStartValidate}.booleanValue() ?  $P{timeFormatter}.parse( $F{a:DOE RESTRAINT START TIME} ) : null]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{timeStartValidate}.booleanValue() ?  $P{timeFormatter}.parse( $F{a:DOE RESTRAINT START TIME} ) : null]]></initialValueExpression>
+	</variable>
+	<variable name="timeEndValidate" class="java.lang.Boolean" resetType="Page" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean ($P{timePattern}.matcher($F{a:DOE RESTRAINT END TIME}).matches())]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean ($P{timePattern}.matcher($F{a:DOE RESTRAINT END TIME}).matches())]]></initialValueExpression>
+	</variable>
+	<variable name="endTime" class="java.util.Date" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{timeEndValidate}.booleanValue() ?  $P{timeFormatter}.parse( $F{a:DOE RESTRAINT END TIME} ) : null]]></variableExpression>
+		<initialValueExpression><![CDATA[$V{timeEndValidate}.booleanValue() ?  $P{timeFormatter}.parse( $F{a:DOE RESTRAINT END TIME} ) : null]]></initialValueExpression>
+	</variable>
+	<variable name="otherLocation" class="java.lang.Boolean" resetType="Page" calculation="Nothing">
+		<variableExpression><![CDATA[new Boolean(
+! $P{DOE RESTRAINT LOCATION}.equals( "Classroom" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Cafeteria" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Bathroom" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Hallway" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Gymnasium" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Outside" )
+)]]></variableExpression>
+		<initialValueExpression><![CDATA[new Boolean(
+! $P{DOE RESTRAINT LOCATION}.equals( "Classroom" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Cafeteria" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Bathroom" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Hallway" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Gymnasium" ) &&
+! $P{DOE RESTRAINT LOCATION}.equals( "Outside" )
+)]]></initialValueExpression>
+	</variable>
+
+		<group  name="info0" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="107"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="104"
+						height="14"
+						key="staticText-38"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date of restraint:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="116"
+						y="0"
+						width="100"
+						height="14"
+						key="staticText-39"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Start Time:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="226"
+						y="0"
+						width="100"
+						height="14"
+						key="staticText-40"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[End Time:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="336"
+						y="0"
+						width="222"
+						height="43"
+						key="staticText-41"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[If the restraint lasted longer than 20 minutes please provide an explanation for why an extended restraint was required.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="43"
+						width="147"
+						height="14"
+						key="staticText-42"/>
+					<box></box>
+					<textElement>
+						<font fontName="Serif"/>
+					</textElement>
+				<text><![CDATA[Name of Person Filling out Form:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="104"
+						height="14"
+						key="textField-23"/>
+					<box leftPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{incident.incidentDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="136"
+						y="14"
+						width="17"
+						height="14"
+						key="staticText-94"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Hr]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="171"
+						y="14"
+						width="25"
+						height="14"
+						key="staticText-95"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Min]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="116"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-24"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{startTime} == null ? null : $P{hformatter}.format( $V{startTime} )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="152"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-25"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{startTime} == null ? null : $P{mformatter}.format( $V{startTime} )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="196"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-26"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{startTime} == null ? null : $P{aformatter}.format( $V{startTime} )]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="246"
+						y="14"
+						width="17"
+						height="14"
+						key="staticText-96"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Hr]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="281"
+						y="14"
+						width="25"
+						height="14"
+						key="staticText-97"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Min]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="226"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-27"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{endTime} == null ? null : $P{hformatter}.format( $V{endTime} )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-28"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{endTime} == null ? null : $P{mformatter}.format( $V{endTime} )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="306"
+						y="14"
+						width="20"
+						height="14"
+						key="textField-29"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{endTime} == null ? null : $P{aformatter}.format( $V{endTime} )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="147"
+						y="43"
+						width="188"
+						height="14"
+						key="textField-30"/>
+					<box leftPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE FORM FILLED BY}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="336"
+						y="43"
+						width="222"
+						height="62"
+						key="textField-31"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT EXTENDED DURATION EXPLANATION}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="info1" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="31"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="138"
+						height="14"
+						key="staticText-44"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Person 1 Involved:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="141"
+						y="0"
+						width="138"
+						height="14"
+						key="staticText-45"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Person 2 Involved:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="281"
+						y="0"
+						width="138"
+						height="14"
+						key="staticText-46"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Person 3 Involved:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="422"
+						y="0"
+						width="136"
+						height="14"
+						key="staticText-47"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Observer:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="17"
+						width="38"
+						height="14"
+						key="staticText-48"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="141"
+						y="17"
+						width="38"
+						height="14"
+						key="staticText-49"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="281"
+						y="17"
+						width="38"
+						height="14"
+						key="staticText-50"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="422"
+						y="17"
+						width="38"
+						height="14"
+						key="staticText-51"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Name:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="38"
+						y="17"
+						width="100"
+						height="14"
+						key="textField-32"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 1 INV NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="179"
+						y="17"
+						width="100"
+						height="14"
+						key="textField-35"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 2 INV NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="319"
+						y="17"
+						width="100"
+						height="14"
+						key="textField-37"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 3 INV NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="458"
+						y="17"
+						width="100"
+						height="14"
+						key="textField-39"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE OBSERV NAME}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="info2" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="14"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="141"
+						y="0"
+						width="38"
+						height="14"
+						key="staticText-53"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Title:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="281"
+						y="0"
+						width="38"
+						height="14"
+						key="staticText-54"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Title:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="422"
+						y="0"
+						width="38"
+						height="14"
+						key="staticText-55"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Title:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="38"
+						y="0"
+						width="100"
+						height="14"
+						key="textField-33"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 1 INV TITLE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="179"
+						y="0"
+						width="100"
+						height="14"
+						key="textField-34"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 2 INV TITLE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="319"
+						y="0"
+						width="100"
+						height="14"
+						key="textField-36"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE PERSON 3 INV TITLE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="458"
+						y="0"
+						width="100"
+						height="14"
+						key="textField-38"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE OBSERV TITLE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="38"
+						height="14"
+						key="staticText-110"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Title:]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="info3" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="132"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="10"
+						width="185"
+						height="14"
+						key="staticText-56"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Subject Period: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="185"
+						y="10"
+						width="185"
+						height="14"
+						key="staticText-57"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Location of Restraint:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="370"
+						y="10"
+						width="188"
+						height="14"
+						key="staticText-58"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Hold Used:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-59"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Academic]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="47"
+						width="62"
+						height="14"
+						key="staticText-60"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Homeroom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="61"
+						width="62"
+						height="14"
+						key="staticText-61"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Study Hall]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="102"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-62"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Enrichment]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="102"
+						y="47"
+						width="62"
+						height="14"
+						key="staticText-63"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Lunch]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="102"
+						y="61"
+						width="62"
+						height="14"
+						key="staticText-64"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Recess]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-65"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Classroom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="47"
+						width="62"
+						height="14"
+						key="staticText-66"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Cafeteria]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="61"
+						width="62"
+						height="14"
+						key="staticText-67"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Bathroom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="288"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-68"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Hallway]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="288"
+						y="47"
+						width="62"
+						height="14"
+						key="staticText-69"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Gymnasium]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="288"
+						y="61"
+						width="62"
+						height="14"
+						key="staticText-70"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Outside]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-71"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Standing]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="47"
+						width="62"
+						height="14"
+						key="staticText-72"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Floor Supine]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="61"
+						width="62"
+						height="14"
+						key="staticText-73"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Floor Prone]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="475"
+						y="33"
+						width="62"
+						height="14"
+						key="staticText-74"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Sitting]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="75"
+						width="62"
+						height="14"
+						key="staticText-76"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Other]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="75"
+						width="62"
+						height="14"
+						key="staticText-77"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Other]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="20"
+						y="75"
+						width="62"
+						height="14"
+						key="staticText-78"/>
+					<box></box>
+					<textElement>
+						<font isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Other]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="98"
+						width="206"
+						height="14"
+						key="staticText-79"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Was anyone injured during the restraint?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="222"
+						y="98"
+						width="24"
+						height="14"
+						key="staticText-80"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="283"
+						y="98"
+						width="275"
+						height="31"
+						key="staticText-82"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[If yes please fill out and submit to the Department a Restraint Injury Report within three days of the restraint]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-40"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Academic" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="47"
+						width="16"
+						height="14"
+						key="textField-41"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Homeroom" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="61"
+						width="16"
+						height="14"
+						key="textField-42"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Study Hall" )  ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="75"
+						width="16"
+						height="14"
+						key="textField-43"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Other" )  ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="82"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-44"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Enrichment" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="82"
+						y="47"
+						width="16"
+						height="14"
+						key="textField-45"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Lunch" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="82"
+						y="61"
+						width="16"
+						height="14"
+						key="textField-46"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SUBJECT PERIOD}.equals( "Recess" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="82"
+						y="75"
+						width="82"
+						height="14"
+						key="textField-47"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Bottom">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-48"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Classroom" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="47"
+						width="16"
+						height="14"
+						key="textField-49"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Cafeteria" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="61"
+						width="16"
+						height="14"
+						key="textField-50"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Bathroom" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="185"
+						y="75"
+						width="16"
+						height="14"
+						key="textField-51"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{otherLocation}.booleanValue() ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="267"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-52"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Hallway" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="267"
+						y="47"
+						width="16"
+						height="14"
+						key="textField-53"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Gymnasium" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="267"
+						y="61"
+						width="16"
+						height="14"
+						key="textField-54"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DOE RESTRAINT LOCATION}.equals( "Outside" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="267"
+						y="75"
+						width="83"
+						height="14"
+						key="textField-55"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{otherLocation}.booleanValue() ? $P{DOE RESTRAINT LOCATION} : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="370"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-56"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD}.equals( "Standing" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="370"
+						y="47"
+						width="16"
+						height="14"
+						key="textField-57"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD}.equals( "Floor Supine" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="370"
+						y="61"
+						width="16"
+						height="14"
+						key="textField-58"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD}.equals( "Floor Prone" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="370"
+						y="75"
+						width="16"
+						height="14"
+						key="textField-59"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD}.equals( "Other" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="453"
+						y="33"
+						width="16"
+						height="14"
+						key="textField-60"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD}.equals( "Sitting" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="453"
+						y="75"
+						width="83"
+						height="14"
+						key="textField-63"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Bottom">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="206"
+						y="98"
+						width="16"
+						height="14"
+						key="textField-64"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT INJURY}.equals( "true" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="246"
+						y="98"
+						width="16"
+						height="14"
+						key="textField-65"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{a:DOE RESTRAINT INJURY} == null || $F{a:DOE RESTRAINT INJURY}.equals( "false" )) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="262"
+						y="98"
+						width="21"
+						height="14"
+						key="staticText-98"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Stretch1" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="28"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="279"
+						height="14"
+						key="staticText-83"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Description of injuries(if any) and medical care provided:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="279"
+						height="14"
+						key="staticText-84"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date, Time, and Method of Parental Notification:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="13"
+						width="279"
+						height="14"
+						key="staticText-99"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="13"
+						width="279"
+						height="14"
+						key="staticText-100"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="279"
+						height="14"
+						key="textField-66"/>
+					<box rightPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT MEDICAL CARE PROVIDED}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="14"
+						width="279"
+						height="14"
+						key="textField-67"/>
+					<box leftPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT PARENT COMMUNICATION}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretch2" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="42"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="279"
+						height="28"
+						key="staticText-85"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Description child's demeanor and well being and how it was monitored during the restraint:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="279"
+						height="28"
+						key="staticText-86"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Name of Principal or designee who was immediately notified and if necessary approved continuation beyond 20 minutes:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="28"
+						width="279"
+						height="14"
+						key="staticText-101"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box rightPadding="5" bottomPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="staticText-102"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="28"
+						width="279"
+						height="14"
+						key="textField-68"/>
+					<box rightPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT BEHAVIOR}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="textField-69"/>
+					<box leftPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE ADMINISTRATOR NOTIFIED}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretch3" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="42"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="279"
+						height="14"
+						key="staticText-87"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Description of why restraint hold was chosen:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="279"
+						height="28"
+						key="staticText-88"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date, time, and method of Department notification in the event of injury:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="staticText-103"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="13"
+						width="279"
+						height="29"
+						key="staticText-104"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box rightPadding="5" bottomPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="279"
+						height="28"
+						key="textField-70"/>
+					<box rightPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT HOLD DESC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="textField-71"/>
+					<box leftPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT DOE COMMUNICATION}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretch4" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="28"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="279"
+						height="14"
+						key="staticText-89"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Antecedent Activity:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="279"
+						height="14"
+						key="staticText-90"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Description of Disciplinary actions taken:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="14"
+						width="279"
+						height="14"
+						key="staticText-105"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="14"
+						width="279"
+						height="14"
+						key="staticText-106"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box rightPadding="5" bottomPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="279"
+						height="14"
+						key="textField-72"/>
+					<box rightPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT ANTECEDENT ACTIVITY}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="14"
+						width="279"
+						height="14"
+						key="textField-73"/>
+					<box leftPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE CONDUCT ACTION}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretch5" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="42"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="279"
+						height="28"
+						key="staticText-91"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Description of de-escalation techniques and alternatives to restraint that were attempted:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="0"
+						width="279"
+						height="28"
+						key="staticText-92"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif"/>
+					</textElement>
+				<text><![CDATA[Parents wishing to discuss the restraint, consequences that may be imposed, or any related matter should contact:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="28"
+						width="279"
+						height="14"
+						key="staticText-107"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box rightPadding="5" bottomPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="staticText-109"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="5" bottomPadding="5">					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="28"
+						width="279"
+						height="14"
+						key="textField-74"/>
+					<box rightPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT DE-ESCALATION}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="279"
+						y="28"
+						width="279"
+						height="14"
+						key="textField-76"/>
+					<box leftPadding="5" bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font fontName="Serif" size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT SCHOOL CONTACT}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretch6" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="29"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="558"
+						height="14"
+						key="staticText-93"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Behavior that justified the need to use restraint:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="14"
+						width="557"
+						height="14"
+						key="staticText-108"
+						stretchType="RelativeToBandHeight"
+						isPrintWhenDetailOverflows="true"/>
+					<box rightPadding="5" bottomPadding="5">					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="558"
+						height="14"
+						key="textField-75"
+						stretchType="RelativeToTallestObject"/>
+					<box bottomPadding="5">					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:DOE RESTRAINT BEHAVIOR JUSTIFIED RESTRAINT}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="stretcjh7" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

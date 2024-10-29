@@ -1,0 +1,1 @@
+OnsisConstants contains which will need to be adjusted to allow for new export format definition ids.

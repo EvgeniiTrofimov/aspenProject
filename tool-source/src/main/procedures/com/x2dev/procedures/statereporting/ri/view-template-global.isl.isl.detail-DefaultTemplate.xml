@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="global.isl.isl.detail" name="Default Template" locked="false" procedureId="SYS-SPED-RI-ISL-PCA">
+  <template>
+    <tab name="global.isl.isl.detail.default">
+      <row>
+        <column>
+          <property id="relIslIsvOid.relIsvIepOid.relIepStdOid.stdViewName" label="Name" label-short="false">
+            <picklist relationship="relIslIsvOid.relIsvIepOid" required="true">
+              <field id="relIepStdOid.stdViewName" sort="true" />
+              <field id="relIepStdOid.stdIDLocal" />
+              <field id="iepStartDate" sort="true" />
+              <field id="iepEndDate" sort="true" />
+              <filter connector="or" field="iepStatus" operator="equals" source="constant" value="1" />
+            </picklist>
+          </property>
+          <group header="IEP" value-from="literal">
+            <property id="relIslIsvOid.relIsvIepOid.iepStatus" label-short="false" prefix-display="hide" />
+            <property id="relIslIsvOid.relIsvIepOid.iepStartDate" label-short="false" prefix-display="hide" />
+            <property id="relIslIsvOid.relIsvIepOid.iepEndDate" label-short="false" prefix-display="hide" />
+          </group>
+          <group header="Service" value-from="literal">
+            <property id="relIslIsvOid.isvServiceType" label-short="false">
+              <picklist relationship="relIslIsvOid" action="schoolStudentPickList.do" required="true">
+                <field id="isvServiceType" sort="true" />
+                <field id="isvServiceMode" sort="true" />
+                <field id="isvServiceCode" sort="true" />
+                <field id="isvSettingCode" />
+                <filter connector="and" field="isvIepOID" operator="equals" source="detail" value="relIslIsvOid.isvIepOID" />
+              </picklist>
+            </property>
+            <property id="relIslIsvOid.isvServiceMode" label-short="false" />
+            <property id="relIslIsvOid.isvServiceCode" label-short="false" />
+            <property id="relIslIsvOid.isvSettingCode" label-short="false" />
+            <property id="relIslIsvOid.relIsvStfOid.stfNameView" label-short="false" />
+            <property id="relIslIsvOid.isvGoalView" label-short="false" />
+          </group>
+        </column>
+        <column>
+          <property id="islServiceCode" label-short="false" />
+          <property id="islTherapyCode" label-short="false" />
+          <property alias="isvICD10" label-short="false" />
+          <property id="islDate" label-short="false" />
+          <property id="islStartTime" label-short="false" />
+          <property id="islDuration" label-short="false" />
+          <property id="islPrepTime" label-short="false" />
+          <property id="islAbsentInd" label-short="false" />
+          <property alias="all-isl-svsLogCreator" default-value="user.nameView" default-value-mode="new" default-value-source="session" label-short="false" />
+        </column>
+      </row>
+      <row>
+        <column>
+          <property id="islComments" label-short="false" rows="4" />
+          <property alias="islPCASup" label-short="false" />
+          <property alias="islSupReviewDate" label-short="false" onchange="updateDynamicForm('islSupReviewDate', this.value)"/>
+        </column>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

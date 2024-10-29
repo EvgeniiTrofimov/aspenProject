@@ -1,0 +1,131 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.74%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.74' where history not like '%770.74%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-ind] -->
+<template>
+  <tab>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text font-size="large" bold="true">INDICATOR 13 - DATA ENTRY</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-date" label-display="right" label="Date" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-begin-date" label-display="right" label="Begin Date" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-end-date" label-display="right" label="End Date" />
+        </line>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">&lt;button type="button" onclick ="updateDynamicForm(''GoalSubcategoryIndicator'');"&gt;Populate table&lt;/button&gt;</text>
+        </line>  
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="DDX000000T203r" id="GoalSubcategoryIndicator" popup-height="400" popup-width="700" relationship="relGfdGfcOid" detail-context="iep.goal.subcategory.indicator.detail" warn-on-delete="true" show-add-button="false" show-delete-button="false" selection-type="none" independent-save="true">
+              <field alias="ch-ind-goal-sub" label="Post secondary goal area" />
+              <field alias="ch-ild-goal-measurable" label="Is goal stated on this area?" />
+              <field alias="ch-ild-goal-update" label="Is goal updated annually?" />
+              <field alias="ch-ind-based-age-appr-asmnt" label="Is goal was based on age-appropriate transition assessments?" />
+              <field alias="ch-ild-goal-rel-to-tr-srv" label="Is there at least one transition service for annual goal(s)?" />
+             <field alias="ch-ild-tr-will-meet-ps-goal" label="Is there annual goal(s) included in the IEP that is related to the student''s transition services needs?" />
+              <system-value alias="gfd-embedded-list-type" source="constant" value="GoalSubcategoryIndicator" />
+              <filter connector="and" alias="gfd-embedded-list-type" operator="equals" source="constant" value="GoalSubcategoryIndicator" />
+            </embedded-list>
+          </cell>
+        </line>
+       <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true">5. The IEP includes a course of study that will reasonably enable the student to meet his/her postsecondary goals.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+      <spacer width="15" />
+          <property alias="ind-align-course" label-display="right" label="m. Does the course of study address the student''s current and remaining years in school and lists names of classes, rather then a statement of instructional program that depicts a progression towards meeting the post-secondary goals?" />
+        </line>
+      <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <text bold="true">7. There is evidence that the student was invited to the IEP team meeting where transition services were discussed.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+     <spacer width="15" />
+          <property alias="ind-std-invited" label-display="right" label="q. Was the student invited to the IEP meeting by being listed on the Notification of Conference form?" />
+        </line>
+       <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <spacer height="100" />
+        <line align="left" border="none" shaded="true">
+          <text bold="true">8. It appropriate, there is evidence that a representative of any participating agency that is likely to be reponsible for providing or paying for transition services was invited to the IEP team meeting  with the prior consent of the parent or student who has reached the age of majority.</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-1" label-display="right" label="r. Is it too early to determine if the student will need outside agency involvement, OR no agency representation needed at this time, OR did the parent/age of majority student provide a written refusal to invite an outside agency? If yes, no further action required. If not, complete s and t." />
+        </line>
+       <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-2" label-display="right" label="s. If transition services are listed that will be provided by or paid by an outside agency, is there evidence of the agency was listed on the Notification of Conference form?" />
+        </line>
+     <line align="left" border="none" shaded="true">
+            <spacer width="15" />
+          <property alias="ind-prior-consent-prnt-3" label-display="right" label="t. If transition services are listed that will be provided by or paid by an outside agency, is there evidence of current written PRIOR consent obtained from the parent or student who has reached the age of majority?" />
+        </line>
+        <spacer height="100" />
+        <line align="left" border="none" shaded="true">
+            <spacer height="5" />
+      </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="ind-is-iep" label-display="left" label="Does the IEP meet the requirement of Indicator 13?" />
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2ILInd' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE FORM_DEFINITION SET FMD_DETAIL_ACTION = 'meetingFormDetail.do' WHERE FMD_OID = 'fmdIlMtg';
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

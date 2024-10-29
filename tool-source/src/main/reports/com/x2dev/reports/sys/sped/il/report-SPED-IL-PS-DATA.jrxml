@@ -1,0 +1,1496 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="report-SPED-IL-PS-DATA"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="558"
+		 columnSpacing="0"
+		 leftMargin="27"
+		 rightMargin="27"
+		 topMargin="20"
+		 bottomMargin="18"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="someparam" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="organization" isForPrompting="false" class="com.x2dev.sis.model.beans.SisOrganization"/>
+	<parameter name="disabilitiesMap" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="parentInfo" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="studentPhones" isForPrompting="false" class="java.util.Map"/>
+	<parameter name="graduatedSchool" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="graduatedDistrict" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="graduatedDate" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="hispanic" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="races" isForPrompting="false" class="java.util.List"/>
+
+	<field name="owner.student.person.genderCode" class="java.lang.String"/>
+	<field name="oid" class="java.lang.String"/>
+	<field name="owner.student.person.dob" class="java.lang.String"/>
+	<field name="a:psdata-high-school-diploma" class="java.lang.String"/>
+	<field name="a:psdata-modified diploma" class="java.lang.String"/>
+	<field name="a:psdata-reached-max-age" class="java.lang.String"/>
+	<field name="a:psdata-dropped-out" class="java.lang.String"/>
+	<field name="a:psdata-unknown" class="java.lang.String"/>
+	<field name="a:psdata-attend-school" class="java.lang.String"/>
+	<field name="a:psdata-secure-employment" class="java.lang.String"/>
+	<field name="a:psdata-no-response" class="java.lang.String"/>
+	<field name="a:psdata-contact-one-year-after" class="java.lang.String"/>
+	<field name="a:psdata-date-signed" class="java.lang.String"/>
+	<field name="owner.student.person.physicalAddress.addressLine01" class="java.lang.String"/>
+	<field name="owner.student.person.physicalAddress.addressLine02" class="java.lang.String"/>
+	<field name="owner.student.person.physicalAddress.addressLine03" class="java.lang.String"/>
+	<field name="owner.student.stateId" class="java.lang.String"/>
+	<field name="owner.student.nameView" class="java.lang.String"/>
+	<field name="owner.exitDate" class="java.lang.String"/>
+	<field name="owner.student.person.firstName" class="java.lang.String"/>
+	<field name="owner.student.person.lastName" class="java.lang.String"/>
+
+	<variable name="isBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} == null || $F{oid}.length() == 0)]]></initialValueExpression>
+	</variable>
+	<variable name="isNotBlank" class="java.lang.Boolean" resetType="Report" calculation="Nothing">
+		<initialValueExpression><![CDATA[new Boolean($F{oid} != null && $F{oid}.length() > 10)]]></initialValueExpression>
+	</variable>
+	<variable name="parent" class="com.follett.fsc.core.k12.beans.StudentContact" resetType="Page" calculation="Nothing">
+		<variableExpression><![CDATA[$P{parentInfo}.get("parent")]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{parentInfo}.get("parent")]]></initialValueExpression>
+	</variable>
+	<variable name="studentName" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></variableExpression>
+		<initialValueExpression><![CDATA[(
+$F{owner.student.person.lastName} == null ? "" : ($F{owner.student.person.lastName}  + ", ")
+)
++
+$F{owner.student.person.firstName}]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="742"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="8"
+						y="8"
+						width="540"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-1"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[POST-SCHOOL DATA COLLECTION SURVEY]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="278"
+						y="50"
+						width="271"
+						height="40"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="50"
+						width="271"
+						height="40"
+						key="rectangle-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="18"
+						y="53"
+						width="70"
+						height="13"
+						forecolor="#000000"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Name:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="399"
+						y="224"
+						width="150"
+						height="38"
+						key="rectangle-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="254"
+						y="224"
+						width="147"
+						height="38"
+						key="rectangle-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="224"
+						width="246"
+						height="38"
+						key="rectangle-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="35"
+						width="541"
+						height="15"
+						key="rectangle-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="9"
+						y="36"
+						width="539"
+						height="13"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-3"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[STUDENT DEMOGRAPHIC PROFILE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="37"
+						y="71"
+						width="40"
+						height="13"
+						key="staticText-4"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Male]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="107"
+						y="71"
+						width="40"
+						height="13"
+						key="staticText-5"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Female]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="71"
+						width="14"
+						height="12"
+						key="rectangle-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="71"
+						width="14"
+						height="12"
+						key="textField-3"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.genderCode}.equals("M") ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement
+						x="88"
+						y="71"
+						width="14"
+						height="12"
+						key="rectangle-9"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="88"
+						y="71"
+						width="14"
+						height="12"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" size="9" isItalic="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.genderCode}.equals("F") ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="289"
+						y="53"
+						width="120"
+						height="13"
+						forecolor="#000000"
+						key="staticText-6"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Date of Birth:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="278"
+						y="90"
+						width="271"
+						height="134"
+						key="rectangle-10"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="90"
+						width="271"
+						height="134"
+						key="rectangle-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="18"
+						y="92"
+						width="84"
+						height="13"
+						forecolor="#000000"
+						key="staticText-7"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Address:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="18"
+						y="129"
+						width="134"
+						height="13"
+						forecolor="#000000"
+						key="staticText-8"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Contact Telephone Number:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="93"
+						width="110"
+						height="13"
+						forecolor="#000000"
+						key="staticText-9"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Parent/Guardian Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="124"
+						width="46"
+						height="13"
+						forecolor="#000000"
+						key="staticText-10"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Address:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="156"
+						width="120"
+						height="13"
+						forecolor="#000000"
+						key="staticText-11"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Home Telephone Number:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="192"
+						width="33"
+						height="13"
+						forecolor="#000000"
+						key="staticText-12"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[(Cell):]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="289"
+						y="204"
+						width="41"
+						height="13"
+						forecolor="#000000"
+						key="staticText-13"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[(E-mail):]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="18"
+						y="225"
+						width="125"
+						height="13"
+						forecolor="#000000"
+						key="staticText-14"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[School Graduated From:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="263"
+						y="225"
+						width="125"
+						height="13"
+						forecolor="#000000"
+						key="staticText-15"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[School District:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="410"
+						y="225"
+						width="125"
+						height="13"
+						forecolor="#000000"
+						key="staticText-16"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student’s SIS Number:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="400"
+						y="262"
+						width="149"
+						height="41"
+						key="rectangle-12"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="254"
+						y="262"
+						width="147"
+						height="41"
+						key="rectangle-13"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="262"
+						width="246"
+						height="41"
+						key="rectangle-14"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="18"
+						y="263"
+						width="192"
+						height="13"
+						forecolor="#000000"
+						key="staticText-17"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date Student Graduated or Exited School:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="263"
+						y="263"
+						width="132"
+						height="13"
+						forecolor="#000000"
+						key="staticText-18"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student’s Primary Disability:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="410"
+						y="263"
+						width="100"
+						height="13"
+						forecolor="#000000"
+						key="staticText-19"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student’s Secondary]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="263"
+						y="275"
+						width="49"
+						height="13"
+						forecolor="#000000"
+						key="staticText-21"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[(Optional)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="410"
+						y="275"
+						width="93"
+						height="13"
+						forecolor="#000000"
+						key="staticText-22"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Disability: (Optional)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="278"
+						y="303"
+						width="271"
+						height="134"
+						key="rectangle-15"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="303"
+						width="271"
+						height="134"
+						key="rectangle-16"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="17"
+						y="304"
+						width="105"
+						height="13"
+						forecolor="#000000"
+						key="staticText-23"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Exited School:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="288"
+						y="304"
+						width="158"
+						height="13"
+						forecolor="#000000"
+						key="staticText-24"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Ethnicity of Record:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="36"
+						y="334"
+						width="197"
+						height="13"
+						key="staticText-25"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[With regular high school. diploma]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="334"
+						width="14"
+						height="12"
+						key="rectangle-17"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="334"
+						width="14"
+						height="12"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-high-school-diploma}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="36"
+						y="351"
+						width="197"
+						height="13"
+						key="staticText-26"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[With certificate/modified diploma]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="351"
+						width="14"
+						height="12"
+						key="rectangle-18"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="351"
+						width="14"
+						height="12"
+						key="textField-7"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-modified diploma}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="36"
+						y="369"
+						width="197"
+						height="13"
+						key="staticText-27"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Reached maximum age]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="369"
+						width="14"
+						height="12"
+						key="rectangle-19"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="369"
+						width="14"
+						height="12"
+						key="textField-8"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-reached-max-age}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="36"
+						y="387"
+						width="197"
+						height="13"
+						key="staticText-28"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dropped out]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="387"
+						width="14"
+						height="12"
+						key="rectangle-20"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="387"
+						width="14"
+						height="12"
+						key="textField-9"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-dropped-out}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="36"
+						y="405"
+						width="197"
+						height="13"
+						key="staticText-29"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Unknown]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="18"
+						y="405"
+						width="14"
+						height="12"
+						key="rectangle-21"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="405"
+						width="14"
+						height="12"
+						key="textField-10"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-unknown}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="333"
+						width="197"
+						height="13"
+						key="staticText-30"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[African American]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="333"
+						width="14"
+						height="12"
+						key="rectangle-22"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="333"
+						width="14"
+						height="12"
+						key="textField-11"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{races}.contains( "African American" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="350"
+						width="197"
+						height="13"
+						key="staticText-31"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[American Indian/Alaska native]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="350"
+						width="14"
+						height="12"
+						key="rectangle-23"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="350"
+						width="14"
+						height="12"
+						key="textField-12"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{races}.contains( "Native American" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="368"
+						width="197"
+						height="13"
+						key="staticText-32"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Asian or Pacific Islander]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="368"
+						width="14"
+						height="12"
+						key="rectangle-24"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="368"
+						width="14"
+						height="12"
+						key="textField-13"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{races}.contains( "Asian" ) || $P{races}.contains( "Pacific Island" )  ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="386"
+						width="197"
+						height="13"
+						key="staticText-33"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Hispanic]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="386"
+						width="14"
+						height="12"
+						key="rectangle-25"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="386"
+						width="14"
+						height="12"
+						key="textField-14"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{hispanic}.equals("true") ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="404"
+						width="197"
+						height="13"
+						key="staticText-34"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[White (not Hispanic)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="404"
+						width="14"
+						height="12"
+						key="rectangle-26"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="404"
+						width="14"
+						height="12"
+						key="textField-15"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(!$P{hispanic}.equals("true")) && $P{races}.contains( "Caucasian" ) ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="309"
+						y="421"
+						width="197"
+						height="13"
+						key="staticText-35"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[None indicated]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="291"
+						y="421"
+						width="14"
+						height="12"
+						key="rectangle-27"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="291"
+						y="421"
+						width="14"
+						height="12"
+						key="textField-16"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{races}.isEmpty() ? "X" : ""]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="437"
+						width="541"
+						height="108"
+						key="rectangle-31"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="18"
+						y="442"
+						width="512"
+						height="26"
+						key="staticText-40"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[What post-school goals are included in this student’s IEP for the period immediately following high school? (CHECK ALL THAT APPLY)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="17"
+						y="485"
+						width="14"
+						height="12"
+						key="rectangle-32"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="17"
+						y="485"
+						width="14"
+						height="12"
+						key="textField-20"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-attend-school}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="35"
+						y="485"
+						width="238"
+						height="13"
+						key="staticText-41"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Attend a postsecondary school, training, or education]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="17"
+						y="502"
+						width="14"
+						height="12"
+						key="rectangle-33"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="17"
+						y="502"
+						width="14"
+						height="12"
+						key="textField-21"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-secure-employment}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="35"
+						y="502"
+						width="238"
+						height="13"
+						key="staticText-42"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Secure employment]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="17"
+						y="520"
+						width="14"
+						height="12"
+						key="rectangle-34"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="17"
+						y="520"
+						width="14"
+						height="12"
+						key="textField-22"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-no-response}.equals("true")?"X":""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="35"
+						y="520"
+						width="238"
+						height="13"
+						key="staticText-43"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[No response]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="545"
+						width="541"
+						height="15"
+						key="rectangle-35"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="9"
+						y="546"
+						width="539"
+						height="13"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-44"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[STUDENT DEMOGRAPHIC PROFILE]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						x="8"
+						y="560"
+						width="541"
+						height="174"
+						key="rectangle-36"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="18"
+						y="578"
+						width="516"
+						height="27"
+						key="staticText-45"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[The Illinois State Board of Education is required to report to the Federal government on the post-school outcomes of students one year after they leave high school (e.g., are you employed, are you attending college, etc).  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="18"
+						y="615"
+						width="517"
+						height="27"
+						key="staticText-46"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[May we have your or your parents’ permission to be contacted by your school district one year after you leave to ask some questions about what you are doing? ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="189"
+						y="656"
+						width="40"
+						height="13"
+						key="staticText-47"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="330"
+						y="656"
+						width="40"
+						height="13"
+						key="staticText-48"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="147"
+						y="667"
+						width="42"
+						height="0"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="288"
+						y="668"
+						width="42"
+						height="0"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="17"
+						y="677"
+						width="172"
+						height="13"
+						key="staticText-49"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Signature of student or legal guardian: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="18"
+						y="703"
+						width="64"
+						height="13"
+						key="staticText-50"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date Signed:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="189"
+						y="690"
+						width="346"
+						height="0"
+						key="line-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="82"
+						y="715"
+						width="453"
+						height="1"
+						key="line-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="66"
+						width="254"
+						height="21"
+						key="textField-23"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.person.dob}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="147"
+						y="653"
+						width="42"
+						height="14"
+						key="textField-24"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-contact-one-year-after}.equals("Y")?"X":""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="288"
+						y="654"
+						width="42"
+						height="14"
+						key="textField-25"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-contact-one-year-after}.equals("N")?"X":""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="82"
+						y="702"
+						width="453"
+						height="13"
+						key="textField-26"/>
+					<box leftPadding="10"></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{a:psdata-date-signed}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="104"
+						width="255"
+						height="25"
+						key="textField-27"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{owner.student.person.physicalAddress.addressLine01} != null ? $F{owner.student.person.physicalAddress.addressLine01} + " " : "" ) +
+($F{owner.student.person.physicalAddress.addressLine02} != null ? $F{owner.student.person.physicalAddress.addressLine02} + " " : "" ) +
+($F{owner.student.person.physicalAddress.addressLine03} != null ? $F{owner.student.person.physicalAddress.addressLine03} + " " : "" )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="263"
+						y="289"
+						width="132"
+						height="13"
+						key="textField-28"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{disabilitiesMap}.get( "primaryName" )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="410"
+						y="288"
+						width="132"
+						height="13"
+						key="textField-29"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{disabilitiesMap}.get( "secondaryNames" )]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="410"
+						y="238"
+						width="132"
+						height="21"
+						key="textField-30"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.student.stateId}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="106"
+						width="259"
+						height="18"
+						key="textField-31"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{parent}.getPerson().getNameView()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="137"
+						width="259"
+						height="18"
+						key="textField-32"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($V{parent}.getPerson().getPhysicalAddress().getAddressLine01() == null ? "" : $V{parent}.getPerson().getPhysicalAddress().getAddressLine01() + " ") +  
+($V{parent}.getPerson().getPhysicalAddress().getAddressLine02() == null ? "" : $V{parent}.getPerson().getPhysicalAddress().getAddressLine02() + " ") +
+($V{parent}.getPerson().getPhysicalAddress().getAddressLine03() == null ? "" : $V{parent}.getPerson().getPhysicalAddress().getAddressLine03() + " ")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="169"
+						width="259"
+						height="18"
+						key="textField-33"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{parentInfo}.get("HOME")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="322"
+						y="192"
+						width="226"
+						height="13"
+						key="textField-34"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{parentInfo}.get("CELL")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="330"
+						y="204"
+						width="218"
+						height="13"
+						key="textField-35"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{parent}.getPerson().getEmail01() ==  null ? $V{parent}.getPerson().getEmail02() :  $V{parent}.getPerson().getEmail01()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="142"
+						width="259"
+						height="18"
+						key="textField-37"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{studentPhones}.get("CELL")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="M/d/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="238"
+						width="229"
+						height="19"
+						key="textField-38"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{graduatedSchool}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="18"
+						y="277"
+						width="229"
+						height="24"
+						key="textField-39"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{owner.exitDate}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="263"
+						y="238"
+						width="125"
+						height="21"
+						key="textField-40"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{graduatedDistrict}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="95"
+						y="53"
+						width="178"
+						height="13"
+						key="textField-41"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{studentName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="12"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

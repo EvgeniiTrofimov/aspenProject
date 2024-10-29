@@ -1,0 +1,42 @@
+<!-- *********************************************************** -->
+<!-- REPORT INPUT DEFINITIONS FOR THE "STUDY CLASS LISTS" REPORT -->
+<!-- *********************************************************** -->
+
+<tool-input>
+
+ <!-- *********************** -->
+ <!-- SCHEDULE TERM SELECTION -->
+ <!-- *********************** -->
+ 
+ <input name="scheduleTermOid" data-type="string" display-type="picklist" display-name="Schedule term" required="false">
+  <picklist field-id="trmTermCode" required="false">
+   <field id="relTrmSchOid.schScheduleNam" sort="true" />
+   <field id="trmTermCode" sort="true" />
+   <filter field="trmSchOID" operator="equals" source="session" value="school.activeScheduleOid">
+     <filter field="trmSchOID" connector="or" operator="equals" source="session" value="buildScheduleOid" />
+   </filter>
+  </picklist>
+ </input>
+
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.schedule.query">
+  <option value="##all" display-name="report.shared.query.all"/>
+  <option value="courseView" display-name="report.schedule.query.section"/>
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString"/>
+
+ <!-- ************ -->
+ <!-- SORT OPTIONS -->
+ <!-- ************ -->
+
+ <input name="sort" data-type="string" display-type="select" display-name="report.shared.sort">
+  <option value="courseView" display-name="report.schedule.sort.course"/>
+  <option value="primaryStaff.nameView,courseView" display-name="report.schedule.sort.teacher"/>
+  <option value="schoolCourse.departmentCode,primaryStaff.nameView,courseView" display-name="report.shared.sort.department"/>
+ </input>
+
+</tool-input>

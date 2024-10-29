@@ -1,0 +1,70 @@
+<!-- Polio(mixed OPV/IPV) compliance rule WA required:
+Grades K-12, July 1, 2012 - June 30, 2013
+
+      Dose #      Minimum Age     Minimum Interval Between Doses
+Dose     1          6 weeks       4 weeks between Doses 1 & 2
+Dose     2         10 weeks       4 weeks between Doses 2 & 3
+Dose     3         14 weeks       6 months between Dose 3 & 4
+Dose     4          4 years       -
+
+Notes
+* not required for students 18 years and older
+* Children who got 3 or 4 valid doses before August 7, 2009 do not
+  need an additional dose.  A 4 week minimum interval must separate
+  the final IPV doses if a child got these doses before August 7, 2009
+
+-->
+
+<compliance-rule>
+  <rule-set skip-early="true" min-age = "38" age-unit = "days">
+    <dose number="1" start-age="38"  age-unit="days" />
+    <dose number="2" start-age="66" age-unit="days" />
+    <dose number="3" start-age="94" age-unit="days" />
+    <dose-dependent number="2" after-dose-number="1" time-after="24" time-unit="days" />
+    <dose-dependent number="3" after-dose-number="2" time-after="24" time-unit="days" />
+    <rule-set>
+    <dose number="4" start-age="1457" age-unit="days" />
+    <dose-dependent number="4" after-dose-number="3" time-after="178" time-unit="days" />
+    <dose number = "4" start-grade = "-2" end-grade = "-2" grade-range="exclusive" operator="or" />
+    <dose number = "4" start-grade = "-1" end-grade = "-1" grade-range="exclusive" operator="or" />
+    </rule-set>
+  </rule-set>
+
+<!--Modified 10/7/2013 to 4 doses before 7/8/2009 -->
+<!--If a student got all doses before August 7, 2009: 4 week minimum interval must separate all doses and minimum age must be >18 weeks -->
+  <rule-set operator="or" skip-early="true" min-age = "122" age-unit = "days">
+    <dose number="1"  start-age="38"  age-unit="days" />
+    <dose number="2"  start-age="66" age-unit="days" />
+    <dose-dependent number="2" after-dose-number="1" time-after="24" time-unit="days" />
+    <dose number="3" start-age="94" age-unit="days" />
+    <dose-dependent number="3" after-dose-number="2" time-after="24" time-unit="days" />
+    <dose number="4" start-age="122" age-unit="days" />
+    <dose-dependent number="4" after-dose-number="2" time-after="24" time-unit="days" />
+    <dose-total count="4" end-date="2009-08-07"/>
+  </rule-set>
+
+<!-- Modified 10/7/2013 to separate two rules, removing end date on third dose -->
+<!--  Three doses acceptable if child got Dose 3 >4th birthday. -->
+  <rule-set operator="or" skip-early="true" min-age="1457" age-unit="days">
+    <dose number="1" start-age="38"  age-unit="days" />
+    <dose number="2" start-age="66" age-unit="days" />
+    <dose-dependent number="2" after-dose-number="1" time-after="24" time-unit="days" />
+    <dose number="3" start-age="1457" age-unit="days" />
+    <dose-dependent number="3" after-dose-number="2" time-after="24" time-unit="days" />
+    <dose-total count="3"/>
+  </rule-set>
+
+  <rule-set operator="or" skip-early="true" min-age="1457" age-unit="days">
+    <dose number="1" start-age="38"  age-unit="days" />
+    <dose number="2" start-age="66" age-unit="days" />
+    <dose-dependent number="2" after-dose-number="1" time-after="24" time-unit="days" />
+    <dose number="3" start-age="1457" age-unit="days" />
+    <dose-dependent number="3" after-dose-number="2" time-after="178" time-unit="days" />
+  </rule-set>
+
+<!-- Over 18 dose count = 0, don't need immunization for Polio -->
+  <rule-set operator ="or" min-age="18" age-unit="years">
+    <dose-total count="0" start-age="18" />
+  </rule-set>
+
+</compliance-rule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool-input prompt-download="false" allow-school-select="false" allow-org-select="false" height="500">
+ <input name="reportDate" data-type="date" display-type="date" display-name="report.shared.reportDate" required="false" />  
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="report.shared.All.schools" default-value="false"/>
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="report.shared.School(s)"
+     required="false">
+     <picklist field-id="sklSchoolID" multiple="true" required="true">
+         <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+         <filter alias="all-skl-SpecialCondition" operator="in" source="constant" value="0" />
+         <filter field="sklSchoolLevel" operator="in" source="constant" value="02;03" />
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+  <input name="submissionType" data-type="string" display-type="select" display-name="report.shared.Submission" default-value="code">
+     <picklist field-id="udaFieldC001" multiple="false" required="true" extended-dictionary="ON-SIS-SUB-FLD">
+         <filter alias="ddx-oid" operator="equals" source="constant" value="ddxOnSisSubFld" />
+         <field alias="submission-type" />
+         <field id="udaOID" display="false" sort="true" sort-direction="asc" />
+     </picklist>
+ </input>
+ <input name="debugStudentOid" data-type="string" display-type="picklist" display-name="report.shared.student" default-value="" required="false">
+   <picklist field-id="stdViewName" multiple="false">
+    <field id="stdViewName" sort="true" />
+    <field id="stdIDLocal" />
+    <field id="stdIDState" />
+   </picklist>
+ </input>
+ <input name="debugDetail" data-type="boolean" display-type="checkbox" display-name="report.shared.includeDebugDetail" default-value="false" required="false" />
+</tool-input>

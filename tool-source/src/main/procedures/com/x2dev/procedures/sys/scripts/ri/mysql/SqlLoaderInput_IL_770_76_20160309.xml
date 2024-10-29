@@ -1,0 +1,116 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.76%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.76' where history not like '%770.76%';
+]]> 
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454] -->
+<template>
+  <tab name="Individualized Education Program (34-54)">
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">INDIVIDUALIZED EDUCATION PROGRAM (CONFERENCE SUMMARY REPORT)</text>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="bottom" shaded="true">
+          <text bold="true" font-size="large">STUDENT IDENTIFICATION INFORMATION</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="iep-plcmnt-in-sch" label-short="false" />
+          <property alias="iep-communic-mode" label-short="false" />
+        </line>
+        <line align="left" border="none" shaded="true">
+          <property alias="relIepStdOid.DOE SCHOOL LANG" label-short="false" />
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PARENT INFORMATION</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="parent" popup-height="600" popup-width="800" relationship="relIepItmOid" selection-type="multiple" embedded-edit="true" show-add-button="false" show-delete-button="false" independent-save="true">
+              <field id="relItmPsnOid.psnNameFirst" />
+              <field id="relItmPsnOid.psnNameMiddle" />
+              <field id="itmMemberRole" />
+              <field alias="itm-interpreter" />
+              <field alias="itm-surrogate-parent" />
+              <field alias="itm-primary-language" />
+              <field alias="itm-communic-mode" />
+              <filter field="itmMemberRole" connector="and" operator="equals" source="constant" value="Parent">
+                <filter field="itmMemberRole" connector="or" operator="equals" source="constant" value="Guardian" />
+              </filter>
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="medium">PURPOSE OF CONFERENCE AND PROCEDURAL SAFEGUARDS</text>
+        </line>
+        <line border="bottom" shaded="true">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list extended-dictionary-oid="ddxIlIep" id="meeting" popup-height="600" popup-width="800" relationship="relIepImgOid" selection-type="multiple" detail-context="iep.meeting.procedural.safeguards" show-add-button="false" show-delete-button="false" independent-save="true">
+              <system-value field="imgStdOID" source="ancestor" value="iepStdOID" />
+              <field id="imgDate" default-value="today" />
+              <field alias="mtg-sch-location" />
+              <field alias="mtg-type" />
+              <field alias="mtg-date-notification" label="Date notification" />
+              <field alias="mtg-type-notification" label="Type notification" />
+              <field alias="mtg-channel" label="Channel" />
+              <field alias="iep-sum-safeguard-was-provide" label="Procedural Safeguards were provided on" />
+              <field alias="iep-sum-std-was-inf" label="Seventeen-year old student informed" />
+              <field alias="img-evaluation-report" label="Evaluation report and eligibility determination" />
+              <field alias="img-beh-interv-policies" label="District''s behavioral intervention policies" />
+              <field alias="img-iep" label="IEP" />
+              <field alias="img-beh-interv-policies-iep" label="District''s behavioral intervention procedures (initial IEP only)" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2IL3454' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+</SQLDocument>
+</tool-input>

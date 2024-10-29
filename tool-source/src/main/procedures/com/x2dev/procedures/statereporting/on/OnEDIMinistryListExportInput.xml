@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool-input prompt-download="false" allow-school-select="false" allow-org-select="false" height="500">
+ <input name="allSchools" data-type="boolean" display-type="checkbox" display-name="report.shared.All.schools" default-value="true">
+     <disable input-name="schoolOids" if-parent-equals="true" />
+ </input>
+ <input name="schoolOids" data-type="string" display-type="picklist"
+     display-name="report.shared.School(s)" default-value-source="session" default-value="school.oid"
+     required="true">
+     <picklist field-id="sklSchoolID" multiple="true" required="false">
+         <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+         <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+         <filter field="sklStartGrade" operator="lessOrEqual" source="constant" value="-1" />
+         <filter field="sklSchoolLevel" operator="in" source="constant" value="01;03" />
+         <filter alias="all-skl-SpecialCondition" operator="empty">
+           <filter alias="all-skl-SpecialCondition" operator="equals" value="0" connector="or"/>
+         </filter>
+         <field id="sklSchoolID" sort="true" />
+         <field id="sklSchoolName" />
+     </picklist>
+ </input>
+ <input name="customName" data-type="string" display-type="text" display-name="report.shared.resultName" default-value="" required="false" />  
+</tool-input>

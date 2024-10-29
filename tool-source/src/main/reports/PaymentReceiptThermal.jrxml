@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="PaymentReceiptThermal" pageWidth="178" pageHeight="792" columnWidth="178" leftMargin="0"
+              rightMargin="0" topMargin="115" bottomMargin="0" uuid="34073190-c7bf-456e-b194-dc228f13a4f8">
+    <property name="ireport.scriptlethandling" value="0"/>
+    <property name="ireport.encoding" value="UTF-8"/>
+    <property name="ireport.zoom" value="4.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="978"/>
+    <import value="net.sf.jasperreports.engine.*"/>
+    <import value="java.util.*"/>
+    <import value="net.sf.jasperreports.engine.data.*"/>
+    <parameter name="person" class="com.x2dev.sis.model.beans.SisPerson" isForPrompting="false"/>
+    <parameter name="organization" class="com.follett.fsc.core.k12.beans.Organization" isForPrompting="false"/>
+    <parameter name="school" class="com.follett.fsc.core.k12.beans.School" isForPrompting="false"/>
+    <parameter name="credit" class="com.x2dev.sis.model.beans.CashiersJournalEntry" isForPrompting="false"/>
+    <parameter name="student" class="com.x2dev.sis.model.beans.SisStudent" isForPrompting="false"/>
+    <parameter name="staff" class="com.x2dev.sis.model.beans.SisStaff" isForPrompting="false"/>
+    <parameter name="shortDateFormat" class="java.text.SimpleDateFormat" isForPrompting="false"/>
+    <parameter name="reportLocale" class="org.apache.struts.util.MessageResources"/>
+    <parameter name="prefix" class="java.lang.String"/>
+    <field name="Date" class="java.lang.String"/>
+    <field name="Fee Type" class="java.lang.String"/>
+    <field name="Name" class="java.lang.String"/>
+    <field name="Comment" class="java.lang.String"/>
+    <field name="Amount Due" class="java.math.BigDecimal"/>
+    <field name="Amount Paid" class="java.math.BigDecimal"/>
+    <field name="Balance Due" class="java.math.BigDecimal"/>
+    <variable name="totalAmountDue" class="java.math.BigDecimal" calculation="Sum">
+        <variableExpression><![CDATA[$F{Amount Due}]]></variableExpression>
+    </variable>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="208" splitType="Stretch">
+            <textField isBlankWhenNull="false">
+                <reportElement key="textField" x="44" y="119" width="132" height="12"
+                               uuid="2f488e3f-29b5-464c-b80f-07b21634b7b0"/>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{person}.getNameView()]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement key="textField-6" x="2" y="43" width="174" height="38"
+                               uuid="27c287ea-5884-404e-a833-9ad8553e5138"/>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{school}.getName()]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="false">
+                <reportElement key="textField-7" x="2" y="28" width="174" height="12"
+                               uuid="669e4f95-c9dc-4719-912e-d2e05de9d1ef"/>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{organization}.getName()]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement key="textField-18" x="44" y="100" width="122" height="12"
+                               uuid="c4d66cea-aefe-4e70-ad9a-0afa324c2bd8"/>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{shortDateFormat}.format($P{credit}.getDate())]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="false">
+                <reportElement key="textField-22" x="2" y="81" width="174" height="18"
+                               uuid="471f0035-bcf5-4cd1-bf54-cd09d4fee4e3"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA["Transaction #" + ($P{credit}.getReferenceNumber() != null ? $P{credit}.getReferenceNumber(): "")]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement key="textField-4" x="79" y="155" width="99" height="12"
+                               uuid="f8ea96d5-d58d-453b-902d-5c4d47757aeb">
+                    <printWhenExpression><![CDATA[$P{credit}.getMethod() != null]]></printWhenExpression>
+                </reportElement>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{credit}.getMethod() +" "+($P{credit}.getDescription() == null ? "" : $P{credit}.getDescription())]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement key="textField-2" x="79" y="177" width="99" height="12"
+                               uuid="da4900b5-4047-4b35-ab64-37214efe095b"/>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{staff}.getNameView()]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement key="textField-1" x="79" y="141" width="98" height="12"
+                               uuid="4d1da402-e993-4112-99d0-90a43dae623d">
+                    <printWhenExpression><![CDATA[$P{credit}.getAmountApplied() != null]]></printWhenExpression>
+                </reportElement>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression><![CDATA["$" + $P{credit}.getAmountApplied().toString()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="2" y="11" width="174" height="17" uuid="461a8fd2-9cb8-4ebc-b310-63cc098b5d03"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.payment.receipt")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="100" width="35" height="12" uuid="306dbfb2-76a1-4ccf-bef9-f6537d50478d"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.date")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="119" width="35" height="12" uuid="5e0ef8b1-eae7-41dd-80a1-5c1481e2f90e"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.name")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="141" width="76" height="12" uuid="c60691f8-546e-4743-8144-f07fe3da693f"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.amount.paid")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="155" width="76" height="12" uuid="e83b7ce3-ff35-4336-bcd1-fdbd055a10fe"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.payment.method")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="177" width="76" height="12" uuid="79d89e00-784c-4cab-9bf9-4f7757590e4a"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.received.by")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="195" width="59" height="12" uuid="667c5536-fc36-42e8-95a6-09c6b7736e55"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.fee.type")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="67" y="195" width="56" height="12" uuid="74f52046-b574-4573-b50d-b7fe0e8287e8"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.amount")]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="130" y="195" width="45" height="12" uuid="38194437-391d-4816-85fa-2a8670893e55"/>
+                <textElement textAlignment="Right">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.bal.due")]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    <pageHeader>
+        <band splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band splitType="Stretch"/>
+    </columnHeader>
+    <detail>
+        <band height="13" splitType="Stretch">
+            <textField isBlankWhenNull="false">
+                <reportElement key="textField-19" x="3" y="0" width="59" height="12"
+                               uuid="e1d10c45-36d2-41d7-aada-1a947db1d66a"/>
+                <textElement>
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Fee Type}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00;(###0.00)" isBlankWhenNull="false">
+                <reportElement key="textField-20" x="67" y="0" width="56" height="12"
+                               uuid="9a7e7597-c7f1-461f-9d81-04ba5a27ad82"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Amount Paid}]]></textFieldExpression>
+            </textField>
+            <textField pattern="###0.00;(###0.00)" isBlankWhenNull="false">
+                <reportElement key="textField-21" x="130" y="0" width="45" height="12"
+                               uuid="644767ca-28bf-42f6-81d3-be241fbaebbc"/>
+                <textElement textAlignment="Right">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Balance Due}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="83" splitType="Stretch">
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement key="textField-5" stretchType="RelativeToBandHeight" x="3" y="21" width="171" height="45"
+                               uuid="e5132698-d2a4-4afc-91d5-7c107a1d6cd3"/>
+                <textElement>
+                    <font size="8" pdfFontName="Helvetica"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{credit}.getComment()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="87c557f5-fa5f-447b-8865-6e698ca61f64"/>
+                <textFieldExpression><![CDATA[$R{rpt.payment.receipt}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="dc2afb2d-45c6-4977-8c11-64fec5ee6098"/>
+                <textFieldExpression><![CDATA[$R{rpt.date}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="30b0b8e2-7d61-4cab-9ca6-8373ae24e601"/>
+                <textFieldExpression><![CDATA[$R{rpt.name}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="283010a4-4dcd-47da-ad89-f71c19a48a51"/>
+                <textFieldExpression><![CDATA[$R{rpt.amount.paid}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="e1d5b4bb-e3e5-46cf-88a0-637f59014dae"/>
+                <textFieldExpression><![CDATA[$R{rpt.payment.method}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="09d1624e-1c9d-4abd-93c7-55fd713cc0d8"/>
+                <textFieldExpression><![CDATA[$R{rpt.received.by}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="89e5b5b1-a643-4363-80a2-c15ffd7e0994"/>
+                <textFieldExpression><![CDATA[$R{rpt.fee.type}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="c80de1eb-d58b-4208-9fff-e0b14b111628"/>
+                <textFieldExpression><![CDATA[$R{rpt.amount}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="9dbcb235-19ef-4fbd-a70d-45ed993a95f7"/>
+                <textFieldExpression><![CDATA[$R{rpt.bal.due}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="0" width="0" height="0" uuid="1c25217d-aa34-441b-83c6-c76add1beb3e"/>
+                <textFieldExpression><![CDATA[$R{rpt.notes}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="3" y="8" width="27" height="12" uuid="3f03ebd7-5396-407c-babc-62c4a9a84234"/>
+                <textElement>
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression>
+                    <![CDATA[$P{reportLocale}.getMessage($P{prefix} + "rpt.notes")]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

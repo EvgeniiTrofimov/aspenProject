@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view-template context="conduct.oi.list.popup.multi" name="SBAR Conduct Office Popup Multi" locked="false" extendedDataDictionaryId="">
+  <template>
+    <tab name="tab.conduct.cnd.list.detail.incident">
+      <row>
+        <column>
+          <property id="cndStdOID" display="false" label-short="false" />
+          <property id="relCndSklOid.sklSchoolName" label="Current School" label-short="false">
+            <picklist relationship="relCndSklOid" required="true">
+              <field id="sklSchoolName" sort="true" />
+              <filter connector="and" field="sklInactiveInd" operator="equals" source="constant" value="false" />
+            </picklist>
+          </property>
+          <property id="relCndStdOid.stdGradeLevel" label="Current Grade" label-short="false" read-only="true" font-size="medium" />
+        </column>
+        <column>
+          <property id="relCndStdOid.stdIDLocal" label="Local ID" label-short="false" read-only="true" font-size="medium" />
+          <property id="relCndStdOid.stdIDState" label="State Test ID" label-short="false" read-only="true" font-size="medium" />
+          <property id="cndIncID" label-short="false" read-only="true" font-size="medium" />
+        </column>
+        <column>
+          <property id="relCndStdOid.stdEnrStatus" label="Active Status" label-short="false" read-only="true" />
+          <property id="relCndStdOid.stdSpedStatus" label="Special Ed Status" label-short="false" read-only="true" />
+          <property alias="relCndStdOid.DOE SPED DISABILITY" label="Primary Disability" label-short="false" read-only="true" />
+        </column>
+        <column>
+          <property alias="relCndStdOid.ellevation-std-englishProficiency" label="LEP Status" label-short="false" read-only="true" />
+          <property alias="relCndStdOid.DOE ESL SERVICE" label="Receiving ESL Service Code" label-short="false" read-only="true" />
+        </column>
+      </row>
+      <row>
+        <column>
+          <property id="relCndStfRefer.stfNameView" label="Referral Staff" label-short="false">
+            <picklist relationship="relCndStfRefer" required="true">
+              <field id="stfNameView" sort="true" />
+              <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+              <filter connector="and" field="stfOrgOID1" operator="equals" source="session" value="organizationOid" />
+            </picklist>
+          </property>
+          <property alias="DOE INC TIME" label="Time of Day" label-short="false" font-size="medium" />
+          <property id="cndIncDate" label-short="false" font-size="medium" />
+          <property id="cndIncTime" label-short="false" font-size="medium" />
+          <property id="cndIncLocation" label-short="false" font-size="medium" />
+          <property id="relCndStfOwner.stfNameView" label="Administrator" label-short="false">
+            <picklist relationship="relCndStfOwner" required="true">
+              <field id="stfNameView" sort="true" />
+              <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+              <filter connector="and" field="stfSklOID" operator="equals" source="session" value="schoolOid">
+                <filter connector="or" field="relStfSfsOid.sfsCtxOID" operator="equals" source="session" value="district.currentContextOid">
+                  <filter connector="and" field="relStfSfsOid.sfsSklOID" operator="equals" source="session" value="schoolOid" />
+                </filter>
+              </filter>
+            </picklist>
+          </property>
+        </column>
+        <column>
+          <property alias="DOE ENROLLED DISTRICT" label="Enrolled District" label-short="false" />
+          <property alias="DOE ENROLLED SCHOOL" label="Enrolled School" label-short="false" />
+          <property alias="DOE INCIDENT DISTRICT" label="Incident District" label-short="false" />
+          <property alias="DOE INCIDENT SCHOOL" label="Incident School" label-short="false" />
+          <property alias="DOE CONF FIREARMS" label="Number of Firearms" label-short="false" />
+          <property alias="DOE CONF NON-FIRE" label="Number of NON-Firearms" label-short="false" />
+        </column>
+        <column>
+          <property id="cndIncDesc" label-short="false" />
+        </column>
+      </row>
+      <row>
+        <block>
+          <line>
+            <cell>
+              <text font-size="medium" bold="true">Primary Behavior</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="true">
+        <column>
+          <property id="cndIncident" label-short="false" label="Primary Behavior" />
+        </column>
+        <column>
+          <property alias="all-cnd-doeAuth" label-short="false" />
+          <property alias="all-cnd-doeUnknownOffender" label-short="false" />
+        </column>
+        <column>
+          <property alias="all-cnd-AggravatingCircumstances" label-short="false" />
+          <property alias="all-cnd-LawEnforcementChargesFiled" label-short="false" />
+        </column>
+      </row>
+      <row>
+        <block>
+          <line>
+            <cell>
+              <text font-size="medium" bold="true">Additional Behaviors</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="true">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list id="offenses" detail-context="conduct.incident.offense.popup" popup-width="600" popup-height="300" relationship="relCndCnoOid" embedded-edit="false" selection-type="multiple">
+                <field id="cnoIncident" label="Behavior Code" />
+                <field alias="all-cno-doeAuth" label="DOE Auth Code" />
+                <field alias="all-cno-doeUnknownOffender" label="Unknown Offender Code" />
+                <field alias="all-cno-AggravatingCircumstances" />
+                <field alias="all-cno-lawEnforcement" />
+                <filter connector="and" field="cnoPrimary" operator="notEqual" source="constant" value="true" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+    <tab name="tab.conduct.cnd.list.detail.actions">
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list detail-context="conduct.incident.action.detail" id="actions" popup-width="800" relationship="relCndActOid" action="conductChildDetail.do" selection-type="multiple">
+                <system-value field="actStdOID" source="detail" value="cndStdOID" />
+                <field id="actActionCode" sort="true" />
+                <field alias="DOE PRIMARY ACTION" sort="true" />
+                <field id="actActionStart" sort="true" />
+                <field id="actActionEnd" />
+                <field id="actPenaltyTime" />
+                <field id="actClosedInd" />
+                <field alias="all-act-altPlacementEdAgency" />
+                <field alias="all-act-altPlacementSchool" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+    <tab name="Victims">
+      <row>
+        <column>
+          <property alias="all-cnd-IndeterminateVictimCount" label-short="false" />
+        </column>
+        <column>
+          <property alias="all-cnd-VictimCountStudent" label-short="false" />
+          <property alias="all-cnd-VictimCountStaff" label-short="false" />
+          <property alias="all-cnd-VictimCountOtherAdult" label-short="false" />
+          <property alias="all-cnd-VictimCountOtherUnknown" label-short="false" />
+        </column>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell align="left" border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="medium">Student/Staff Victims</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list id="victims" detail-context="conduct.incident.victim.popup" popup-width="600" relationship="relCndUdaOid" embedded-edit="false" selection-type="multiple">
+                <field id="relUdaPsnOid.psnNameLast" label="Last" />
+                <field id="relUdaPsnOid.psnNameFirst" label="First" />
+                <field id="relUdaPsnOid.psnNameMiddle" label="Middle" />
+                <field id="relUdaPsnOid.psnStudentInd" label="Student?" />
+                <field id="relUdaPsnOid.psnStaffInd" label="Staff?" />
+                <filter connector="and" field="relUdaPsnOid.psnStudentInd" operator="equals" source="constant" value="true">
+                  <filter connector="or" field="relUdaPsnOid.psnStaffInd" operator="equals" source="constant" value="true" />
+                </filter>
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell align="left" border="none" cell-span="1" line-span="1">
+              <text bold="true" font-size="medium">Other Victims</text>
+            </cell>
+          </line>
+        </block>
+      </row>
+      <row show-border="false">
+        <block>
+          <line border="none">
+            <cell border="none" cell-span="1" line-span="1">
+              <embedded-list id="victimsOther" detail-context="conduct.incident.victim.other.popup" popup-width="600" relationship="relCndUdaOid" extended-dictionary-oid="ddxX2VASBARCnd" embedded-edit="false" selection-type="multiple">
+                <field alias="cnd-uda-name" label="Name" />
+                <field alias="cnd-uda-type" label="Type" />
+              </embedded-list>
+            </cell>
+          </line>
+        </block>
+      </row>
+    </tab>
+  </template>
+</view-template>
+

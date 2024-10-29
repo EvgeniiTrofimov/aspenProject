@@ -1,0 +1,33 @@
+<!-- *************************************************************** -->
+<!-- INPUT DEFINITIONS FOR THE "MASS ENROLL IN SPECIAL ED" PROCEDURE -->
+<!-- *************************************************************** -->
+
+<tool-input allow-school-select="false" allow-org-select="false" district-support="false" context="com.x2dev.sis.model.beans.SisStudent">
+
+ <!-- ***************** -->
+ <!-- STUDENT SELECTION -->
+ <!-- ***************** -->
+ 
+ <input name="studentOids" data-type="string" display-type="picklist" display-name="Student(s)" context-dependent="true" >
+  <picklist field-id="stdViewName" multiple="true" required="false">
+   <field id="stdViewName" sort="true" />
+   <field id="stdIDState" />
+   <field id="relStdSklOid.sklSchoolName" />
+   <filter connector="and" application-context="iep;iepSchool" field="stdEnrStatus" operator="equalsIgnoreCase" source="preference" value="sys.std.activeCode">
+    <filter connector="and" application-context="iepSchool" field="stdSklOID" operator="equals" source="session" value="schoolOid" />
+  </filter>
+  <filter connector="and" application-context="iep;iepSchool" field="stdSpedStatus" operator="empty" source="constant" value="">
+    <filter connector="or" application-context="iep;iepSchool" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.activeCode">
+      <filter connector="and" application-context="iep;iepSchool" field="stdSpedStatus" operator="notEqual" source="preference" value="sys.sped.referredCode" />
+    </filter>
+  </filter>
+  </picklist>
+ </input>
+ 
+ <!-- **** -->
+ <!-- DATE -->
+ <!-- **** -->
+ 
+ <input name="date" data-type="date" display-type="date" display-name="Date" default-value="today" />
+
+</tool-input>

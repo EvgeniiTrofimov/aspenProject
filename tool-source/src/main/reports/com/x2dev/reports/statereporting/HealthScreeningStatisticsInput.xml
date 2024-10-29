@@ -1,0 +1,69 @@
+<!-- *************************************************** -->
+<!-- INPUT DEFINITION FOR THE "Health Screening" REPORTS -->
+<!-- *************************************************** -->
+
+<tool-input allow-school-select="false" district-support="true" context="com.x2dev.sis.model.beans.SisStudent">
+
+    <!-- ************************************************** -->
+    <!-- REQUIRED BY BASE CLASS - BEAN PATH TO STUDENT BEAN -->
+    <!-- ************************************************** -->
+    <input name="studentBeanPath" data-type="string" display-type="hidden" default-value="student"/>
+
+    <!-- *********************************************** -->
+    <!-- REQUIRED BY BASE CLASS - IDS FOR REPORT FORMATS -->
+    <!-- *********************************************** -->
+    <input name="CSV_FORMAT_ID" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HSC-CSV"/>
+    <input name="PDF_FORMAT_ID" data-type="string" display-type="hidden" default-value="SR-GRD-SUM-HSC"/>
+
+    <!-- *********** -->
+    <!-- BEGIN DATE -->
+    <!-- *********** -->
+   
+    <input name="beginDate" data-type="date" display-type="date" display-name="Begin Date Range" default-value="districtYearStart" />
+    
+    <!-- ******** -->
+    <!-- END DATE -->
+    <!-- ******** -->
+   
+    <input name="endDate" data-type="date" display-type="date" display-name="End Date Range" default-value="today" />
+    
+    <!-- ******* -->
+    <!-- SCHOOLS -->
+    <!-- ******* -->
+
+    <input name="schoolOids" data-type="string" display-type="picklist" display-name="School" required="false">
+        <picklist field-id="sklSchoolID" multiple="true" required="false">
+            <filter field="sklInactiveInd" operator="notEqual" source="constant" value="1" />
+            <filter field="sklArchiveInd" operator="notEqual" source="constant" value="1" />
+            <field id="sklSchoolID" sort="true" />
+            <field id="sklSchoolName" />
+        </picklist>
+    </input>
+    
+    <input name="efdOids" data-type="string" display-type="picklist" display-name="Health Screenings" required="false">
+        <picklist field-id="efdPrcId" multiple="true" required="false">
+            <filter field="efdPrcId" operator="beginsWith" source="constant" value="SR-GRD-SUM-HSC-" />
+            <field id="efdPrcId" sort="true" />
+            <field id="efdName" />
+        </picklist>
+    </input>
+    
+    <input name="screeningPeriods" data-type="string" display-type="picklist" display-name="Screening Period"  required="false">
+        <picklist field-id="rcdCode"  multiple="true" required="false">
+         <field id="rcdCode" sort="true" />
+         <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbHthScrPrd" />
+        </picklist>
+    </input>
+    
+    <input name="gradesOids" data-type="string" display-type="picklist" display-name="Grades"  required="false">
+        <picklist field-id="rcdCode"  multiple="true" required="false">
+         <filter field="rcdDisabledInd" operator="notEqual" source="constant" value="Y" />
+         <field id="rcdCode" sort="true" />
+         <filter field="rcdRtbOID" operator="equals" source="constant" value="rtbGradeLevel" />
+         <filter field="rcdCode" operator="in" source="constant" value="01;02;03;04;05;06;07;08;09;10;11;12;K;K4" />
+        </picklist>
+    </input>
+    
+    <input name="hideEmpty" data-type="boolean" display-type="checkbox" display-name="Exclude Empty Reports" default-value="true" />
+    
+</tool-input>

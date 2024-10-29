@@ -1,0 +1,257 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.72%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.72' where history not like '%770.72%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = TO_CLOB('<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-3454-attr] -->
+
+<template>
+<tab name="Attributes">
+    <row>
+      <column>
+        <property id="relIepStdOid.stdViewName" />
+        <property id="iepStatus" />
+        <property id="iepStartDate" />
+        <property id="iepEndDate" />
+        <property id="iepSignedDate" label="Approval Date" />
+        <property id="iepMeetingType" />
+        <property id="iepMeetingDate" label="IEP Meeting Date" />
+        <property id="relIepStfOid.stfNameView" label="Case Coordinator">
+          <picklist relationship="relIepStfOid" required="true" action="specialEdPickList.do">
+            <field id="stfNameView" sort="true" />
+            <field id="relStfSklOid.sklSchoolName" />
+            <field id="stfStaffID" />
+            <filter connector="and" field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter connector="and" field="stfSpedInd" operator="equals" source="constant" value="true" />
+            <filter field="stfSklOID" operator="equals" source="session" value="schoolOid" application-context="iepSchool">
+             <filter field="relStfSfsOid.sfsCtxOID" operator="equals" connector="or" source="session" value="district.currentContextOid">
+              <filter field="relStfSfsOid.sfsSklOID" operator="equals" connector="and" source="session" value="schoolOid" />
+             </filter> 
+            </filter>
+          </picklist>
+        </property>
+        <property id="relIepIamPrim.iamDate">
+          <picklist relationship="relIepIamPrim" required="true">
+            <field id="iamDate" sort="true" />
+            <filter connector="and" field="iamIepOID" operator="equals" source="current" value="iepOID" />
+          </picklist>
+        </property>
+      </column>
+      <column>
+        <property id="iepLastRvw" label="Most Recent Annual Review')
+ || TO_CLOB(' Date" />
+        <property id="iepNextRvw" label="Next Annual Review Date" />
+        <property id="iepLastEv" label="Date of Last Reevaluation"/>
+        <property id="iepNextEv" label="Date of Next Reevaluation"/>
+        <property id="iepRefer" />
+        <property id="iepIniElig" label="Date of Initial Eligibility Determination"/>
+      </column>
+       <column>
+          <property alias="private-school-enrollee" />
+          <property alias="servicing-district" />
+          <property alias="beneficiary" />
+          <property alias="medicaid-eligible" />
+          <property alias="medicaid-case-worker" />
+          <property alias="english-ability" />
+       </column>
+       <column>
+         <property alias="iep-service-program-continuum" />
+         <property alias="iep-service-cost-center" />
+         <property alias="iep-service-tuition" />
+         <property alias="iep-service-account-number" />
+         <property id="iepExitDate" />
+         <property id="iepExitReason" />
+       </column>
+    </row>
+  </tab>
+  </template>') WHERE VWT_OID = 'vwtX2ILAttr' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = TO_CLOB('<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [form.sped-il-facts] -->
+<template>
+  <tab name="Facts Tracking Sheet">
+    <row>
+      <block>
+        <line align="center" border="none" shaded="true">
+          <text bold="true" font-size="large">FACTS TRACKING SHEET 2</text>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <spacer width="150" />
+            <text bold="true" font-size="large" />
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <text bold="true" font-size="large" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Date Completed</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-date-complited" label-display="false" />
+          </cell>
+        </line>
+     <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Private Facility</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-private-facility" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Bilingual Severity</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-biling-sev" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span=')
+ || TO_CLOB('"1" line-span="1">
+            <text>Term</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-term" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Fund</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-fund" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Education Environment</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-ed-env" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Foster Student Guardian</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-foster-guardian" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Foster Student Residence Type</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-foster-res-type" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Foster Student Placing Agent</text>
+          </')
+ || TO_CLOB('cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-foster-agent" label-display="false" />
+          </cell>
+        </line>
+       
+      </block>
+    </row>
+  </tab>
+  <tab  name="&lt;div style=&quot;margin-left:-5;margin-right:-5;margin-top:-20;margin-bottom:-20;padding-top:20;padding-bottom:20;&quot;  onclick =&quot;updateDynamicForm(''tab'');&quot;&gt; Other fields &lt;/div&gt;">
+    <row>
+        <block> 
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Exit Date</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-exit-date" label-display="false" />
+          </cell>
+        </line>
+       <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Exit Reason</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-exit-reason" label-display="false" />
+          </cell>
+        </line>
+        <line align="left" border="none" shaded="true">
+          <cell align="left" border="none" cell-span="1" line-span="1">
+            <text>Language Spoken in School</text>
+          </cell>
+          <cell align="left" border="none" cell-span="7" line-span="1">
+            <property alias="fts-school-lang" label-display="false" />
+          </cell>
+        </line>
+        </block>
+    </row>
+  </tab>
+</template>'), VWT_PROCEDURE_ID = 'SYS-SPED-FACTS' WHERE VWT_OID = 'vwtX2ILFacts' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2h88000863', 'fddX2000003915', 'tbxIlFaTrSh', NULL, NULL, 100, 'Exit Date', 'Exit Date', 'Date', 10, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fts-exit-date', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2h88000864', 'fddX2000003955', 'tbxIlFaTrSh', 'rtbSpedExitRsn', NULL, 110, 'Exit Reason', 'Exit Reason', 'Character', 50, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Picklist', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fts-exit-reason', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2h88000865', 'fddX2000003932', 'tbxIlFaTrSh', 'rTb00000000046', NULL, 120, 'Language Spoken in School', 'Languege Spoken', 'Character', 25, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, 'Dropdown', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fts-school-lang', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO DATA_FIELD_EXTENDED (FDX_OID, FDX_FDD_OID, FDX_TBX_OID, FDX_RTB_OID, FDX_CBT_OID, FDX_SEQUENCE_NUMBER, FDX_USER_NAME_LONG, FDX_USER_NAME_SHORT, FDX_USER_TYPE, FDX_USER_LENGTH, FDX_USER_DECIMAL, FDX_DEFAULT_VALUE, FDX_ENABLED_IND, FDX_UPDATE_IND, FDX_REQUIRED_IND, FDX_READ_ONLY_IND, FDX_VALID_REF_ONLY_IND, FDX_SPELL_CHECK_IND, FDX_LIST_WIDTH, FDX_LIST_CONTROL, FDX_LIST_EDIT_IND, FDX_DETAIL_WIDTH, FDX_DETAIL_CONTROL, FDX_PICKLIST_FIELDS, FDX_MSK_OID_DISPLAY, FDX_MSK_OID_SAVE, FDX_CLC_OID, FDX_VAL_OID, FDX_ACCESS_CODE, FDX_DEPENDENCY, FDX_ALIAS, FDX_FINAL_IND, FDX_AUDIT_TYPE, FDX_LOCAL_IND, FDX_RECORD_LEVEL_SECURITY_IND, FDX_FIELDA_001, FDX_FIELDA_002, FDX_FIELDA_003, FDX_FIELDA_004, FDX_FIELDA_005, FDX_FIELDA_006, FDX_FIELDA_007, FDX_FIELDA_008, FDX_FIELDA_009, FDX_FIELDA_010, FDX_FIELDA_011, FDX_FIELDA_012, FDX_FIELDA_013, FDX_FIELDA_014, FDX_FIELDA_015, FDX_FIELDB_001, FDX_FIELDB_002, FDX_FIELDB_003, FDX_FIELDB_004, FDX_FIELDB_005, FDX_FIELDB_006, FDX_FIELDB_007, FDX_FIELDB_008, FDX_FIELDB_009, FDX_FIELDB_010, FDX_FIELDB_011, FDX_FIELDB_012, FDX_FIELDB_013, FDX_FIELDB_014, FDX_FIELDB_015, FDX_FIELDC_001, FDX_FIELDC_002, FDX_FIELDC_003, FDX_FIELDC_004, FDX_FIELDC_005, FDX_FIELDD_001, FDX_FIELDD_002, FDX_LAST_MODIFIED) VALUES ('fdxX2I88000866', 'fddX2000003916', 'tbxIlFaTrSh', NULL, NULL, 130, 'Is Udate', 'Is Udate', 'Logical', 1, 0, NULL, '1', '0', '0', '0', '0', '0', 0, NULL, '0', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fts-is-update', '0', 0, '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+]]>
+</SQLStatement>
+
+
+</SQLDocument>
+</tool-input>

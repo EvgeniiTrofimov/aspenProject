@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="SYS-SPED-REEVAL" name="Annual IEP Review" category="Special Ed." selection-type="1" owner-table="tblIEPData" selection-table="tblStudent" owner-phase-field="iepWFPhase" sped="true" procedure-id="SYS-SPED-ON-REVIEW">
+  <description>Workflow for renewing a student's IEP.</description>
+  <workflow-filters>
+    <filter connector="and" field="stdSpedStatus" operator="equalsIgnoreCase" source="preference" value="sys.sped.activeCode" application-context="" />
+    <filter connector="and" field="stdSklOID" operator="equals" source="session" value="schoolOid" application-context="">
+      <condition action="hide" expression="getSessionNavConfig().isDistrictScoped()" />
+    </filter>
+  </workflow-filters>
+  <phase id="Review" name="Review IEP" description="Review IEP" inconsecutive="true">
+    <outcome id="IEPReviewTeam" name="Complete" next-phase-id="DefineTeamIEP" standard="true">
+      <form-attachment form-id="SPED-REN" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen06.wpoIdentifier" locale="en_CA" value="IEPReviewTeam" objectOid="wpoOnSpedRen06" />
+        <message-resource key="wpo.wpoOnSpedRen06.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRen06" />
+        <message-resource key="wpo.wpoOnSpedRen06.wpoIdentifier" locale="en_US" value="IEPReviewTeam" objectOid="wpoOnSpedRen06" />
+        <message-resource key="wpo.wpoOnSpedRen06.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRen06" />
+        <message-resource key="wpo.wpoOnSpedRen06.wpoIdentifier" locale="fr_FR" value="ÉquipeRévisionPEI" objectOid="wpoOnSpedRen06" />
+        <message-resource key="wpo.wpoOnSpedRen06.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRen06" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen06.wphDescription" locale="en_CA" value="Review IEP" objectOid="wphOnSpedRen06" />
+      <message-resource key="wph.wphOnSpedRen06.wphName" locale="en_CA" value="Review IEP" objectOid="wphOnSpedRen06" />
+      <message-resource key="wph.wphOnSpedRen06.wphDescription" locale="en_US" value="Review IEP" objectOid="wphOnSpedRen06" />
+      <message-resource key="wph.wphOnSpedRen06.wphName" locale="en_US" value="Review IEP" objectOid="wphOnSpedRen06" />
+      <message-resource key="wph.wphOnSpedRen06.wphDescription" locale="fr_FR" value="Réviser le PEI" objectOid="wphOnSpedRen06" />
+      <message-resource key="wph.wphOnSpedRen06.wphName" locale="fr_FR" value="Réviser le PEI" objectOid="wphOnSpedRen06" />
+    </resources>
+  </phase>
+  <phase id="DefineTeamIEP" name="Define Special Ed Team for IEP" description="Add Special Ed staff, Independent staff, Parents, Student (if over 16) to the Team Definition (indic" inconsecutive="true">
+    <outcome id="IEPTeamComplete" name="Complete" next-phase-id="WriteIEP" standard="true">
+      <form-attachment form-id="ON-SPED-TEAM" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen07.wpoIdentifier" locale="en_CA" value="IEPTeamComplete" objectOid="wpoOnSpedRen07" />
+        <message-resource key="wpo.wpoOnSpedRen07.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRen07" />
+        <message-resource key="wpo.wpoOnSpedRen07.wpoIdentifier" locale="en_US" value="IEPTeamComplete" objectOid="wpoOnSpedRen07" />
+        <message-resource key="wpo.wpoOnSpedRen07.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRen07" />
+        <message-resource key="wpo.wpoOnSpedRen07.wpoIdentifier" locale="fr_FR" value="ÉquipeComplètePEI" objectOid="wpoOnSpedRen07" />
+        <message-resource key="wpo.wpoOnSpedRen07.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRen07" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen07.wphDescription" locale="en_CA" value="Add Special Ed staff, Independent staff, Parents, Student (if over 16) to the Team Definition (indic" objectOid="wphOnSpedRen07" />
+      <message-resource key="wph.wphOnSpedRen07.wphName" locale="en_CA" value="Define Special Ed Team for IEP" objectOid="wphOnSpedRen07" />
+      <message-resource key="wph.wphOnSpedRen07.wphDescription" locale="en_US" value="Add Special Ed staff, Independent staff, Parents, Student (if over 16) to the Team Definition (indic" objectOid="wphOnSpedRen07" />
+      <message-resource key="wph.wphOnSpedRen07.wphName" locale="en_US" value="Define Special Ed Team for IEP" objectOid="wphOnSpedRen07" />
+      <message-resource key="wph.wphOnSpedRen07.wphDescription" locale="fr_FR" value="Ajouter le personnel de l'éducation spéciale, le personnel indépendant, les parents, l'élève (si plus de 16 ans) à la définition de l'équipe (indic" objectOid="wphOnSpedRen07" />
+      <message-resource key="wph.wphOnSpedRen07.wphName" locale="fr_FR" value="Définir l'équipe d'Éducation de l'enfance en difficulté pour PEI" objectOid="wphOnSpedRen07" />
+    </resources>
+  </phase>
+  <phase id="WriteIEP" name="Write IEP" description="Complete the Draft IEP Form/Report and the Educational Profile" inconsecutive="true">
+    <outcome id="IepWriteComplete" name="Complete" next-phase-id="ScheduleIEPMeeting" standard="true">
+      <form-attachment form-id="ON-SPED-EPR" sequenceNumber="0" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen01.wpoIdentifier" locale="en_CA" value="IepWriteComplete" objectOid="wpoOnSpedRen01" />
+        <message-resource key="wpo.wpoOnSpedRen01.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRen01" />
+        <message-resource key="wpo.wpoOnSpedRen01.wpoIdentifier" locale="en_US" value="IepWriteComplete" objectOid="wpoOnSpedRen01" />
+        <message-resource key="wpo.wpoOnSpedRen01.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRen01" />
+        <message-resource key="wpo.wpoOnSpedRen01.wpoIdentifier" locale="fr_FR" value="RédactionPEIComplète" objectOid="wpoOnSpedRen01" />
+        <message-resource key="wpo.wpoOnSpedRen01.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRen01" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen01.wphDescription" locale="en_CA" value="Complete the Draft IEP Form/Report and the Educational Profile" objectOid="wphOnSpedRen01" />
+      <message-resource key="wph.wphOnSpedRen01.wphName" locale="en_CA" value="Write IEP" objectOid="wphOnSpedRen01" />
+      <message-resource key="wph.wphOnSpedRen01.wphDescription" locale="en_US" value="Complete the Draft IEP Form/Report and the Educational Profile" objectOid="wphOnSpedRen01" />
+      <message-resource key="wph.wphOnSpedRen01.wphName" locale="en_US" value="Write IEP" objectOid="wphOnSpedRen01" />
+      <message-resource key="wph.wphOnSpedRen01.wphDescription" locale="fr_FR" value="Remplir l'ébauche du formulaire ou du rapport du PEI et le profil éducatif" objectOid="wphOnSpedRen01" />
+      <message-resource key="wph.wphOnSpedRen01.wphName" locale="fr_FR" value="Rédiger le PEI" objectOid="wphOnSpedRen01" />
+    </resources>
+  </phase>
+  <phase id="ScheduleIEPMeeting" name="Schedule IEP meeting" description="Determine Date, Time, Location for &quot;IEP&quot; Meeting and create the meeting invitation" inconsecutive="true">
+    <outcome id="IEPMeetingScheduled" name="Complete" next-phase-id="HoldIEPMeeting" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="ON-SPED-MTG" sequenceNumber="0" instance-id="A" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen02.wpoIdentifier" locale="en_CA" value="IEPMeetingScheduled" objectOid="wpoOnSpedRen02" />
+        <message-resource key="wpo.wpoOnSpedRen02.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRen02" />
+        <message-resource key="wpo.wpoOnSpedRen02.wpoIdentifier" locale="en_US" value="IEPMeetingScheduled" objectOid="wpoOnSpedRen02" />
+        <message-resource key="wpo.wpoOnSpedRen02.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRen02" />
+        <message-resource key="wpo.wpoOnSpedRen02.wpoIdentifier" locale="fr_FR" value="RéunionPlanifiéePEI" objectOid="wpoOnSpedRen02" />
+        <message-resource key="wpo.wpoOnSpedRen02.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRen02" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen02.wphDescription" locale="en_CA" value="Determine Date, Time, Location for &quot;IEP&quot; Meeting and create the meeting invitation" objectOid="wphOnSpedRen02" />
+      <message-resource key="wph.wphOnSpedRen02.wphName" locale="en_CA" value="Schedule IEP meeting" objectOid="wphOnSpedRen02" />
+      <message-resource key="wph.wphOnSpedRen02.wphDescription" locale="en_US" value="Determine Date, Time, Location for &quot;IEP&quot; Meeting and create the meeting invitation" objectOid="wphOnSpedRen02" />
+      <message-resource key="wph.wphOnSpedRen02.wphName" locale="en_US" value="Schedule IEP meeting" objectOid="wphOnSpedRen02" />
+      <message-resource key="wph.wphOnSpedRen02.wphDescription" locale="fr_FR" value="Déterminer la date, l'heure et le lieu de la réunion « PEI » et créer l'invitation à la réunion" objectOid="wphOnSpedRen02" />
+      <message-resource key="wph.wphOnSpedRen02.wphName" locale="fr_FR" value="Planifier réunion PEI" objectOid="wphOnSpedRen02" />
+    </resources>
+  </phase>
+  <phase id="HoldIEPMeeting" name="Hold IEP Meeting" description="Hold the IEP Meeting to review the written IEP" inconsecutive="true">
+    <outcome id="IEPMeetingComplete" name="Complete" next-phase-id="SubmitIEP" standard="true" detail-action="meetingOutcomeDetail.do">
+      <form-attachment form-id="ON-SPED-MTG" sequenceNumber="0" instance-id="A" />
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen03.wpoIdentifier" locale="en_CA" value="IEPMeetingComplete" objectOid="wpoOnSpedRen03" />
+        <message-resource key="wpo.wpoOnSpedRen03.wpoName" locale="en_CA" value="Complete" objectOid="wpoOnSpedRen03" />
+        <message-resource key="wpo.wpoOnSpedRen03.wpoIdentifier" locale="en_US" value="IEPMeetingComplete" objectOid="wpoOnSpedRen03" />
+        <message-resource key="wpo.wpoOnSpedRen03.wpoName" locale="en_US" value="Complete" objectOid="wpoOnSpedRen03" />
+        <message-resource key="wpo.wpoOnSpedRen03.wpoIdentifier" locale="fr_FR" value="RéunionTerminéePEI" objectOid="wpoOnSpedRen03" />
+        <message-resource key="wpo.wpoOnSpedRen03.wpoName" locale="fr_FR" value="Complet" objectOid="wpoOnSpedRen03" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen03.wphDescription" locale="en_CA" value="Hold the IEP Meeting to review the written IEP" objectOid="wphOnSpedRen03" />
+      <message-resource key="wph.wphOnSpedRen03.wphName" locale="en_CA" value="Hold IEP Meeting" objectOid="wphOnSpedRen03" />
+      <message-resource key="wph.wphOnSpedRen03.wphDescription" locale="en_US" value="Hold the IEP Meeting to review the written IEP" objectOid="wphOnSpedRen03" />
+      <message-resource key="wph.wphOnSpedRen03.wphName" locale="en_US" value="Hold IEP Meeting" objectOid="wphOnSpedRen03" />
+      <message-resource key="wph.wphOnSpedRen03.wphDescription" locale="fr_FR" value="Retenir la réunion du PEI pour examiner le PEI écrit" objectOid="wphOnSpedRen03" />
+      <message-resource key="wph.wphOnSpedRen03.wphName" locale="fr_FR" value="Retenir réunion PEI" objectOid="wphOnSpedRen03" />
+    </resources>
+  </phase>
+  <phase id="SubmitIEP" name="Submit IEP for Approval" description="IEP becomes PENDING APPROVAL until the IEP is Implemented" inconsecutive="true">
+    <outcome id="IEPApproved" name="Approved" next-phase-id="ImplementIEP" standard="true" method="submitForApproval">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen04.wpoIdentifier" locale="en_CA" value="IEPApproved" objectOid="wpoOnSpedRen04" />
+        <message-resource key="wpo.wpoOnSpedRen04.wpoName" locale="en_CA" value="Approved" objectOid="wpoOnSpedRen04" />
+        <message-resource key="wpo.wpoOnSpedRen04.wpoIdentifier" locale="en_US" value="IEPApproved" objectOid="wpoOnSpedRen04" />
+        <message-resource key="wpo.wpoOnSpedRen04.wpoName" locale="en_US" value="Approved" objectOid="wpoOnSpedRen04" />
+        <message-resource key="wpo.wpoOnSpedRen04.wpoIdentifier" locale="fr_FR" value="ApprouvéPEI" objectOid="wpoOnSpedRen04" />
+        <message-resource key="wpo.wpoOnSpedRen04.wpoName" locale="fr_FR" value="Approuvé" objectOid="wpoOnSpedRen04" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen04.wphDescription" locale="en_CA" value="IEP becomes PENDING APPROVAL until the IEP is Implemented" objectOid="wphOnSpedRen04" />
+      <message-resource key="wph.wphOnSpedRen04.wphName" locale="en_CA" value="Submit IEP for Approval" objectOid="wphOnSpedRen04" />
+      <message-resource key="wph.wphOnSpedRen04.wphDescription" locale="en_US" value="IEP becomes PENDING APPROVAL until the IEP is Implemented" objectOid="wphOnSpedRen04" />
+      <message-resource key="wph.wphOnSpedRen04.wphName" locale="en_US" value="Submit IEP for Approval" objectOid="wphOnSpedRen04" />
+      <message-resource key="wph.wphOnSpedRen04.wphDescription" locale="fr_FR" value="Le PEI devient EN ATTENTE D'APPROBATION jusqu'à ce que le PEI soit mis en œuvre" objectOid="wphOnSpedRen04" />
+      <message-resource key="wph.wphOnSpedRen04.wphName" locale="fr_FR" value="Soumettre PEI pour approbation" objectOid="wphOnSpedRen04" />
+    </resources>
+  </phase>
+  <phase id="ImplementIEP" name="Implement IEP" description="Complete IEP / Make any adjustments based on Meeting / IEP becomes ACTIVE and Student SpecEd Status" inconsecutive="true">
+    <outcome id="IEPImplemented" name="Implement" standard="true" method="implementIep">
+      <resources>
+        <message-resource key="wpo.wpoOnSpedRen05.wpoIdentifier" locale="en_CA" value="IEPImplemented" objectOid="wpoOnSpedRen05" />
+        <message-resource key="wpo.wpoOnSpedRen05.wpoName" locale="en_CA" value="Implement" objectOid="wpoOnSpedRen05" />
+        <message-resource key="wpo.wpoOnSpedRen05.wpoIdentifier" locale="en_US" value="IEPImplemented" objectOid="wpoOnSpedRen05" />
+        <message-resource key="wpo.wpoOnSpedRen05.wpoName" locale="en_US" value="Implement" objectOid="wpoOnSpedRen05" />
+        <message-resource key="wpo.wpoOnSpedRen05.wpoIdentifier" locale="fr_FR" value="MiseEnPlacePEI" objectOid="wpoOnSpedRen05" />
+        <message-resource key="wpo.wpoOnSpedRen05.wpoName" locale="fr_FR" value="Mettre en place" objectOid="wpoOnSpedRen05" />
+      </resources>
+    </outcome>
+    <resources>
+      <message-resource key="wph.wphOnSpedRen05.wphDescription" locale="en_CA" value="Complete IEP / Make any adjustments based on Meeting / IEP becomes ACTIVE and Student SpecEd Status" objectOid="wphOnSpedRen05" />
+      <message-resource key="wph.wphOnSpedRen05.wphName" locale="en_CA" value="Implement IEP" objectOid="wphOnSpedRen05" />
+      <message-resource key="wph.wphOnSpedRen05.wphDescription" locale="en_US" value="Complete IEP / Make any adjustments based on Meeting / IEP becomes ACTIVE and Student SpecEd Status" objectOid="wphOnSpedRen05" />
+      <message-resource key="wph.wphOnSpedRen05.wphName" locale="en_US" value="Implement IEP" objectOid="wphOnSpedRen05" />
+      <message-resource key="wph.wphOnSpedRen05.wphDescription" locale="fr_FR" value="Remplir le PEI / Apporter des ajustements en fonction de la réunion / Le PEI devient ACTIF et du statut d'élève en EDD" objectOid="wphOnSpedRen05" />
+      <message-resource key="wph.wphOnSpedRen05.wphName" locale="fr_FR" value="Mettre en place PEI" objectOid="wphOnSpedRen05" />
+    </resources>
+  </phase>
+  <resources>
+    <message-resource key="wfd.wfdOnSpedRenew.wfdDescription" locale="en_CA" value="Workflow for renewing a student's IEP." objectOid="wfdOnSpedRenew" />
+    <message-resource key="wfd.wfdOnSpedRenew.wfdName" locale="en_CA" value="Annual IEP Review" objectOid="wfdOnSpedRenew" />
+    <message-resource key="wfd.wfdOnSpedRenew.wfdDescription" locale="en_US" value="Workflow for renewing a student's IEP." objectOid="wfdOnSpedRenew" />
+    <message-resource key="wfd.wfdOnSpedRenew.wfdName" locale="en_US" value="Annual IEP Review" objectOid="wfdOnSpedRenew" />
+    <message-resource key="wfd.wfdOnSpedRenew.wfdDescription" locale="fr_FR" value="Flux de travail pour renouveler le PEI d'un élève." objectOid="wfdOnSpedRenew" />
+    <message-resource key="wfd.wfdOnSpedRenew.wfdName" locale="fr_FR" value="Révision annuelle du PEI" objectOid="wfdOnSpedRenew" />
+  </resources>
+</workflow>
+

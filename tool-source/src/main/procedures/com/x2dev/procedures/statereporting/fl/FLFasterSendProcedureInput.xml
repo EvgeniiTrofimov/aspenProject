@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<tool-input district-support="true" allow-school-select="false">
+ <input name="transferObjectOid" data-type="string" display-type="picklist" display-name="Transfer Object">
+   <picklist field-id="udaOID" extended-dictionary="FL-FASTER-TNR">
+     <filter alias="tnr-ddx-oid" source="constant" operator="equals" value="ddxFlFstTnr" />
+     <filter alias="tnr-status" source="constant" operator="notEqual" value="SENT" />
+     <filter alias="tnr-status" source="constant" operator="notEqual" value="REPLIED" />
+     <filter alias="tnr-status" source="constant" operator="notEqual" value="CLOSED" />
+     <filter alias="tnr-status" source="constant" operator="notEqual" value="RECEIVED" />
+     <filter alias="tnr-status" source="constant" operator="notEqual" value="INCOMING" />
+     <field alias="tnr-description" />
+     <field alias="tnr-type" />
+     <field alias="tnr-records-type" />
+     <field alias="tnr-creation-date" sort="true" sort-direction="DESC" />
+   </picklist>
+ </input>
+ 
+ <input name="allStudents" data-type="boolean" display-type="checkbox" display-name="Send All Students" />
+ 
+ <input name="studentTransferOids" data-type="string" display-type="picklist" display-name="Student Transfer" required="false">
+   <picklist field-id="udcOID" extended-dictionary="FL-FASTER-TNR-STD" multiple="true">
+     <filter alias="tnr-std-tnr-oid" source="input" operator="equals" value="transferObjectOid" />
+     <filter alias="tnr-std-status" source="constant" operator="equals" value="NEW" />
+     <field alias="tnr-std-name" />
+     <field alias="tnr-std-description" />
+   </picklist>
+ </input>
+
+</tool-input>

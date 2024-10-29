@@ -1,0 +1,595 @@
+<tool-input>
+<input data-type="string" default-value="SYS-MAINT-LOAD-SQL" display-type="hidden" name="procedureId"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="reloadDictionary"/>
+<input data-type="boolean" default-value="true" display-type="hidden" name="refreshCache"/>
+<!--The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement><![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%1034.01%';
+]]></TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = concat(history,',1034.01') where history not like '%1034.01%';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+
+<template>
+  <tab name="tab.student.std.list.detail.demographics">
+    <row>
+        <column>
+            <property id="relStdPsnOid.psnNameFirst" />
+            <property id="relStdPsnOid.psnNameMiddle" />
+            <property id="stdFieldA001"/>
+            <property id="relStdPsnOid.psnNameLast" />
+            <property id="relStdPsnOid.psnNameSuffix" />
+            <property id="stdIDLocal" />
+            <property id="stdIDState" />
+        </column>
+        <column>
+            <property id="relStdPsnOid.psnGenderCode" />
+            <property id="relStdPsnOid.psnDob" />
+            <property id="stdFieldB005" />
+            <property id="stdFieldC003" />
+            <property id="relStdPsnOid.psnPhone01" />
+            <property id="relStdPsnOid.psnPhone02" />
+            <property id="relStdPsnOid.psnPhone03" />
+            <property id="stdFieldC001" />
+        </column>
+    </row>
+    <row>
+        <column>
+            <property id="relStdSklOid.sklSchoolName" />
+            <property id="stdYog" />
+            <property id="stdGradeLevel" />
+            <property id="stdEnrStatus" />
+            <property id="stdEnrType" />
+            <property id="stdCalendar" />
+            <property id="stdHomeroom" />
+            <property id="stdHRTeacher" display="false" />
+            <property id="stdAcadmeTrack" />
+        </column>
+        <column>
+            <property id="stdHomeLang" />
+            <property id="relStdSklNext.sklSchoolName">
+                <picklist relationship="relStdSklNext" multiple="false">
+                    <field id="sklSchoolID" />
+                    <field id="sklSchoolName" sort="true" />
+                </picklist>
+            </property>
+            <property id="relStdSklTrans.sklSchoolName">
+                <picklist relationship="relStdSklTrans" multiple="false">
+                    <filter field="sklOID" operator="notEqual" source="current" value="stdSklOID" />
+                    <field id="sklSchoolID" />
+                    <field id="sklSchoolName" sort="true" />
+                </picklist>
+            </property>
+            <property id="stdTransferInd" />
+            <property id="stdRankInclude" />
+            <property id="stdHnrRollInd" />
+            <property id="stdSpedStatus" />
+            <property id="std504Status" />
+            <property id="std504LastEndD" />
+        </column>
+    </row>
+  </tab>    
+  <tab name="tab.student.std.list.detail.addresses">
+    <row>
+        <column>
+            <group header="relPsnAdrPhys" value-from="relationship" prefix-display="hide">
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress01" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetNum" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetLet" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPreD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetName" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPostD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetType" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid1" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid2" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid3" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress02" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress03" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrCity" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrState" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrPostalCode" display="false" />
+            </group>
+        </column>
+        <column>
+            <group header="relPsnAdrMail" value-from="relationship" prefix-display="hide">
+                <page path="../common/addressIdentical.jsp" build-row="false"/>
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress01" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetNum" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetLet" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetPreD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetName" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetPostD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetType" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid1" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid2" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid3" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress02" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress03" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrCity" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrState" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrPostalCode" display="false" />
+            </group>        
+        </column>
+    </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.activities">
+    <row>
+        <column>
+            <property id="stdFieldD001" />
+            <property id="stdFieldD002" />
+        </column>
+     </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.ethnicity">
+    <row>
+        <column>
+            <property id="relStdPsnOid.psnHispLatInd" />
+        </column>
+     </row>
+     <row show-border="false">
+        <block>
+            <line>
+                <cell><text source="relationship" font-size="medium" bold="true">relPsnRacOid</text></cell>
+            </line>
+            <line>
+                <cell><spacer /></cell>
+            </line>
+            <line>
+                <cell>
+                    <embedded-list id="races" relationship="relStdPsnOid.relPsnRacOid" detail-context="person.race.popup" popup-width="350" popup-height="150">
+                        <field id="racRaceCode" sort="true" />
+                    </embedded-list>
+                </cell>
+            </line>
+        </block>
+     </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.alerts">
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.legal</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="legalAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400"  extra-update-privileges="alr.biz.legal" extra-create-privileges="alr.biz.legal,alr.bean.create" extra-delete-privileges="alr.biz.legal,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <filter field="alrType" operator="equals" source="constant" value="0" />
+        <system-value field="alrType" source="constant" value="0" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.medical</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="medicalAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400" extra-update-privileges="alr.biz.medical" extra-create-privileges="alr.biz.medical,alr.bean.create" extra-delete-privileges="alr.biz.medical,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <filter field="alrType" operator="equals" source="constant" value="1" />
+        <system-value field="alrType" source="constant" value="1" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.other</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="otherAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400" extra-update-privileges="alr.biz.other" extra-create-privileges="alr.biz.other,alr.bean.create" extra-delete-privileges="alr.biz.other,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <field id="alrIconFile" />
+        <filter field="alrType" operator="equals" source="constant" value="2" />
+        <system-value field="alrType" source="constant" value="2" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.photo">
+    <row>
+      <column>
+         <property id="relStdPsnOid.psnPhoOIDPrim" />
+      </column>
+    </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.accommodations">
+    <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">Active IEP Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list id="accommodationsIEP" relationship="relStdIacOid" selection-type="none" embedded-edit="false" show-blob-text="true" warn-on-delete="true" show-delete-button="false" show-add-button="false" show-detail="false">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacDescription" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <filter connector="and" field="relIacIepOid.iepStatus" operator="equals" source="constant" value="01" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+ <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">Active 504 Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list id="accommodations504" relationship="relStdIacOid" selection-type="none" embedded-edit="false" show-blob-text="true" warn-on-delete="true" show-delete-button="false" show-add-button="false" show-detail="false">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacDescription" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <filter connector="and" field="relIacSepOid.sepStatus" operator="equals" source="constant" value="01" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">General Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="general.iac" id="accomodationsGeneralEd" popup-height="500" popup-width="800" relationship="relStdIacOid" selection-type="multiple" embedded-edit="false" show-blob-text="true" warn-on-delete="true">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <field id="iacImplDate" sort="true" />
+              <filter connector="and" field="iacIepOID" operator="empty" source="constant" value="" />
+              <filter connector="and" field="iacSepOID" operator="empty" source="constant" value="" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2Std' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+
+<template>
+  <tab name="">
+    <row>
+        <column>
+            <property id="iacType" />
+            <property id="iacContentArea" />
+            <property id="iacCategory" />
+            <property id="iacName"/>
+            <property id="iacImplDate"/>
+        </column>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtX2StdGenIac' AND (VWT_CUSTOM_IND <> '1' OR VWT_CUSTOM_IND IS NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO VIEW_TEMPLATE (VWT_OID, VWT_OWNER_OID, VWT_OWNER_TYPE, VWT_DDX_OID, VWT_NAME, VWT_CONTEXT, VWT_VIEW_DEFINITION, VWT_CUSTOM_IND, VWT_HIDE_IND, VWT_DESCRIPTION, VWT_HELP_ENABLED, VWT_PROCEDURE_ID, VWT_SCHOOL_VISIBILITY_TYPE, VWT_ROLE_VISIBILITY_TYPE, VWT_LAST_MODIFIED) VALUES ('vwtX2StdIac', '*dst', 1, NULL, 'Student Detail with Accommodations', 'student.std.list.detail', '<?xml version="1.0" encoding="UTF-8"?>
+
+<template>
+  <tab name="tab.student.std.list.detail.demographics">
+    <row>
+        <column>
+            <property id="relStdPsnOid.psnNameFirst" />
+            <property id="relStdPsnOid.psnNameMiddle" />
+            <property id="stdFieldA001"/>
+            <property id="relStdPsnOid.psnNameLast" />
+            <property id="relStdPsnOid.psnNameSuffix" />
+            <property id="stdIDLocal" />
+            <property id="stdIDState" />
+        </column>
+        <column>
+            <property id="relStdPsnOid.psnGenderCode" />
+            <property id="relStdPsnOid.psnDob" />
+            <property id="stdFieldB005" />
+            <property id="stdFieldC003" />
+            <property id="relStdPsnOid.psnPhone01" />
+            <property id="relStdPsnOid.psnPhone02" />
+            <property id="relStdPsnOid.psnPhone03" />
+            <property id="stdFieldC001" />
+        </column>
+    </row>
+    <row>
+        <column>
+            <property id="relStdSklOid.sklSchoolName" />
+            <property id="stdYog" />
+            <property id="stdGradeLevel" />
+            <property id="stdEnrStatus" />
+            <property id="stdEnrType" />
+            <property id="stdCalendar" />
+            <property id="stdHomeroom" />
+            <property id="stdHRTeacher" display="false" />
+            <property id="stdAcadmeTrack" />
+        </column>
+        <column>
+            <property id="stdHomeLang" />
+            <property id="relStdSklNext.sklSchoolName">
+                <picklist relationship="relStdSklNext" multiple="false">
+                    <field id="sklSchoolID" />
+                    <field id="sklSchoolName" sort="true" />
+                </picklist>
+            </property>
+            <property id="relStdSklTrans.sklSchoolName">
+                <picklist relationship="relStdSklTrans" multiple="false">
+                    <filter field="sklOID" operator="notEqual" source="current" value="stdSklOID" />
+                    <field id="sklSchoolID" />
+                    <field id="sklSchoolName" sort="true" />
+                </picklist>
+            </property>
+            <property id="stdTransferInd" />
+            <property id="stdRankInclude" />
+            <property id="stdHnrRollInd" />
+            <property id="stdSpedStatus" />
+            <property id="std504Status" />
+            <property id="std504LastEndD" />
+        </column>
+    </row>
+  </tab>    
+  <tab name="tab.student.std.list.detail.addresses">
+    <row>
+        <column>
+            <group header="relPsnAdrPhys" value-from="relationship" prefix-display="hide">
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress01" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetNum" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetLet" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPreD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetName" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetPostD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrStreetType" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid1" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid2" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrUserValid3" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress02" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrAddress03" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrCity" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrState" display="false" />
+                <property id="relStdPsnOid.relPsnAdrPhys.adrPostalCode" display="false" />
+            </group>
+        </column>
+        <column>
+            <group header="relPsnAdrMail" value-from="relationship" prefix-display="hide">
+                <page path="../common/addressIdentical.jsp" build-row="false"/>
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress01" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetNum" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetLet" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetPreD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetName" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetPostD" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrStreetType" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid1" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid2" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrUserValid3" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress02" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrAddress03" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrCity" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrState" display="false" />
+                <property id="relStdPsnOid.relPsnAdrMail.adrPostalCode" display="false" />
+            </group>        
+        </column>
+    </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.activities">
+    <row>
+        <column>
+            <property id="stdFieldD001" />
+            <property id="stdFieldD002" />
+        </column>
+     </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.ethnicity">
+    <row>
+        <column>
+            <property id="relStdPsnOid.psnHispLatInd" />
+        </column>
+     </row>
+     <row show-border="false">
+        <block>
+            <line>
+                <cell><text source="relationship" font-size="medium" bold="true">relPsnRacOid</text></cell>
+            </line>
+            <line>
+                <cell><spacer /></cell>
+            </line>
+            <line>
+                <cell>
+                    <embedded-list id="races" relationship="relStdPsnOid.relPsnRacOid" detail-context="person.race.popup" popup-width="350" popup-height="150">
+                        <field id="racRaceCode" sort="true" />
+                    </embedded-list>
+                </cell>
+            </line>
+        </block>
+     </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.alerts">
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.legal</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="legalAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400"  extra-update-privileges="alr.biz.legal" extra-create-privileges="alr.biz.legal,alr.bean.create" extra-delete-privileges="alr.biz.legal,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <filter field="alrType" operator="equals" source="constant" value="0" />
+        <system-value field="alrType" source="constant" value="0" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.medical</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="medicalAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400" extra-update-privileges="alr.biz.medical" extra-create-privileges="alr.biz.medical,alr.bean.create" extra-delete-privileges="alr.biz.medical,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <filter field="alrType" operator="equals" source="constant" value="1" />
+        <system-value field="alrType" source="constant" value="1" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+   <row show-border="false">
+    <block>
+      <line>
+        <cell><text source="resource" font-size="medium" bold="true">format.StudentAlert.AlertType.other</text></cell>
+      </line>
+      <line>
+        <cell><spacer /></cell>
+      </line>
+     <line>
+      <cell>
+       <embedded-list id="otherAlerts" relationship="relStdAlrOid" detail-context="student.alert.popup" popup-width="450" popup-height="400" extra-update-privileges="alr.biz.other" extra-create-privileges="alr.biz.other,alr.bean.create" extra-delete-privileges="alr.biz.other,alr.bean.delete">
+        <field id="alrSeqNo" sort="true" />
+        <field id="alrAlertDesc" />
+        <field id="alrIconFile" />
+        <filter field="alrType" operator="equals" source="constant" value="2" />
+        <system-value field="alrType" source="constant" value="2" />
+       </embedded-list>
+      </cell>
+     </line>
+    </block>
+   </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.photo">
+    <row>
+      <column>
+         <property id="relStdPsnOid.psnPhoOIDPrim" />
+      </column>
+    </row>
+  </tab>
+  <tab name="tab.student.std.list.detail.accommodations">
+    <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">Active IEP Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list id="accommodationsIEP" relationship="relStdIacOid" selection-type="none" embedded-edit="false" show-blob-text="true" warn-on-delete="true" show-delete-button="false" show-add-button="false" show-detail="false">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacDescription" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <filter connector="and" field="relIacIepOid.iepStatus" operator="equals" source="constant" value="01" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+ <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">Active 504 Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list id="accommodations504" relationship="relStdIacOid" selection-type="none" embedded-edit="false" show-blob-text="true" warn-on-delete="true" show-delete-button="false" show-add-button="false" show-detail="false">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacDescription" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <filter connector="and" field="relIacSepOid.sepStatus" operator="equals" source="constant" value="01" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+    <row show-border="false">
+      <block>
+        <line border="none">
+          <text underline="true" font-size="medium">General Accommodations</text>
+        </line>
+        <line border="none">
+          <cell border="none" cell-span="1" line-span="1">
+            <embedded-list detail-context="general.iac" id="accomodationsGeneralEd" popup-height="500" popup-width="800" relationship="relStdIacOid" selection-type="multiple" embedded-edit="false" show-blob-text="true" warn-on-delete="true">
+              <field id="iacType" sort="true" />
+              <field id="iacName" sort="true" />
+              <field id="iacContentArea" sort="true" />
+              <field id="iacCategory" sort="true" />
+              <field id="iacImplDate" sort="true" />
+              <filter connector="and" field="iacIepOID" operator="empty" source="constant" value="" />
+              <filter connector="and" field="iacSepOID" operator="empty" source="constant" value="" />
+            </embedded-list>
+          </cell>
+        </line>
+      </block>
+    </row>
+  </tab>
+</template>', '0', '0', NULL, '0', NULL, 0, 0, NULL);
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>

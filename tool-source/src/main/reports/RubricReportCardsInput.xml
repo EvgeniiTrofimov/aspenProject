@@ -1,0 +1,219 @@
+<!-- ********************************************************************************************* -->
+<!-- INPUT DEFINITIONS FOR THE "STANDARD GRADE REPORT" CONFIGURED FOR "RUBRIC REPORT CARDS" REPORT -->
+<!-- ********************************************************************************************* -->
+
+<tool-input district-support="false" context="com.x2dev.sis.model.beans.SisStudent">
+
+ <!-- *********** -->
+ <!-- SCHOOL YEAR -->
+ <!-- *********** -->
+
+ <input name="contextOid" data-type="string" display-type="picklist" display-name="report.shared.schoolYear" default-value="currentContextOid" default-value-source="session">
+  <picklist field-id="ctxSchoolYear">
+   <field id="ctxSchoolYear" sort="true" />
+   <field id="ctxContextName" />
+  </picklist>
+ </input>
+
+ <!-- ********** -->
+ <!-- GRADE TERM -->
+ <!-- ********** -->
+
+ <input name="gradeTermOid" data-type="string" display-type="picklist" display-name="report.shared.term" default-value="currentGradeTerm">
+  <picklist field-id="gtmGrdTermID">
+   <field id="gtmGrdTermID" sort="true" />
+   <field id="gtmGrdTermNum" />
+   <filter field="relGtmGtaOid.gtaSklOID" operator="equals" source="session" value="school.oid" />
+   <filter field="relGtmGtaOid.gtaCtxOID" operator="equals" source="input" value="contextOid" />
+  </picklist>
+ </input>
+
+ <!-- ********************** -->
+ <!-- CONVERT NUMERIC GRADES -->
+ <!-- ********************** -->
+
+ <input name="convertNumeric" data-type="boolean" display-type="checkbox" display-name="report.shared.convertNumeric" default-value="true" />
+
+ <!-- ***************** -->
+ <!-- HONOR ROLL COLUMN -->
+ <!-- ***************** -->
+
+ <input name="honorRollColumn" data-type="string" display-type="picklist" display-name="report.reportCards.honorRollColumn" required="false">
+  <picklist action="transcriptColumnPickList.do" field-id="gtcName" required="false">
+   <field id="relGtcGtdOid.gtdName" sort="true" />
+   <field id="gtcName" sort="true" />
+   <filter field="gtcGrsOID" operator="notEmpty" source="constant" />
+  </picklist>
+ </input>
+ 
+ <!-- ************** -->
+ <!-- SELECT OPTIONS -->
+ <!-- ************** -->
+
+ <input name="queryBy" data-type="string" display-type="select" display-name="report.shared.query">
+  <option value="##current" display-name="report.shared.query.currentSelection" context-dependent="true" />
+  <option value="##all" display-name="report.shared.query.all" />
+  <option value="student.yog" display-name="report.shared.query.yog" />
+  <option value="##snapshot" display-name="report.shared.query.recordSet" />
+  <disable input-name="queryString" if-parent-equals="##current" />
+  <disable input-name="queryString" if-parent-equals="##all" />
+ </input>
+ <input name="queryString" data-type="string" display-type="text" display-name="report.shared.queryString" />
+
+ <!-- ******************** -->
+ <!-- STUDENT SORT OPTIONS -->
+ <!-- ******************** -->
+
+ <input name="studentSort" data-type="string" display-type="select" display-name="report.schedule.studentSort">
+  <option value="nameView" display-name="report.shared.sort.name" />
+  <option value="yog, nameView" display-name="report.shared.sort.yog" />
+  <option value="homeroom, nameView" display-name="report.shared.sort.homeroom" />
+ </input>
+
+ <!-- ************************ -->
+ <!-- MULTIPLE MAILINGS OPTION -->
+ <!-- ************************ -->
+
+ <input name="multipleMailings" data-type="boolean" display-type="checkbox" display-name="report.shared.alternateMailings" />
+
+ <!-- ***************************** -->
+ <!-- EXCLUDE MISSING GRADES OPTION -->
+ <!-- ***************************** -->
+
+ <input name="excludeEmpty" data-type="boolean" display-type="checkbox" display-name="report.shared.excludeEmpty" />
+ 
+ <!-- ******************************************************************************************** -->
+ 
+ <!-- ************************ -->
+ <!-- CONFIGURATION PARAMETERS -->
+ <!-- ************************ -->
+ 
+ <!-- ************************************************************ -->
+ <!-- ITERATE GRID                                                 -->
+ <!--                                                              -->
+ <!-- This allows for a second grid iteration after the transcript -->
+ <!-- report grid has been initially populated. It can perform the -->
+ <!-- following operations:                                        -->
+ <!--                                                              -->
+ <!-- 1 - Creates equal spacing between transcript records across  -->
+ <!--     years if it is a multi-year report.                      -->
+ <!-- 2 - Sets the school field on the grid based on the students' -->
+ <!--     enrollment records.                                      -->
+ <!-- 3 - Creates transcript records for mailing contacts if       -->
+ <!--     multiple mailing is selected.                            -->
+ <!-- 4 - Adds the credit information for each student             -->
+ <!--                                                              -->
+ <!-- If any of the above operations are necessary or if custom    -->
+ <!-- methods that are called by iterateGrid() are set up, then    -->
+ <!-- the value for this parameter must be "true".                 -->
+ <!-- ************************************************************ -->
+ 
+ <input name="iterateGrid" data-type="boolean" display-type="hidden" default-value="true" />
+ 
+ <!-- *********** -->
+ <!-- ACTIVE ONLY -->
+ <!-- *********** -->
+ 
+ <input name="activeOnly" data-type="boolean" display-type="hidden" default-value="true" />
+ 
+ <!-- ***************** -->
+ <!-- CONVERT REFERENCE -->
+ <!-- ***************** -->
+ 
+ <input name="convertReference" data-type="boolean" display-type="hidden" default-value="true" />
+
+ <!-- ****************** -->
+ <!-- LOCALIZE REFERENCE -->
+ <!-- ****************** -->
+ 
+ <input name="localizeReference" data-type="boolean" display-type="hidden" default-value="false" />
+
+ <!-- ************* -->
+ <!-- RUBRIC REPORT -->
+ <!-- ************* -->
+ 
+ <input name="rubricReport" data-type="boolean" display-type="hidden" default-value="true" />
+ 
+ <!-- ************************ -->
+ <!-- REPORT TYPE              -->
+ <!--                          -->
+ <!-- 0 - Progress             -->
+ <!-- 1 - Term                 -->
+ <!--                          -->
+ <!-- Not important if it is   -->
+ <!-- a rubric report          -->
+ <!-- ************************ -->
+ 
+ <input name="reportType" data-type="integer" display-type="hidden" default-value="1" />
+  
+ <!-- ************************* -->
+ <!-- LOAD ATTENDANCE SUMMARIES -->
+ <!-- ************************* -->
+ 
+ <input name="loadAttendanceSummaries" data-type="boolean" display-type="hidden" default-value="true" />
+  
+ <!-- ******************* -->
+ <!-- LOAD CREDIT SUMMARY -->
+ <!-- ******************* -->
+ 
+ <input name="loadCreditSummary" data-type="boolean" display-type="hidden" default-value="true" />
+  
+ <!-- ****************** -->
+ <!-- ADD HONOR ROLL MAP -->
+ <!-- ****************** -->
+ 
+ <input name="addHonorRollMap" data-type="boolean" display-type="hidden" default-value="true" />
+  
+ <!-- ****************************** -->
+ <!-- USE REPORT CARD HIDE INDICATOR -->
+ <!-- ****************************** -->
+ 
+ <input name="useReportCardHideInd" data-type="boolean" display-type="hidden" default-value="true" />
+ 
+ <!-- ****************** -->
+ <!-- LOAD REPORT SCHOOL -->
+ <!-- ****************** -->
+ 
+ <input name="loadReportSchool" data-type="boolean" display-type="hidden" default-value="false" />
+ 
+ <!-- ******** -->
+ <!-- PAD ROWS -->
+ <!-- ******** -->
+ 
+ <input name="padRows" data-type="integer" display-type="hidden" default-value="0" />
+ 
+ <!-- ********** -->
+ <!-- PUBLISH TO -->
+ <!-- ********** -->
+
+ <input name="publishTo" data-type="integer" display-type="hidden" display-name="report.shared.publishRecipient" default-value="0">
+  <option value="0" display-name="report.shared.studentAndContact"/>
+  <option value="1" display-name="report.shared.student"/>
+  <option value="2" display-name="report.shared.contact"/>
+ </input>
+ 
+ <!-- ***************************** -->
+ <!-- INCLUDED GRADE LEVELS -->
+ <!-- ***************************** -->
+
+ <input name="gradeLevels" data-type="string" display-type="hidden" default-value="" required="false" />
+  
+ <!-- ***************** -->
+ <!-- LOAD HOMEROOM MAP -->
+ <!-- ***************** -->
+ 
+ <input name="loadHomeroomMap" data-type="boolean" display-type="hidden" default-value="false" />
+  
+ <!-- ********************** -->
+ <!-- CURRENT YEAR SCHEDULES -->
+ <!-- ********************** -->
+ 
+ <input name="includeCurrentSchedules" data-type="boolean" display-type="hidden" default-value="false" />
+  
+ <!-- ************************ -->
+ <!-- CLASS ATTENDANCE TALLIES -->
+ <!-- ************************ -->
+ 
+ <input name="includeClassAttendance" data-type="boolean" display-type="hidden" default-value="false" />
+
+</tool-input>

@@ -1,0 +1,2573 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="TN200DayAccountability"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="612"
+		 pageHeight="792"
+		 columnWidth="564"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="18"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="district" isForPrompting="false" class="com.follett.fsc.core.k12.beans.Organization"/>
+	<parameter name="schoolYear" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="formatter" isForPrompting="false" class="java.text.SimpleDateFormat">
+		<defaultValueExpression ><![CDATA[new SimpleDateFormat("MM/dd/yyyy")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="distrcitCalendar" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="stockpileSchools" isForPrompting="false" class="java.util.List"/>
+
+	<field name="studentDays" class="java.lang.Integer"/>
+	<field name="teacherVacation" class="java.lang.Integer"/>
+	<field name="serviceDays" class="java.lang.Double"/>
+	<field name="serviceOptDays" class="java.lang.Double"/>
+	<field name="discretionaryDays" class="java.lang.Double"/>
+	<field name="parentConfCount" class="java.lang.Double"/>
+	<field name="christmasCount" class="java.lang.Integer"/>
+	<field name="christmasDate" class="java.util.Date"/>
+	<field name="springCount" class="java.lang.Integer"/>
+	<field name="springDate" class="java.util.Date"/>
+	<field name="abbreviatedDate" class="java.util.List"/>
+	<field name="abbreviatedTime" class="java.util.Map"/>
+	<field name="conferenceDate" class="java.util.List"/>
+	<field name="conferenceTime" class="java.util.Map"/>
+	<field name="serviceDate" class="java.util.List"/>
+	<field name="serviceTime" class="java.util.Map"/>
+	<field name="discretionaryDate" class="java.util.List"/>
+	<field name="discretionaryTime" class="java.util.Map"/>
+	<field name="discretionaryActivity" class="java.util.Map"/>
+	<field name="makeUpCount" class="java.lang.Integer"/>
+	<field name="stockpileProfCount" class="java.lang.Integer"/>
+	<field name="stockpileWeatherCount" class="java.lang.Integer"/>
+	<field name="openDate" class="java.util.Date"/>
+	<field name="closingDate" class="java.util.Date"/>
+	<field name="isStockpiling" class="java.lang.Boolean"/>
+	<field name="districtCalendar" class="java.lang.String"/>
+
+	<variable name="TOTAL_DAYS" class="java.lang.Double" resetType="Group" incrementType="Group" incrementGroup="200dayHeader" resetGroup="200dayHeader" calculation="Sum">
+		<variableExpression><![CDATA[Double.valueOf($F{studentDays}.intValue()+$F{teacherVacation}.intValue()+$F{serviceDays}.doubleValue()+$F{serviceOptDays}.doubleValue()+$F{parentConfCount}.doubleValue()+$F{discretionaryDays}.doubleValue())]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf(0)]]></initialValueExpression>
+	</variable>
+	<variable name="A_DATE_ITERATOR" class="java.util.Iterator" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{abbreviatedDate}.iterator()]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{abbreviatedDate}.iterator()]]></initialValueExpression>
+	</variable>
+	<variable name="TOTAL_DAYS_VIEW" class="java.lang.Integer" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[Integer.valueOf((int) Math.round($V{TOTAL_DAYS}.doubleValue()))]]></variableExpression>
+	</variable>
+
+		<group  name="200dayHeader" >
+			<groupExpression><![CDATA[$F{districtCalendar}]]></groupExpression>
+			<groupHeader>
+			<band height="670"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="60"
+						y="94"
+						width="376"
+						height="15"
+						key="staticText-44"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Send completed form by June 1, to:                       Regional Office]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="124"
+						width="86"
+						height="14"
+						key="staticText-45"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[District name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="138"
+						width="86"
+						height="14"
+						key="staticText-46"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[District #]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="166"
+						width="86"
+						height="14"
+						key="staticText-47"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Telephone]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="234"
+						width="51"
+						height="14"
+						key="textField-30"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{serviceOptDays}.intValue() == $F{serviceOptDays}.doubleValue())?String.valueOf($F{serviceOptDays}.intValue()):String.format("%.2f", new Double[]{$F{serviceOptDays}})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="262"
+						width="51"
+						height="14"
+						key="textField-31"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{discretionaryDays}.intValue() == $F{discretionaryDays}.doubleValue())?String.valueOf($F{discretionaryDays}.intValue()):String.format("%.2f", new Double[]{$F{discretionaryDays}})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="192"
+						width="51"
+						height="14"
+						key="textField-32"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{studentDays}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="206"
+						width="51"
+						height="14"
+						key="textField-33"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{teacherVacation}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Group" evaluationGroup="200dayHeader"  hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="276"
+						width="51"
+						height="14"
+						key="textField-34"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{TOTAL_DAYS_VIEW}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="248"
+						width="51"
+						height="14"
+						key="textField-35"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{parentConfCount}.intValue() == $F{parentConfCount}.doubleValue())?String.valueOf($F{parentConfCount}.intValue()):String.format("%.2f", new Double[]{$F{parentConfCount}})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="332"
+						width="51"
+						height="14"
+						key="textField-36"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stockpileProfCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="304"
+						width="51"
+						height="14"
+						key="textField-37"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{isStockpiling}.booleanValue() ? "Yes" : "No"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="318"
+						width="51"
+						height="14"
+						key="textField-38"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{makeUpCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="220"
+						width="51"
+						height="14"
+						key="textField-39"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{serviceDays}.intValue() == $F{serviceDays}.doubleValue())?String.valueOf($F{serviceDays}.intValue()):String.format("%.2f", new Double[]{$F{serviceDays}})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="124"
+						width="234"
+						height="14"
+						key="textField-40"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{district}.getName()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="166"
+						width="234"
+						height="14"
+						key="textField-41"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{district}.getAddress().getPhone01()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="138"
+						width="234"
+						height="14"
+						key="textField-42"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{district}.getId()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="80"
+						y="192"
+						width="440"
+						height="14"
+						key="staticText-48"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Student Days (Minimum 180)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="206"
+						width="440"
+						height="14"
+						key="staticText-49"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Teacher Vacation with pay (Minimum 10)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="220"
+						width="440"
+						height="14"
+						key="staticText-50"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[In-Service Days]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="234"
+						width="440"
+						height="14"
+						key="staticText-51"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[In-Service Optional Days (Minimum 5 with In-Service Days)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="262"
+						width="440"
+						height="14"
+						key="staticText-52"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Discretionary (Other) Days (Maximum 4)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="276"
+						width="440"
+						height="14"
+						key="staticText-53"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Total (Minimum 200 days)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="304"
+						width="455"
+						height="14"
+						key="staticText-54"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[District Stockpile? (Yes or No)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="318"
+						width="455"
+						height="14"
+						key="staticText-55"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[District Extended Day Makeup]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="332"
+						width="483"
+						height="14"
+						key="staticText-56"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Stockpile-Prof-Dev (Maximum 13 days when added with Stockpile-Inclement-Weather-Days)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="80"
+						y="248"
+						width="440"
+						height="14"
+						key="staticText-57"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[T/P Conference (Minimum 1)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="346"
+						width="51"
+						height="14"
+						key="textField-43"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{stockpileWeatherCount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="80"
+						y="346"
+						width="483"
+						height="14"
+						key="staticText-58"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[Stockpile-Inclement-Weather-Days (Maximum 13 days when added with Stockpile-Prof-Dev)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="384"
+						width="534"
+						height="28"
+						key="staticText-18"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Top">
+						<font size="10"/>
+					</textElement>
+				<text><![CDATA[If your district is not stockpiling days, do you have individual schools with at least a seven hour
+student day stockpiling days for the purpose of professional development for the current school year?]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="113"
+						y="412"
+						width="78"
+						height="13"
+						key="staticText-20"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<text><![CDATA[Yes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="271"
+						y="412"
+						width="78"
+						height="13"
+						key="staticText-21"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<text><![CDATA[No]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="192"
+						y="412"
+						width="78"
+						height="13"
+						key="textField-17"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{isStockpiling}.booleanValue() || $P{stockpileSchools}.isEmpty() ?  "" : "Yes"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="351"
+						y="412"
+						width="78"
+						height="13"
+						key="textField-18"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{isStockpiling}.booleanValue() || $P{stockpileSchools}.isEmpty() ?  "No" : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="30"
+						y="424"
+						width="86"
+						height="13"
+						key="staticText-22"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[If yes, list schools:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="645"
+						width="115"
+						height="20"
+						key="staticText-23"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Closing Date:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="625"
+						width="115"
+						height="20"
+						key="staticText-24"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Spring Break Date:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="565"
+						width="115"
+						height="20"
+						key="staticText-25"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Christmas Break Days:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="605"
+						width="115"
+						height="20"
+						key="staticText-26"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Spring Break Days:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="585"
+						width="115"
+						height="20"
+						key="staticText-27"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Christmas Break Date:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="545"
+						width="115"
+						height="20"
+						key="staticText-28"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Student Open Date:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="545"
+						width="100"
+						height="20"
+						key="textField-22"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{formatter}.format($F{openDate})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="585"
+						width="100"
+						height="20"
+						key="textField-23"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{formatter}.format($F{christmasDate})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="645"
+						width="100"
+						height="20"
+						key="textField-24"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{formatter}.format($F{closingDate})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="625"
+						width="100"
+						height="20"
+						key="textField-26"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{formatter}.format($F{springDate})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="605"
+						width="100"
+						height="20"
+						key="textField-27"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{springCount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="244"
+						y="625"
+						width="270"
+						height="20"
+						key="staticText-29"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(first day students are not present)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="545"
+						width="270"
+						height="20"
+						key="staticText-30"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(first day students are present)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="605"
+						width="270"
+						height="20"
+						key="staticText-31"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(number of days)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="645"
+						width="270"
+						height="20"
+						key="staticText-32"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(last day students are present)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="565"
+						width="270"
+						height="20"
+						key="staticText-33"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(number of days)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="244"
+						y="585"
+						width="270"
+						height="20"
+						key="staticText-34"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[(first day students are not present)]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="565"
+						width="100"
+						height="20"
+						key="textField-28"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{christmasCount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="445"
+						width="134"
+						height="17"
+						key="textField-118"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 0 ? $P{stockpileSchools}.get( 0 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="465"
+						width="134"
+						height="17"
+						key="textField-119"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 1 ? $P{stockpileSchools}.get( 1 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="505"
+						width="134"
+						height="17"
+						key="textField-120"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 3 ? $P{stockpileSchools}.get( 3 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="485"
+						width="134"
+						height="17"
+						key="textField-121"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 2 ? $P{stockpileSchools}.get( 2 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="445"
+						width="134"
+						height="17"
+						key="textField-122"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 4 ? $P{stockpileSchools}.get( 4 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="465"
+						width="134"
+						height="17"
+						key="textField-123"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 5 ? $P{stockpileSchools}.get( 5 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="485"
+						width="134"
+						height="17"
+						key="textField-124"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 6 ? $P{stockpileSchools}.get( 6 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="505"
+						width="134"
+						height="17"
+						key="textField-125"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 7 ? $P{stockpileSchools}.get( 7 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="380"
+						y="445"
+						width="134"
+						height="17"
+						key="textField-126"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 8 ? $P{stockpileSchools}.get( 8 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="380"
+						y="465"
+						width="134"
+						height="17"
+						key="textField-127"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 9 ? $P{stockpileSchools}.get( 9 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="380"
+						y="485"
+						width="134"
+						height="17"
+						key="textField-128"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 10 ? $P{stockpileSchools}.get( 10 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="380"
+						y="505"
+						width="134"
+						height="17"
+						key="textField-129"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[!$F{isStockpiling}.booleanValue() && $P{stockpileSchools}.size() > 11 ? $P{stockpileSchools}.get( 11 ) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="144"
+						y="0"
+						width="216"
+						height="81"
+						key="textField-131"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Tennessee Department of Education\n" + 
+"200 Day Accountability Report\n" +
+"School Year\n" + 
+$P{schoolYear}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="152"
+						width="86"
+						height="14"
+						key="staticText-93"/>
+					<box leftPadding="2"></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Calendar ID:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="115"
+						y="152"
+						width="234"
+						height="14"
+						key="textField-132"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement verticalAlignment="Middle">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{districtCalendar}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="TPConference" >
+			<groupExpression><![CDATA[$F{districtCalendar}]]></groupExpression>
+			<groupHeader>
+			<band height="728"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						x="392"
+						y="449"
+						width="119"
+						height="120"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="217"
+						y="2"
+						width="166"
+						height="35"
+						key="staticText-35"/>
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Tennessee Department of Education
+200 Day Accountability Report]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="46"
+						width="440"
+						height="19"
+						key="staticText-37"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[In-Service (list by 1/3, 1/2, or 1 day only -- Do not break day into smaller segments)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="204"
+						width="440"
+						height="19"
+						key="staticText-59"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Abbreviated dates (no more than 3)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="223"
+						width="67"
+						height="20"
+						key="staticText-60"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="96"
+						y="223"
+						width="67"
+						height="20"
+						key="staticText-61"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="243"
+						width="67"
+						height="20"
+						key="textField-44"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 0 ? $P{formatter}.format($F{abbreviatedDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="243"
+						width="67"
+						height="20"
+						key="textField-45"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 0 ? $F{abbreviatedTime}.get($F{abbreviatedDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="263"
+						width="67"
+						height="20"
+						key="textField-48"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 1 ? $P{formatter}.format($F{abbreviatedDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="283"
+						width="67"
+						height="20"
+						key="textField-49"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 2 ? $P{formatter}.format($F{abbreviatedDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="263"
+						width="67"
+						height="20"
+						key="textField-50"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 1 ? $F{abbreviatedTime}.get($F{abbreviatedDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="283"
+						width="67"
+						height="20"
+						key="textField-51"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{abbreviatedDate}.size() > 2 ? $F{abbreviatedTime}.get($F{abbreviatedDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="71"
+						width="67"
+						height="20"
+						key="staticText-62"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="96"
+						y="71"
+						width="67"
+						height="20"
+						key="staticText-63"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="91"
+						width="67"
+						height="20"
+						key="textField-52"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 0 ? $P{formatter}.format($F{serviceDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="91"
+						width="67"
+						height="20"
+						key="textField-53"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 0 ? $F{serviceTime}.get($F{serviceDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="111"
+						width="67"
+						height="20"
+						key="textField-54"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 1 ? $P{formatter}.format($F{serviceDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="151"
+						width="67"
+						height="20"
+						key="textField-55"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 3 ? $P{formatter}.format($F{serviceDate}.get(3)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="111"
+						width="67"
+						height="20"
+						key="textField-56"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 1 ? $F{serviceTime}.get($F{serviceDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="131"
+						width="67"
+						height="20"
+						key="textField-57"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 2 ? $F{serviceTime}.get($F{serviceDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="200"
+						y="71"
+						width="68"
+						height="20"
+						key="staticText-64"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="268"
+						y="71"
+						width="68"
+						height="20"
+						key="staticText-65"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="91"
+						width="68"
+						height="20"
+						key="textField-58"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 5 ? $P{formatter}.format($F{serviceDate}.get(5)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="91"
+						width="68"
+						height="20"
+						key="textField-59"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 5 ? $F{serviceTime}.get($F{serviceDate}.get(5)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="111"
+						width="68"
+						height="20"
+						key="textField-60"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 6 ? $P{formatter}.format($F{serviceDate}.get(6)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="131"
+						width="68"
+						height="20"
+						key="textField-61"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 7 ? $P{formatter}.format($F{serviceDate}.get(7)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="131"
+						width="68"
+						height="20"
+						key="textField-62"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 7 ? $F{serviceTime}.get($F{serviceDate}.get(7)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="111"
+						width="68"
+						height="20"
+						key="textField-63"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 6 ? $F{serviceTime}.get($F{serviceDate}.get(6)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="376"
+						y="71"
+						width="68"
+						height="20"
+						key="staticText-66"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="444"
+						y="71"
+						width="68"
+						height="20"
+						key="staticText-67"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="91"
+						width="68"
+						height="20"
+						key="textField-64"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 10 ? $P{formatter}.format($F{serviceDate}.get(10)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="91"
+						width="68"
+						height="20"
+						key="textField-65"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 10 ? $F{serviceTime}.get($F{serviceDate}.get(10)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="111"
+						width="68"
+						height="20"
+						key="textField-66"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 11 ? $P{formatter}.format($F{serviceDate}.get(11)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="131"
+						width="68"
+						height="20"
+						key="textField-67"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 12 ? $P{formatter}.format($F{serviceDate}.get(12)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="111"
+						width="68"
+						height="20"
+						key="textField-68"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 11 ? $F{serviceTime}.get($F{serviceDate}.get(11)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="131"
+						width="68"
+						height="20"
+						key="textField-69"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 12 ? $F{serviceTime}.get($F{serviceDate}.get(12)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="131"
+						width="67"
+						height="20"
+						key="textField-70"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 2 ? $P{formatter}.format($F{serviceDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="171"
+						width="67"
+						height="20"
+						key="textField-71"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 4 ? $P{formatter}.format($F{serviceDate}.get(4)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="151"
+						width="67"
+						height="20"
+						key="textField-72"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 3 ? $F{serviceTime}.get($F{serviceDate}.get(3)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="171"
+						width="67"
+						height="20"
+						key="textField-73"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 4 ? $F{serviceTime}.get($F{serviceDate}.get(4)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="151"
+						width="68"
+						height="20"
+						key="textField-74"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 8 ? $P{formatter}.format($F{serviceDate}.get(8)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="171"
+						width="68"
+						height="20"
+						key="textField-75"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 9 ? $P{formatter}.format($F{serviceDate}.get(9)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="151"
+						width="68"
+						height="20"
+						key="textField-76"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 8 ? $F{serviceTime}.get($F{serviceDate}.get(8)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="268"
+						y="171"
+						width="68"
+						height="20"
+						key="textField-77"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 9 ? $F{serviceTime}.get($F{serviceDate}.get(9)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="151"
+						width="68"
+						height="20"
+						key="textField-78"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 13 ? $P{formatter}.format($F{serviceDate}.get(13)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="376"
+						y="171"
+						width="68"
+						height="20"
+						key="textField-79"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 14 ? $P{formatter}.format($F{serviceDate}.get(14)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="151"
+						width="68"
+						height="20"
+						key="textField-80"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 13 ? $F{serviceTime}.get($F{serviceDate}.get(13)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="444"
+						y="171"
+						width="68"
+						height="20"
+						key="textField-81"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{serviceDate}.size() > 14 ? $F{serviceTime}.get($F{serviceDate}.get(14)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="308"
+						width="440"
+						height="19"
+						key="staticText-68"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Teacher Parent Conference date(s)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="327"
+						width="67"
+						height="20"
+						key="staticText-69"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="96"
+						y="327"
+						width="67"
+						height="20"
+						key="staticText-70"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="347"
+						width="67"
+						height="20"
+						key="textField-82"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 0 ? $P{formatter}.format($F{conferenceDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="347"
+						width="67"
+						height="20"
+						key="textField-83"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 0 ? $F{conferenceTime}.get($F{conferenceDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="367"
+						width="67"
+						height="20"
+						key="textField-84"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 1 ? $P{formatter}.format($F{conferenceDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="387"
+						width="67"
+						height="20"
+						key="textField-85"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 2 ? $P{formatter}.format($F{conferenceDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="367"
+						width="67"
+						height="20"
+						key="textField-86"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 1 ? $F{conferenceTime}.get($F{conferenceDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="96"
+						y="387"
+						width="67"
+						height="20"
+						key="textField-87"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{conferenceDate}.size() > 2 ? $F{conferenceTime}.get($F{conferenceDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="420"
+						width="440"
+						height="29"
+						key="staticText-71"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Discretionary (Other) Dates (list by 1/3, 1/2, or 1 day only -- Do not break day into smaller
+segments)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="449"
+						width="68"
+						height="20"
+						key="staticText-72"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="97"
+						y="449"
+						width="59"
+						height="20"
+						key="staticText-73"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="469"
+						width="68"
+						height="20"
+						key="textField-88"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 0 ? $P{formatter}.format($F{discretionaryDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="469"
+						width="59"
+						height="20"
+						key="textField-89"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 0 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="489"
+						width="68"
+						height="20"
+						key="textField-90"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 1 ? $P{formatter}.format($F{discretionaryDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="529"
+						width="68"
+						height="20"
+						key="textField-91"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 3 ? $P{formatter}.format($F{discretionaryDate}.get(3)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="489"
+						width="59"
+						height="20"
+						key="textField-92"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 1 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="509"
+						width="59"
+						height="20"
+						key="textField-93"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 2 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="156"
+						y="449"
+						width="44"
+						height="20"
+						key="staticText-74"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Activity]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="214"
+						y="449"
+						width="68"
+						height="20"
+						key="staticText-75"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="156"
+						y="469"
+						width="44"
+						height="20"
+						key="textField-94"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 0 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(0)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="469"
+						width="68"
+						height="20"
+						key="textField-95"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 5 ? $P{formatter}.format($F{discretionaryDate}.get(5)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="156"
+						y="489"
+						width="44"
+						height="20"
+						key="textField-96"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 1 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(1)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="156"
+						y="509"
+						width="44"
+						height="20"
+						key="textField-97"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 2 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="509"
+						width="68"
+						height="20"
+						key="textField-98"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 7 ? $P{formatter}.format($F{discretionaryDate}.get(7)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="489"
+						width="68"
+						height="20"
+						key="textField-99"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 6 ? $P{formatter}.format($F{discretionaryDate}.get(6)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="282"
+						y="449"
+						width="57"
+						height="20"
+						key="staticText-76"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Time]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="449"
+						width="46"
+						height="20"
+						key="staticText-77"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[Activity]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="282"
+						y="469"
+						width="57"
+						height="20"
+						key="textField-100"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 5 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(5)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="469"
+						width="46"
+						height="20"
+						key="textField-101"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 5 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(5)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="282"
+						y="489"
+						width="57"
+						height="20"
+						key="textField-102"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 6 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(6)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="282"
+						y="509"
+						width="57"
+						height="20"
+						key="textField-103"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 7 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(7)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="489"
+						width="46"
+						height="20"
+						key="textField-104"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 6 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(6)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="509"
+						width="46"
+						height="20"
+						key="textField-105"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 7 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(7)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="509"
+						width="68"
+						height="20"
+						key="textField-106"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 2 ? $P{formatter}.format($F{discretionaryDate}.get(2)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="549"
+						width="68"
+						height="20"
+						key="textField-107"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 4 ? $P{formatter}.format($F{discretionaryDate}.get(4)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="529"
+						width="59"
+						height="20"
+						key="textField-108"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 3 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(3)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="97"
+						y="549"
+						width="59"
+						height="20"
+						key="textField-109"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 4 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(4)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="156"
+						y="529"
+						width="44"
+						height="20"
+						key="textField-110"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 3 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(3)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="156"
+						y="549"
+						width="44"
+						height="20"
+						key="textField-111"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 4 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(4)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="529"
+						width="68"
+						height="20"
+						key="textField-112"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 8 ? $P{formatter}.format($F{discretionaryDate}.get(8)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="214"
+						y="549"
+						width="68"
+						height="20"
+						key="textField-113"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 9 ? $P{formatter}.format($F{discretionaryDate}.get(9)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="282"
+						y="529"
+						width="57"
+						height="20"
+						key="textField-114"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 8 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(8)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="282"
+						y="549"
+						width="57"
+						height="20"
+						key="textField-115"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 9 ? $F{discretionaryTime}.get($F{discretionaryDate}.get(9)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="529"
+						width="46"
+						height="20"
+						key="textField-116"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 8 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(8)) : ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="549"
+						width="46"
+						height="20"
+						key="textField-117"/>
+					<box leftPadding="2">					<bottomPen lineWidth="0.75" lineStyle="Solid"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{discretionaryDate}.size() > 9 ? $F{discretionaryActivity}.get($F{discretionaryDate}.get(9)) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="394"
+						y="452"
+						width="98"
+						height="15"
+						key="staticText-78"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Activity Code]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="467"
+						width="110"
+						height="25"
+						key="staticText-79"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[     A- Administrative]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="516"
+						width="110"
+						height="25"
+						key="staticText-80"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[     V - Vacation]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="540"
+						width="110"
+						height="25"
+						key="staticText-81"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[     O - Other]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="492"
+						width="110"
+						height="25"
+						key="staticText-82"/>
+					<box></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[     I - In-service]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="30"
+						y="584"
+						width="481"
+						height="29"
+						key="staticText-83"/>
+					<box leftPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica" isBold="false"/>
+					</textElement>
+				<text><![CDATA[The signatures below verify that the Accountability for 200 Days is in compliance with TCA 49-6-3004 and Conform to the Guidelines for Planning Approvable In-Service Education Activities.]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="31"
+						y="639"
+						width="225"
+						height="0"
+						key="line-78"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="30"
+						y="679"
+						width="225"
+						height="0"
+						key="line-79"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="292"
+						y="639"
+						width="219"
+						height="0"
+						key="line-80"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="292"
+						y="679"
+						width="219"
+						height="0"
+						key="line-81"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="30"
+						y="639"
+						width="84"
+						height="16"
+						key="staticText-84"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Superintendent]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="639"
+						width="50"
+						height="16"
+						key="staticText-85"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="679"
+						width="84"
+						height="16"
+						key="staticText-86"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[DistrictDirector]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="206"
+						y="679"
+						width="50"
+						height="16"
+						key="staticText-87"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="292"
+						y="639"
+						width="110"
+						height="16"
+						key="staticText-88"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Chairman of board]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="469"
+						y="639"
+						width="42"
+						height="16"
+						key="staticText-89"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="292"
+						y="679"
+						width="110"
+						height="16"
+						key="staticText-90"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Commisioner]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="468"
+						y="679"
+						width="42"
+						height="16"
+						key="staticText-91"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Date]]></text>
+				</staticText>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="16"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="29"
+						y="0"
+						width="320"
+						height="16"
+						key="staticText-92"/>
+					<box></box>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ED 1896 (Rev.4/00)]]></text>
+				</staticText>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</summary>
+</jasperReport>

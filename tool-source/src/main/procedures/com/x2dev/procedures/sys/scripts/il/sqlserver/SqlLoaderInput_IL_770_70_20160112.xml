@@ -1,0 +1,168 @@
+<tool-input>
+<input name="procedureId" data-type="string" display-type="hidden" default-value="SYS-MAINT-LOAD-SQL"/>
+<input name="reloadDictionary" data-type="boolean" display-type="hidden" default-value="true"/>
+<input name="refreshCache" data-type="boolean" display-type="hidden" default-value="true"/>
+<!-- 
+The SQL Document tag includes the SQL statements that will be executed when the procedure runs.
+SQL Statements supported include 
+
+NOTES:
+The SQLDocument element cannot be edited using the UI because the validator will fail.  It must be 
+uploaded or imported.
+The SQL statements supported are {INSERT, UPDATE, DELETE}.
+Each SQL Statement to execute is placed in a SQLStatement element.  Generally, SQL should be placed in CDATA sections.
+All statements are executed as a single transaction. If one statement fails, no updates occur.
+The SQLDocument must include at least one SQLTest.  This element containing a TestStatement and a TestValue is used to verify
+that the SQL is being applied to a proper environment. The TestStatement is a select statement that will return 
+a single value.  The TestValue is the expected result.  The SQLStatements will not be processed unless there is at least one
+SQLTest.  If there are multiple SQLTests, all must pass.
+
+ -->
+<SQLDocument>
+<SQLTest>
+<TestStatement>
+<![CDATA[
+SELECT 'true' FROM DBVersion where history not like '%770.70%';
+]]>
+</TestStatement>
+<TestValue>true</TestValue>
+</SQLTest>
+<SQLStatement>
+<![CDATA[
+update DBVersion set history = history + ',770.70' where history not like '%770.70%';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+UPDATE VIEW_TEMPLATE SET VWT_VIEW_DEFINITION = '<?xml version="1.0" encoding="UTF-8"?>
+<!-- #TEMPLATE-ID [sped.transfer] -->
+<template>
+  <tab>
+    <row>
+      <column>
+        <property alias="transfer-iep-start-date" />
+        <property alias="transfer-iep-end-date" />
+        <property alias="meeting-type" default-value-source="constant" default-value="4" />
+        <property alias="transfer-iep-meeting-date" />
+        <property alias="staff-oid" foreign-id="stfNameView" label="Case Coordinator">
+          <picklist>
+            <filter field="stfStatus" operator="equals" source="preference" value="sys.stf.activeCode" />
+            <filter field="stfSpedInd" operator="equals" source="constant" value="1" />
+            <field id="stfNameView" sort="true" />
+          </picklist>
+        </property>
+        <group header="Disability">
+          <property alias="transfer-iep-prim-dsbl" size="" />
+          <property alias="transfer-iep-sec-dsbl1" />
+          <property alias="transfer-iep-sec-dsbl2" />
+        </group>
+      </column>
+      <column>
+        <property alias="transfer-iep-an-review-recent" />
+        <property alias="transfer-iep-an-review-next" />
+        <property alias="transfer-iep-re-eval-last" />
+        <property alias="transfer-iep-re-eval-next" />
+        <property alias="transfer-iep-referal-date" />
+        <property alias="transfer-iep-in-eleg-date" />
+      </column>
+    </row>
+  </tab>
+</template>' WHERE VWT_OID = 'vwtILSpedTrans' AND (VWT_CUSTOM_IND <> '1' or  VWT_CUSTOM_IND is null);
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2t88000858';
+]]>
+</SQLStatement>
+
+<SQLStatement>
+<![CDATA[
+DELETE FROM DATA_FIELD_EXTENDED WHERE FDX_OID = 'fdxX2t88000859';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 70 WHERE FDX_OID = 'fdxX2t88000860';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 80 WHERE FDX_OID = 'fdxX2t88000861';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE DATA_FIELD_EXTENDED SET FDX_SEQUENCE_NUMBER = 90 WHERE FDX_OID = 'fdxX2t88000862';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE (WPH_OID, WPH_WFD_OID, WPH_PRC_OID, WPH_WPO_OID_STANDARD, WPH_ID, WPH_NAME, WPH_INSTRUCTION, WPH_REDIRECT, WPH_EDIT_PRIVS, WPH_SEQUENCE_NUMBER, WPH_DESCRIPTION, WPH_UNCONSECUTIVE_IND, WPH_PORTLET_IND, WPH_ANONYMOUS_IND, WPH_INITIALIZE_IND, WPH_LAST_MODIFIED) VALUES ('wphIlTrAccASup', 'wfdIlSpedTrans', NULL, 'wpoIlTrAccASup', NULL, '4. Educational Accommodations and Supports', NULL, NULL, NULL, 8, 'Educational Accommodations and Supports', '0', '0', '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_SEQUENCE_NUMBER = 10 WHERE WPH_OID = 'wphIlTrAdNotes';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_SEQUENCE_NUMBER = 11 WHERE WPH_OID = 'wphIlTrApprIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_NAME = '5. Ed. Services and Placement', WPH_SEQUENCE_NUMBER = 9, WPH_DESCRIPTION = 'Ed. SErvices and Placement' WHERE WPH_OID = 'wphIlTrEducSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_NAME = '3. Goals and Objectives/Benchmarks', WPH_SEQUENCE_NUMBER = 7 WHERE WPH_OID = 'wphIlTrGoals';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_SEQUENCE_NUMBER = 12 WHERE WPH_OID = 'wphIlTrImplIEP';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_NAME = '1. Secondary Transition', WPH_SEQUENCE_NUMBER = 5 WHERE WPH_OID = 'wphIlTrSecTran';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE SET WPH_NAME = '2. Transition Services', WPH_SEQUENCE_NUMBER = 6 WHERE WPH_OID = 'wphIlTrTranSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME (WPO_OID, WPO_WPH_OID, WPO_WPH_OID_NEXT, WPO_ID, WPO_OUTCOME, WPO_STANDARD_IND, WPO_DISCONTINUED_IND, WPO_RULE, WPO_DETAIL_ACTION, WPO_METHOD_ID, WPO_ALIGNMENT_ID, WPO_CONDITIONAL_BRANCH_IND, WPO_ANONYMOUS_IND, WPO_LAST_MODIFIED) VALUES ('wpoIlTrAccASup', 'wphIlTrAccASup', 'wphIlTrEducSer', NULL, 'Complete', '1', '0', NULL, NULL, NULL, NULL, '0', '0', NULL);
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_WPH_OID_NEXT = 'wphIlTrSecTran' WHERE WPO_OID = 'wpoIlTrConfSum';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_WPH_OID_NEXT = 'wphIlTrAccASup' WHERE WPO_OID = 'wpoIlTrGoals';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+UPDATE WORKFLOW_PHASE_OUTCOME SET WPO_WPH_OID_NEXT = 'wphIlTrGoals' WHERE WPO_OID = 'wpoIlTrTranSer';
+]]>
+</SQLStatement>
+<SQLStatement>
+<![CDATA[
+INSERT INTO WORKFLOW_PHASE_OUTCOME_FORM (WPF_OID, WPF_WPO_OID, WPF_FMD_OID, WPF_VWT_OID, WPF_INSTANCE_ID, WPF_REPORT_ID, WPF_SEQUENCE_NUMBER, WPF_POST_IND, WPF_LAST_MODIFIED) VALUES ('wpf00TrAccASup', 'wpoIlTrAccASup', 'fmdIl3454N', NULL, NULL, NULL, 0, '0', NULL);
+]]>
+</SQLStatement>
+
+</SQLDocument>
+</tool-input>
